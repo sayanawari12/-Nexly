@@ -1,0 +1,347 @@
+{
+  "beginner": [
+    {
+      "id": 1,
+      "type": "theory",
+      "text": "Which of the following is the correct extension of a C++ source file?",
+      "options": [".java", ".cpp", ".py", ".html"],
+      "correctAnswer": ".cpp",
+      "explanation": "The standard file extension for C++ source code files is .cpp."
+    },
+    {
+      "id": 2,
+      "type": "theory",
+      "text": "Which header file is commonly used for input and output in C++?",
+      "options": ["<stdio.h>", "<iostream>", "<math.h>", "<string.h>"],
+      "correctAnswer": "<iostream>",
+      "explanation": "The <iostream> header provides cin and cout for input and output operations."
+    },
+    {
+      "id": 3,
+      "type": "theory",
+      "text": "Which function is the entry point of every C++ program?",
+      "options": ["start()", "run()", "main()", "begin()"],
+      "correctAnswer": "main()",
+      "explanation": "Every C++ program begins execution from the main() function."
+    },
+    {
+      "id": 4,
+      "type": "theory",
+      "text": "Which keyword is used to declare an integer variable?",
+      "options": ["integer", "number", "int", "var"],
+      "correctAnswer": "int",
+      "explanation": "int is the built-in data type used to declare integer variables in C++."
+    },
+    {
+      "id": 5,
+      "type": "theory",
+      "text": "Which statement is used to take input from the user in C++?",
+      "options": ["cout", "printf", "cin", "print"],
+      "correctAnswer": "cin",
+      "explanation": "cin is the standard input stream object used to receive input from the keyboard."
+    },
+    {
+      "id": 6,
+      "type": "theory",
+      "text": "Which keyword is used to represent a true or false value in C++?",
+      "options": ["bool", "boolean", "trueval", "flag"],
+      "correctAnswer": "bool",
+      "explanation": "bool is the standard C++ data type used to store boolean values (true or false)."
+    },
+    {
+      "id": 7,
+      "type": "theory",
+      "text": "Which symbol is used to terminate a statement in C++?",
+      "options": [":", ";", ".", ","],
+      "correctAnswer": ";",
+      "explanation": "Every statement in C++ must end with a semicolon (;) to terminate execution."
+    },
+    {
+      "id": 8,
+      "type": "theory",
+      "text": "Which of the following is a valid variable name in C++?",
+      "options": ["2marks", "float", "studentName", "my-name"],
+      "correctAnswer": "studentName",
+      "explanation": "Variable names cannot start with a number, contain hyphens, or use reserved keywords like float."
+    },
+    {
+      "id": 9,
+      "type": "theory",
+      "text": "Which operator is used to calculate the remainder of division in C++?",
+      "options": ["/", "\\", "%", "rem"],
+      "correctAnswer": "%",
+      "explanation": "The modulo operator (%) returns the remainder of integer division."
+    },
+    {
+      "id": 10,
+      "type": "theory",
+      "text": "Which operator is used for assignment in C++?",
+      "options": ["==", "=", "!=", "<="],
+      "correctAnswer": "=",
+      "explanation": "The assignment operator (=) assigns the value on the right to the variable on the left."
+    },
+    {
+      "id": 11,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    cout << \"Hello\";\n    return 0;\n}",
+      "options": ["Hello", "hello", "HELLO", "Error"],
+      "correctAnswer": "Hello",
+      "explanation": "The program prints the string 'Hello' exactly as written inside the double quotes."
+    },
+    {
+      "id": 12,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    int a = 5;\n    cout << a;\n}",
+      "options": ["0", "a", "5", "Error"],
+      "correctAnswer": "5",
+      "explanation": "The variable 'a' is initialized to 5, so printing 'a' outputs the value 5."
+    },
+    {
+      "id": 13,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    cout << 10 + 20;\n}",
+      "options": ["1020", "30", "10+20", "Error"],
+      "correctAnswer": "30",
+      "explanation": "The addition operator (+) sums the values 10 and 20, resulting in 30."
+    },
+    {
+      "id": 14,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    int x = 7;\n    x++;\n    cout << x;\n}",
+      "options": ["7", "8", "6", "Error"],
+      "correctAnswer": "8",
+      "explanation": "The postfix increment operator (x++) increases the value of x from 7 to 8."
+    },
+    {
+      "id": 15,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    int a = 10;\n    int b = 5;\n\n    cout << a - b;\n}",
+      "options": ["15", "5", "50", "Error"],
+      "correctAnswer": "5",
+      "explanation": "The subtraction operator (-) subtracts b (5) from a (10), printing the result 5."
+    },
+    {
+      "id": 16,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    if(5 > 3)\n        cout << \"Yes\";\n    else\n        cout << \"No\";\n}",
+      "options": ["Yes", "No", "Error", "Nothing"],
+      "correctAnswer": "Yes",
+      "explanation": "Since 5 is greater than 3, the condition is true and 'Yes' is printed."
+    },
+    {
+      "id": 17,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    for(int i = 1; i <= 3; i++)\n        cout << i;\n}",
+      "options": ["123", "321", "012", "Error"],
+      "correctAnswer": "123",
+      "explanation": "The loop executes for i = 1, 2, and 3, printing them sequentially as '123'."
+    },
+    {
+      "id": 18,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    int a = 9;\n\n    if(a % 2 == 0)\n        cout << \"Even\";\n    else\n        cout << \"Odd\";\n}",
+      "options": ["Even", "Odd", "9", "Error"],
+      "correctAnswer": "Odd",
+      "explanation": "9 divided by 2 leaves a remainder of 1 (9 % 2 is 1, not 0), so the 'else' branch runs and prints 'Odd'."
+    },
+    {
+      "id": 19,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    int a = 3;\n    int b = 4;\n\n    cout << a * b;\n}",
+      "options": ["7", "12", "34", "Error"],
+      "correctAnswer": "12",
+      "explanation": "The multiplication operator (*) multiplies a (3) and b (4) to output 12."
+    },
+    {
+      "id": 20,
+      "type": "program",
+      "text": "What will be the output of the following program?",
+      "code": "#include<iostream>\nusing namespace std;\n\nint main()\n{\n    char ch = 'A';\n\n    cout << ch;\n}",
+      "options": ["A", "65", "a", "Error"],
+      "correctAnswer": "A",
+      "explanation": "The variable 'ch' stores the character 'A', and cout prints it directly as 'A'."
+    }
+  ],
+  "intermediate": [
+    {
+      "id": 1,
+      "type": "theory",
+      "text": "Which keyword is used to create a class in C++?",
+      "options": ["object", "class", "struct", "new"],
+      "correctAnswer": "class",
+      "explanation": "The class keyword is used to define a class in C++."
+    },
+    {
+      "id": 2,
+      "type": "theory",
+      "text": "Which operator is used to access members of an object?",
+      "options": ["->", ".", "::", "&"],
+      "correctAnswer": ".",
+      "explanation": "The dot (.) operator is used to access data members and member functions of an object."
+    },
+    {
+      "id": 3,
+      "type": "program",
+      "text": "What will be the output of the following C++ program?",
+      "code": "int arr[] = {5, 10, 15};\ncout << arr[1];",
+      "options": ["5", "10", "15", "Error"],
+      "correctAnswer": "10",
+      "explanation": "Array indexing starts from 0, so arr[1] is 10."
+    },
+    {
+      "id": 4,
+      "type": "theory",
+      "text": "Which function is used to find the length of a string object in C++?",
+      "options": ["size()", "length()", "Both size() and length()", "count()"],
+      "correctAnswer": "Both size() and length()",
+      "explanation": "Both functions return the number of characters in a C++ string."
+    },
+    {
+      "id": 5,
+      "type": "theory",
+      "text": "What is a Constructor in C++?",
+      "options": ["A variable", "A special function that initializes an object", "A loop", "A pointer"],
+      "correctAnswer": "A special function that initializes an object",
+      "explanation": "A constructor is automatically called whenever an object of a class is created."
+    },
+    {
+      "id": 6,
+      "type": "theory",
+      "text": "Which keyword is used to inherit a class in C++?",
+      "options": ["extends", "inherits", ": (colon)", "implement"],
+      "correctAnswer": ": (colon)",
+      "explanation": "Inheritance is declared using a colon (:), for example: class Child : public Parent"
+    },
+    {
+      "id": 7,
+      "type": "program",
+      "text": "What will be the output of the following C++ program?",
+      "code": "int x = 10;\nint *p = &x;\n\ncout << *p;",
+      "options": ["Address of x", "10", "Error", "Garbage Value"],
+      "correctAnswer": "10",
+      "explanation": "*p dereferences the pointer and prints the value stored at that memory location."
+    },
+    {
+      "id": 8,
+      "type": "theory",
+      "text": "Which OOP concept allows one function to perform different tasks based on the object?",
+      "options": ["Inheritance", "Encapsulation", "Polymorphism", "Abstraction"],
+      "correctAnswer": "Polymorphism",
+      "explanation": "Polymorphism allows the same interface to perform different actions."
+    },
+    {
+      "id": 9,
+      "type": "theory",
+      "text": "Which of the following is NOT an Object-Oriented Programming principle?",
+      "options": ["Encapsulation", "Inheritance", "Polymorphism", "Compilation"],
+      "correctAnswer": "Compilation",
+      "explanation": "Compilation is the process of translating source code into machine code. It is not an OOP principle."
+    },
+    {
+      "id": 10,
+      "type": "program",
+      "text": "What will be the output of the following C++ program?",
+      "code": "int a = 5;\n\nif (a > 3)\n    cout << \"Yes\";\nelse\n    cout << \"No\";",
+      "options": ["Yes", "No", "Error", "Nothing"],
+      "correctAnswer": "Yes",
+      "explanation": "Since the condition (5 > 3) is true, the program prints 'Yes'."
+    }
+  ],
+  "advanced": [
+    {
+      "id": 1,
+      "type": "theory",
+      "text": "Which keyword is used to handle exceptions in C++?",
+      "options": ["catch", "throw", "try", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "Exception handling in C++ uses the try, throw, and catch keywords together."
+    },
+    {
+      "id": 2,
+      "type": "theory",
+      "text": "What is the purpose of a virtual function in C++?",
+      "options": ["To create a constructor", "To achieve runtime polymorphism", "To declare variables", "To allocate memory"],
+      "correctAnswer": "To achieve runtime polymorphism",
+      "explanation": "Virtual functions enable dynamic binding, allowing overridden functions to be called through base class pointers."
+    },
+    {
+      "id": 3,
+      "type": "theory",
+      "text": "Which operator is used to dynamically allocate memory in C++?",
+      "options": ["malloc", "calloc", "new", "create"],
+      "correctAnswer": "new",
+      "explanation": "The new operator dynamically allocates memory during program execution."
+    },
+    {
+      "id": 4,
+      "type": "theory",
+      "text": "Which operator is used to free dynamically allocated memory?",
+      "options": ["free", "delete", "remove", "destroy"],
+      "correctAnswer": "delete",
+      "explanation": "Memory allocated using new should be released using delete."
+    },
+    {
+      "id": 5,
+      "type": "theory",
+      "text": "Which Standard Template Library (STL) container stores elements in LIFO (Last In, First Out) order?",
+      "options": ["Queue", "Vector", "Stack", "List"],
+      "correctAnswer": "Stack",
+      "explanation": "The STL stack container follows the Last In, First Out (LIFO) principle."
+    },
+    {
+      "id": 6,
+      "type": "theory",
+      "text": "Which keyword is used to define a template in C++?",
+      "options": ["generic", "template", "typename", "class"],
+      "correctAnswer": "template",
+      "explanation": "The template keyword is used to create generic functions and classes."
+    },
+    {
+      "id": 7,
+      "type": "theory",
+      "text": "Which function is used to open a file for reading in C++?",
+      "options": ["open()", "read()", "load()", "input()"],
+      "correctAnswer": "open()",
+      "explanation": "The open() function of ifstream or fstream is used to open a file."
+    },
+    {
+      "id": 8,
+      "type": "theory",
+      "text": "Which of the following best describes a Friend Function?",
+      "options": [
+        "It is a member function of a class.",
+        "It cannot access private members.",
+        "It is a non-member function that can access private and protected members.",
+        "It is used only for inheritance."
+      ],
+      "correctAnswer": "It is a non-member function that can access private and protected members.",
+      "explanation": "A friend function is declared using the friend keyword and has access to private and protected members of a class."
+    },
+    {
+      "id": 9,
+      "type": "program",
+      "text": "What will be the output of the following C++ program?",
+      "code": "int x = 10;\nint &y = x;\ny = 20;\ncout << x;",
+      "options": ["10", "20", "Error", "Garbage Value"],
+      "correctAnswer": "20",
+      "explanation": "y is a reference to x, so changing y to 20 also updates the value of x to 20."
+    },
+    {
+      "id": 10,
+      "type": "theory",
+      "text": "Which concept allows the same operator to work differently for user-defined objects in C++?",
+      "options": ["Function Overloading", "Operator Overloading", "Function Overriding", "Inheritance"],
+      "correctAnswer": "Operator Overloading",
+      "explanation": "Operator Overloading allows the same operator to be defined with custom behaviors for class objects."
+    }
+  ]
+}
