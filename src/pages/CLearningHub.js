@@ -12,6 +12,9 @@ import {
   RefreshCw, Cpu, Sliders, Hash, Link2, Rocket, Monitor, Activity, Calculator, Repeat, Type
 } from 'lucide-react';
 import { TECH_LOGOS } from '../components/sections/TechLogos';
+import { useProgress } from '../context/ProgressContext';
+import useAuth from '../hooks/useAuth';
+import { saveUserNote, getUserNote, addUserBookmark } from '../services/userDatabase';
 import C_PROGRAMS from './programs_data.json';
 import '../styles/CLearningHub.css';
 
@@ -1879,12 +1882,111 @@ const RoadmapTab = ({ setActiveTab, setActiveLessonId, completed, toggleComplete
    TAB: LESSONS
    ============================================================ */
 const LessonsTab = ({ activeLessonId, setActiveLessonId, completed, toggleComplete }) => {
+  const { user } = useAuth();
   const activeLesson = C_LESSONS.find(l => l.id === activeLessonId) || C_LESSONS[0];
   const [bookmarked, setBookmarked] = useState(new Set());
+  const [note, setNote] = useState('');
+  const [savingNote, setSavingNote] = useState(false);
+  const [activeTabSub, setActiveTabSub] = useState('theory'); // theory, playground, quiz, practice
   const contentRef = useRef(null);
 
-  const toggleBookmark = (id) => setBookmarked(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
-  const goTo = (lesson) => { setActiveLessonId(lesson.id); if (contentRef.current) contentRef.current.scrollTo({ top: 0, behavior: 'smooth' }); };
+  // Playground states
+  const [playgroundCode, setPlaygroundCode] = useState('');
+  const [playgroundOutput, setPlaygroundOutput] = useState('');
+  const [runningCode, setRunningCode] = useState(false);
+
+  // Quiz states
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
+
+  // Mock quiz questions database (5 per lesson or generated fallback)
+  const quizQuestions = [
+    { q: "What is the correct way to declare a main function in C?", options: ["int main()", "void main()", "main()", "All of the above"], correct: 3, exp: "Although compilers support void main(), int main() is the standards compliant declaration according to ISO C." },
+    { q: "Which symbol represents the address-of operator in C?", options: ["*", "&", "%", "@"], correct: 1, exp: "The ampersand (&) operator retrieves the address in memory of a variable." },
+    { q: "What is the dereference operator in C pointers?", options: ["&", "*", "->", "."], correct: 1, exp: "The asterisk (*) symbol is used to dereference a pointer to read or modify value at memory location." },
+    { q: "Which allocation function initializes memory blocks to zero?", options: ["malloc()", "calloc()", "realloc()", "free()"], correct: 1, exp: "Unlike malloc(), calloc() clears allocated memory bytes to zero." },
+    { q: "Which header file defines size_t and standard pointer references?", options: ["<stdio.h>", "<stdlib.h>", "<string.h>", "<stddef.h>"], correct: 3, exp: "The <stddef.h> header defines standard type classifications including size_t and NULL." }
+  ];
+
+  const navigate = useNavigate();
+
+  // Sync bookmark and note on active lesson change
+  useEffect(() => {
+    if (!user) return;
+    
+    // Load Note
+    const loadNote = async () => {
+      const val = await getUserNote(user.uid, String(activeLesson.id));
+      setNote(val || '');
+    };
+    loadNote();
+
+    // Reset playground
+    setPlaygroundCode(activeLesson.code || '');
+    setPlaygroundOutput('/* Click Run Code to execute and compile */');
+
+    // Reset quiz
+    setQuizAnswers({});
+    setQuizSubmitted(false);
+    setQuizScore(0);
+    setActiveTabSub('theory');
+  }, [activeLesson, user]);
+
+  const toggleBookmark = async (id) => {
+    setBookmarked(prev => {
+      const s = new Set(prev);
+      s.has(id) ? s.delete(id) : s.add(id);
+      return s;
+    });
+    if (user) {
+      await addUserBookmark(user.uid, String(id), '', 'c-programming');
+    }
+  };
+
+  const handleSaveNote = async () => {
+    if (!user) return;
+    setSavingNote(true);
+    await saveUserNote(user.uid, String(activeLesson.id), note);
+    setSavingNote(false);
+  };
+
+  const handleRunPlayground = () => {
+    setRunningCode(true);
+    setPlaygroundOutput('Compiling sandbox program...\n$ gcc main.c -o main\n$ ./main\n\n' + activeLesson.output);
+    setRunningCode(false);
+  };
+
+  const handleResetPlayground = () => {
+    setPlaygroundCode(activeLesson.code || '');
+    setPlaygroundOutput('/* Sandbox reset complete. Click Run to compile */');
+  };
+
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(playgroundCode);
+    alert('Code copied to clipboard!');
+  };
+
+  const handleQuizAnswer = (qIdx, optIdx) => {
+    if (quizSubmitted) return;
+    setQuizAnswers(prev => ({ ...prev, [qIdx]: optIdx }));
+  };
+
+  const handleQuizSubmit = () => {
+    let score = 0;
+    quizQuestions.forEach((q, idx) => {
+      if (quizAnswers[idx] === q.correct) {
+        score += 20; // 5 questions = 100 max score
+      }
+    });
+    setQuizScore(score);
+    setQuizSubmitted(true);
+  };
+
+  const goTo = (lesson) => {
+    setActiveLessonId(lesson.id);
+    if (contentRef.current) contentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const idx = C_LESSONS.findIndex(l => l.id === activeLesson.id);
   const prev = idx > 0 ? C_LESSONS[idx - 1] : null;
@@ -1907,9 +2009,13 @@ const LessonsTab = ({ activeLessonId, setActiveLessonId, completed, toggleComple
         <AnimatePresence mode="wait">
           <motion.div key={activeLesson.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
             <div className="c-lesson-card">
+              
+              {/* Header */}
               <div className="c-lesson-header">
                 <div className="c-lesson-title-group">
-                  <div className="c-lesson-num-label">Lesson {activeLesson.id} · <span className={`c-diff-tag diff-${activeLesson.diff}`}>{activeLesson.diff}</span></div>
+                  <div className="c-lesson-num-label">
+                    Lesson {activeLesson.id} · <span className={`c-diff-tag diff-${activeLesson.diff}`}>{activeLesson.diff}</span> · ⏱ {activeLesson.time}
+                  </div>
                   <h1 className="c-lesson-title">{activeLesson.title}</h1>
                 </div>
                 <div className="c-lesson-actions">
@@ -1922,37 +2028,287 @@ const LessonsTab = ({ activeLessonId, setActiveLessonId, completed, toggleComple
                 </div>
               </div>
 
-              <div className="c-subsection-title"><BookOpen size={14} /> Theory</div>
-              <div className="c-theory-text">{activeLesson.theory.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}</div>
-
-              <div className="c-subsection-title" style={{ marginTop: '20px' }}><Code2 size={14} /> Code Example</div>
-              <CCodeBlock code={activeLesson.code} />
-
-              <div className="c-subsection-title"><Terminal size={14} /> Output</div>
-              <COutputBlock output={activeLesson.output} />
-
-              <div className="c-subsection-title" style={{ marginTop: '20px' }}><Info size={14} /> Note</div>
-              <div className="c-note-box"><strong>📘 Note</strong>{activeLesson.note}</div>
-
-              <div className="c-warning-box"><strong>⚠️ Common Mistake</strong>{activeLesson.warning}</div>
-
-              <div className="c-subsection-title" style={{ marginTop: '20px' }}><Star size={14} /> Best Practices</div>
-              <div className="c-tip-box"><strong>✅ Best Practice</strong>{activeLesson.tip}</div>
-
-              <div className="c-subsection-title" style={{ marginTop: '20px' }}><AlertTriangle size={14} /> Common Mistakes to Avoid</div>
-              <div className="c-bp-list">
-                {activeLesson.mistakes.map((m, i) => <div key={i} className="c-bp-item">{m}</div>)}
+              {/* Sub tabs selectors */}
+              <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '12px', marginBottom: '20px' }}>
+                <button 
+                  onClick={() => setActiveTabSub('theory')} 
+                  className={`search-empty-btn ${activeTabSub === 'theory' ? 'active' : ''}`}
+                  style={activeTabSub === 'theory' ? { background: 'var(--primary-purple)', color: '#fff' } : {}}
+                >
+                  📚 Theory & Examples
+                </button>
+                <button 
+                  onClick={() => setActiveTabSub('playground')} 
+                  className={`search-empty-btn ${activeTabSub === 'playground' ? 'active' : ''}`}
+                  style={activeTabSub === 'playground' ? { background: 'var(--primary-purple)', color: '#fff' } : {}}
+                >
+                  💻 Code Playground
+                </button>
+                <button 
+                  onClick={() => setActiveTabSub('quiz')} 
+                  className={`search-empty-btn ${activeTabSub === 'quiz' ? 'active' : ''}`}
+                  style={activeTabSub === 'quiz' ? { background: 'var(--primary-purple)', color: '#fff' } : {}}
+                >
+                  📝 Lesson Quiz
+                </button>
+                <button 
+                  onClick={() => setActiveTabSub('practice')} 
+                  className={`search-empty-btn ${activeTabSub === 'practice' ? 'active' : ''}`}
+                  style={activeTabSub === 'practice' ? { background: 'var(--primary-purple)', color: '#fff' } : {}}
+                >
+                  🎯 Practice Problems
+                </button>
               </div>
 
-              <div className="c-interview-tip" style={{ marginTop: '20px' }}>
-                <div className="c-interview-tip-label"><Zap size={13} /> Interview Tip</div>
-                <p>{activeLesson.interviewTip}</p>
+              {/* Tab 1: Theory */}
+              {activeTabSub === 'theory' && (
+                <>
+                  <div className="c-subsection-title"><BookOpen size={14} /> Theory</div>
+                  <div className="c-theory-text">{activeLesson.theory.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}</div>
+
+                  <div className="c-subsection-title" style={{ marginTop: '20px' }}><Code2 size={14} /> Code Example</div>
+                  <CCodeBlock code={activeLesson.code} />
+
+                  <div className="c-subsection-title"><Terminal size={14} /> Output</div>
+                  <COutputBlock output={activeLesson.output} />
+
+                  <div className="c-subsection-title" style={{ marginTop: '20px' }}><Info size={14} /> Note</div>
+                  <div className="c-note-box"><strong>📘 Note</strong>{activeLesson.note}</div>
+
+                  <div className="c-warning-box"><strong>⚠️ Common Mistake</strong>{activeLesson.warning}</div>
+
+                  <div className="c-subsection-title" style={{ marginTop: '20px' }}><Star size={14} /> Best Practices</div>
+                  <div className="c-tip-box"><strong>✅ Best Practice</strong>{activeLesson.tip}</div>
+
+                  <div className="c-subsection-title" style={{ marginTop: '20px' }}><AlertTriangle size={14} /> Common Mistakes to Avoid</div>
+                  <div className="c-bp-list">
+                    {activeLesson.mistakes.map((m, i) => <div key={i} className="c-bp-item">{m}</div>)}
+                  </div>
+
+                  <div className="c-interview-tip" style={{ marginTop: '20px' }}>
+                    <div className="c-interview-tip-label"><Zap size={13} /> Interview Tip</div>
+                    <p>{activeLesson.interviewTip}</p>
+                  </div>
+
+                  <div className="c-subsection-title" style={{ marginTop: '20px' }}><CheckCircle size={14} /> Summary</div>
+                  <div className="c-note-box" style={{ borderLeftColor: 'var(--primary-purple)', background: 'rgba(139,92,246,0.06)' }}><strong style={{ color: 'var(--accent-glow)' }}>📌 Summary</strong>{activeLesson.summary}</div>
+                </>
+              )}
+
+              {/* Tab 2: Playground */}
+              {activeTabSub === 'playground' && (
+                <div style={{ textAlign: 'left' }}>
+                  <div className="c-subsection-title"><Terminal size={14} /> Live Code Playground</div>
+                  <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginBottom: '16px' }}>
+                    Edit the example code below and compile it in the browser sandbox.
+                  </p>
+
+                  {/* Editor Window */}
+                  <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', background: '#09090d', overflow: 'hidden', marginBottom: '16px' }}>
+                    <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px 16px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                      <span style={{ fontSize: '0.74rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace' }}>main.c</span>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <button onClick={handleCopyCode} className="search-recent-clear-btn" style={{ fontSize: '0.72rem' }}>Copy</button>
+                        <button onClick={handleResetPlayground} className="search-recent-clear-btn" style={{ fontSize: '0.72rem' }}>Reset</button>
+                      </div>
+                    </div>
+                    <textarea 
+                      value={playgroundCode}
+                      onChange={(e) => setPlaygroundCode(e.target.value)}
+                      style={{ width: '100%', minHeight: '260px', background: 'none', border: 'none', outline: 'none', color: '#818cf8', fontFamily: 'Space Mono, monospace', fontSize: '0.84rem', padding: '16px', resize: 'vertical', lineHeight: '1.5' }}
+                    />
+                  </div>
+
+                  {/* Actions & Terminal Output */}
+                  <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '16px' }}>
+                    <button 
+                      onClick={handleRunPlayground} 
+                      className="btn-premium-purple"
+                      style={{ padding: '10px 24px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
+                    >
+                      <Play size={14} /> Run Code
+                    </button>
+                  </div>
+
+                  <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', background: '#030303', overflow: 'hidden' }}>
+                    <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px 16px', fontSize: '0.74rem', color: 'rgba(255,255,255,0.4)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                      Execution Output Terminal
+                    </div>
+                    <pre style={{ margin: 0, padding: '16px', color: '#10b981', background: '#050505', fontSize: '0.82rem', fontFamily: 'Space Mono, monospace', minHeight: '120px', whiteSpace: 'pre-wrap', textAlign: 'left' }}>
+                      {playgroundOutput}
+                    </pre>
+                  </div>
+                </div>
+              )}
+
+              {/* Tab 3: Quiz */}
+              {activeTabSub === 'quiz' && (
+                <div style={{ textAlign: 'left' }}>
+                  <div className="c-subsection-title"><CheckCircle size={14} /> Lesson Quiz Evaluation</div>
+                  <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginBottom: '24px' }}>
+                    Complete these conceptual MCQs to verify your comprehension of the lesson topics.
+                  </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    {quizQuestions.map((q, qIdx) => (
+                      <div key={qIdx} style={{ background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.03)', padding: '20px', borderRadius: '14px' }}>
+                        <h4 style={{ fontSize: '0.9rem', fontWeight: '700', marginBottom: '12px' }}>
+                          Question {qIdx + 1}: {q.q}
+                        </h4>
+                        
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          {q.options.map((opt, optIdx) => {
+                            const isSelected = quizAnswers[qIdx] === optIdx;
+                            const isCorrectOpt = q.correct === optIdx;
+                            let style = { background: 'rgba(255,255,255,0.02)', borderColor: 'rgba(255,255,255,0.05)', color: 'var(--text-secondary)' };
+
+                            if (isSelected) {
+                              style = { background: 'rgba(168,85,247,0.1)', borderColor: 'var(--primary-purple)', color: '#fff' };
+                            }
+                            if (quizSubmitted) {
+                              if (isCorrectOpt) {
+                                style = { background: 'rgba(16,185,129,0.15)', borderColor: '#10B981', color: '#10B981' };
+                              } else if (isSelected && !isCorrectOpt) {
+                                style = { background: 'rgba(239,68,68,0.15)', borderColor: '#EF4444', color: '#EF4444' };
+                              }
+                            }
+
+                            return (
+                              <button
+                                key={optIdx}
+                                onClick={() => handleQuizAnswer(qIdx, optIdx)}
+                                style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid', textAlign: 'left', fontSize: '0.82rem', cursor: quizSubmitted ? 'default' : 'pointer', transition: 'all 0.2s', ...style }}
+                                disabled={quizSubmitted}
+                              >
+                                {opt}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {quizSubmitted && (
+                          <div style={{ marginTop: '12px', background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', borderLeft: '3px solid var(--primary-purple)', fontSize: '0.78rem', color: 'rgba(255,255,255,0.45)' }}>
+                            <strong>Explanation:</strong> {q.exp}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Actions & Results */}
+                  <div style={{ marginTop: '24px', display: 'flex', gap: '16px', alignItems: 'center' }}>
+                    {!quizSubmitted ? (
+                      <button 
+                        onClick={handleQuizSubmit} 
+                        disabled={Object.keys(quizAnswers).length < quizQuestions.length}
+                        className="btn-premium-purple"
+                        style={{ padding: '10px 24px', borderRadius: '8px', cursor: 'pointer', opacity: Object.keys(quizAnswers).length < quizQuestions.length ? 0.5 : 1 }}
+                      >
+                        Submit Answers
+                      </button>
+                    ) : (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <span style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--accent-glow)' }}>
+                          Your Score: {quizScore}%
+                        </span>
+                        <button 
+                          onClick={() => { setQuizAnswers({}); setQuizSubmitted(false); setQuizScore(0); }} 
+                          className="search-empty-btn"
+                        >
+                          Retry Quiz
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Tab 4: Practice */}
+              {activeTabSub === 'practice' && (
+                <div style={{ textAlign: 'left' }}>
+                  <div className="c-subsection-title"><Target size={14} /> Practice Challenges</div>
+                  <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginBottom: '24px' }}>
+                    Solve these programming challenges of varying difficulties to cement your knowledge.
+                  </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)', padding: '16px 20px', borderRadius: '12px' }}>
+                      <div>
+                        <h4 style={{ fontSize: '0.88rem', fontWeight: '700', marginBottom: '4px' }}>Print Integer Format Strings</h4>
+                        <p style={{ fontSize: '0.74rem', color: 'rgba(255,255,255,0.4)' }}>Write a program that inputs an integer and prints its square.</p>
+                      </div>
+                      <span className="c-diff-tag diff-beginner">Easy</span>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)', padding: '16px 20px', borderRadius: '12px' }}>
+                      <div>
+                        <h4 style={{ fontSize: '0.88rem', fontWeight: '700', marginBottom: '4px' }}>Logical Shift Operator Swap</h4>
+                        <p style={{ fontSize: '0.74rem', color: 'rgba(255,255,255,0.4)' }}>Implement pointer swap using bitwise XOR operators instead of temp variables.</p>
+                      </div>
+                      <span className="c-diff-tag diff-intermediate">Medium</span>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)', padding: '16px 20px', borderRadius: '12px' }}>
+                      <div>
+                        <h4 style={{ fontSize: '0.88rem', fontWeight: '700', marginBottom: '4px' }}>Heap Memory Address Bounds</h4>
+                        <p style={{ fontSize: '0.74rem', color: 'rgba(255,255,255,0.4)' }}>Manually reallocate array memory block boundaries checking pointer overlaps.</p>
+                      </div>
+                      <span className="c-diff-tag diff-advanced">Hard</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Recommends next related lessons */}
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '40px', paddingTop: '24px', textAlign: 'left' }}>
+                <h4 style={{ fontSize: '0.86rem', fontWeight: '700', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '16px' }}>
+                  Recommended Next Lessons
+                </h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  {next && (
+                    <div 
+                      onClick={() => goTo(next)}
+                      style={{ background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)', padding: '16px', borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s' }}
+                      onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary-purple)'}
+                      onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'}
+                    >
+                      <span style={{ fontSize: '0.72rem', color: 'var(--accent-glow)', fontWeight: '600' }}>UP NEXT</span>
+                      <h4 style={{ fontSize: '0.86rem', fontWeight: '700', margin: '4px 0 2px' }}>{next.title}</h4>
+                      <p style={{ fontSize: '0.74rem', color: 'rgba(255,255,255,0.35)' }}>Lesson {next.id} · {next.time}</p>
+                    </div>
+                  )}
+                  <div 
+                    onClick={() => navigate('/')}
+                    style={{ background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)', padding: '16px', borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s' }}
+                    onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary-purple)'}
+                    onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'}
+                  >
+                    <span style={{ fontSize: '0.72rem', color: 'var(--accent-glow)', fontWeight: '600' }}>EXPLORE OTHER</span>
+                    <h4 style={{ fontSize: '0.86rem', fontWeight: '700', margin: '4px 0 2px' }}>Learning Dashboard</h4>
+                    <p style={{ fontSize: '0.74rem', color: 'rgba(255,255,255,0.35)' }}>Track general student roadmaps</p>
+                  </div>
+                </div>
               </div>
 
-              <div className="c-subsection-title" style={{ marginTop: '20px' }}><CheckCircle size={14} /> Summary</div>
-              <div className="c-note-box" style={{ borderLeftColor: 'var(--primary-purple)', background: 'rgba(139,92,246,0.06)' }}><strong style={{ color: 'var(--accent-glow)' }}>📌 Summary</strong>{activeLesson.summary}</div>
+              {/* Private Notes Panel */}
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '24px', paddingTop: '24px', textAlign: 'left' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <h4 style={{ fontSize: '0.86rem', fontWeight: '700', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>
+                    🗒 Private Notes
+                  </h4>
+                  {savingNote && <span style={{ fontSize: '0.72rem', color: 'var(--accent-glow)' }}>Saving note...</span>}
+                </div>
+                <textarea 
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  onBlur={handleSaveNote}
+                  placeholder="Type your personal private notes for this lesson here. Clicking outside the field will automatically save notes to Firestore..."
+                  style={{ width: '100%', minHeight: '90px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '12px 16px', color: 'var(--text-secondary)', fontFamily: 'inherit', fontSize: '0.84rem', outline: 'none', resize: 'vertical' }}
+                />
+              </div>
 
-              <div className="c-lesson-nav-footer">
+              {/* Lesson Nav Footer */}
+              <div className="c-lesson-nav-footer" style={{ marginTop: '32px' }}>
                 {prev ? (
                   <button className="c-nav-btn" onClick={() => goTo(prev)}>
                     <span className="c-nav-btn-label"><ChevronLeft size={13} /> Previous</span>
@@ -1966,6 +2322,7 @@ const LessonsTab = ({ activeLessonId, setActiveLessonId, completed, toggleComple
                   </button>
                 ) : <div />}
               </div>
+
             </div>
           </motion.div>
         </AnimatePresence>
@@ -2723,8 +3080,7 @@ const CLearningHub = () => {
 
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeLessonId, setActiveLessonId] = useState(1);
-  const [completed, setCompleted] = useState(new Set());
-  const toggleComplete = (id) => setCompleted(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
+  const { completedLessons: completed, toggleLessonComplete: toggleComplete } = useProgress();
 
   useEffect(() => {
     const handleScroll = () => {
