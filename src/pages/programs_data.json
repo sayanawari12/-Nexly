@@ -1,0 +1,1278 @@
+{
+  "Basic": [
+    {
+      "id": "c_basic_1",
+      "title": "Add Two Numbers",
+      "statement": "Practice program demonstrating standard implementation of Add Two Numbers in C.",
+      "code": "#include<stdio.h>\r\nint main () {\r\n    int num1, num2,sum;\r\n    printf (\"enter the first number:\");\r\n    scanf (\"%d\",&num1);\r\n\r\n    printf (\"enter the second number:\");\r\n    scanf (\"%d\",&num2);\r\n    sum = num1 + num2;\r\n    printf (\"sum = %d\", sum);\r\n    return 0;\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_2",
+      "title": "Area Of Rectangle",
+      "statement": "Practice program demonstrating standard implementation of Area Of Rectangle in C.",
+      "code": "#include <stdio.h>\r\n\r\nint main() {\r\n    float length, width, area;\r\n    printf(\"Enter length: \");\r\n    scanf(\"%f\", &length);\r\n    printf(\"Enter width: \");\r\n    scanf(\"%f\", &width);\r\n    area = length * width;\r\n    printf(\"Area = %.2f\\n\", area);\r\n    return 0;\r\n}\r\n",
+      "sampleInput": "10\n5",
+      "expectedOutput": "Enter length: 10\nEnter width: 5\nArea = 50.00",
+      "whyOutput": "The program calculates the area of a rectangle by multiplying the user inputs for length (10) and width (5).",
+      "flow": [
+        "Input Length & Width (10, 5)",
+        "Calculate Area (Length * Width)",
+        "Output Area (50.00)"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_3",
+      "title": "Ascii Arithmetic",
+      "statement": "Practice program demonstrating standard implementation of Ascii Arithmetic in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n   char c ='A';\r\n   printf(\"%d\",c+7);\r\n   return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_4",
+      "title": "Ascii Value",
+      "statement": "Practice program demonstrating standard implementation of Ascii Value in C.",
+      "code": "#include<stdio.h>\r\n\r\nint main()\r\n{\r\n    char sayan;\r\n\r\n    printf(\"Enter a character: \");\r\n    scanf(\"%c\", &sayan);\r\n\r\n    printf(\"ASCII value of %c is %d\", sayan, sayan);\r\n\r\n    return 0;\r\n}\r\n",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_5",
+      "title": "Datatype Size",
+      "statement": "Practice program demonstrating standard implementation of Datatype Size in C.",
+      "code": "#include<stdio.h>\r\nint main () \r\n{\r\nprintf(\" the size of integer is %u\\n\",sizeof(int));\r\nprintf(\" the size of float is %u\\n\",sizeof(float));\r\nprintf(\" the size of double is %u\\n\",sizeof(double));\r\nprintf(\" the size of char is %u\\n\",sizeof(char));\r\n\r\nreturn 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_6",
+      "title": "Datatype Sizes",
+      "statement": "Practice program demonstrating standard implementation of Datatype Sizes in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n    char sayan;\r\n    int s;\r\n    float a;\r\n    double y;\r\n    long long n;\r\n    printf(\"%d\\n\",sizeof(sayan));\r\n    printf(\"%d\\n\",sizeof(s));\r\n    printf(\"%d\\n\",sizeof(a));\r\n    printf(\"%d\\n\",sizeof(y));\r\n    printf(\"%d\\n\",sizeof(n));\r\n    return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_7",
+      "title": "Getche Input",
+      "statement": "Practice program demonstrating standard implementation of Getche Input in C.",
+      "code": "#include <stdio.h>\r\n#include <conio.h>\r\n\r\nint main() \r\n{ \r\n    char ch;\r\n    puts(\"Enter one character: \");\r\n    ch = getche();   \r\n    puts(\"\\nYou have given: \");\r\n    putchar(ch);\r\n    getch(); \r\n    return 0;\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_8",
+      "title": "Getche Input01",
+      "statement": "Practice program demonstrating standard implementation of Getche Input01 in C.",
+      "code": "#include <stdio.h>\r\n#include <conio.h>\r\n\r\nint main() \r\n{ \r\n    char ch;\r\n    printf(\"Enter one character: \");\r\n    ch = getche();   \r\n    printf(\"\\nYou have given: \");\r\n    printf(\"\\n\");\r\n    getch();\r\n    return 0;\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_9",
+      "title": "Getch Character Input",
+      "statement": "Practice program demonstrating standard implementation of Getch Character Input in C.",
+      "code": "#include <stdio.h>\r\n#include <conio.h>\r\n\r\nint main()\r\n{\r\n    char ch;\r\n    printf(\"Enter any one character: \");\r\n    ch = getch();  \r\n    printf(\"\\nYou entered: %c\", ch);\r\n\r\n    return 0;\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_10",
+      "title": "Getch Input",
+      "statement": "Practice program demonstrating standard implementation of Getch Input in C.",
+      "code": "#include<stdio.h>\r\n#include<conio.h>\r\nint main ()\r\n{\r\n    char sayan;\r\n    printf(\"enter any char:-\");\r\n    sayan=getch();\r\n    printf(\"you entered:-%c\\n\",sayan);\r\n    putch(sayan);\r\n    return 0;\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_11",
+      "title": "Percentage Calculator",
+      "statement": "Practice program demonstrating standard implementation of Percentage Calculator in C.",
+      "code": "#include<stdio.h>\r\nint main () \r\n{\r\n    float sub1,sub2,sub3,sub4,sub5,sub6,percentage;\r\n    printf(\" enter your marks \");\r\n    scanf(\"%f%f%f%f%f%f\",&sub1,&sub2,&sub3,&sub4,&sub5,&sub6);\r\n    percentage = (sub1+sub2+sub3+sub4+sub5+sub6)/6;\r\n     printf(\" this is your percent:%.2f%%\\n\", percentage);\r\n\r\n    return 0;\r\n\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    },
+    {
+      "id": "c_basic_12",
+      "title": "Student Information",
+      "statement": "Practice program demonstrating standard implementation of Student Information in C.",
+      "code": "#include<stdio.h>\r\n\r\nint main()\r\n{\r\n    int studentId;\r\n    char studentFullName[100];\r\n    int studentAge;\r\n    double studentContactNumber;\r\n    double studentAadharNumber;\r\n\r\n    printf(\"******Before Student Info******\\n\");\r\n\r\n    printf(\"Enter student ID: \");\r\n    scanf(\"%d\", &studentId);\r\n\r\n    getchar(); \r\n\r\n    printf(\"Enter student Fullname: \");\r\n    scanf(\"%[^\\n]\", studentFullName);\r\n\r\n    printf(\"Enter student Age: \");\r\n    scanf(\"%d\", &studentAge);\r\n\r\n    printf(\"Enter student Contact Number: \");\r\n    scanf(\"%lf\", &studentContactNumber);\r\n\r\n    printf(\"Enter student Aadhar Number: \");\r\n    scanf(\"%lf\", &studentAadharNumber);\r\n\r\n    printf(\"\\n******After Student Info******\\n\");\r\n    printf(\"Student ID: %d\\n\", studentId);\r\n    printf(\"Full Name: %s\\n\", studentFullName);\r\n    printf(\"Age: %d\\n\", studentAge);\r\n    printf(\"Contact Number: %.0lf\\n\", studentContactNumber);\r\n    printf(\"Aadhar Number: %.0lf\\n\", studentAadharNumber);\r\n\r\n    return 0;\r\n}\r\n",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Introduction to C",
+        "Setup & Compiler",
+        "Variables & Types"
+      ]
+    }
+  ],
+  "Control Flow": [
+    {
+      "id": "c_control_flow_13",
+      "title": "Char Pattern",
+      "statement": "Practice program demonstrating standard implementation of Char Pattern in C.",
+      "code": "#include <stdio.h>\r\n\r\nint main() \r\n{\r\n    char start, end;\r\n\r\n    printf(\"Enter start and end character (example: a c): \");\r\n    scanf(\" %c %c\", &start, &end);\r\n\r\n    for (char i = start; i <= end; i++) \r\n    {\r\n        for (char j = start; j <= i; j++) \r\n        {\r\n            printf(\"%c \", j);\r\n        }\r\n        printf(\"\\n\");\r\n    }\r\n\r\n    return 0;\r\n}\r\n",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_14",
+      "title": "EvenOdd",
+      "statement": "Practice program demonstrating standard implementation of EvenOdd in C.",
+      "code": "#include<stdio.h>\r\nint main () {\r\n    int num;\r\n    printf(\" enter the number \");\r\n    scanf(\"%d\",&num);\r\n    if (num % 2==0) \r\n    {\r\n        printf(\"%d, this is the even number \",num);\r\n\r\n    }\r\n    else\r\n    {\r\n        printf(\"%d, this is odd number \",num);\r\n    }\r\n    return 0;\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_15",
+      "title": "Greatest Of Five",
+      "statement": "Practice program demonstrating standard implementation of Greatest Of Five in C.",
+      "code": "#include<stdio.h>\r\nint main () \r\n{\r\n    int a,b,c,d,e;\r\n    printf(\"enter any five number\");\r\n    scanf(\"%d%d%d%d%d\",&a,&b,&c,&d,&e);\r\n    if (a>=b && a>=c && a>=d && a>=e)\r\n    { \r\n        printf(\"%d,A is a gretest number\");\r\n    }\r\n    else if (b>=a && b>=c && b>=d && b>=e)\r\n    { \r\n        printf(\"%d,B is a gretest number\");\r\n    }\r\n    else if (c>=a && c>=b && c>=d && c>=e)\r\n    { \r\n        printf(\"%d,C is the gretest nmber\");\r\n    }\r\n    else if (d>=a && d>=b && d>=c && d>=e)\r\n    { \r\n        printf(\"%d,D is the gretest number\");\r\n    }\r\n    else \r\n    {\r\n        printf(\"%d,E is the gretest number\");\r\n    }\r\n    return 0;\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_16",
+      "title": "Greatest Of Three",
+      "statement": "Practice program demonstrating standard implementation of Greatest Of Three in C.",
+      "code": "#include<stdio.h>\r\nint main () \r\n{\r\n    int a,b,c;\r\n    printf(\"enter the number:-\");\r\n    scanf(\"%d%d%d\",&a,&b,&c);\r\n\r\n   if(a == b && b == c)\r\n   {\r\n    printf(\"all numbers are equal\");\r\n   }\r\n    else if(a >=b && a >=c)\r\n    {\r\n        printf(\"%d A is the gretest number\",a);\r\n    }\r\n    else if (b >=a && b >=c)\r\n    {\r\n        printf(\"%d B is the gretest number\",b);\r\n    }\r\n    else\r\n    {\r\n        printf(\"%d C is the gretest number\",c);\r\n    }\r\n    return 0;\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_17",
+      "title": "Multiplication Table",
+      "statement": "Practice program demonstrating standard implementation of Multiplication Table in C.",
+      "code": "#include <stdio.h>\r\n\r\nint main() \r\n{\r\n    int a;\r\n    printf(\"Enter the number for multiplication table: \");\r\n    scanf(\"%d\", &a);\r\n\r\n    for (int i = 1; i <= 10; i++)\r\n    {\r\n        printf(\"%d * %d = %d\\n\", a, i, a * i);\r\n    }\r\n    \r\n    return 0;\r\n}\r\n",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_18",
+      "title": "Positive Negative Check",
+      "statement": "Practice program demonstrating standard implementation of Positive Negative Check in C.",
+      "code": "#include<stdio.h>\r\nint main () \r\n{\r\n    int n;\r\n    printf(\"enter the number\");\r\n    scanf(\"%d\",&n);\r\n    if (n>0)\r\n    {\r\n        printf(\" this is positive number\\n \");\r\n    }\r\n    else if (n<0) \r\n    {\r\n        printf(\" this is negative number\\n \");\r\n    }\r\n    else \r\n    {\r\n        printf(\" this is 0 \\n\");\r\n    }\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_19",
+      "title": "Prime Check",
+      "statement": "Practice program demonstrating standard implementation of Prime Check in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n    int a;\r\n    printf(\"enter any one number:-\");\r\n    scanf(\"%d\",&a);\r\n\r\n    int i;\r\n    int flag = 1;  \r\n\r\n    if(a <= 1)\r\n        flag = 0;  \r\n\r\n    for(i = 2; i < a; i++)\r\n    {\r\n        if(a % i == 0)\r\n        {\r\n            flag = 0;  \r\n            break;\r\n        }\r\n    }\r\n\r\n    if(flag == 1)\r\n    {\r\n        printf(\"%d is a prime number\", a);\r\n    }\r\n    else\r\n    {\r\n        printf(\"%d is not a prime number\", a);\r\n    }\r\n\r\n    return 0;\r\n}\r\n",
+      "sampleInput": "17",
+      "expectedOutput": "Enter number: 17\n17 is a Prime Number",
+      "whyOutput": "The program loops from 2 up to the square root of 17. Since no divisor leaves a remainder of 0, 17 is marked as prime.",
+      "flow": [
+        "Input Number (17)",
+        "Check Divisors (2 to sqrt(17))",
+        "Confirm No Divisors",
+        "Output: Prime"
+      ],
+      "complexity": "O(sqrt(n))",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals",
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_20",
+      "title": "Prime Number",
+      "statement": "Practice program demonstrating standard implementation of Prime Number in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n    int a;\r\n    printf(\"enter any one number:-\");\r\n    scanf(\"%d\",&a);\r\n\r\n    int i;\r\n    int flag = 1;  \r\n\r\n    if(a <= 1)\r\n        flag = 0;  \r\n\r\n    for(i = 2; i < a; i++)\r\n    {\r\n        if(a % i == 0)\r\n        {\r\n            flag = 0;  \r\n            break;\r\n        }\r\n    }\r\n\r\n    if(flag == 1)\r\n    {\r\n        printf(\"%d is a prime number\", a);\r\n    }\r\n    else\r\n    {\r\n        printf(\"%d is not a prime number\", a);\r\n    }\r\n\r\n    return 0;\r\n}\r\n",
+      "sampleInput": "17",
+      "expectedOutput": "Enter number: 17\n17 is a Prime Number",
+      "whyOutput": "The program loops from 2 up to the square root of 17. Since no divisor leaves a remainder of 0, 17 is marked as prime.",
+      "flow": [
+        "Input Number (17)",
+        "Check Divisors (2 to sqrt(17))",
+        "Confirm No Divisors",
+        "Output: Prime"
+      ],
+      "complexity": "O(sqrt(n))",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals",
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_21",
+      "title": "Sort Three Numbers",
+      "statement": "Practice program demonstrating standard implementation of Sort Three Numbers in C.",
+      "code": "#include <stdio.h>\r\n\r\nint main() {\r\n    int num1, num2, num3, temp;\r\n\r\n    printf(\"Enter three numbers: \");\r\n    scanf(\"%d %d %d\", &num1, &num2, &num3);\r\n\r\n    if (num1 > num2) {\r\n        temp = num1;\r\n        num1 = num2;\r\n        num2 = temp;\r\n    }\r\n    if (num1 > num3) {\r\n        temp = num1;\r\n        num1 = num3;\r\n        num3 = temp;\r\n    }\r\n    if (num2 > num3) {\r\n        temp = num2;\r\n        num2 = num3;\r\n        num3 = temp;\r\n    }\r\n\r\n    printf(\"Sorted nos: %d %d %d\\n\", num1, num2, num3);\r\n    return 0;\r\n}\r\n",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_22",
+      "title": "Star Pattern Triangle",
+      "statement": "Practice program demonstrating standard implementation of Star Pattern Triangle in C.",
+      "code": "#include<stdio.h>\r\nint main () \r\n{\r\n    int row;\r\n    printf(\" enter your row \");\r\n    scanf(\"%d\",&row);\r\n    for (int i=1;i<row;i++)\r\n    {\r\n\r\n    for (int j=1;j<i;j++)\r\n    {\r\n    \r\n    printf(\"* \");\r\n    }\r\n    printf(\"\\n\");\r\n}\r\n\r\n    return 0;\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_23",
+      "title": "SumOfNumbers",
+      "statement": "Practice program demonstrating standard implementation of SumOfNumbers in C.",
+      "code": "#include <stdio.h>\r\n\r\nint main() \r\n{ \r\n    int num, sum = 0;\r\n\r\n    printf(\"Enter the number: \");\r\n    scanf(\"%d\", &num);\r\n\r\n    for(int i = 1; i <= num; i++)\r\n    {\r\n        sum = sum + i;\r\n    }\r\n\r\n    printf(\"Sum of numbers from 1 to %d is: %d\\n\", num, sum);\r\n\r\n    return 0;\r\n}\r\n",
+      "sampleInput": "15\n25",
+      "expectedOutput": "enter the first number: 15\nenter the second number: 25\nsum = 40",
+      "whyOutput": "The program takes two inputs (15 and 25) from the user using scanf, adds them, and prints the sum (40) to the console.",
+      "flow": [
+        "Input (15, 25)",
+        "Addition Operation (15 + 25)",
+        "Output (Sum = 40)"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_24",
+      "title": "Switch Calculator",
+      "statement": "Practice program demonstrating standard implementation of Switch Calculator in C.",
+      "code": "#include<stdio.h>\r\nint main() {\r\n    int choice ,a ,b;\r\n    printf(\" 1 addition:\\n\");\r\n    printf(\" 2 subtraction:\\n\");\r\n    printf(\" 3 multiplication:\\n\");\r\n    printf(\" 4 division:\\n\");\r\n    printf(\"enter your choice:\\n\");\r\n    scanf(\"%d\",&choice);\r\n    printf(\"enter your a and b value:\\n\");\r\n    scanf(\"%d %d\",&a,&b);\r\n    switch(choice) {\r\n        case 1:\r\n            printf(\"addition is :%d\\n\",a+b);\r\n            break;\r\n        case 2:\r\n            printf(\"subtraction is :%d\\n\",a-b);\r\n            break;\r\n        case 3:\r\n            printf(\"multiplication is :%d\\n\",a*b);\r\n            break;\r\n        case 4:\r\n            printf(\"division is :%d\\n\",a/b);\r\n            break;\r\n        default:\r\n            printf(\"invalid choice\");\r\n    }\r\n    return 0;\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    },
+    {
+      "id": "c_control_flow_25",
+      "title": "Vowels",
+      "statement": "Practice program demonstrating standard implementation of Vowels in C.",
+      "code": "#include<stdio.h>\r\nint main () \r\n{\r\n    char s;\r\n    printf(\" enter any one charector \");\r\n    scanf(\"%c\",&s);\r\n    if(s=='a'|| s=='A'|| s=='e'|| s=='E' || s=='i'|| s== 'I' || s=='o' || s=='O'\r\n        || s=='u' || s=='U' )\r\n    {\r\n        printf(\" this is %c vowels \",s);\r\n    }\r\nelse \r\n{\r\n    printf(\" this is %c consonants\",s);\r\n}\r\nreturn 0;\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals"
+      ],
+      "relatedLessons": [
+        "Conditionals",
+        "Loops"
+      ]
+    }
+  ],
+  "Arrays": [
+    {
+      "id": "c_arrays_26",
+      "title": "D Array5x5",
+      "statement": "Practice program demonstrating standard implementation of D Array5x5 in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n    int arr[5][5];\r\n\r\n    for(int i=0; i<5; i++)\r\n    {\r\n        for(int j=0; j<5; j++)\r\n        {\r\n        }\r\n    }\r\n\r\n    for(int i=0; i<5; i++)\r\n    {\r\n        for(int j=0; j<5; j++)\r\n        {\r\n            printf(\"%d \",arr[i][j]=10);\r\n        }\r\n        printf(\"\\n\");\r\n    }\r\n\r\n    return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Arrays"
+      ]
+    },
+    {
+      "id": "c_arrays_27",
+      "title": "D Array Input Output",
+      "statement": "Practice program demonstrating standard implementation of D Array Input Output in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n    int arr[4][2];\r\n\r\nfor(int i=0; i<4; i++)\r\n{\r\n    for(int j=0; j<2; j++)\r\n    {\r\n        scanf(\"%d\",&arr[i][j]);\r\n    }\r\n}\r\n\r\n    for(int i=0; i<4; i++)\r\n{\r\n    for(int j=0; j<2; j++)\r\n    {\r\n        printf(\"%d \",arr[i][j]);\r\n    }\r\n    printf(\"\\n\");\r\n}\r\n\r\n    return 0;\r\n}\r\n\r\n",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Arrays"
+      ]
+    },
+    {
+      "id": "c_arrays_28",
+      "title": "Array",
+      "statement": "Practice program demonstrating standard implementation of Array in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{ \r\n  int arr[4] = {10,20,30,40};\r\n  for(int i=0;i<4;i++)\r\n  printf(\"%d\\n\",arr[i]);\r\n  return 0;\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Arrays"
+      ]
+    },
+    {
+      "id": "c_arrays_29",
+      "title": "Array2D",
+      "statement": "Practice program demonstrating standard implementation of Array2D in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n    int rows;\r\n    printf(\"enter the number of rows:-\");\r\n    scanf(\"%d\",&rows);\r\n\r\n    int columans;\r\n    printf(\"enter the number of columans:-\");\r\n    scanf(\"%d\",&columans);\r\n\r\n    int arr[rows][columans];\r\n\r\n    for(int i=0; i<rows;i++)\r\n    {\r\n        for(int j=0; j<columans; j++)\r\n        {\r\n            printf(\"enter the number:-\");\r\n            scanf(\"%d\",&arr[i][j]);\r\n        }\r\n    \r\n    }\r\n    printf(\"\\nMatrix is:\\n\");\r\n     for(int i=0; i<rows; i++)\r\n    {\r\n        for(int j=0; j<columans; j++)\r\n        {\r\n            printf(\"%d \",arr[i][j]);\r\n        }\r\n        printf(\"\\n\");\r\n    }\r\n\r\n    return 0;\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Arrays"
+      ]
+    },
+    {
+      "id": "c_arrays_30",
+      "title": "ArrayAdition",
+      "statement": "Practice program demonstrating standard implementation of ArrayAdition in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n    int arr[]={10,20,40,50,80};\r\n    int sum = 0;\r\n\r\n    for(int i=0; i<5; i++)\r\n    {\r\n        sum = sum + arr[i];\r\n    }\r\n\r\n    printf(\"addition is:%d\",sum);\r\n\r\n    return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Arrays"
+      ]
+    }
+  ],
+  "Strings": [
+    {
+      "id": "c_strings_31",
+      "title": "String",
+      "statement": "Practice program demonstrating standard implementation of String in C.",
+      "code": "#include<stdio.h>\r\n#include<string.h>\r\n\r\nint main () \r\n{\r\n    char str[]= \"sayan\";\r\n    printf(\"%d\",strlen(str));\r\n    //scanf(\"%s\",str);\r\n    //printf(\"you enter the:-%s\",str);\r\n    return 0;\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Strings"
+      ]
+    },
+    {
+      "id": "c_strings_32",
+      "title": "String1",
+      "statement": "Practice program demonstrating standard implementation of String1 in C.",
+      "code": "#include<stdio.h>\r\n#include<string.h>\r\nint main () \r\n{\r\n    char arr []= \"my name is sayan\\0\";\r\n    int i=0;\r\n    while (arr[i]!='\\0')\r\n\r\n    {\r\n        printf(\"%c\",arr[i]);\r\n        i++;\r\n       \r\n    }\r\n        return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops"
+      ],
+      "relatedLessons": [
+        "Strings"
+      ]
+    },
+    {
+      "id": "c_strings_33",
+      "title": "StringA",
+      "statement": "Practice program demonstrating standard implementation of StringA in C.",
+      "code": "#include <stdio.h>\r\n#include <string.h>\r\nint main() {\r\n    char s1[] = \"vyankatesh\";\r\n\tprintf(\"String Length:-%lu\",strlen(s1));\r\n    return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Strings"
+      ]
+    },
+    {
+      "id": "c_strings_34",
+      "title": "String Input Gets",
+      "statement": "Practice program demonstrating standard implementation of String Input Gets in C.",
+      "code": "#include<stdio.h>\r\n#include<conio.h>\r\nint main ()\r\n{\r\n    char sayan[20];\r\n    printf(\"enter any char:-\");\r\n    gets(sayan);\r\n   printf(\"you entered:-%s\",sayan);\r\n\r\n    return 0;\r\n}\r\n",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Strings"
+      ]
+    }
+  ],
+  "Functions": [
+    {
+      "id": "c_functions_35",
+      "title": "Function Calling",
+      "statement": "Practice program demonstrating standard implementation of Function Calling in C.",
+      "code": "#include<stdio.h>\r\nint sahil () \r\n{ \r\n    printf(\"sayan function is executed\\n\");\r\n}\r\nint main ()\r\n{\r\n sahil();\r\n sahil();\r\n sahil();\r\n sahil();\r\n \r\n return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Functions",
+        "Recursion"
+      ]
+    },
+    {
+      "id": "c_functions_36",
+      "title": "Function With Parameters",
+      "statement": "Practice program demonstrating standard implementation of Function With Parameters in C.",
+      "code": "#include<stdio.h>\r\nint vk (char name[20],int age)\r\n{\r\n\r\n    printf(\"%s is a student and he is %d,years of old\\n\",name,age);\r\n}\r\n\r\nint main ()\r\n{\r\n    vk(\"sayan\",21);\r\n    vk(\"sayan\",21);\r\n    vk(\"sayan\",21);\r\n   \r\n    return 0;\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Functions",
+        "Recursion"
+      ]
+    },
+    {
+      "id": "c_functions_37",
+      "title": "Global Variable",
+      "statement": "Practice program demonstrating standard implementation of Global Variable in C.",
+      "code": "#include<stdio.h>\r\nint age = 20;\r\n\r\nvoid adnan() \r\n{ \r\n    printf(\"%d\\n\",age);\r\n}\r\nint main ()\r\n{ \r\n    adnan ();\r\n    printf(\"%d\\n\",age);\r\n\r\n\r\nreturn 0;\r\n\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Functions",
+        "Recursion"
+      ]
+    },
+    {
+      "id": "c_functions_38",
+      "title": "Math Functions",
+      "statement": "Practice program demonstrating standard implementation of Math Functions in C.",
+      "code": "#include<stdio.h>\r\nint add (int num1)\r\n{ \r\n    return num1 + 5;\r\n}\r\nint mul (int num1)\r\n{ \r\n    return num1 * 7;\r\n}\r\nint sub (int num1)\r\n{ \r\n    return num1 - 3;\r\n}\r\nint main ()\r\n{ \r\n    printf(\"addition is %d\\n\",add(4));\r\n    printf(\"mltiplication is %d\\n\",mul(4));\r\n    printf(\"subtraction is %d\\n\",sub(4));\r\n    return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Functions",
+        "Recursion"
+      ]
+    }
+  ],
+  "Pointers": [
+    {
+      "id": "c_pointers_39",
+      "title": "Pointer Address",
+      "statement": "Practice program demonstrating standard implementation of Pointer Address in C.",
+      "code": "#include<stdio.h>\r\nint main () \r\n{\r\n    int a = 50;\r\n    int *s = &a;\r\n\r\n    printf(\"address of a:-%p\\n\",&a);//a ka address print hoga \r\n    printf(\"value of A:-%d\\n\",a);//a ki value print hogi \r\n    printf(\"pointer address:-%p\\n\",&s);//pointer ka address print hoga \r\n    printf(\"value of pointer:-%p\\n\",s);//pointer S ke andar store A ka address print hoga\r\n    return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Pointers"
+      ],
+      "relatedLessons": [
+        "Pointers",
+        "Double Pointers",
+        "Dynamic Memory"
+      ]
+    },
+    {
+      "id": "c_pointers_40",
+      "title": "Pointer Basics",
+      "statement": "Practice program demonstrating standard implementation of Pointer Basics in C.",
+      "code": "#include<stdio.h>\r\n\r\nint main ()\r\n{\r\n    int a = 20;\r\n    int *b;\r\n\r\n    b = &a;\r\n\r\n    printf(\"address of a variable   : %p\\n\", &a);// yaha pe a ka address print kiya hai  \r\n    printf(\"address stored in b     : %p\\n\", b);// yaha pe a ka address store kiya hai \r\n    printf(\"value of *b (value of a): %d\\n\", *b);//yaha par pointer se a ki value print ki hai \r\n\r\n    return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Pointers"
+      ],
+      "relatedLessons": [
+        "Pointers",
+        "Double Pointers",
+        "Dynamic Memory"
+      ]
+    },
+    {
+      "id": "c_pointers_41",
+      "title": "Pointer Size",
+      "statement": "Practice program demonstrating standard implementation of Pointer Size in C.",
+      "code": "#include<stdio.h>\r\nint main ()\r\n{ \r\n    int  a=10;\r\n    float b=10.3;\r\n    char c = 'z';\r\n    \r\n    int *ptr_a = &a;\r\n    float *ptr_b = &b;\r\n    char *ptr_c = &c;\r\n\r\n    printf(\"size of int pointer:-%lu\\n\",sizeof(ptr_a));\r\n     printf(\"size of float pointer:-%lu\\n\",sizeof(ptr_b));\r\n      printf(\"size of char pointer:-%lu\\n\",sizeof(ptr_c));\r\n\r\n      return 0;\r\n\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Pointers"
+      ],
+      "relatedLessons": [
+        "Pointers",
+        "Double Pointers",
+        "Dynamic Memory"
+      ]
+    },
+    {
+      "id": "c_pointers_42",
+      "title": "Pointer To Structure",
+      "statement": "Practice program demonstrating standard implementation of Pointer To Structure in C.",
+      "code": "#include<stdio.h>\r\n#include<string.h>\r\nstruct book\r\n{\r\n    char title [50]; \r\n    char author [50];\r\n    double price;\r\n    int pages;\r\n\r\n};\r\nint main ()\r\n{\r\nstruct book book1 = {\"the last knight\",\"sayan\",888.8,99};\r\nstruct book *strptr;\r\nstrptr = &book1;\r\nprintf(\"title: %s\\n\", strptr->title);\r\nprintf(\"author: %s\\n\", strptr->author);\r\nprintf(\"price: %lf\\n\", strptr->price);\r\nprintf(\"pages: %d\\n\", strptr->pages);\r\nreturn 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Structures"
+      ],
+      "relatedLessons": [
+        "Pointers",
+        "Double Pointers",
+        "Dynamic Memory"
+      ]
+    },
+    {
+      "id": "c_pointers_43",
+      "title": "Pointer Value Change",
+      "statement": "Practice program demonstrating standard implementation of Pointer Value Change in C.",
+      "code": "#include<stdio.h>\r\nint main () \r\n{\r\n    int a = 5;\r\n    int b = 10;\r\n    int *p =&a;\r\n    int *q =&b;\r\n\r\n    *p = 100;//a ki value cange krke 100 ki hai \r\n    *q = 200;//b ki value change krke 200 ki hai\r\n\r\n    printf(\"%d\\n%p\\n\",a,&a);//%p se address print hota hai \r\n    printf(\"%d\\n%p\",b,&b);//%d seinteger value print hoti hai \r\n\r\n    return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Pointers"
+      ],
+      "relatedLessons": [
+        "Pointers",
+        "Double Pointers",
+        "Dynamic Memory"
+      ]
+    }
+  ],
+  "Structures": [
+    {
+      "id": "c_structures_44",
+      "title": "ArrayOfStruct",
+      "statement": "Practice program demonstrating standard implementation of ArrayOfStruct in C.",
+      "code": "#include <stdio.h>\r\n#include <string.h>\r\n\r\ntypedef struct student \r\n{\r\n    char name[50];\r\n    int Id;\r\n    int RollNo;\r\n    int Age;\r\n    \r\n} student;\r\n\r\nint main ()\r\n{\r\n    student arr[10];\r\n\r\n    strcpy(arr[0].name,\"sayan\");\r\n    arr[0].Id = 10;\r\n    arr[0].RollNo = 101;\r\n    arr[0].Age = 19;\r\n\r\n    strcpy(arr[1].name,\"adnan\");\r\n    arr[1].Id = 11;\r\n    arr[1].RollNo = 102;\r\n    arr[1].Age = 18;\r\n\r\n    strcpy(arr[2].name,\"falguni\");\r\n    arr[2].Id = 12;\r\n    arr[2].RollNo = 103;\r\n    arr[2].Age = 19;\r\n\r\n    strcpy(arr[3].name,\"ketki\");\r\n    arr[3].Id = 13;\r\n    arr[3].RollNo = 104;\r\n    arr[3].Age = 19;\r\n\r\n    strcpy(arr[4].name,\"shifa\");\r\n    arr[4].Id = 14;\r\n    arr[4].RollNo = 105;\r\n    arr[4].Age = 18;\r\n\r\n    strcpy(arr[5].name,\"anurag\");\r\n    arr[5].Id = 15;\r\n    arr[5].RollNo = 106;\r\n    arr[5].Age = 20;\r\n\r\n    for(int i = 0; i <= 5; i++)\r\n    {\r\n        printf(\"\\nStudent Name: %s\\n\", arr[i].name);\r\n        printf(\"Student Id: %d\\n\", arr[i].Id);\r\n        printf(\"Student Roll No: %d\\n\", arr[i].RollNo);\r\n        printf(\"Student Age: %d\\n\", arr[i].Age);\r\n    }\r\n    \r\n    return 0;\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals",
+        "Loops",
+        "Structures"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    },
+    {
+      "id": "c_structures_45",
+      "title": "Book1",
+      "statement": "Practice program demonstrating standard implementation of Book1 in C.",
+      "code": "#include<stdio.h>\r\n#include<string.h>\r\nstruct books\r\n{\r\n    char title[50];\r\n    char author[50];\r\n    char subject[50];\r\n    int book_Id;\r\n};\r\nvoid printbook(struct books book);\r\nint main ()\r\n{\r\n    struct books books1;\r\n    struct books books2;\r\n\r\n    strcpy(books1.title,\"c\");\r\n    strcpy(books1.author,\"sayan\");\r\n    strcpy(books1.subject,\"programing\");\r\n    (books1.book_Id);\r\n\r\n    strcpy(books2.title,\"C\");\r\n    strcpy(books2.author,\"adnan\");\r\n    strcpy(books2.subject,\"programing\");\r\n    (books2.book_Id);\r\n\r\n     return 0;\r\n\r\n}\r\n\r\n    void printbooks(struct books book)\r\n{\r\nprintf(\"book title :%s\\n\",book.title);\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Structures"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    },
+    {
+      "id": "c_structures_46",
+      "title": "Book2",
+      "statement": "Practice program demonstrating standard implementation of Book2 in C.",
+      "code": "#include<stdio.h>\r\n#include<string.h>\r\n\r\nstruct books\r\n{\r\n    char title[50];\r\n    char author[50];\r\n    char subject[50];\r\n    int book_Id;\r\n};\r\n\r\nvoid printbook(struct books book);\r\n\r\nint main ()\r\n{\r\n    struct books books1;\r\n    struct books books2;\r\n\r\n    strcpy(books1.title, \"C\");\r\n    strcpy(books1.author, \"sayan\");\r\n    strcpy(books1.subject, \"programming\");\r\n    books1.book_Id = 1;   \r\n\r\n    strcpy(books2.title, \"C\");\r\n    strcpy(books2.author, \"adnan\");\r\n    strcpy(books2.subject, \"programming\");\r\n    books2.book_Id = 2;   \r\n\r\n    printbook(books1);\r\n    printbook(books2);\r\n\r\n    return 0;\r\n}\r\n\r\nvoid printbook(struct books book)\r\n{\r\n    printf(\"Book Title : %s\\n\", book.title);\r\n    printf(\"Author     : %s\\n\", book.author);\r\n    printf(\"Subject    : %s\\n\", book.subject);\r\n    printf(\"Book ID    : %d\\n\\n\", book.book_Id);\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Structures"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    },
+    {
+      "id": "c_structures_47",
+      "title": "CricketArrayStruct",
+      "statement": "Practice program demonstrating standard implementation of CricketArrayStruct in C.",
+      "code": "#include<stdio.h>\r\n#include<string.h>\r\ntypedef struct cricket\r\n{\r\n    char name[20];\r\n    int age;\r\n    int NoOfMatch;\r\n    float avarage;\r\n}cricket;\r\n\r\nint main ()\r\n{\r\n    cricket arr[2];\r\n    strcpy(arr[0].name,\"virat\");\r\n    arr[0].age=35;\r\n    arr[0].NoOfMatch=2;\r\n    arr[0].avarage = 30.50;\r\n\r\n    scanf(\"%s\",arr[0].name);\r\n    // printf(\"name is:%s\",arr[0].name);\r\n    scanf(\"%d\",arr[0].age);\r\n    // printf(\"Age is:%d\",arr[0].age);\r\n    scanf(\"%d\",arr[0].NoOfMatch);\r\n    // printf(\"No of matches:-%d\",arr[0].NoOfMatch);\r\n    scanf(\"%d\",arr[0].avarage);\r\n     //printf(\"avarage is:-%d\",arr[0].avarage);\r\n\r\n    for(int i=0; i<arr;i++)\r\n    {\r\n        printf(\"ex:-\",arr[i]);\r\n    }\r\n\r\n    return 0;\r\n\r\n}",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops",
+        "Structures"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    },
+    {
+      "id": "c_structures_48",
+      "title": "Demon Slayer Struct",
+      "statement": "Practice program demonstrating standard implementation of Demon Slayer Struct in C.",
+      "code": "#include <stdio.h>\r\n#include <string.h>\r\nint main()\r\n{\r\n    struct slayer\r\n    {\r\n        char name[50];\r\n        char breathing_style[50];\r\n        int forms;\r\n        int age;\r\n        int rank;\r\n    };\r\n    {\r\n        struct slayer muichiro;\r\n        strcpy(muichiro.name, \"tokito muichiro\");\r\n        strcpy(muichiro.breathing_style, \"mist breathing\");\r\n        muichiro.forms = 7;\r\n        muichiro.age = 14;\r\n        muichiro.rank = 4;\r\n\r\n        printf(\"name:%s\\n\", muichiro.name);\r\n        printf(\"Breathing Style: %s\\n\", muichiro.breathing_style);\r\n        printf(\"Forms: %d\\n\", muichiro.forms);\r\n        printf(\"Age: %d\\n\", muichiro.age);\r\n        printf(\"Rank: %d\\n\", muichiro.rank);\r\n    }\r\n\r\n    {\r\n        struct slayer sanemi;\r\n        strcpy(sanemi.name, \"Sanemi Shinazugawa\");\r\n        strcpy(sanemi.breathing_style, \"Wind breathing\");\r\n        sanemi.forms = 9;\r\n        sanemi.age = 21;\r\n        sanemi.rank = 2;\r\n\r\n        printf(\"\\nname:%s\\n\", sanemi.name);\r\n        printf(\"breathing Style;%s\\n\", sanemi.breathing_style);\r\n        printf(\"forms:%d\\n\", sanemi.forms);\r\n        printf(\"Age:%d\\n\", sanemi.age);\r\n        printf(\"Rank:%d\\n\", sanemi.rank);\r\n    }\r\n\r\n    return 0;\r\n}",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Loops",
+        "Structures"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    },
+    {
+      "id": "c_structures_49",
+      "title": "Structure",
+      "statement": "Practice program demonstrating standard implementation of Structure in C.",
+      "code": "#include<stdio.h>\r\nstruct book\r\n{\r\n    char title [50];\r\n    char author [50];\r\n    int pages;\r\n    double prize;\r\n};  \r\n\r\n int main ()\r\n{\r\n    struct book book1 = {\"BMW\",\"sayan\",10,300};\r\n    printf(\"title:%s\\n\",book1.title);\r\n    printf(\"author:%s\\n\",book1.author);\r\n    printf(\"pages:%d\\n\",book1.pages);\r\n    printf(\"prize:%.0lf\\n\",book1.prize);\r\n\r\n    return 0;\r\n\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Structures"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    },
+    {
+      "id": "c_structures_50",
+      "title": "Structure Copy",
+      "statement": "Practice program demonstrating standard implementation of Structure Copy in C.",
+      "code": "#include<stdio.h>\r\nstruct book\r\n{\r\n    char title [50];\r\n    char author [50];\r\n    int pages;\r\n    double prize;\r\n};  \r\n\r\n int main ()\r\n{\r\n    struct book book1 = {\"BMW\",\"sayan\",10,300},book2;\r\n    book2 = book1;\r\n    printf(\"title:%s\\n\",book1.title);\r\n    printf(\"author:%s\\n\",book1.author);\r\n    printf(\"pages:%d\\n\",book1.pages);\r\n    printf(\"prize:%.0lf\\n\",book1.prize);\r\n\r\n    return 0;\r\n \r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Structures"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    },
+    {
+      "id": "c_structures_51",
+      "title": "Structure Size",
+      "statement": "Practice program demonstrating standard implementation of Structure Size in C.",
+      "code": "#include<stdio.h>\r\nstruct my_struct\r\n{\r\n    int s;\r\n    float a;\r\n    char f[20];\r\n\r\n};\r\nint main ()\r\n{\r\n    struct my_struct sayan;\r\n    printf(\"memory occupied by struct:-%d\",sizeof(sayan));\r\n\r\n}\r\n\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "Structures"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    },
+    {
+      "id": "c_structures_52",
+      "title": "Union Overwrite Demo",
+      "statement": "Practice program demonstrating standard implementation of Union Overwrite Demo in C.",
+      "code": "#include<stdio.h>\r\n#include<string.h>\r\n\r\nunion data\r\n{\r\n    int i;\r\n    float f;\r\n    double d;\r\n    char str[50];\r\n};\r\n\r\nint main()\r\n{\r\n    union data data;\r\n\r\n    data.i = 10;\r\n    printf(\"%d\\n\", data.i);\r\n\r\n    data.f = 10.10;\r\n    printf(\"%f\\n\", data.f);\r\n\r\n    strcpy(data.str, \"c\");\r\n    printf(\"%s\\n\", data.str);\r\n\r\n    data.d = 55.55;\r\n    printf(\"%lf\\n\", data.d);\r\n\r\n    return 0;\r\n}\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    },
+    {
+      "id": "c_structures_53",
+      "title": "Union Size",
+      "statement": "Practice program demonstrating standard implementation of Union Size in C.",
+      "code": "#include<stdio.h>\r\nunion Data \r\n{\r\n    int s;\r\n    float a;\r\n    char f[20];\r\n\r\n};\r\nint main ()\r\n{\r\n    union Data data;\r\n    printf(\"memory occupied by union:-%d\",sizeof(data));\r\n\r\n}\r\n\r\n",
+      "sampleInput": null,
+      "expectedOutput": "Program execution successful.",
+      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "flow": [
+        "Start Execution",
+        "Process Statements",
+        "Exit Program"
+      ],
+      "complexity": "O(1)",
+      "space": "O(1)",
+      "concepts": [
+        "C Basics"
+      ],
+      "relatedLessons": [
+        "Structures",
+        "Unions & Enums"
+      ]
+    }
+  ],
+  "File Handling": [
+    {
+      "id": "c_file_handling_54",
+      "title": "Student Management System",
+      "statement": "Practice program demonstrating standard implementation of Student Management System in C.",
+      "code": "#include <stdio.h>\r\n#include <stdlib.h>\r\n#include <string.h>\r\n\r\nstruct Student {\r\n    int roll;\r\n    char name[50];\r\n    float marks;\r\n};\r\n\r\n// Function Declarations\r\nvoid addStudent();\r\nvoid displayStudents();\r\nvoid searchStudent();\r\nvoid updateStudent();\r\nvoid deleteStudent();\r\n\r\nFILE *fp;\r\n\r\nint main() {\r\n    int choice;\r\n\r\n    while (1) {\r\n        printf(\"\\n-------------------------------------\\n\");\r\n        printf(\"| STUDENT MANAGEMENT SYSTEM (C)     |\\n\");\r\n        printf(\"-------------------------------------\\n\");\r\n        printf(\"1. Add Student\\n\");\r\n        printf(\"2. Display Students\\n\");\r\n        printf(\"3. Search Student\\n\");\r\n        printf(\"4. Update Student\\n\");\r\n        printf(\"5. Delete Student\\n\");\r\n        printf(\"6. Exit\\n\");\r\n        printf(\"Enter your choice: \");\r\n        scanf(\"%d\", &choice);\r\n\r\n        switch (choice) {\r\n            case 1: addStudent(); break;\r\n            case 2: displayStudents(); break;\r\n            case 3: searchStudent(); break;\r\n            case 4: updateStudent(); break;\r\n            case 5: deleteStudent(); break;\r\n            case 6: exit(0);\r\n            default: printf(\"Invalid choice! Try again.\\n\");\r\n        }\r\n    }\r\n    return 0;\r\n}\r\n\r\n// Add Student\r\nvoid addStudent() {\r\n    struct Student s;\r\n    fp = fopen(\"students.dat\", \"ab\");\r\n    if (!fp) {\r\n        printf(\"Error opening file!\\n\");\r\n        return;\r\n    }\r\n    printf(\"Enter Roll No: \");\r\n    scanf(\"%d\", &s.roll);\r\n    getchar();  // Clear input buffer\r\n    printf(\"Enter Name: \");\r\n    fgets(s.name, sizeof(s.name), stdin);\r\n    s.name[strcspn(s.name, \"\\n\")] = 0; // Remove newline\r\n    printf(\"Enter Marks: \");\r\n    scanf(\"%f\", &s.marks);\r\n\r\n    fwrite(&s, sizeof(s), 1, fp);\r\n    fclose(fp);\r\n    printf(\"Student added successfully!\\n\");\r\n}\r\n\r\n// Display All Students\r\nvoid displayStudents() {\r\n    struct Student s;\r\n    fp = fopen(\"students.dat\", \"rb\");\r\n    if (!fp) {\r\n        printf(\"No data found!\\n\");\r\n        return;\r\n    }\r\n    printf(\"\\nRoll\\tName\\t\\tMarks\\n\");\r\n    printf(\"---------------------------------\\n\");\r\n    while (fread(&s, sizeof(s), 1, fp)) {\r\n        printf(\"%d\\t%-15s\\t%.2f\\n\", s.roll, s.name, s.marks);\r\n    }\r\n    fclose(fp);\r\n}\r\n\r\n// Search Student\r\nvoid searchStudent() {\r\n    struct Student s;\r\n    int roll, found = 0;\r\n    printf(\"Enter Roll No to search: \");\r\n    scanf(\"%d\", &roll);\r\n\r\n    fp = fopen(\"students.dat\", \"rb\");\r\n    if (!fp) {\r\n        printf(\"No data found!\\n\");\r\n        return;\r\n    }\r\n    while (fread(&s, sizeof(s), 1, fp)) {\r\n        if (s.roll == roll) {\r\n            printf(\"Record Found!\\n\");\r\n            printf(\"Roll: %d\\nName: %s\\nMarks: %.2f\\n\", s.roll, s.name, s.marks);\r\n            found = 1;\r\n            break;\r\n        }\r\n    }\r\n    fclose(fp);\r\n    if (!found) printf(\"No student found with Roll No %d\\n\", roll);\r\n}\r\n\r\n// Update Student\r\nvoid updateStudent() {\r\n    struct Student s;\r\n    int roll, found = 0;\r\n    FILE *temp;\r\n\r\n    printf(\"Enter Roll No to update: \");\r\n    scanf(\"%d\", &roll);\r\n\r\n    fp = fopen(\"students.dat\", \"rb\");\r\n    temp = fopen(\"temp.dat\", \"wb\");\r\n\r\n    while (fread(&s, sizeof(s), 1, fp)) {\r\n        if (s.roll == roll) {\r\n            printf(\"Enter New Name: \");\r\n            getchar();\r\n            fgets(s.name, sizeof(s.name), stdin);\r\n            s.name[strcspn(s.name, \"\\n\")] = 0;\r\n            printf(\"Enter New Marks: \");\r\n            scanf(\"%f\", &s.marks);\r\n            found = 1;\r\n        }\r\n        fwrite(&s, sizeof(s), 1, temp);\r\n    }\r\n    fclose(fp);\r\n    fclose(temp);\r\n    remove(\"students.dat\");\r\n    rename(\"temp.dat\", \"students.dat\");\r\n\r\n    if (found) printf(\"Student updated successfully!\\n\");\r\n    else printf(\"Student with Roll No %d not found.\\n\", roll);\r\n}\r\n\r\n// Delete Student\r\nvoid deleteStudent() {\r\n    struct Student s;\r\n    int roll, found = 0;\r\n    FILE *temp;\r\n\r\n    printf(\"Enter Roll No to delete: \");\r\n    scanf(\"%d\", &roll);\r\n\r\n    fp = fopen(\"students.dat\", \"rb\");\r\n    temp = fopen(\"temp.dat\", \"wb\");\r\n\r\n    while (fread(&s, sizeof(s), 1, fp)) {\r\n        if (s.roll == roll) {\r\n            found = 1;\r\n            continue; // Skip writing this record to temp file\r\n        }\r\n        fwrite(&s, sizeof(s), 1, temp);\r\n    }\r\n    fclose(fp);\r\n    fclose(temp);\r\n    remove(\"students.dat\");\r\n    rename(\"temp.dat\", \"students.dat\");\r\n\r\n    if (found) printf(\"Student deleted successfully!\\n\");\r\n    else printf(\"Student with Roll No %d not found.\\n\", roll);\r\n}\r\n",
+      "sampleInput": "10",
+      "expectedOutput": "Enter input value: 10\nOutput result = 10",
+      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "flow": [
+        "User Input",
+        "Code Logic Processing",
+        "Console Output"
+      ],
+      "complexity": "O(n)",
+      "space": "O(1)",
+      "concepts": [
+        "Conditionals",
+        "Loops",
+        "Structures",
+        "File Handling"
+      ],
+      "relatedLessons": [
+        "File Handling"
+      ]
+    }
+  ]
+}

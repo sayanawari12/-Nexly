@@ -15,7 +15,8 @@ import {
   Play, 
   HelpCircle,
   Sparkles,
-  Zap
+  Zap,
+  Home
 } from 'lucide-react';
 import { CPP_TOPICS } from './CppLessons';
 import '../styles/CppLearningHub.css';
@@ -79,6 +80,14 @@ const CppLearningHub = () => {
     topic.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleBack = () => {
+    if (window.history.state && window.history.state.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate('/', { state: { scrollToSection: 'technologies' } });
+    }
+  };
+
   return (
     <div className="cpp-hub-wrapper">
       {/* Scroll Progress Bar at the top of the viewport */}
@@ -93,7 +102,7 @@ const CppLearningHub = () => {
         <aside className="cpp-sidebar">
           <button 
             className="back-btn" 
-            onClick={() => navigate('/')} 
+            onClick={handleBack} 
             style={{ 
               marginBottom: '24px', 
               display: 'flex', 
@@ -107,7 +116,7 @@ const CppLearningHub = () => {
               transition: 'var(--transition-smooth)'
             }}
           >
-            <ArrowLeft size={16} /> Back to Home
+            <ArrowLeft size={16} /> Back
           </button>
 
           {/* Search bar inside sidebar */}
@@ -149,9 +158,22 @@ const CppLearningHub = () => {
         {/* Main Content Area */}
         <main className="cpp-main-content">
           
+          {/* Breadcrumb Navigation */}
+          <div className="cpp-breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
+            <button onClick={handleBack} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '500', padding: '0' }}>
+              <ArrowLeft size={13} /> Back
+            </button>
+            <span className="sep" style={{ margin: '0 4px', opacity: 0.3, color: 'var(--text-secondary)' }}>|</span>
+            <button onClick={() => navigate('/')} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '500', padding: '0' }}><Home size={13} /> Home</button>
+            <span className="sep" style={{ color: 'var(--text-secondary)', opacity: 0.3 }}>›</span>
+            <button onClick={() => navigate('/', { state: { scrollToSection: 'technologies' } })} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '500', padding: '0' }}>Tech Stack</button>
+            <span className="sep" style={{ color: 'var(--text-secondary)', opacity: 0.3 }}>›</span>
+            <span className="current" style={{ color: 'var(--accent-glow)', fontSize: '0.8rem', fontWeight: '600' }}>C++ Language</span>
+          </div>
+
           {/* Mobile Back Button & Search Bar */}
           <div className="cpp-mobile-header-nav" style={{ display: 'none' }}>
-            <button className="back-btn" onClick={() => navigate('/')}>
+            <button className="back-btn" onClick={handleBack}>
               <ArrowLeft size={16} /> Back
             </button>
             <div className="cpp-search-wrapper" style={{ margin: 0, flexGrow: 1 }}>
@@ -198,6 +220,14 @@ const CppLearningHub = () => {
                   style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', fontSize: '0.9rem' }}
                 >
                   <Zap size={16} /> Take Coding Quiz
+                </button>
+
+                <button 
+                  className="btn-premium-purple"
+                  onClick={() => navigate('/technologies/cpp/practice')}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '10px', fontSize: '0.9rem', background: 'linear-gradient(135deg, #059669, #10b981)' }}
+                >
+                  <Terminal size={16} /> Coding Practice
                 </button>
 
                 <button 

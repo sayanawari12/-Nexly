@@ -16,7 +16,8 @@ import {
   Zap,
   BarChart3,
   Code2,
-  AlertCircle
+  AlertCircle,
+  Home
 } from 'lucide-react';
 import questionsData from './CppQuizQuestions.json';
 import '../styles/CppQuiz.css';
@@ -42,6 +43,14 @@ const CppQuiz = () => {
   const [timeRemaining, setTimeRemaining] = useState(900);
 
   const timerRef = useRef(null);
+
+  const handleBack = () => {
+    if (window.history.state && window.history.state.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate('/technologies/cpp');
+    }
+  };
 
   // Difficulty configurations mapping
   const diffConfigs = {
@@ -198,6 +207,21 @@ const CppQuiz = () => {
 
   return (
     <div className="cpp-quiz-wrapper">
+      {/* Breadcrumb Navigation */}
+      <div className="cpp-breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', flexWrap: 'wrap', padding: '0 20px' }}>
+        <button onClick={handleBack} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '500', padding: '0' }}>
+          <ArrowLeft size={13} /> Back
+        </button>
+        <span className="sep" style={{ margin: '0 4px', opacity: 0.3, color: 'var(--text-secondary)' }}>|</span>
+        <button onClick={() => navigate('/')} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '500', padding: '0' }}><Home size={13} /> Home</button>
+        <span className="sep" style={{ color: 'var(--text-secondary)', opacity: 0.3 }}>›</span>
+        <button onClick={() => navigate('/', { state: { scrollToSection: 'technologies' } })} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '500', padding: '0' }}>Tech Stack</button>
+        <span className="sep" style={{ color: 'var(--text-secondary)', opacity: 0.3 }}>›</span>
+        <button onClick={() => navigate('/technologies/cpp')} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '500', padding: '0' }}>C++ Language</button>
+        <span className="sep" style={{ color: 'var(--text-secondary)', opacity: 0.3 }}>›</span>
+        <span className="current" style={{ color: 'var(--accent-glow)', fontSize: '0.8rem', fontWeight: '600' }}>Quiz</span>
+      </div>
+
       <div className="cpp-quiz-container">
         
         {/* SETUP SCREEN */}
@@ -209,8 +233,8 @@ const CppQuiz = () => {
             transition={{ duration: 0.4 }}
             className="quiz-setup-panel"
           >
-            <button className="back-btn" onClick={() => navigate('/technologies/cpp')}>
-              <ArrowLeft size={16} /> Back to Learning Hub
+            <button className="back-btn" onClick={handleBack}>
+              <ArrowLeft size={16} /> Back
             </button>
 
             <header className="quiz-header glass-card">
@@ -577,9 +601,9 @@ const CppQuiz = () => {
             <div className="results-actions-row" style={{ marginTop: '30px' }}>
               <button 
                 className="btn-premium"
-                onClick={() => navigate('/technologies/cpp')}
+                onClick={handleBack}
               >
-                <ArrowLeft size={16} /> Back to Hub
+                <ArrowLeft size={16} /> Back
               </button>
               
               <button 

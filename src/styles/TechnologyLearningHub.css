@@ -1,0 +1,325 @@
+/* Technology Learning Hub Homepage Section Styles */
+
+.tech-learning-hub-section {
+  padding: 120px 8% 100px;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-section, #0b0616);
+  border-bottom: 1px solid var(--border-primary, rgba(255, 255, 255, 0.08));
+}
+
+/* Background Glowing Backlights */
+.tech-learning-hub-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tech-learning-hub-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tech Hub Cards Grid */
+.tech-learning-hub-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  perspective: 1000px;
+}
+
+/* Premium C++ Card */
+.tech-learning-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: 36px;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+/* Card Glow Accent Background */
+.tech-learning-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 60%);
+  opacity: 0.8;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tech-learning-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 
+    0 40px 80px rgba(139, 92, 246, 0.15),
+    0 0 50px rgba(139, 92, 246, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.tech-learning-card:hover::before {
+  opacity: 1;
+}
+
+/* Card Inner Layout */
+.card-content-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Logo and Header Row */
+.card-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.card-logo-container {
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tech-learning-card:hover .card-logo-container {
+  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.08);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.card-logo-container svg {
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+  transition: transform 0.4s ease;
+}
+
+.tech-learning-card:hover .card-logo-container svg {
+  transform: rotate(5deg) scale(1.1);
+}
+
+.card-title-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-lang-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+/* Metadata Badges Group */
+.card-meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-badge.difficulty {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.2);
+  color: var(--accent-glow, #c084fc);
+}
+
+/* Card Description */
+.card-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.65));
+  line-height: 1.6;
+}
+
+/* Card Stats Block */
+.card-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.stat-val {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+/* Card Progress UI Component */
+.card-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.progress-header-percentage {
+  color: var(--accent-glow, #c084fc);
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-purple, #8b5cf6), var(--accent-glow, #c084fc));
+  border-radius: 100px;
+  width: 0%; /* Initial progress 0% */
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Start Learning Button */
+.btn-card-action {
+  margin-top: 10px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-primary, #ffffff);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-card-action:hover {
+  background: linear-gradient(135deg, var(--primary-purple, #8b5cf6), var(--secondary-purple, #a855f7));
+  border-color: transparent;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 10px 20px rgba(139, 92, 246, 0.3),
+    0 0 15px rgba(139, 92, 246, 0.2);
+}
+
+.btn-card-action svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-card-action:hover svg {
+  transform: translateX(4px);
+}
+
+/* Responsive Rules */
+@media (max-width: 768px) {
+  .tech-learning-hub-section {
+    padding: 80px 6% 60px;
+  }
+  
+  .tech-learning-card {
+    padding: 28px;
+  }
+  
+  .card-logo-container {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .card-logo-container svg {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .card-lang-name {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-learning-hub-section {
+    padding: 60px 4% 40px;
+  }
+  
+  .tech-learning-card {
+    padding: 20px;
+  }
+  
+  .card-logo-row {
+    gap: 12px;
+  }
+  
+  .card-lang-name {
+    font-size: 1.35rem;
+  }
+}

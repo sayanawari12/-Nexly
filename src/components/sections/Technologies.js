@@ -16,10 +16,10 @@ const Technologies = () => {
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   const techs = [
-    { name: 'C Language', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.c }} />, color: '#A8B9CC', desc: 'Syntax Basics & Memory Control' },
+    { name: 'C Language', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.c }} />, color: '#A8B9CC', desc: 'Syntax Basics & Memory Control', path: '/technologies/c' },
     { name: 'C++', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.cpp }} />, color: '#00599C', desc: 'Object Oriented Systems & Structures', path: '/technologies/cpp' },
-    { name: 'Python', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.python }} />, color: '#3776AB', desc: 'ML Modeling & Automation Scripts' },
-    { name: 'Java Platform', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.java }} />, color: '#ED8B00', desc: 'JVM Apps & Enterprise Backend' },
+    { name: 'Python', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.python }} />, color: '#3776AB', desc: 'ML Modeling & Automation Scripts', path: '/technologies/python' },
+    { name: 'Java Platform', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.java }} />, color: '#ED8B00', desc: 'JVM Apps & Enterprise Backend', path: '/technologies/java' },
     { name: 'HTML5', icon: <SiHtml5 size={60} />, color: '#E34F26', desc: 'Semantic Structure & DOM Layouts' },
     { name: 'CSS3', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.css }} />, color: '#1572B6', desc: 'Premium Styling & Graphic Matrix' },
     { name: 'JavaScript', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.javascript }} />, color: '#F7DF1E', desc: 'Asynchronous Scripts & Web Core' },

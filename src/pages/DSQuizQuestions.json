@@ -1,0 +1,146 @@
+{
+  "beginner": [
+    {
+      "id": 1,
+      "text": "A Data Structure is:",
+      "options": ["Programming Language", "Way of organizing data", "Operating System", "Compiler"],
+      "correctAnswer": "Way of organizing data",
+      "explanation": ""
+    },
+    {
+      "id": 2,
+      "text": "Which of the following is a Linear Data Structure?",
+      "options": ["Graph", "Tree", "Stack", "Heap"],
+      "correctAnswer": "Stack",
+      "explanation": ""
+    },
+    {
+      "id": 3,
+      "text": "Which searching method requires a sorted array?",
+      "options": ["Linear Search", "Binary Search", "Sequential Search", "DFS"],
+      "correctAnswer": "Binary Search",
+      "explanation": ""
+    },
+    {
+      "id": 4,
+      "text": "Which search has the best average performance?",
+      "options": ["Linear Search", "Binary Search", "Bubble Sort", "BFS"],
+      "correctAnswer": "Binary Search",
+      "explanation": ""
+    },
+    {
+      "id": 5,
+      "text": "Which sorting algorithm repeatedly swaps adjacent elements?",
+      "options": ["Merge Sort", "Bubble Sort", "Selection Sort", "Insertion Sort"],
+      "correctAnswer": "Bubble Sort",
+      "explanation": ""
+    },
+    {
+      "id": 6,
+      "text": "Stack follows:",
+      "options": ["FIFO", "LIFO", "FCFS", "Priority"],
+      "correctAnswer": "LIFO",
+      "explanation": ""
+    },
+    {
+      "id": 7,
+      "text": "Queue follows:",
+      "options": ["LIFO", "FIFO", "DFS", "BFS"],
+      "correctAnswer": "FIFO",
+      "explanation": ""
+    },
+    {
+      "id": 8,
+      "text": "PUSH operation is used to:",
+      "options": ["Delete an element", "Insert an element into Stack", "Search an element", "Sort data"],
+      "correctAnswer": "Insert an element into Stack",
+      "explanation": ""
+    },
+    {
+      "id": 9,
+      "text": "POP operation is used to:",
+      "options": ["Insert element", "Delete top element", "Search element", "Traverse Stack"],
+      "correctAnswer": "Delete top element",
+      "explanation": ""
+    },
+    {
+      "id": 10,
+      "text": "Which data structure is used for function calls?",
+      "options": ["Queue", "Stack", "Graph", "Tree"],
+      "correctAnswer": "Stack",
+      "explanation": ""
+    },
+    {
+      "id": 11,
+      "text": "A Linked List consists of:",
+      "options": ["Data only", "Pointer only", "Data and Link", "Index only"],
+      "correctAnswer": "Data and Link",
+      "explanation": ""
+    },
+    {
+      "id": 12,
+      "text": "Which Linked List has pointers in both directions?",
+      "options": ["Singly Linked List", "Circular Linked List", "Doubly Linked List", "Header Linked List"],
+      "correctAnswer": "Doubly Linked List",
+      "explanation": ""
+    },
+    {
+      "id": 13,
+      "text": "Recursion is:",
+      "options": ["Function calling another function", "Function calling itself", "Loop", "Sorting"],
+      "correctAnswer": "Function calling itself",
+      "explanation": ""
+    },
+    {
+      "id": 14,
+      "text": "A Binary Tree has maximum ____ children per node.",
+      "options": ["1", "2", "3", "Unlimited"],
+      "correctAnswer": "2",
+      "explanation": ""
+    },
+    {
+      "id": 15,
+      "text": "Inorder Traversal is:",
+      "options": ["Root → Left → Right", "Left → Root → Right", "Left → Right → Root", "Right → Root → Left"],
+      "correctAnswer": "Left → Root → Right",
+      "explanation": ""
+    },
+    {
+      "id": 16,
+      "text": "Which traversal visits Root first?",
+      "options": ["Inorder", "Preorder", "Postorder", "Level Order"],
+      "correctAnswer": "Preorder",
+      "explanation": ""
+    },
+    {
+      "id": 17,
+      "text": "Graph traversal algorithms are:",
+      "options": ["BFS and DFS", "Bubble and Merge", "PUSH and POP", "Linear and Binary Search"],
+      "correctAnswer": "BFS and DFS",
+      "explanation": ""
+    },
+    {
+      "id": 18,
+      "text": "Hashing is mainly used for:",
+      "options": ["Sorting", "Fast Searching", "Traversing", "Printing"],
+      "correctAnswer": "Fast Searching",
+      "explanation": ""
+    },
+    {
+      "id": 19,
+      "text": "Collision occurs in:",
+      "options": ["Queue", "Stack", "Hash Table", "Tree"],
+      "correctAnswer": "Hash Table",
+      "explanation": ""
+    },
+    {
+      "id": 20,
+      "text": "Which is a Non-Linear Data Structure?",
+      "options": ["Array", "Stack", "Queue", "Graph"],
+      "correctAnswer": "Graph",
+      "explanation": ""
+    }
+  ],
+  "intermediate": [],
+  "advanced": []
+}

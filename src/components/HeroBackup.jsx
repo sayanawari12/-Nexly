@@ -3,7 +3,7 @@ import { Play } from 'lucide-react';
 import laptopMockupImg from '../assets/images/laptop_mockup.jpg';
 import '../styles/Hero.css';
 
-const CinematicHero = () => {
+const HeroBackup = () => {
   const handleScrollDown = (e, href) => {
     e.preventDefault();
     const element = document.querySelector(href);
@@ -84,4 +84,4 @@ const CinematicHero = () => {
   );
 };
 
-export default CinematicHero;
+export default HeroBackup;
