@@ -46,9 +46,12 @@ export const ProgressProvider = ({ children }) => {
       querySnap.forEach((doc) => {
         const data = doc.data();
         list.push(data);
-        if (data.completed && data.roadmapId === 'c-programming') {
-          // Store lesson IDs/steps in set
-          completedSet.add(Number(data.lessonId));
+        if (data.completed) {
+          // Store both string representation and numeric if applicable for maximum compatibility
+          completedSet.add(String(data.lessonId));
+          if (!isNaN(data.lessonId)) {
+            completedSet.add(Number(data.lessonId));
+          }
         }
       });
       
@@ -66,19 +69,19 @@ export const ProgressProvider = ({ children }) => {
     };
   }, [user]);
 
-  // Mark a C Roadmap step completed or uncompleted
-  const toggleLessonComplete = async (lessonId) => {
+  // Mark a step/lesson completed or uncompleted for a specific subject (defaults to c-programming)
+  const toggleLessonComplete = async (lessonId, subjectId = 'c-programming') => {
     if (!user) return;
-    const stepNum = Number(lessonId);
-    const wasCompleted = completedLessons.has(stepNum);
+    const lessonStr = String(lessonId);
+    const wasCompleted = completedLessons.has(lessonStr) || ( !isNaN(lessonId) && completedLessons.has(Number(lessonId)) );
     const nextState = !wasCompleted;
 
     try {
       // 1. Update progress entry in Firestore progress collection
       await saveUserProgress(
         user.uid,
-        'c-programming',
-        String(stepNum),
+        subjectId,
+        lessonStr,
         nextState ? 100 : 0,
         nextState
       );
@@ -91,7 +94,6 @@ export const ProgressProvider = ({ children }) => {
         // Calculate new streak count
         let newStreak = stats.currentStreak || 5;
         if (nextState) {
-          // Simulate streak increments
           newStreak = newStreak + 1;
         }
 
@@ -105,7 +107,7 @@ export const ProgressProvider = ({ children }) => {
           'learningStats.xp': newXP,
           'learningStats.level': newLevel,
           'learningStats.currentStreak': newStreak,
-          'lastOpenedLesson': String(stepNum) // Remember last opened/completed lesson
+          'lastOpenedLesson': lessonStr
         });
       }
     } catch (err) {

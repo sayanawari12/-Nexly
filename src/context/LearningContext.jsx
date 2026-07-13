@@ -25,10 +25,16 @@ export const LearningProvider = ({ children }) => {
     const initializeData = async () => {
       setLoadingLearning(true);
       try {
-        const [semList, subList] = await Promise.all([
-          fetchAllSemesters(),
-          fetchAllSubjects()
-        ]);
+        let semList = await fetchAllSemesters();
+        let subList = await fetchAllSubjects();
+
+        if (semList.length === 0) {
+          const { seedDatabase } = await import('../services/seeder');
+          await seedDatabase();
+          semList = await fetchAllSemesters();
+          subList = await fetchAllSubjects();
+        }
+
         setSemesters(semList);
         setSubjects(subList);
 

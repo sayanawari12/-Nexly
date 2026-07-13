@@ -7,7 +7,9 @@ import {
   deleteLesson,
   saveNoteEntry, 
   getNoteEntry, 
-  saveBookmarkEntry 
+  saveBookmarkEntry,
+  getBookmarkEntry,
+  removeBookmarkEntry
 } from '../../repositories/lessonRepository';
 
 /**
@@ -120,3 +122,20 @@ export const getPrevAndNextLesson = (currentLessonId, sortedLessons) => {
   const nextLesson = index < sortedLessons.length - 1 ? sortedLessons[index + 1] : null;
   return { prevLesson, nextLesson };
 };
+
+/**
+ * Check if a lesson is bookmarked by a user.
+ */
+export const checkIsBookmarked = async (uid, lessonId) => {
+  const bookmarkId = `${uid}_${lessonId}_null`;
+  return await getBookmarkEntry(bookmarkId);
+};
+
+/**
+ * Remove a learning resource bookmark.
+ */
+export const removeUserBookmark = async (uid, lessonId) => {
+  const bookmarkId = `${uid}_${lessonId}_null`;
+  await removeBookmarkEntry(bookmarkId);
+};
+

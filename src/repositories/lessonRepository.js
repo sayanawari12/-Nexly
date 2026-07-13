@@ -92,3 +92,21 @@ export const deleteLesson = async (id) => {
   const docRef = doc(db, COLLECTION_NAME, id);
   await deleteDoc(docRef);
 };
+
+/**
+ * Check if a bookmark exists.
+ */
+export const getBookmarkEntry = async (bookmarkId) => {
+  const docRef = doc(db, 'bookmarks', bookmarkId);
+  const snap = await getDoc(docRef);
+  return snap.exists();
+};
+
+/**
+ * Delete user bookmark.
+ */
+export const removeBookmarkEntry = async (bookmarkId) => {
+  const docRef = doc(db, 'bookmarks', bookmarkId);
+  await deleteDoc(docRef);
+};
+
