@@ -17,9 +17,12 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import LessonViewerPage from './pages/LessonViewerPage';
 import Roadmap from './pages/Roadmap';
 import Analytics from './pages/Analytics';
+import ProgrammingHub from './pages/ProgrammingHub';
+import ProgramViewerPage from './pages/ProgramViewerPage';
 import { AuthProvider } from './context/AuthContext';
 import { ProgressProvider } from './context/ProgressContext';
 import { LearningProvider } from './context/LearningContext';
+import { ProgramProvider } from './context/ProgramContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { SettingsProvider } from './context/SettingsContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -31,8 +34,9 @@ function App() {
       <AuthProvider>
         <LearningProvider>
           <ProgressProvider>
-            <NotificationProvider>
-              <SettingsProvider>
+            <ProgramProvider>
+              <NotificationProvider>
+                <SettingsProvider>
                 <Router>
                   <div className="app-container">
                     <Navbar />
@@ -59,6 +63,16 @@ function App() {
                           <Analytics />
                         </ProtectedRoute>
                       } />
+                      <Route path="/practice" element={
+                        <ProtectedRoute>
+                          <ProgrammingHub />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/practice/programs/:programId" element={
+                        <ProtectedRoute>
+                          <ProgramViewerPage />
+                        </ProtectedRoute>
+                      } />
                       <Route path="/curriculum/semester-2/:subjectId" element={<SubjectSyllabus />} />
                       <Route path="/technologies/cpp" element={<CppLearningHub />} />
                       <Route path="/technologies/cpp/quiz" element={<CppQuiz />} />
@@ -77,10 +91,11 @@ function App() {
                 </Router>
               </SettingsProvider>
             </NotificationProvider>
-          </ProgressProvider>
-        </LearningProvider>
-      </AuthProvider>
-    </ThemeProvider>
+          </ProgramProvider>
+        </ProgressProvider>
+      </LearningProvider>
+    </AuthProvider>
+  </ThemeProvider>
   );
 }
 

@@ -29,7 +29,7 @@ const getUsername = (userObj) => {
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, userRole, logout } = useAuth();
+  const { user, userRole, logout, profile } = useAuth();
   
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -69,6 +69,7 @@ const Navbar = () => {
   const navItems = user ? [
     { label: 'Dashboard', href: '/dashboard', isRoute: true },
     { label: 'Roadmap', href: '/roadmap', isRoute: true },
+    { label: 'Practice', href: '/practice', isRoute: true },
     { label: 'Analytics', href: '/analytics', isRoute: true }
   ] : [
     { label: 'About', href: '#about' },
@@ -137,6 +138,7 @@ const Navbar = () => {
   // Common Props for Child Navbars
   const commonNavbarProps = {
     user,
+    profile,
     logout,
     navigate,
     getInitials,

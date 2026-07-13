@@ -7,6 +7,7 @@ import {
 
 const AuthNavbar = ({
   user,
+  profile,
   logout,
   navigate,
   getInitials,
@@ -42,6 +43,7 @@ const AuthNavbar = ({
     { label: 'Dashboard', icon: <LayoutDashboard size={14} />, path: '/dashboard' },
     { label: 'Learning Roadmap', icon: <BarChart3 size={14} />, path: '/roadmap' },
     { label: 'Study Analytics', icon: <TrendingUp size={14} />, path: '/analytics' },
+    { label: 'Practice Hub', icon: <FileCode size={14} />, path: '/practice' },
     { label: 'My Profile', icon: <User size={14} />, path: '/profile' },
     { label: 'Continue Learning', icon: <BookOpen size={14} />, path: '/technologies/c' },
     { label: 'Bookmarks', icon: <Bookmark size={14} />, path: '/profile' },
@@ -143,10 +145,10 @@ const AuthNavbar = ({
             onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
           >
             <div className="nav-avatar" style={isAdmin ? { background: 'linear-gradient(135deg, #ef4444, #f87171)' } : {}}>
-              {getInitials(user.displayName)}
+              {getInitials(profile?.displayName || user?.displayName || (isAdmin ? 'Admin' : 'Student'))}
             </div>
             <span className="nav-profile-name" style={isAdmin ? { color: '#f87171' } : {}}>
-              Hi, {user.displayName ? user.displayName.split(' ')[0] : (isAdmin ? 'Admin' : 'Student')}
+              Hi, {(profile?.displayName || user?.displayName || (isAdmin ? 'Admin' : 'Student')).split(' ')[0]}
             </span>
             <ChevronDown size={14} className="nav-chevron" />
           </div>
@@ -155,10 +157,12 @@ const AuthNavbar = ({
             <div className="nav-profile-dropdown">
               <div className="nav-profile-dropdown-header">
                 <div className="dropdown-avatar" style={isAdmin ? { background: 'linear-gradient(135deg, #ef4444, #f87171)' } : {}}>
-                  {getInitials(user.displayName)}
+                  {getInitials(profile?.displayName || user?.displayName || (isAdmin ? 'Admin' : 'Student'))}
                 </div>
-                <h4 className="dropdown-name">{user.displayName || (isAdmin ? 'Admin User' : 'Student')}</h4>
-                <span className="dropdown-username" style={isAdmin ? { color: '#f87171' } : {}}>{getUsername(user)}</span>
+                <h4 className="dropdown-name">{profile?.displayName || user?.displayName || (isAdmin ? 'Admin User' : 'Student')}</h4>
+                <span className="dropdown-username" style={isAdmin ? { color: '#f87171' } : {}}>
+                  {profile?.username ? `@${profile.username}` : getUsername(user)}
+                </span>
                 <span className="dropdown-joined">{isAdmin ? 'Admin joined' : 'Joined'} July 2026</span>
               </div>
 
