@@ -39,26 +39,26 @@ const AuthNavbar = ({
   const isAdmin = userRole === 'admin';
 
   const studentItems = [
-    { label: 'Dashboard', icon: <LayoutDashboard size={14} />, path: '/' },
+    { label: 'Dashboard', icon: <LayoutDashboard size={14} />, path: '/dashboard' },
     { label: 'My Profile', icon: <User size={14} />, path: '/profile' },
-    { label: 'Continue Learning', icon: <BookOpen size={14} />, path: '/' },
-    { label: 'Bookmarks', icon: <Bookmark size={14} />, path: '/' },
-    { label: 'Certificates', icon: <Award size={14} />, path: '/' },
-    { label: 'Downloads', icon: <Download size={14} />, path: '/' },
-    { label: 'Settings', icon: <Settings size={14} />, path: '/' },
-    { label: 'Help & Support', icon: <HelpCircle size={14} />, path: '/' }
+    { label: 'Continue Learning', icon: <BookOpen size={14} />, path: '/technologies/c' },
+    { label: 'Bookmarks', icon: <Bookmark size={14} />, path: '/profile' },
+    { label: 'Certificates', icon: <Award size={14} />, path: '/profile' },
+    { label: 'Downloads', icon: <Download size={14} />, path: '/profile' },
+    { label: 'Settings', icon: <Settings size={14} />, path: '/profile' },
+    { label: 'Help & Support', icon: <HelpCircle size={14} />, path: '/profile' }
   ];
 
   const adminItems = [
-    { label: 'Admin Dashboard', icon: <LayoutDashboard size={14} />, path: '/' },
-    { label: 'Manage Students', icon: <User size={14} />, path: '/' },
-    { label: 'Manage Roadmaps', icon: <FileCode size={14} />, path: '/' },
-    { label: 'Manage Lessons', icon: <BookOpen size={14} />, path: '/' },
-    { label: 'Manage Programs', icon: <Bookmark size={14} />, path: '/' },
-    { label: 'Manage Quizzes', icon: <CheckSquare size={14} />, path: '/' },
-    { label: 'Certificates', icon: <Award size={14} />, path: '/' },
-    { label: 'Analytics', icon: <BarChart3 size={14} />, path: '/' },
-    { label: 'Settings', icon: <Settings size={14} />, path: '/' }
+    { label: 'Admin Dashboard', icon: <LayoutDashboard size={14} />, path: '/dashboard' },
+    { label: 'Manage Students', icon: <User size={14} />, path: '/dashboard' },
+    { label: 'Manage Roadmaps', icon: <FileCode size={14} />, path: '/dashboard' },
+    { label: 'Manage Lessons', icon: <BookOpen size={14} />, path: '/dashboard' },
+    { label: 'Manage Programs', icon: <Bookmark size={14} />, path: '/dashboard' },
+    { label: 'Manage Quizzes', icon: <CheckSquare size={14} />, path: '/dashboard' },
+    { label: 'Certificates', icon: <Award size={14} />, path: '/profile' },
+    { label: 'Analytics', icon: <BarChart3 size={14} />, path: '/dashboard' },
+    { label: 'Settings', icon: <Settings size={14} />, path: '/profile' }
   ];
 
   const menuItems = isAdmin ? adminItems : studentItems;

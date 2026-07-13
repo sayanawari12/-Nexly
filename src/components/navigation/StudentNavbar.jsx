@@ -121,28 +121,28 @@ const StudentNavbar = ({
               </div>
 
               <div className="nav-profile-dropdown-list">
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/dashboard'); setProfileDropdownOpen(false); }}>
                   <LayoutDashboard size={14} /> Dashboard
                 </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
                   <User size={14} /> My Profile
                 </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/technologies/c'); setProfileDropdownOpen(false); }}>
                   <BookOpen size={14} /> Continue Learning
                 </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
                   <Bookmark size={14} /> Bookmarks
                 </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
                   <Award size={14} /> Certificates
                 </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
                   <Download size={14} /> Downloads
                 </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
                   <Settings size={14} /> Settings
                 </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
                   <HelpCircle size={14} /> Help & Support
                 </div>
               </div>

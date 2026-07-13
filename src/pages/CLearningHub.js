@@ -22,7 +22,7 @@ import '../styles/CLearningHub.css';
    DATA LAYER
    ============================================================ */
 
-const C_LESSONS = [
+export const C_LESSONS = [
   { id: 1, title: 'Introduction to C', diff: 'beginner', time: '20 min', phase: 'beginner',
     prereq: 'None',
     desc: 'History of C, its features, applications, and why it is called the mother of all programming languages.',
