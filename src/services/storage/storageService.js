@@ -2,7 +2,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import db from '../../firebase/firestore';
 
 /**
- * Save issued certificates.
+ * Save issued certificates. (Delegated directly to database config in storage layer)
  * @param {string} uid 
  * @param {string} certificateId 
  * @param {string} course 

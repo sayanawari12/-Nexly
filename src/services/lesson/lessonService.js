@@ -1,5 +1,4 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import db from '../../firebase/firestore';
+import { saveNoteEntry, getNoteEntry, saveBookmarkEntry } from '../../repositories/lessonRepository';
 
 /**
  * Save user private note for a lesson.
@@ -8,18 +7,14 @@ import db from '../../firebase/firestore';
  * @param {string} content
  */
 export const saveUserNote = async (uid, lessonId, content) => {
-  try {
-    const docRef = doc(db, 'notes', `${uid}_${lessonId}`);
-    await setDoc(docRef, {
-      uid,
-      lessonId,
-      content,
-      updatedAt: new Date().toISOString()
-    });
-  } catch (error) {
-    console.error("Error saving user note:", error);
-    throw error;
-  }
+  const noteId = `${uid}_${lessonId}`;
+  const data = {
+    uid,
+    lessonId,
+    content,
+    updatedAt: new Date().toISOString()
+  };
+  await saveNoteEntry(noteId, data);
 };
 
 /**
@@ -28,17 +23,9 @@ export const saveUserNote = async (uid, lessonId, content) => {
  * @param {string} lessonId
  */
 export const getUserNote = async (uid, lessonId) => {
-  try {
-    const docRef = doc(db, 'notes', `${uid}_${lessonId}`);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data().content;
-    }
-    return '';
-  } catch (error) {
-    console.error("Error reading user note:", error);
-    return '';
-  }
+  const noteId = `${uid}_${lessonId}`;
+  const note = await getNoteEntry(noteId);
+  return note ? note.content : '';
 };
 
 /**
@@ -49,18 +36,13 @@ export const getUserNote = async (uid, lessonId) => {
  * @param {string} roadmapId 
  */
 export const addUserBookmark = async (uid, lessonId = '', programId = '', roadmapId = '') => {
-  try {
-    const bookmarkId = `${uid}_${lessonId || 'null'}_${programId || 'null'}`;
-    const docRef = doc(db, 'bookmarks', bookmarkId);
-    await setDoc(docRef, {
-      uid,
-      lessonId,
-      programId,
-      roadmapId,
-      createdAt: new Date().toISOString()
-    });
-  } catch (error) {
-    console.error("Error saving user bookmark document:", error);
-    throw error;
-  }
+  const bookmarkId = `${uid}_${lessonId || 'null'}_${programId || 'null'}`;
+  const data = {
+    uid,
+    lessonId,
+    programId,
+    roadmapId,
+    createdAt: new Date().toISOString()
+  };
+  await saveBookmarkEntry(bookmarkId, data);
 };

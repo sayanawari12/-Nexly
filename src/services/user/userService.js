@@ -1,5 +1,4 @@
-import { doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
-import db from '../../firebase/firestore';
+import { getById, save, update, queryByField } from '../../repositories/userRepository';
 
 /**
  * Fetch a user's Firestore profile.
@@ -7,17 +6,7 @@ import db from '../../firebase/firestore';
  * @returns {Promise<any | null>}
  */
 export const getUserProfile = async (uid) => {
-  try {
-    const docRef = doc(db, 'users', uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data();
-    }
-    return null;
-  } catch (error) {
-    console.error("Error reading user profile:", error);
-    throw error;
-  }
+  return getById('users', uid);
 };
 
 /**
@@ -26,15 +15,8 @@ export const getUserProfile = async (uid) => {
  * @returns {Promise<boolean>}
  */
 export const checkUsernameAvailability = async (username) => {
-  try {
-    const usersRef = collection(db, 'users');
-    const q = query(usersRef, where('username', '==', username));
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.empty;
-  } catch (error) {
-    console.error("Error checking username availability:", error);
-    return false;
-  }
+  const users = await queryByField('users', 'username', username);
+  return users.length === 0;
 };
 
 /**
@@ -44,10 +26,9 @@ export const checkUsernameAvailability = async (username) => {
  */
 export const createUserDocument = async (uid, details = {}) => {
   try {
-    const docRef = doc(db, 'users', uid);
-    const docSnap = await getDoc(docRef);
+    const existingProfile = await getUserProfile(uid);
 
-    if (!docSnap.exists()) {
+    if (!existingProfile) {
       const randomId = Math.floor(1000 + Math.random() * 9000);
       const emailPrefix = details.email ? details.email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '') : 'student';
       let tempUsername = `${emailPrefix}${randomId}`;
@@ -96,7 +77,7 @@ export const createUserDocument = async (uid, details = {}) => {
         }
       };
 
-      await setDoc(docRef, newProfile);
+      await save('users', uid, newProfile);
       console.log("UserService: Created new user profile document for UID:", uid);
       return newProfile;
     } else {
@@ -104,9 +85,9 @@ export const createUserDocument = async (uid, details = {}) => {
         lastLogin: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
-      await updateDoc(docRef, updates);
+      await update('users', uid, updates);
       console.log("UserService: Updated login timestamps for UID:", uid);
-      return docSnap.data();
+      return existingProfile;
     }
   } catch (error) {
     console.error("Error creating or updating user document in Firestore:", error);
@@ -120,8 +101,7 @@ export const createUserDocument = async (uid, details = {}) => {
  */
 export const updateUserLastLogin = async (uid) => {
   try {
-    const docRef = doc(db, 'users', uid);
-    await updateDoc(docRef, {
+    await update('users', uid, {
       lastLogin: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     });
@@ -137,12 +117,11 @@ export const updateUserLastLogin = async (uid) => {
  */
 export const updateUserProfile = async (uid, data) => {
   try {
-    const docRef = doc(db, 'users', uid);
     const updates = {
       ...data,
       updatedAt: new Date().toISOString()
     };
-    await updateDoc(docRef, updates);
+    await update('users', uid, updates);
   } catch (error) {
     console.error("Error updating user profile document:", error);
     throw error;
@@ -156,8 +135,7 @@ export const updateUserProfile = async (uid, data) => {
  */
 export const updateUserLearningStats = async (uid, statsUpdates) => {
   try {
-    const docRef = doc(db, 'users', uid);
-    await updateDoc(docRef, {
+    await update('users', uid, {
       ...statsUpdates,
       updatedAt: new Date().toISOString()
     });

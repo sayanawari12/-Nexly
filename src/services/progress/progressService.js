@@ -1,5 +1,4 @@
-import { doc, setDoc } from 'firebase/firestore';
-import db from '../../firebase/firestore';
+import { saveProgressEntry } from '../../repositories/progressRepository';
 
 /**
  * Save user learning progress.
@@ -10,20 +9,15 @@ import db from '../../firebase/firestore';
  * @param {boolean} completed 
  */
 export const saveUserProgress = async (uid, roadmapId, lessonId, percentage, completed) => {
-  try {
-    const progressId = `${uid}_${roadmapId}_${lessonId}`;
-    const docRef = doc(db, 'progress', progressId);
-    await setDoc(docRef, {
-      uid,
-      roadmapId,
-      lessonId,
-      completed,
-      percentage,
-      lastOpened: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }, { merge: true });
-  } catch (error) {
-    console.error("Error saving user progress document:", error);
-    throw error;
-  }
+  const progressId = `${uid}_${roadmapId}_${lessonId}`;
+  const data = {
+    uid,
+    roadmapId,
+    lessonId,
+    completed,
+    percentage,
+    lastOpened: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+  await saveProgressEntry(progressId, data);
 };
