@@ -77,6 +77,34 @@ const LessonViewerPage = () => {
     }
   }, [user, activeLessonId, activeSubjectId, activeUnitId, activeSemesterId, markLessonInProgress]);
 
+  // 2.6 Auto-save current learning state when a lesson is opened
+  useEffect(() => {
+    if (user && activeLessonId && activeSubjectId && activeUnitId && activeSemesterId) {
+      const updateState = async () => {
+        try {
+          const { updateLastOpenedLesson } = await import('../services/learningState/learningStateService');
+          const isComp = completedLessons.has(activeLessonId) || completedLessons.has(Number(activeLessonId));
+          const lesson = lessons.find(l => l.id === activeLessonId);
+          const estTime = lesson ? lesson.estimatedTime : '15 mins';
+          
+          await updateLastOpenedLesson(
+            user.uid,
+            activeLessonId,
+            activeSubjectId,
+            activeUnitId,
+            activeSemesterId,
+            isComp ? 100 : 30,
+            estTime,
+            isComp
+          );
+        } catch (err) {
+          console.error('Error updating continue learning state:', err);
+        }
+      };
+      updateState();
+    }
+  }, [user, activeLessonId, activeSubjectId, activeUnitId, activeSemesterId, completedLessons, lessons]);
+
   // 3. Track Subject Changes to redirect to first lesson of newly selected subject
   useEffect(() => {
     if (activeSubjectId && lessons.length > 0 && units.length > 0) {

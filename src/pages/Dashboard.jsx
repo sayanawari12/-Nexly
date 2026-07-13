@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 import { useProgress } from '../context/ProgressContext';
+import { useLearning } from '../context/LearningContext';
 import StudentLayout from '../layouts/StudentLayout';
 import { C_LESSONS } from './CLearningHub';
 import '../styles/Dashboard.css';
@@ -13,7 +14,8 @@ import '../styles/Dashboard.css';
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { profileData, completedLessons } = useProgress();
+  const { profileData, completedLessons, learningState, resumeLearning } = useProgress();
+  const { semesters, subjects, units, lessons } = useLearning();
 
   const [greeting, setGreeting] = useState('Welcome back');
   const [motivation, setMotivation] = useState('Ready to build something amazing today?');
@@ -121,8 +123,15 @@ const Dashboard = () => {
 
   const weeks = generateContributionCalendar();
 
-  const handleResumeLesson = (lessonId) => {
-    navigate(`/technologies/c?lesson=${lessonId}`);
+  // Smart continue learning payload resolution
+  const cardData = React.useMemo(() => {
+    if (!learningState) return null;
+    const { getDashboardCardData } = require('../services/learningState/learningStateService');
+    return getDashboardCardData(learningState, subjects, units, lessons);
+  }, [learningState, semesters, subjects, units, lessons]);
+
+  const handleResume = () => {
+    resumeLearning(navigate);
   };
 
   return (
@@ -194,27 +203,54 @@ const Dashboard = () => {
                 <h2 className="section-title">
                   <Play size={18} style={{ color: 'var(--accent-glow)' }} /> Continue Learning
                 </h2>
-                <div className="continue-card-content">
-                  <div className="continue-info">
-                    <span className="continue-tag">C Programming Hub</span>
-                    <h3 className="continue-title">{currentResumeLesson.title}</h3>
-                    <p className="continue-desc">{currentResumeLesson.desc}</p>
-                    <div className="continue-meta">
-                      <span className="continue-meta-item" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <Clock size={12} /> {currentResumeLesson.time}
+                {cardData ? (
+                  <div className="continue-card-content">
+                    <div className="continue-info">
+                      <span className="continue-tag" style={{ color: 'var(--accent-glow)', fontWeight: '500' }}>
+                        {cardData.subjectTitle} • {cardData.unitTitle}
                       </span>
-                      <span className="continue-meta-item" style={{ textTransform: 'capitalize' }}>
-                        • {currentResumeLesson.diff}
-                      </span>
+                      <h3 className="continue-title" style={{ margin: '4px 0 8px 0' }}>{cardData.lessonTitle}</h3>
+                      
+                      <div className="continue-progress-wrapper" style={{ margin: '8px 0 12px 0', width: '100%' }}>
+                        <div className="continue-progress-bar" style={{ background: '#2d2d3d', borderRadius: '4px', height: '6px', width: '100%', overflow: 'hidden' }}>
+                          <div className="continue-progress-fill" style={{ background: 'var(--accent-glow)', height: '100%', width: `${cardData.progressPercentage}%`, transition: 'width 0.3s ease' }}></div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#8a8a9d', marginTop: '4px' }}>
+                          <span>{cardData.progressPercentage}% Completed</span>
+                          <span>Est. remaining: {cardData.estimatedRemainingTime}</span>
+                        </div>
+                      </div>
+
+                      <div className="continue-meta">
+                        <span className="continue-meta-item" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Clock size={12} /> {cardData.lastStudiedStr ? `Last studied: ${cardData.lastStudiedStr}` : 'Recently'}
+                        </span>
+                        <span className="continue-meta-item" style={{ textTransform: 'capitalize' }}>
+                          • {cardData.difficulty}
+                        </span>
+                      </div>
                     </div>
+                    <button 
+                      className="continue-btn-action"
+                      onClick={handleResume}
+                    >
+                      Resume <ArrowRight size={16} />
+                    </button>
                   </div>
-                  <button 
-                    className="continue-btn-action"
-                    onClick={() => handleResumeLesson(currentResumeLesson.id)}
-                  >
-                    Resume <ArrowRight size={16} />
-                  </button>
-                </div>
+                ) : (
+                  <div className="continue-card-empty" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px', textAlign: 'center', background: 'rgba(255, 255, 255, 0.02)', borderRadius: '8px' }}>
+                    <div style={{ fontSize: '32px', marginBottom: '8px' }}>🚀</div>
+                    <h3 style={{ fontSize: '15px', fontWeight: '600', color: '#fff', marginBottom: '4px' }}>Ready to start learning?</h3>
+                    <p style={{ fontSize: '13px', color: '#8a8a9d', marginBottom: '16px', maxWidth: '280px' }}>Select any lesson from the study tracks to begin your C Programming journey.</p>
+                    <button 
+                      className="continue-btn-action" 
+                      style={{ padding: '8px 16px', borderRadius: '6px', cursor: 'pointer' }}
+                      onClick={() => navigate('/lessons/c-lesson-1')}
+                    >
+                      Browse Syllabus
+                    </button>
+                  </div>
+                )}
               </article>
 
               {/* 5. Learning Calendar Contribution Graph */}

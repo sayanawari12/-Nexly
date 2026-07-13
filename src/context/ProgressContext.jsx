@@ -15,6 +15,7 @@ import {
 } from '../services/progress/progressService';
 import { listenToUserBookmarks } from '../repositories/bookmarkRepository';
 import { listenToUserNotes } from '../repositories/notesRepository';
+import { listenToLearningState } from '../repositories/learningStateRepository';
 
 const ProgressContext = createContext(null);
 
@@ -31,6 +32,9 @@ export const ProgressProvider = ({ children }) => {
   const [notes, setNotes] = useState([]);
   const [isSaving, setIsSaving] = useState(false);
 
+  // Continue Learning State
+  const [learningState, setLearningState] = useState(null);
+
   // Sync user profile data in real-time from Firestore
   useEffect(() => {
     if (!user) {
@@ -40,6 +44,7 @@ export const ProgressProvider = ({ children }) => {
       setProgressList([]);
       setBookmarks([]);
       setNotes([]);
+      setLearningState(null);
       setLoadingProgress(false);
       return;
     }
@@ -100,11 +105,17 @@ export const ProgressProvider = ({ children }) => {
       setNotes(data);
     });
 
+    // 5. Subscribe to continue learning state in real time
+    const unsubscribeLearningState = listenToLearningState(user.uid, (data) => {
+      setLearningState(data);
+    });
+
     return () => {
       unsubscribeProfile();
       unsubscribeProgress();
       unsubscribeBookmarks();
       unsubscribeNotes();
+      unsubscribeLearningState();
     };
   }, [user]);
 
@@ -185,6 +196,16 @@ export const ProgressProvider = ({ children }) => {
     }
   };
 
+  // Resume learning helper
+  const resumeLearning = (navigate) => {
+    if (learningState && learningState.currentLessonId) {
+      navigate(`/lessons/${learningState.currentLessonId}`);
+    } else {
+      // Fallback: Navigate to the first C Programming lesson
+      navigate('/lessons/c-lesson-1');
+    }
+  };
+
   const value = {
     completedLessons,
     inProgressLessons,
@@ -202,7 +223,9 @@ export const ProgressProvider = ({ children }) => {
     bookmarkCount,
     latestNotes,
     isSaving,
-    setIsSaving
+    setIsSaving,
+    learningState,
+    resumeLearning
   };
 
   return (
