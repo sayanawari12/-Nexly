@@ -15,6 +15,7 @@ import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './routes/ProtectedRoute';
 import LessonViewerPage from './pages/LessonViewerPage';
+import Roadmap from './pages/Roadmap';
 import { AuthProvider } from './context/AuthContext';
 import { ProgressProvider } from './context/ProgressContext';
 import { LearningProvider } from './context/LearningContext';
@@ -27,8 +28,8 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <ProgressProvider>
-          <LearningProvider>
+        <LearningProvider>
+          <ProgressProvider>
             <NotificationProvider>
               <SettingsProvider>
                 <Router>
@@ -45,6 +46,11 @@ function App() {
                       <Route path="/dashboard" element={
                         <ProtectedRoute>
                           <Dashboard />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/roadmap" element={
+                        <ProtectedRoute>
+                          <Roadmap />
                         </ProtectedRoute>
                       } />
                       <Route path="/curriculum/semester-2/:subjectId" element={<SubjectSyllabus />} />
@@ -65,8 +71,8 @@ function App() {
                 </Router>
               </SettingsProvider>
             </NotificationProvider>
-          </LearningProvider>
-        </ProgressProvider>
+          </ProgressProvider>
+        </LearningProvider>
       </AuthProvider>
     </ThemeProvider>
   );

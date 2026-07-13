@@ -16,11 +16,14 @@ import {
 import { listenToUserBookmarks } from '../repositories/bookmarkRepository';
 import { listenToUserNotes } from '../repositories/notesRepository';
 import { listenToLearningState } from '../repositories/learningStateRepository';
+import { useLearning } from './LearningContext';
 
 const ProgressContext = createContext(null);
 
 export const ProgressProvider = ({ children }) => {
   const { user } = useAuth();
+  const { semesters, subjects, units, lessons } = useLearning();
+
   const [completedLessons, setCompletedLessons] = useState(new Set());
   const [inProgressLessons, setInProgressLessons] = useState(new Set());
   const [progressList, setProgressList] = useState([]);
@@ -139,6 +142,50 @@ export const ProgressProvider = ({ children }) => {
     return [...notes].sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
   }, [notes]);
 
+  // Roadmap engine calculations
+  const semesterProgress = useMemo(() => {
+    const { calculateSemesterProgress } = require('../services/roadmap/roadmapService');
+    return calculateSemesterProgress('semester-2', subjects, units, lessons, completedLessons);
+  }, [completedLessons, subjects, units, lessons]);
+
+  const subjectProgress = useMemo(() => {
+    const { getRoadmapStatistics } = require('../services/roadmap/roadmapService');
+    return getRoadmapStatistics(subjects, units, lessons, completedLessons, inProgressLessons);
+  }, [completedLessons, inProgressLessons, subjects, units, lessons]);
+
+  const overallProgress = useMemo(() => {
+    const { calculateOverallProgress } = require('../services/roadmap/roadmapService');
+    return calculateOverallProgress(lessons, completedLessons);
+  }, [completedLessons, lessons]);
+
+  const completedSubjects = useMemo(() => {
+    const completedSet = new Set();
+    subjects.forEach(subject => {
+      const stats = subjectProgress[subject.id];
+      if (stats && stats.percentage === 100) {
+        completedSet.add(subject.id);
+      }
+    });
+    return completedSet;
+  }, [subjectProgress, subjects]);
+
+  const completedUnits = useMemo(() => {
+    const completedSet = new Set();
+    const { calculateUnitProgress } = require('../services/roadmap/roadmapService');
+    units.forEach(unit => {
+      const stats = calculateUnitProgress(unit.id, lessons, completedLessons, inProgressLessons);
+      if (stats && stats.percentage === 100) {
+        completedSet.add(unit.id);
+      }
+    });
+    return completedSet;
+  }, [completedLessons, inProgressLessons, units, lessons]);
+
+  const remainingLessons = useMemo(() => {
+    const completedIds = new Set(progressList.filter(p => p.status === 'completed').map(p => p.lessonId));
+    return lessons.filter(l => !completedIds.has(String(l.id)) && !completedIds.has(Number(l.id)));
+  }, [progressList, lessons]);
+
   // Helper to calculate percentage dynamically for UI
   const getSubjectPercentage = (subjectId, totalLessonsCount) => {
     if (!totalLessonsCount) return 0;
@@ -225,7 +272,13 @@ export const ProgressProvider = ({ children }) => {
     isSaving,
     setIsSaving,
     learningState,
-    resumeLearning
+    resumeLearning,
+    semesterProgress,
+    subjectProgress,
+    overallProgress,
+    completedSubjects,
+    completedUnits,
+    remainingLessons
   };
 
   return (

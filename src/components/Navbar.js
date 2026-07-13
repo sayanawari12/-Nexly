@@ -66,7 +66,10 @@ const Navbar = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const navItems = [
+  const navItems = user ? [
+    { label: 'Dashboard', href: '/dashboard', isRoute: true },
+    { label: 'Roadmap', href: '/roadmap', isRoute: true }
+  ] : [
     { label: 'About', href: '#about' },
     { label: 'Curriculum', href: '#roadmap' },
     { label: 'Labs', href: '#labs' },
@@ -86,10 +89,16 @@ const Navbar = () => {
     { title: "Tic Tac Toe Console Game", category: "Projects", type: "project" }
   ];
 
-  const handleNavClick = (e, href) => {
+  const handleNavClick = (e, item) => {
     e.preventDefault();
     setMobileMenuOpen(false);
     
+    if (item.isRoute) {
+      navigate(item.href);
+      return;
+    }
+
+    const href = item.href;
     // If not on the homepage, route to home first and then scroll
     if (location.pathname !== '/') {
       navigate('/');
@@ -161,7 +170,7 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
+                onClick={(e) => handleNavClick(e, item)}
                 className="nav-link"
               >
                 {item.label}

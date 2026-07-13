@@ -40,6 +40,7 @@ const AuthNavbar = ({
 
   const studentItems = [
     { label: 'Dashboard', icon: <LayoutDashboard size={14} />, path: '/dashboard' },
+    { label: 'Learning Roadmap', icon: <BarChart3 size={14} />, path: '/roadmap' },
     { label: 'My Profile', icon: <User size={14} />, path: '/profile' },
     { label: 'Continue Learning', icon: <BookOpen size={14} />, path: '/technologies/c' },
     { label: 'Bookmarks', icon: <Bookmark size={14} />, path: '/profile' },

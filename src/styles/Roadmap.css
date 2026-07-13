@@ -1,0 +1,524 @@
+/* Roadmap styles */
+
+.roadmap-wrapper {
+  padding: 24px 0;
+  color: #f3f4f6;
+  min-height: 100vh;
+}
+
+.roadmap-container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.roadmap-header {
+  margin-bottom: 24px;
+}
+
+.roadmap-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.roadmap-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.roadmap-badge {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #c084fc;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.roadmap-desc {
+  font-size: 14px;
+  color: #9ca3af;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+/* Sticky Overall Progress Panel */
+.sticky-progress-panel {
+  position: sticky;
+  top: 70px;
+  z-index: 10;
+  background: rgba(17, 17, 27, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 32px;
+  transition: all 0.3s ease;
+}
+
+.progress-panel-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.panel-text-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.panel-desc {
+  font-size: 12px;
+  color: #8a8a9d;
+  margin-top: 2px;
+}
+
+.panel-percentage {
+  font-size: 24px;
+  font-weight: 700;
+  color: #a78bfa;
+}
+
+.panel-bar-bg {
+  background: #252538;
+  height: 8px;
+  border-radius: 4px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.panel-bar-fill {
+  background: linear-gradient(90deg, #8b5cf6 0%, #d8b4fe 100%);
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+}
+
+/* Workspace section */
+.workspace-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+/* Subjects Grid */
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.subject-progress-card {
+  background: rgba(30, 30, 46, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
+}
+
+.subject-progress-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.2);
+  background: rgba(30, 30, 46, 0.6);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.subject-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.subject-card-icon-box {
+  background: rgba(139, 92, 246, 0.08);
+  color: #a78bfa;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.subject-card-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.subject-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.subject-card-subtitle {
+  font-size: 11px;
+  color: #8a8a9d;
+  margin-top: 2px;
+}
+
+.subject-card-progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progress-text-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.subject-progress-bar-bg {
+  background: #202030;
+  height: 6px;
+  border-radius: 3px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.subject-progress-bar-fill {
+  background: #8b5cf6;
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.subject-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding-top: 12px;
+}
+
+.remaining-lessons-tag {
+  font-size: 12px;
+  color: #8a8a9d;
+}
+
+.subject-resume-action-btn {
+  background: rgba(139, 92, 246, 0.1);
+  color: #c084fc;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.subject-resume-action-btn:hover {
+  background: #8b5cf6;
+  color: #fff;
+  border-color: #8b5cf6;
+}
+
+/* Syllabus Tree Accordions */
+.syllabus-tree-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.subject-tree-block-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.units-list-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.unit-accordion-item {
+  background: rgba(30, 30, 46, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.unit-accordion-item:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.unit-accordion-item.active {
+  border-color: rgba(139, 92, 246, 0.2);
+  background: rgba(30, 30, 46, 0.4);
+}
+
+.unit-accordion-trigger {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+}
+
+.trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #9ca3af;
+}
+
+.unit-trigger-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.unit-trigger-code {
+  font-size: 11px;
+  font-weight: 600;
+  color: #a78bfa;
+  text-transform: uppercase;
+}
+
+.unit-trigger-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.trigger-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.unit-trigger-stats {
+  font-size: 12px;
+  color: #8a8a9d;
+}
+
+.unit-trigger-mini-bar-bg {
+  width: 48px;
+  height: 4px;
+  background: #202030;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.unit-trigger-mini-bar-fill {
+  background: #10b981;
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.unit-accordion-content {
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 8px 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Lesson Checklist Stack */
+.lessons-checklist-stack {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-checklist-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px 12px 48px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lesson-checklist-item-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.lesson-row-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-icon-unstarted {
+  color: #4b5563;
+}
+
+.status-icon-inprogress {
+  color: #a78bfa;
+}
+
+.status-icon-completed {
+  color: #10b981;
+}
+
+.lesson-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lesson-row-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+.lesson-row-est-time {
+  font-size: 11px;
+  color: #8a8a9d;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lesson-row-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-badge-text {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.status-badge-text.lesson-unstarted {
+  color: #8a8a9d;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.status-badge-text.lesson-inprogress {
+  color: #c084fc;
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.status-badge-text.lesson-completed {
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.lesson-row-arrow {
+  color: #4b5563;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.lesson-checklist-item-row:hover .lesson-row-arrow {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+/* Skeleton Loaders */
+.roadmap-loading-container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.roadmap-skeleton-header {
+  height: 80px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.roadmap-skeleton-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.roadmap-skeleton-cards .skeleton-card {
+  height: 160px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+
+@media (max-width: 768px) {
+  .sticky-progress-panel {
+    top: 60px;
+  }
+  
+  .progress-panel-details {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .panel-percentage {
+    align-self: flex-end;
+    margin-top: -30px;
+  }
+
+  .unit-accordion-trigger {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .trigger-right {
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 30px;
+  }
+
+  .lesson-checklist-item-row {
+    padding-left: 20px;
+  }
+}
