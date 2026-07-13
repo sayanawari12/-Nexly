@@ -16,6 +16,7 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './routes/ProtectedRoute';
 import LessonViewerPage from './pages/LessonViewerPage';
 import Roadmap from './pages/Roadmap';
+import Analytics from './pages/Analytics';
 import { AuthProvider } from './context/AuthContext';
 import { ProgressProvider } from './context/ProgressContext';
 import { LearningProvider } from './context/LearningContext';
@@ -51,6 +52,11 @@ function App() {
                       <Route path="/roadmap" element={
                         <ProtectedRoute>
                           <Roadmap />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/analytics" element={
+                        <ProtectedRoute>
+                          <Analytics />
                         </ProtectedRoute>
                       } />
                       <Route path="/curriculum/semester-2/:subjectId" element={<SubjectSyllabus />} />

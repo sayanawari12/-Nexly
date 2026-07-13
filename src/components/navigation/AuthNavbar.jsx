@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { 
   Search, Bell, ChevronDown, Award, BookOpen, 
   CheckCircle, Flame, LayoutDashboard, User, Bookmark, 
-  Download, Settings, HelpCircle, LogOut, FileCode, CheckSquare, BarChart3
+  Download, Settings, HelpCircle, LogOut, FileCode, CheckSquare, BarChart3, TrendingUp
 } from 'lucide-react';
 
 const AuthNavbar = ({
@@ -41,6 +41,7 @@ const AuthNavbar = ({
   const studentItems = [
     { label: 'Dashboard', icon: <LayoutDashboard size={14} />, path: '/dashboard' },
     { label: 'Learning Roadmap', icon: <BarChart3 size={14} />, path: '/roadmap' },
+    { label: 'Study Analytics', icon: <TrendingUp size={14} />, path: '/analytics' },
     { label: 'My Profile', icon: <User size={14} />, path: '/profile' },
     { label: 'Continue Learning', icon: <BookOpen size={14} />, path: '/technologies/c' },
     { label: 'Bookmarks', icon: <Bookmark size={14} />, path: '/profile' },

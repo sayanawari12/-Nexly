@@ -186,6 +186,50 @@ export const ProgressProvider = ({ children }) => {
     return lessons.filter(l => !completedIds.has(String(l.id)) && !completedIds.has(Number(l.id)));
   }, [progressList, lessons]);
 
+  // Real-time Learning Analytics Calculations
+  const analyticsData = useMemo(() => {
+    const { calculateStudyAnalytics } = require('../services/analytics/analyticsService');
+    return calculateStudyAnalytics(progressList, subjects, units, lessons, profileData);
+  }, [progressList, subjects, units, lessons, profileData]);
+
+  // Expose specific analytics metrics
+  const studyAnalytics = useMemo(() => {
+    return {
+      todayTimeMinutes: analyticsData.todayTimeMinutes,
+      weeklyTimeMinutes: analyticsData.weeklyTimeMinutes,
+      monthlyTimeMinutes: analyticsData.monthlyTimeMinutes,
+      totalTimeHours: analyticsData.totalTimeHours,
+      averageDailyStudyMinutes: analyticsData.averageDailyStudyMinutes,
+      longestStudySessionMinutes: analyticsData.longestStudySessionMinutes,
+      averageSessionLengthMinutes: analyticsData.averageSessionLengthMinutes,
+      mostActiveDay: analyticsData.mostActiveDay,
+      leastActiveDay: analyticsData.leastActiveDay,
+      streakCount: analyticsData.streakCount,
+      longestStreak: analyticsData.longestStreak
+    };
+  }, [analyticsData]);
+
+  const weeklyAnalytics = useMemo(() => {
+    return analyticsData.weeklyGraphData;
+  }, [analyticsData]);
+
+  const subjectAnalytics = useMemo(() => {
+    return analyticsData.subjectAnalyticsList;
+  }, [analyticsData]);
+
+  const learningInsights = useMemo(() => {
+    return analyticsData.insights;
+  }, [analyticsData]);
+
+  const dashboardMetrics = useMemo(() => {
+    return {
+      streak: analyticsData.streakCount,
+      lessonsCompleted: completedLessons.size,
+      studyTimeStr: `${analyticsData.totalTimeHours}h`,
+      semesterProgress
+    };
+  }, [analyticsData, completedLessons.size, semesterProgress]);
+
   // Helper to calculate percentage dynamically for UI
   const getSubjectPercentage = (subjectId, totalLessonsCount) => {
     if (!totalLessonsCount) return 0;
@@ -278,7 +322,13 @@ export const ProgressProvider = ({ children }) => {
     overallProgress,
     completedSubjects,
     completedUnits,
-    remainingLessons
+    remainingLessons,
+    studyAnalytics,
+    weeklyAnalytics,
+    subjectAnalytics,
+    learningInsights,
+    studyHistory: progressList,
+    dashboardMetrics
   };
 
   return (

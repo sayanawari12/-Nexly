@@ -68,7 +68,8 @@ const Navbar = () => {
 
   const navItems = user ? [
     { label: 'Dashboard', href: '/dashboard', isRoute: true },
-    { label: 'Roadmap', href: '/roadmap', isRoute: true }
+    { label: 'Roadmap', href: '/roadmap', isRoute: true },
+    { label: 'Analytics', href: '/analytics', isRoute: true }
   ] : [
     { label: 'About', href: '#about' },
     { label: 'Curriculum', href: '#roadmap' },
