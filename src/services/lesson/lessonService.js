@@ -4,13 +4,19 @@ import {
   getAllLessons, 
   createLesson, 
   updateLesson, 
-  deleteLesson,
-  saveNoteEntry, 
-  getNoteEntry, 
-  saveBookmarkEntry,
-  getBookmarkEntry,
-  removeBookmarkEntry
+  deleteLesson
 } from '../../repositories/lessonRepository';
+
+import {
+  createBookmark,
+  deleteBookmark as deleteBookmarkSecure,
+  checkIsBookmarked as checkIsBookmarkSecure
+} from '../bookmark/bookmarkService';
+
+import {
+  updateNotes,
+  getUserNote as getSecureUserNote
+} from '../notes/notesService';
 
 /**
  * Save user private note for a lesson.
@@ -19,14 +25,7 @@ import {
  * @param {string} content
  */
 export const saveUserNote = async (uid, lessonId, content) => {
-  const noteId = `${uid}_${lessonId}`;
-  const data = {
-    uid,
-    lessonId,
-    content,
-    updatedAt: new Date().toISOString()
-  };
-  await saveNoteEntry(noteId, data);
+  await updateNotes(uid, lessonId, content);
 };
 
 /**
@@ -35,9 +34,7 @@ export const saveUserNote = async (uid, lessonId, content) => {
  * @param {string} lessonId
  */
 export const getUserNote = async (uid, lessonId) => {
-  const noteId = `${uid}_${lessonId}`;
-  const note = await getNoteEntry(noteId);
-  return note ? note.content : '';
+  return await getSecureUserNote(uid, lessonId);
 };
 
 /**
@@ -48,16 +45,9 @@ export const getUserNote = async (uid, lessonId) => {
  * @param {string} roadmapId 
  */
 export const addUserBookmark = async (uid, lessonId = '', programId = '', roadmapId = '') => {
-  const bookmarkId = `${uid}_${lessonId || 'null'}_${programId || 'null'}`;
-  const data = {
-    uid,
-    lessonId,
-    programId,
-    roadmapId,
-    createdAt: new Date().toISOString()
-  };
-  await saveBookmarkEntry(bookmarkId, data);
+  await createBookmark(uid, lessonId, programId || 'c-programming', roadmapId || 'semester-2');
 };
+
 
 /**
  * Fetch a single lesson details by ID.
@@ -127,15 +117,14 @@ export const getPrevAndNextLesson = (currentLessonId, sortedLessons) => {
  * Check if a lesson is bookmarked by a user.
  */
 export const checkIsBookmarked = async (uid, lessonId) => {
-  const bookmarkId = `${uid}_${lessonId}_null`;
-  return await getBookmarkEntry(bookmarkId);
+  return await checkIsBookmarkSecure(uid, lessonId);
 };
 
 /**
  * Remove a learning resource bookmark.
  */
 export const removeUserBookmark = async (uid, lessonId) => {
-  const bookmarkId = `${uid}_${lessonId}_null`;
-  await removeBookmarkEntry(bookmarkId);
+  await deleteBookmarkSecure(uid, lessonId);
 };
+
 

@@ -29,6 +29,7 @@ const LessonViewer = ({
   onToggleComplete,
   isBookmarked,
   onToggleBookmark,
+  loadingBookmark,
   uid
 }) => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -138,6 +139,7 @@ const LessonViewer = ({
               <BookmarkButton
                 isBookmarked={isBookmarked}
                 onClick={onToggleBookmark}
+                isLoading={loadingBookmark}
               />
 
               <NotesShortcut

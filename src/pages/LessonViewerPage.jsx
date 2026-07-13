@@ -123,6 +123,7 @@ const LessonViewerPage = () => {
   // Toggle Bookmark Handler
   const handleToggleBookmark = async () => {
     if (!user || !activeLessonId) return;
+    setLoadingBookmark(true);
     try {
       if (isBookmarked) {
         await removeUserBookmark(user.uid, activeLessonId);
@@ -133,6 +134,8 @@ const LessonViewerPage = () => {
       }
     } catch (err) {
       console.error('Error toggling bookmark status:', err);
+    } finally {
+      setLoadingBookmark(false);
     }
   };
 
@@ -193,6 +196,7 @@ const LessonViewerPage = () => {
         onToggleComplete={handleToggleComplete}
         isBookmarked={isBookmarked}
         onToggleBookmark={handleToggleBookmark}
+        loadingBookmark={loadingBookmark}
         uid={user?.uid}
       />
     </div>

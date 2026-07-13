@@ -13,6 +13,8 @@ import {
   getResumeLesson, 
   calculateCompletionPercentage 
 } from '../services/progress/progressService';
+import { listenToUserBookmarks } from '../repositories/bookmarkRepository';
+import { listenToUserNotes } from '../repositories/notesRepository';
 
 const ProgressContext = createContext(null);
 
@@ -24,6 +26,11 @@ export const ProgressProvider = ({ children }) => {
   const [profileData, setProfileData] = useState(null);
   const [loadingProgress, setLoadingProgress] = useState(true);
 
+  // Bookmarks & Notes state
+  const [bookmarks, setBookmarks] = useState([]);
+  const [notes, setNotes] = useState([]);
+  const [isSaving, setIsSaving] = useState(false);
+
   // Sync user profile data in real-time from Firestore
   useEffect(() => {
     if (!user) {
@@ -31,6 +38,8 @@ export const ProgressProvider = ({ children }) => {
       setCompletedLessons(new Set());
       setInProgressLessons(new Set());
       setProgressList([]);
+      setBookmarks([]);
+      setNotes([]);
       setLoadingProgress(false);
       return;
     }
@@ -81,9 +90,21 @@ export const ProgressProvider = ({ children }) => {
       setLoadingProgress(false);
     });
 
+    // 3. Subscribe to secure user subcollection bookmarks in real time
+    const unsubscribeBookmarks = listenToUserBookmarks(user.uid, (data) => {
+      setBookmarks(data);
+    });
+
+    // 4. Subscribe to secure user subcollection notes in real time
+    const unsubscribeNotes = listenToUserNotes(user.uid, (data) => {
+      setNotes(data);
+    });
+
     return () => {
       unsubscribeProfile();
       unsubscribeProgress();
+      unsubscribeBookmarks();
+      unsubscribeNotes();
     };
   }, [user]);
 
@@ -96,6 +117,16 @@ export const ProgressProvider = ({ children }) => {
   const lastOpenedLesson = useMemo(() => {
     return getLastOpenedLesson(progressList);
   }, [progressList]);
+
+  // Derived bookmark count
+  const bookmarkCount = useMemo(() => {
+    return bookmarks.length;
+  }, [bookmarks]);
+
+  // Derived latest notes sorted by modification date
+  const latestNotes = useMemo(() => {
+    return [...notes].sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
+  }, [notes]);
 
   // Helper to calculate percentage dynamically for UI
   const getSubjectPercentage = (subjectId, totalLessonsCount) => {
@@ -165,7 +196,13 @@ export const ProgressProvider = ({ children }) => {
     lastOpenedLesson,
     getSubjectPercentage,
     markLessonInProgress,
-    toggleLessonComplete
+    toggleLessonComplete,
+    bookmarks,
+    notes,
+    bookmarkCount,
+    latestNotes,
+    isSaving,
+    setIsSaving
   };
 
   return (
