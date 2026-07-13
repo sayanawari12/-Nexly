@@ -1,16 +1,25 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import useAuth from '../hooks/useAuth';
 import { db } from '../firebase';
 import { 
-  collection, query, where, onSnapshot, doc, getDoc, updateDoc 
+  collection, query, where, onSnapshot, doc 
 } from 'firebase/firestore';
 import { saveUserProgress, getUserProfile, updateUserProfile } from '../services/userDatabase';
+import { 
+  startLesson, 
+  completeLesson, 
+  getProgressStats, 
+  getLastOpenedLesson, 
+  getResumeLesson, 
+  calculateCompletionPercentage 
+} from '../services/progress/progressService';
 
 const ProgressContext = createContext(null);
 
 export const ProgressProvider = ({ children }) => {
   const { user } = useAuth();
   const [completedLessons, setCompletedLessons] = useState(new Set());
+  const [inProgressLessons, setInProgressLessons] = useState(new Set());
   const [progressList, setProgressList] = useState([]);
   const [profileData, setProfileData] = useState(null);
   const [loadingProgress, setLoadingProgress] = useState(true);
@@ -20,6 +29,7 @@ export const ProgressProvider = ({ children }) => {
     if (!user) {
       setProfileData(null);
       setCompletedLessons(new Set());
+      setInProgressLessons(new Set());
       setProgressList([]);
       setLoadingProgress(false);
       return;
@@ -42,21 +52,29 @@ export const ProgressProvider = ({ children }) => {
     const unsubscribeProgress = onSnapshot(progressQuery, (querySnap) => {
       const list = [];
       const completedSet = new Set();
+      const inProgressSet = new Set();
       
       querySnap.forEach((doc) => {
         const data = doc.data();
-        list.push(data);
-        if (data.completed) {
-          // Store both string representation and numeric if applicable for maximum compatibility
-          completedSet.add(String(data.lessonId));
+        list.push({ id: doc.id, ...data });
+        
+        const lessonIdStr = String(data.lessonId);
+        if (data.status === 'completed') {
+          completedSet.add(lessonIdStr);
           if (!isNaN(data.lessonId)) {
             completedSet.add(Number(data.lessonId));
+          }
+        } else if (data.status === 'in-progress' || data.status === 'revisit') {
+          inProgressSet.add(lessonIdStr);
+          if (!isNaN(data.lessonId)) {
+            inProgressSet.add(Number(data.lessonId));
           }
         }
       });
       
       setProgressList(list);
       setCompletedLessons(completedSet);
+      setInProgressLessons(inProgressSet);
       setLoadingProgress(false);
     }, (err) => {
       console.error("Real-time progress subscription failed", err);
@@ -69,29 +87,49 @@ export const ProgressProvider = ({ children }) => {
     };
   }, [user]);
 
-  // Mark a step/lesson completed or uncompleted for a specific subject (defaults to c-programming)
-  const toggleLessonComplete = async (lessonId, subjectId = 'c-programming') => {
-    if (!user) return;
+  // Derived progress statistics
+  const stats = useMemo(() => {
+    return getProgressStats(progressList);
+  }, [progressList]);
+
+  // Derived last opened lesson ID
+  const lastOpenedLesson = useMemo(() => {
+    return getLastOpenedLesson(progressList);
+  }, [progressList]);
+
+  // Helper to calculate percentage dynamically for UI
+  const getSubjectPercentage = (subjectId, totalLessonsCount) => {
+    if (!totalLessonsCount) return 0;
+    const subjectCompleted = progressList.filter(p => p.subjectId === subjectId && p.status === 'completed').length;
+    return calculateCompletionPercentage(subjectCompleted, totalLessonsCount);
+  };
+
+  // Automatically track opening of a lesson
+  const markLessonInProgress = async (lessonId, subjectId = 'c-programming', unitId = 'c-unit-1', semesterId = 'semester-2') => {
+    if (!user || !lessonId) return;
+    try {
+      await startLesson(user.uid, String(lessonId), subjectId, unitId, semesterId);
+    } catch (err) {
+      console.error("Error setting lesson in-progress in context:", err);
+    }
+  };
+
+  // Toggle completion state (Mark Done)
+  const toggleLessonComplete = async (lessonId, subjectId = 'c-programming', unitId = 'c-unit-1', semesterId = 'semester-2') => {
+    if (!user || !lessonId) return;
     const lessonStr = String(lessonId);
     const wasCompleted = completedLessons.has(lessonStr) || ( !isNaN(lessonId) && completedLessons.has(Number(lessonId)) );
     const nextState = !wasCompleted;
 
     try {
-      // 1. Update progress entry in Firestore progress collection
-      await saveUserProgress(
-        user.uid,
-        subjectId,
-        lessonStr,
-        nextState ? 100 : 0,
-        nextState
-      );
+      // 1. Save completion to progress collection
+      await completeLesson(user.uid, lessonStr, subjectId, unitId, semesterId, nextState);
 
-      // 2. Update stats atomically in Firestore user profile
+      // 2. Update user stats atomically inside user profile document for gamification
       if (profileData) {
         const stats = profileData.learningStats || {};
         const currentCount = stats.lessonsCompleted || 0;
         
-        // Calculate new streak count
         let newStreak = stats.currentStreak || 5;
         if (nextState) {
           newStreak = newStreak + 1;
@@ -111,16 +149,22 @@ export const ProgressProvider = ({ children }) => {
         });
       }
     } catch (err) {
-      console.error("Error toggling C lesson state:", err);
+      console.error("Error toggling lesson completion in context:", err);
       throw err;
     }
   };
 
   const value = {
     completedLessons,
+    inProgressLessons,
     progressList,
     profileData,
     loadingProgress,
+    todayCompletedCount: stats.todayCompletedCount,
+    weeklyCompletedCount: stats.weeklyCompletedCount,
+    lastOpenedLesson,
+    getSubjectPercentage,
+    markLessonInProgress,
     toggleLessonComplete
   };
 

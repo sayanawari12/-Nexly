@@ -34,7 +34,8 @@ const LessonViewerPage = () => {
   const {
     completedLessons,
     toggleLessonComplete,
-    loadingProgress
+    loadingProgress,
+    markLessonInProgress
   } = useProgress();
 
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -68,6 +69,13 @@ const LessonViewerPage = () => {
       }
     }
   }, [activeLessonId, lessons, units, subjects, activeSubjectId, activeSemesterId, setActiveUnitId, setActiveSubjectId, setActiveSemesterId]);
+
+  // 2.5 Auto-mark the lesson as "In Progress" when it is opened
+  useEffect(() => {
+    if (user && activeLessonId && activeSubjectId && activeUnitId && activeSemesterId) {
+      markLessonInProgress(activeLessonId, activeSubjectId, activeUnitId, activeSemesterId);
+    }
+  }, [user, activeLessonId, activeSubjectId, activeUnitId, activeSemesterId, markLessonInProgress]);
 
   // 3. Track Subject Changes to redirect to first lesson of newly selected subject
   useEffect(() => {
