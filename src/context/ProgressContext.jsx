@@ -17,6 +17,13 @@ import { listenToUserBookmarks } from '../repositories/bookmarkRepository';
 import { listenToUserNotes } from '../repositories/notesRepository';
 import { listenToLearningState } from '../repositories/learningStateRepository';
 import { useLearning } from './LearningContext';
+import { calculateStudyAnalytics } from '../services/analytics/analyticsService';
+import { 
+  calculateSemesterProgress, 
+  getRoadmapStatistics, 
+  calculateOverallProgress, 
+  calculateUnitProgress 
+} from '../services/roadmap/roadmapService';
 
 const ProgressContext = createContext(null);
 
@@ -144,17 +151,14 @@ export const ProgressProvider = ({ children }) => {
 
   // Roadmap engine calculations
   const semesterProgress = useMemo(() => {
-    const { calculateSemesterProgress } = require('../services/roadmap/roadmapService');
     return calculateSemesterProgress('semester-2', subjects, units, lessons, completedLessons);
   }, [completedLessons, subjects, units, lessons]);
 
   const subjectProgress = useMemo(() => {
-    const { getRoadmapStatistics } = require('../services/roadmap/roadmapService');
     return getRoadmapStatistics(subjects, units, lessons, completedLessons, inProgressLessons);
   }, [completedLessons, inProgressLessons, subjects, units, lessons]);
 
   const overallProgress = useMemo(() => {
-    const { calculateOverallProgress } = require('../services/roadmap/roadmapService');
     return calculateOverallProgress(lessons, completedLessons);
   }, [completedLessons, lessons]);
 
@@ -171,7 +175,6 @@ export const ProgressProvider = ({ children }) => {
 
   const completedUnits = useMemo(() => {
     const completedSet = new Set();
-    const { calculateUnitProgress } = require('../services/roadmap/roadmapService');
     units.forEach(unit => {
       const stats = calculateUnitProgress(unit.id, lessons, completedLessons, inProgressLessons);
       if (stats && stats.percentage === 100) {
@@ -188,7 +191,6 @@ export const ProgressProvider = ({ children }) => {
 
   // Real-time Learning Analytics Calculations
   const analyticsData = useMemo(() => {
-    const { calculateStudyAnalytics } = require('../services/analytics/analyticsService');
     return calculateStudyAnalytics(progressList, subjects, units, lessons, profileData);
   }, [progressList, subjects, units, lessons, profileData]);
 

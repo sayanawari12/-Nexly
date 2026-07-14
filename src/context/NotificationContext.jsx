@@ -18,9 +18,14 @@ export const NotificationProvider = ({ children }) => {
 
     // Load initial user notifications
     getUserNotifications(user.uid).then(list => {
-      setNotifications(list);
-      setUnreadCount(list.filter(n => !n.read).length);
-    }).catch(err => console.error("Failed to load notifications", err));
+      const safeList = Array.isArray(list) ? list : [];
+      setNotifications(safeList);
+      setUnreadCount(safeList.filter(n => !n.read).length);
+    }).catch(err => {
+      console.error("Failed to load notifications", err);
+      setNotifications([]);
+      setUnreadCount(0);
+    });
   }, [user]);
 
   const triggerNotification = async (title, message) => {

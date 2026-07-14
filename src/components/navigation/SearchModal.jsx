@@ -39,10 +39,14 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
     try {
       const stored = localStorage.getItem('bca_recent_searches');
       if (stored) {
-        setRecentSearches(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        setRecentSearches(Array.isArray(parsed) ? parsed : []);
+      } else {
+        setRecentSearches([]);
       }
     } catch (e) {
       console.error("Failed to load recent searches", e);
+      setRecentSearches([]);
     }
   }, [isOpen]);
 

@@ -40,9 +40,10 @@ export const ProgramProvider = ({ children }) => {
       setLoading(true);
       try {
         const data = await loadPrograms();
-        setPrograms(data);
+        setPrograms(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error('Failed to load programs in context:', err);
+        setPrograms([]);
       } finally {
         setLoading(false);
       }

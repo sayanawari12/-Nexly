@@ -32,10 +32,14 @@ const Dashboard = () => {
     const saved = localStorage.getItem(`daily_goals_${user?.uid}`);
     if (saved) {
       try {
-        setGoals(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        setGoals(Array.isArray(parsed) ? parsed : []);
       } catch (e) {
         console.error("Failed to parse goals", e);
+        setGoals([]);
       }
+    } else {
+      // Keep default goals if not stored yet
     }
   }, [user?.uid]);
 

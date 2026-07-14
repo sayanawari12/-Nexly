@@ -41,7 +41,7 @@ const SubjectSyllabus = () => {
   const { subjectId } = useParams();
   
   const normalizedSubjectId = subjectId === 'data-structure' ? 'data-structures' : subjectId;
-  const subjectData = SYLLABUS_DATA[normalizedSubjectId] || SYLLABUS_DATA['cpp-oop'];
+  const subjectData = SYLLABUS_DATA[normalizedSubjectId] || SYLLABUS_DATA['cpp-oop'] || { syllabus: [] };
 
   const [expandedUnit, setExpandedUnit] = useState('unit-1');
   const [completedTopics, setCompletedTopics] = useState({});
