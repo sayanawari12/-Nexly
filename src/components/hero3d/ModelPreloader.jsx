@@ -1,31 +1,16 @@
 /**
  * ModelPreloader.jsx
- * Triggers useGLTF.preload() at module evaluation time so the GLB
- * download starts immediately when the JS bundle is parsed — before
- * the Canvas or Suspense boundary even mounts.
  *
- * MODEL_PATH is the single source of truth for the local model location.
- * Place your MacBook GLB at: public/models/macbook.glb
+ * Single source of truth for the local GLB model path.
+ * Preloading is now handled conditionally inside HeroLaptop.jsx
+ * after a HEAD request confirms the file actually exists — this
+ * prevents the "Unexpected token '<'" crash that occurs when
+ * React's dev server returns the HTML index page for a missing asset.
+ *
+ * To use a real MacBook GLB:
+ *   1. Place the file at:  public/models/macbook.glb
+ *   2. That's it — no code changes required anywhere.
  */
-import { useGLTF } from '@react-three/drei';
 
-/** Single source of truth for local model path */
+/** Single source of truth for the local model path */
 export const MODEL_PATH = '/models/macbook.glb';
-
-/**
- * Call this once at app level (e.g. in HeroScene or Home.js) to
- * begin the GLB fetch before the Canvas mounts.
- */
-export function preloadLaptopModel() {
-  useGLTF.preload(MODEL_PATH);
-}
-
-/**
- * ModelPreloader — a zero-render component that triggers preload.
- * Embed it anywhere in the tree above the Canvas to prefetch the model.
- */
-export default function ModelPreloader() {
-  // Preload is called at module evaluation via the export above.
-  // This component itself renders nothing.
-  return null;
-}

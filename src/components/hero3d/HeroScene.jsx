@@ -22,20 +22,17 @@
  *   └── HeroEffects
  */
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Suspense } from 'react';
 
 import { useDeviceCapabilities, detectWebGL } from './DeviceDetector';
 import HeroCamera from './HeroCamera';
 import HeroLighting from './HeroLighting';
 import HeroEnvironment from './HeroEnvironment';
 import HeroEffects from './HeroEffects';
-import HeroLoader from './HeroLoader';
 import HeroLaptop from './HeroLaptop';
 import SceneBackground from './SceneBackground';
 import PerformanceManager from './PerformanceManager';
 import HeroErrorBoundary from './HeroErrorBoundary';
-import { MODEL_PATH } from './ModelPreloader';
+import { Canvas } from '@react-three/fiber';
 
 // Auto-rotate kicks in after this many ms of no interaction
 const AUTO_ROTATE_DELAY_MS = 5000;
@@ -69,13 +66,11 @@ function SceneGraph({ mouse, quality, tier, prefersReducedMotion }) {
       <HeroEnvironment enableShadows={quality.enableShadows} tier={tier} />
       <SceneBackground quality={quality} tier={tier} />
 
-      <Suspense fallback={<HeroLoader />}>
-        <HeroLaptop
-          mouse={mouse}
-          prefersReducedMotion={prefersReducedMotion}
-          useGLBModel={true}
-        />
-      </Suspense>
+      {/* HeroLaptop manages its own Suspense + model probe internally */}
+      <HeroLaptop
+        mouse={mouse}
+        prefersReducedMotion={prefersReducedMotion}
+      />
 
       <HeroEffects quality={quality} />
     </>
