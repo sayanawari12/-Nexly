@@ -1,39 +1,49 @@
 /**
  * HeroEnvironment.jsx
- * HDRI environment map and contact shadows.
- *
- * - Environment preset: "studio" — neutral, professional, high-quality reflections
- * - ContactShadows: soft ground shadow beneath the laptop
- * - Fog: subtle depth fog that fades the background
+ * HDRI environment + contact shadows + depth fog.
+ * ContactShadows are always rendered (using low-res on mobile).
+ * Floor reflection plane adds depth beneath the laptop.
  */
 import React from 'react';
 import { Environment, ContactShadows } from '@react-three/drei';
 
 export default function HeroEnvironment({ enableShadows, tier }) {
-  const shadowOpacity = tier === 'desktop' ? 0.55 : 0.35;
-  const shadowBlur = tier === 'desktop' ? 2.5 : 1.5;
-  const shadowFar = tier === 'desktop' ? 8 : 5;
+  const isMobile = tier === 'mobile';
+  const opacity  = isMobile ? 0.3 : tier === 'tablet' ? 0.45 : 0.6;
+  const blur     = isMobile ? 1.2 : 2.8;
+  const scale    = isMobile ? 5   : 8;
 
   return (
     <>
-      {/* HDRI provides realistic PBR reflections on metallic laptop surfaces */}
-      <Environment preset="studio" environmentIntensity={0.6} />
+      {/* HDRI — realistic metallic reflections on the aluminium body */}
+      <Environment preset="studio" environmentIntensity={0.65} />
 
-      {/* Subtle depth fog — matches the hero background dark colour */}
-      <fog attach="fog" args={['#07070f', 8, 20]} />
+      {/* Depth fog — matches dark hero background */}
+      <fog attach="fog" args={['#06060f', 10, 28]} />
 
-      {/* Contact shadow: soft ground plane shadow, replaces expensive real-time shadow maps */}
-      {enableShadows && (
-        <ContactShadows
-          position={[0, -1.52, 0]}
-          opacity={shadowOpacity}
-          scale={6}
-          blur={shadowBlur}
-          far={shadowFar}
-          color="#1a0a2e"
-          frames={1}
+      {/* Contact shadow — soft, always-on (low res on mobile) */}
+      <ContactShadows
+        position={[0, -1.62, 0]}
+        opacity={opacity}
+        scale={scale}
+        blur={blur}
+        far={isMobile ? 4 : 7}
+        color="#180828"
+        frames={1}
+        resolution={isMobile ? 128 : 256}
+      />
+
+      {/* Reflective floor plane — very subtle mirror beneath laptop */}
+      <mesh position={[0, -1.63, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[20, 20]} />
+        <meshStandardMaterial
+          color="#06060e"
+          roughness={0.85}
+          metalness={0.05}
+          transparent
+          opacity={0.6}
         />
-      )}
+      </mesh>
     </>
   );
 }

@@ -1,30 +1,27 @@
 /**
  * HeroScene.jsx
- * Root component for the 3D Hero section.
- *
- * Responsibilities:
- *   - Create and configure the R3F Canvas
- *   - Wire all sub-components in correct render order
- *   - Track mouse position for parallax
- *   - Handle WebGL unavailability (shows CSS fallback)
- *   - Manage auto-rotate idle timeout
- *   - Respect prefers-reduced-motion
+ * Root 3D scene component.
  *
  * Architecture:
  *   Canvas
- *   ├── PerformanceManager
- *   ├── HeroCamera
- *   ├── HeroLighting
- *   ├── HeroEnvironment
- *   ├── SceneBackground
- *   ├── Suspense → HeroLoader fallback
- *   │   └── HeroLaptop
- *   └── HeroEffects
+ *   ├── PerformanceManager       adaptive DPR
+ *   ├── HeroControls             PerspectiveCamera + OrbitControls
+ *   ├── HeroLighting             studio lighting rig
+ *   ├── HeroEnvironment          HDRI + ContactShadows + fog
+ *   ├── SceneBackground          particles + grid
+ *   ├── HeroLaptop               3D laptop (GLB or primitive fallback)
+ *   └── HeroEffects              Bloom + ToneMapping
+ *
+ * OrbitControls features wired here:
+ *   - auto-rotate activates after AUTO_ROTATE_DELAY_MS of no interaction
+ *   - any interaction (drag, scroll, touch) resets the idle timer
+ *   - double-click reset is handled inside HeroControls
  */
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Canvas } from '@react-three/fiber';
 
 import { useDeviceCapabilities, detectWebGL } from './DeviceDetector';
-import HeroCamera from './HeroCamera';
+import HeroControls from './HeroControls';
 import HeroLighting from './HeroLighting';
 import HeroEnvironment from './HeroEnvironment';
 import HeroEffects from './HeroEffects';
@@ -32,12 +29,10 @@ import HeroLaptop from './HeroLaptop';
 import SceneBackground from './SceneBackground';
 import PerformanceManager from './PerformanceManager';
 import HeroErrorBoundary from './HeroErrorBoundary';
-import { Canvas } from '@react-three/fiber';
 
-// Auto-rotate kicks in after this many ms of no interaction
 const AUTO_ROTATE_DELAY_MS = 5000;
 
-/** WebGL unavailable fallback — polished CSS card (same as HeroErrorBoundary) */
+/* ─── CSS fallback when WebGL is unavailable ─────────────────────────────── */
 function NoWebGLFallback() {
   return (
     <div className="hero-3d-fallback" role="img" aria-label="BCA Department laptop preview">
@@ -56,36 +51,38 @@ function NoWebGLFallback() {
   );
 }
 
-/** Inner scene graph — everything rendered inside the Canvas */
-function SceneGraph({ mouse, quality, tier, prefersReducedMotion }) {
+/* ─── Scene graph (everything inside Canvas) ─────────────────────────────── */
+function SceneGraph({ quality, tier, prefersReducedMotion, autoRotate, onInteract }) {
   return (
     <>
       <PerformanceManager initialDpr={quality.dpr[1]} />
-      <HeroCamera tier={tier} prefersReducedMotion={prefersReducedMotion} />
+
+      <HeroControls
+        tier={tier}
+        autoRotate={autoRotate}
+        onInteract={onInteract}
+        prefersReducedMotion={prefersReducedMotion}
+      />
+
       <HeroLighting enableShadows={quality.enableShadows} />
       <HeroEnvironment enableShadows={quality.enableShadows} tier={tier} />
       <SceneBackground quality={quality} tier={tier} />
 
-      {/* HeroLaptop manages its own Suspense + model probe internally */}
-      <HeroLaptop
-        mouse={mouse}
-        prefersReducedMotion={prefersReducedMotion}
-      />
+      <HeroLaptop prefersReducedMotion={prefersReducedMotion} />
 
       <HeroEffects quality={quality} />
     </>
   );
 }
 
+/* ─── Public component ───────────────────────────────────────────────────── */
 export default function HeroScene() {
   const { tier, quality, prefersReducedMotion, hasWebGL } = useDeviceCapabilities();
-  const mouse = useRef({ x: 0, y: 0 });
-  const canvasRef = useRef();
-  const idleTimer = useRef(null);
   const [autoRotate, setAutoRotate] = useState(false);
+  const idleTimer = useRef(null);
 
-  // Start / reset idle auto-rotate timer
-  const resetIdleTimer = useCallback(() => {
+  // Reset idle timer — called on any user interaction with the canvas
+  const handleInteract = useCallback(() => {
     setAutoRotate(false);
     if (idleTimer.current) clearTimeout(idleTimer.current);
     if (!prefersReducedMotion) {
@@ -93,57 +90,26 @@ export default function HeroScene() {
     }
   }, [prefersReducedMotion]);
 
+  // Start idle timer on mount
   useEffect(() => {
-    resetIdleTimer();
+    handleInteract();
     return () => { if (idleTimer.current) clearTimeout(idleTimer.current); };
-  }, [resetIdleTimer]);
-
-  // Normalise mouse position to [-1, 1] relative to the canvas
-  const handleMouseMove = useCallback((e) => {
-    resetIdleTimer();
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    mouse.current = {
-      x: ((e.clientX - rect.left) / rect.width - 0.5) * 2,
-      y: ((e.clientY - rect.top) / rect.height - 0.5) * 2,
-    };
-  }, [resetIdleTimer]);
-
-  const handleTouchMove = useCallback((e) => {
-    resetIdleTimer();
-    if (!e.touches.length) return;
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const touch = e.touches[0];
-    mouse.current = {
-      x: ((touch.clientX - rect.left) / rect.width - 0.5) * 2,
-      y: ((touch.clientY - rect.top) / rect.height - 0.5) * 2,
-    };
-  }, [resetIdleTimer]);
-
-  // Reset parallax when cursor leaves
-  const handleMouseLeave = useCallback(() => {
-    mouse.current = { x: 0, y: 0 };
-  }, []);
+  }, [handleInteract]);
 
   if (!hasWebGL) return <NoWebGLFallback />;
-
-  const dpr = quality.dpr;
 
   return (
     <div
       className="hero-3d-canvas-wrapper"
-      ref={canvasRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onTouchMove={handleTouchMove}
-      onTouchStart={resetIdleTimer}
-      aria-label="Interactive 3D laptop display"
+      aria-label="Interactive 3D laptop — drag to rotate, scroll to zoom"
       role="img"
+      onPointerDown={handleInteract}
+      onWheel={handleInteract}
+      onTouchStart={handleInteract}
     >
       <HeroErrorBoundary>
         <Canvas
-          dpr={dpr}
+          dpr={quality.dpr}
           shadows={quality.enableShadows}
           gl={{
             antialias: tier !== 'mobile',
@@ -151,14 +117,14 @@ export default function HeroScene() {
             powerPreference: 'high-performance',
             outputColorSpace: 'srgb',
           }}
-          camera={{ fov: 42, near: 0.1, far: 50, position: [0, 0.5, 4.5] }}
           style={{ background: 'transparent' }}
         >
           <SceneGraph
-            mouse={mouse}
             quality={quality}
             tier={tier}
             prefersReducedMotion={prefersReducedMotion}
+            autoRotate={autoRotate}
+            onInteract={handleInteract}
           />
         </Canvas>
       </HeroErrorBoundary>

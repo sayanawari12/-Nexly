@@ -1,19 +1,21 @@
 /**
  * HeroLaptop.jsx
  *
- * Strategy:
- *   1. On mount, probe /models/macbook.glb with a HEAD request.
- *   2. If the file exists AND is a valid binary (content-type not text/html),
- *      render <GLBLaptop> wrapped in Suspense + error boundary.
- *   3. Otherwise render <PrimitiveFallbackLaptop> immediately — no crash,
- *      no "Unexpected token '<'" parser error.
+ * Loading strategy:
+ *   1. On mount, HEAD-probe /models/macbook.glb.
+ *   2. If 2xx + not text/html → load GLB via useGLTF.
+ *   3. Otherwise → render PrimitiveFallbackLaptop (fully featured, no GLB needed).
  *
- * Replacing the fallback with a real GLB later:
- *   Drop macbook.glb into  public/models/macbook.glb  — zero code changes needed.
- *   MODEL_PATH in ModelPreloader.jsx is the single source of truth.
+ * Laptop scale is 1.0 in model space; the group is scaled at the scene level.
+ * The overall visual size increase is driven by:
+ *   - Increased group scale (1.6 vs old 1.0 for primitive, 1.2 for GLB)
+ *   - Camera pushed slightly closer in HeroControls presets
  *
- * Screen mesh name heuristics (covers most MacBook GLBs from Sketchfab / pmndrs):
- *   "screen" | "Screen" | "display" | "Display" | "lid" | "Lid" | "glass" | "Glass"
+ * ══════════════════════════════════════════════════════════════
+ * MODEL SETUP
+ * Place macbook.glb at:  public/models/macbook.glb
+ * No code changes required — auto-detected on next page load.
+ * ══════════════════════════════════════════════════════════════
  */
 import React, { useRef, useEffect, useState, Suspense } from 'react';
 import { useGLTF } from '@react-three/drei';
@@ -23,79 +25,54 @@ import LaptopScreen from './LaptopScreen';
 import { useLaptopAnimations } from './HeroAnimations';
 import { MODEL_PATH } from './ModelPreloader';
 
-/* ─── Constants ─────────────────────────────────────────────────────────── */
-
-const SCREEN_CANDIDATES = ['screen', 'display', 'lid', 'glass'];
-
 /* ─── Utilities ─────────────────────────────────────────────────────────── */
 
-/** Returns the first mesh whose name contains a screen-related keyword */
+const SCREEN_KEYWORDS = ['screen', 'display', 'lid', 'glass', 'monitor'];
+
 function findScreenMesh(scene) {
   let found = null;
   scene.traverse((node) => {
     if (found || !(node instanceof THREE.Mesh)) return;
-    const n = node.name.toLowerCase();
-    if (SCREEN_CANDIDATES.some((k) => n.includes(k))) found = node;
+    if (SCREEN_KEYWORDS.some((k) => node.name.toLowerCase().includes(k))) found = node;
   });
   return found;
 }
 
-/** Tightens PBR values on every mesh for a premium aluminium finish */
 function enhanceMaterials(scene, screenMesh) {
   scene.traverse((node) => {
     if (!(node instanceof THREE.Mesh) || !node.material) return;
     const mat = node.material;
-
     if (node === screenMesh) {
       node.material = new THREE.MeshStandardMaterial({
-        color: '#050510',
-        roughness: 0.05,
-        metalness: 0.1,
-        emissive: new THREE.Color('#1a0a4a'),
-        emissiveIntensity: 0,
+        color: '#050510', roughness: 0.05, metalness: 0.1,
+        emissive: new THREE.Color('#1a0a4a'), emissiveIntensity: 0,
       });
-    } else if (
-      mat.name?.toLowerCase().includes('key') ||
-      node.name?.toLowerCase().includes('key')
-    ) {
-      mat.roughness = 0.85;
-      mat.metalness = 0.6;
+    } else if (mat.name?.toLowerCase().includes('key') || node.name?.toLowerCase().includes('key')) {
+      mat.roughness = 0.85; mat.metalness = 0.6;
     } else {
-      mat.roughness = Math.min(mat.roughness ?? 0.2, 0.25);
-      mat.metalness = Math.max(mat.metalness ?? 0.9, 0.85);
-      mat.envMapIntensity = 1.4;
+      mat.roughness = Math.min(mat.roughness ?? 0.2, 0.22);
+      mat.metalness = Math.max(mat.metalness ?? 0.9, 0.88);
+      mat.envMapIntensity = 1.5;
     }
-
     mat.needsUpdate = true;
   });
 }
 
-/**
- * Probes the model URL with a HEAD request.
- * Returns true only if the server responds 2xx AND the content-type
- * is NOT text/html (which is what React's dev server returns for missing files).
- */
 async function probeModelAvailability(url) {
   try {
     const res = await fetch(url, { method: 'HEAD' });
     if (!res.ok) return false;
     const ct = res.headers.get('content-type') || '';
-    // If the server returned HTML (the SPA fallback), the model is absent
-    if (ct.startsWith('text/html')) return false;
-    return true;
-  } catch {
-    return false;
-  }
+    return !ct.startsWith('text/html');
+  } catch { return false; }
 }
 
-/* ─── GLB Laptop (only mounted when model is confirmed present) ──────────── */
+/* ─── GLB Laptop ─────────────────────────────────────────────────────────── */
 
-function GLBLaptop({ mouse, prefersReducedMotion }) {
-  const groupRef = useRef();
+function GLBLaptop({ prefersReducedMotion }) {
+  const groupRef     = useRef();
   const screenMeshRef = useRef();
   const [clonedScene, setClonedScene] = useState(null);
-
-  // useGLTF suspends until loaded — safe here because parent gated availability
   const { scene } = useGLTF(MODEL_PATH);
 
   useEffect(() => {
@@ -105,23 +82,20 @@ function GLBLaptop({ mouse, prefersReducedMotion }) {
     screenMeshRef.current = screenMesh;
     enhanceMaterials(clone, screenMesh);
     setClonedScene(clone);
-
     return () => {
       clone.traverse((node) => {
         node.geometry?.dispose();
-        if (node.material) {
-          (Array.isArray(node.material) ? node.material : [node.material])
-            .forEach((m) => m.dispose());
-        }
+        (Array.isArray(node.material) ? node.material : [node.material])
+          .filter(Boolean).forEach((m) => m.dispose());
       });
       setClonedScene(null);
     };
   }, [scene]);
 
-  useLaptopAnimations({ groupRef, screenMeshRef, mouse, prefersReducedMotion });
+  useLaptopAnimations({ groupRef, screenMeshRef, prefersReducedMotion });
 
   return (
-    <group ref={groupRef} position={[0, -2.5, 0]} scale={1.2}>
+    <group ref={groupRef} scale={1.55}>
       {clonedScene && (
         <>
           <primitive object={clonedScene} />
@@ -131,13 +105,8 @@ function GLBLaptop({ mouse, prefersReducedMotion }) {
               matrixAutoUpdate={false}
               matrix={screenMeshRef.current.matrixWorld}
             >
-              <meshStandardMaterial
-                color="#050510"
-                roughness={0.05}
-                metalness={0.05}
-                emissive="#0a0525"
-                emissiveIntensity={0.8}
-              >
+              <meshStandardMaterial color="#050510" roughness={0.05} metalness={0.05}
+                emissive="#0a0525" emissiveIntensity={0.8}>
                 <LaptopScreen />
               </meshStandardMaterial>
             </mesh>
@@ -148,31 +117,19 @@ function GLBLaptop({ mouse, prefersReducedMotion }) {
   );
 }
 
-/* ─── Inner error boundary (last-resort catch for GLB parse errors) ──────── */
+/* ─── GLB error boundary ─────────────────────────────────────────────────── */
 
 class GLBErrorBoundary extends React.Component {
   state = { failed: false };
-
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-
+  static getDerivedStateFromError() { return { failed: true }; }
   componentDidCatch(err) {
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('[HeroLaptop] GLB load error — using primitive fallback:', err.message);
-    }
+    if (process.env.NODE_ENV === 'development')
+      console.warn('[HeroLaptop] GLB error → primitive fallback:', err.message);
   }
-
   render() {
-    if (this.state.failed) {
-      return (
-        <PrimitiveFallbackLaptop
-          mouse={this.props.mouse}
-          prefersReducedMotion={this.props.prefersReducedMotion}
-        />
-      );
-    }
-    return this.props.children;
+    return this.state.failed
+      ? <PrimitiveFallbackLaptop prefersReducedMotion={this.props.prefersReducedMotion} />
+      : this.props.children;
   }
 }
 
@@ -180,72 +137,123 @@ class GLBErrorBoundary extends React.Component {
 
 /**
  * PrimitiveFallbackLaptop
- * Rendered when macbook.glb is absent or fails to parse.
- * Fully functional: studio lighting, animations, and live RenderTexture screen.
- * No GLB dependency whatsoever.
+ * Scaled 1.6× larger than before, detailed geometry.
+ * Fully animated (entry rise + float + screen glow).
+ * Screen shows live RenderTexture BCA dashboard.
  */
-export function PrimitiveFallbackLaptop({ mouse, prefersReducedMotion }) {
-  const groupRef = useRef();
+export function PrimitiveFallbackLaptop({ prefersReducedMotion }) {
+  const groupRef      = useRef();
   const screenMeshRef = useRef();
 
-  useLaptopAnimations({ groupRef, screenMeshRef, mouse, prefersReducedMotion });
+  useLaptopAnimations({ groupRef, screenMeshRef, prefersReducedMotion });
 
+  // Scale up 1.6× from old size (was 2.8 wide → now 2.8 in model, scaled 1.6 at group)
   return (
-    <group ref={groupRef} position={[0, -2.5, 0]}>
+    <group ref={groupRef} scale={1.6}>
 
-      {/* ── Base ── */}
+      {/* ── Base / Palmrest ── */}
       <mesh receiveShadow castShadow>
-        <boxGeometry args={[2.8, 0.07, 1.9]} />
-        <meshStandardMaterial color="#1c1c1e" roughness={0.18} metalness={0.92} envMapIntensity={1.2} />
+        <boxGeometry args={[2.8, 0.065, 1.9]} />
+        <meshStandardMaterial color="#1c1c1e" roughness={0.15} metalness={0.94} envMapIntensity={1.4} />
       </mesh>
+
+      {/* Side chamfers (give it depth) */}
+      <mesh position={[0, 0.025, 0]}>
+        <boxGeometry args={[2.9, 0.02, 2.0]} />
+        <meshStandardMaterial color="#252528" roughness={0.2} metalness={0.9} />
+      </mesh>
+
+      {/* Speaker grille left */}
+      {Array.from({ length: 8 }).map((_, i) => (
+        <mesh key={`sl${i}`} position={[-1.2, 0.038, -0.55 + i * 0.08]}>
+          <boxGeometry args={[0.006, 0.012, 0.04]} />
+          <meshStandardMaterial color="#111114" roughness={1} metalness={0} />
+        </mesh>
+      ))}
+      {/* Speaker grille right */}
+      {Array.from({ length: 8 }).map((_, i) => (
+        <mesh key={`sr${i}`} position={[1.2, 0.038, -0.55 + i * 0.08]}>
+          <boxGeometry args={[0.006, 0.012, 0.04]} />
+          <meshStandardMaterial color="#111114" roughness={1} metalness={0} />
+        </mesh>
+      ))}
 
       {/* Trackpad */}
-      <mesh position={[0, 0.04, 0.45]}>
-        <boxGeometry args={[0.75, 0.005, 0.48]} />
-        <meshStandardMaterial color="#2a2a2e" roughness={0.22} metalness={0.8} />
+      <mesh position={[0, 0.038, 0.52]}>
+        <boxGeometry args={[0.82, 0.003, 0.52]} />
+        <meshStandardMaterial color="#28282c" roughness={0.18} metalness={0.85} />
+      </mesh>
+      {/* Trackpad inset border */}
+      <mesh position={[0, 0.039, 0.52]}>
+        <boxGeometry args={[0.84, 0.001, 0.54]} />
+        <meshStandardMaterial color="#1a1a1e" roughness={0.3} metalness={0.7} />
       </mesh>
 
-      {/* Keyboard rows */}
-      {Array.from({ length: 5 }).map((_, row) =>
-        Array.from({ length: 11 }).map((_, col) => (
-          <mesh
-            key={`k${row}-${col}`}
-            position={[-1.1 + col * 0.22, 0.04, -0.45 + row * 0.17]}
-          >
-            <boxGeometry args={[0.18, 0.008, 0.14]} />
-            <meshStandardMaterial color="#222228" roughness={0.85} metalness={0.5} />
+      {/* Keyboard — function row */}
+      {Array.from({ length: 13 }).map((_, col) => (
+        <mesh key={`fn${col}`} position={[-1.2 + col * 0.2, 0.038, -0.76]}>
+          <boxGeometry args={[0.15, 0.006, 0.1]} />
+          <meshStandardMaterial color="#1e1e22" roughness={0.88} metalness={0.45} />
+        </mesh>
+      ))}
+
+      {/* Keyboard — main rows (4 rows × 13 keys) */}
+      {Array.from({ length: 4 }).map((_, row) =>
+        Array.from({ length: 13 }).map((_, col) => (
+          <mesh key={`k${row}-${col}`}
+            position={[-1.2 + col * 0.2, 0.038, -0.58 + row * 0.19]}>
+            <boxGeometry args={[0.17, 0.008, 0.16]} />
+            <meshStandardMaterial color="#1e1e22" roughness={0.88} metalness={0.45} />
           </mesh>
         ))
       )}
 
-      {/* ── Screen lid ── */}
-      <group rotation={[-0.18, 0, 0]} position={[0, 0.035, -0.93]}>
+      {/* Space bar */}
+      <mesh position={[0.05, 0.038, 0.2]}>
+        <boxGeometry args={[1.0, 0.008, 0.16]} />
+        <meshStandardMaterial color="#1e1e22" roughness={0.88} metalness={0.45} />
+      </mesh>
 
-        {/* Aluminium shell */}
+      {/* ── Screen Lid ── */}
+      <group rotation={[-0.16, 0, 0]} position={[0, 0.032, -0.95]}>
+
+        {/* Lid outer shell */}
         <mesh castShadow>
-          <boxGeometry args={[2.8, 1.82, 0.06]} />
-          <meshStandardMaterial color="#1c1c1e" roughness={0.16} metalness={0.94} envMapIntensity={1.3} />
+          <boxGeometry args={[2.8, 1.82, 0.055]} />
+          <meshStandardMaterial color="#1c1c1e" roughness={0.14} metalness={0.95} envMapIntensity={1.5} />
         </mesh>
 
-        {/* Logo indent */}
-        <mesh position={[0, 0, -0.032]}>
-          <circleGeometry args={[0.15, 24]} />
-          <meshStandardMaterial color="#161618" roughness={0.3} metalness={0.8} />
+        {/* Lid chamfer edge */}
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[2.88, 1.9, 0.04]} />
+          <meshStandardMaterial color="#232326" roughness={0.2} metalness={0.88} />
         </mesh>
 
-        {/* Bezel */}
-        <mesh position={[0, 0, 0.032]}>
-          <boxGeometry args={[2.62, 1.65, 0.004]} />
-          <meshStandardMaterial color="#080810" roughness={0.9} metalness={0.05} />
+        {/* Logo circle (Apple-style indent) */}
+        <mesh position={[0, 0.05, -0.029]}>
+          <circleGeometry args={[0.14, 32]} />
+          <meshStandardMaterial color="#161618" roughness={0.25} metalness={0.82} />
         </mesh>
 
-        {/* Screen panel — RenderTexture live BCA UI */}
-        <mesh ref={screenMeshRef} position={[0, -0.02, 0.036]} castShadow>
-          <planeGeometry args={[2.46, 1.52]} />
+        {/* Black bezel frame */}
+        <mesh position={[0, 0, 0.029]}>
+          <boxGeometry args={[2.65, 1.67, 0.003]} />
+          <meshStandardMaterial color="#06060e" roughness={0.95} metalness={0.02} />
+        </mesh>
+
+        {/* Webcam */}
+        <mesh position={[0, 0.87, 0.031]}>
+          <cylinderGeometry args={[0.018, 0.018, 0.003, 16]} />
+          <meshStandardMaterial color="#0a0a10" roughness={0.6} metalness={0.4} />
+        </mesh>
+
+        {/* Screen panel — RenderTexture */}
+        <mesh ref={screenMeshRef} position={[0, -0.015, 0.032]} castShadow>
+          <planeGeometry args={[2.48, 1.54]} />
           <meshStandardMaterial
             color="#050510"
-            roughness={0.05}
-            metalness={0.05}
+            roughness={0.04}
+            metalness={0.04}
             emissive="#0a0525"
             emissiveIntensity={0.8}
           >
@@ -254,61 +262,59 @@ export function PrimitiveFallbackLaptop({ mouse, prefersReducedMotion }) {
         </mesh>
       </group>
 
-      {/* Hinge */}
-      <mesh position={[0, 0.04, -0.96]}>
-        <cylinderGeometry args={[0.04, 0.04, 2.8, 12]} />
-        <meshStandardMaterial color="#2a2a2e" roughness={0.3} metalness={0.9} />
+      {/* Hinge bar */}
+      <mesh position={[0, 0.036, -0.97]}>
+        <cylinderGeometry args={[0.038, 0.038, 2.78, 16]} />
+        <meshStandardMaterial color="#2c2c30" roughness={0.28} metalness={0.92} />
       </mesh>
+
+      {/* Rubber feet */}
+      {[[-1.25, -1.25], [-1.25, 1.25], [1.25, -1.25], [1.25, 1.25]].map(([x, z], i) => (
+        <mesh key={`foot${i}`} position={[x * 0.86, -0.038, z * 0.76]}>
+          <cylinderGeometry args={[0.06, 0.06, 0.01, 12]} />
+          <meshStandardMaterial color="#0a0a0a" roughness={0.98} metalness={0} />
+        </mesh>
+      ))}
     </group>
   );
 }
 
-/* ─── Model availability states ─────────────────────────────────────────── */
+/* ─── Model status state machine ─────────────────────────────────────────── */
 
-const MODEL_STATUS = { CHECKING: 'checking', AVAILABLE: 'available', UNAVAILABLE: 'unavailable' };
+const STATUS = { CHECKING: 'checking', AVAILABLE: 'available', UNAVAILABLE: 'unavailable' };
 
 /* ─── Public entry point ─────────────────────────────────────────────────── */
 
 /**
  * HeroLaptop
+ * CHECKING    → shows PrimitiveFallbackLaptop (HEAD request in-flight)
+ * AVAILABLE   → mounts GLBLaptop (Suspense + GLBErrorBoundary)
+ * UNAVAILABLE → shows PrimitiveFallbackLaptop permanently
  *
- * State machine:
- *   CHECKING     → renders PrimitiveFallbackLaptop while HEAD request is in-flight
- *   AVAILABLE    → mounts GLBLaptop inside Suspense + GLBErrorBoundary
- *   UNAVAILABLE  → renders PrimitiveFallbackLaptop permanently
- *
- * This guarantees useGLTF is NEVER called when the file is absent,
- * which prevents the "Unexpected token '<'" crash from HTML being
- * returned by the dev server for a missing static asset.
+ * useGLTF is NEVER called when the file is absent — prevents
+ * "Unexpected token '<'" crash from dev-server HTML fallback.
  */
-export default function HeroLaptop({ mouse, prefersReducedMotion }) {
-  const [modelStatus, setModelStatus] = useState(MODEL_STATUS.CHECKING);
+export default function HeroLaptop({ prefersReducedMotion }) {
+  const [status, setStatus] = useState(STATUS.CHECKING);
 
   useEffect(() => {
     let cancelled = false;
-
-    probeModelAvailability(MODEL_PATH).then((available) => {
-      if (!cancelled) {
-        setModelStatus(available ? MODEL_STATUS.AVAILABLE : MODEL_STATUS.UNAVAILABLE);
-        // Only preload if the file actually exists to avoid parse errors
-        if (available) {
-          try { useGLTF.preload(MODEL_PATH); } catch { /* ignore */ }
-        }
-      }
+    probeModelAvailability(MODEL_PATH).then((ok) => {
+      if (cancelled) return;
+      setStatus(ok ? STATUS.AVAILABLE : STATUS.UNAVAILABLE);
+      if (ok) { try { useGLTF.preload(MODEL_PATH); } catch { /* ignore */ } }
     });
-
     return () => { cancelled = true; };
   }, []);
 
-  // While probing (< 200 ms typically), show the primitive — seamless transition
-  if (modelStatus !== MODEL_STATUS.AVAILABLE) {
-    return <PrimitiveFallbackLaptop mouse={mouse} prefersReducedMotion={prefersReducedMotion} />;
+  if (status !== STATUS.AVAILABLE) {
+    return <PrimitiveFallbackLaptop prefersReducedMotion={prefersReducedMotion} />;
   }
 
   return (
-    <GLBErrorBoundary mouse={mouse} prefersReducedMotion={prefersReducedMotion}>
-      <Suspense fallback={<PrimitiveFallbackLaptop mouse={mouse} prefersReducedMotion={prefersReducedMotion} />}>
-        <GLBLaptop mouse={mouse} prefersReducedMotion={prefersReducedMotion} />
+    <GLBErrorBoundary prefersReducedMotion={prefersReducedMotion}>
+      <Suspense fallback={<PrimitiveFallbackLaptop prefersReducedMotion={prefersReducedMotion} />}>
+        <GLBLaptop prefersReducedMotion={prefersReducedMotion} />
       </Suspense>
     </GLBErrorBoundary>
   );
