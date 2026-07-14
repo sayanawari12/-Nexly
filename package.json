@@ -5,6 +5,7 @@
   "dependencies": {
     "@react-three/drei": "^9.102.1",
     "@react-three/fiber": "^8.16.1",
+    "@react-three/postprocessing": "^3.0.4",
     "firebase": "^12.16.0",
     "framer-motion": "^10.18.0",
     "framer-motion-3d": "^10.18.0",

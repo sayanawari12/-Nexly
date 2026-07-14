@@ -179,41 +179,113 @@
   box-shadow: 0 8px 30px rgba(255, 255, 255, 0.05);
 }
 
-/* Right Side Centerpiece: Laptop Mockup */
+/* ─── Right side: 3D canvas container ─────────────────────────── */
 .hero-image-side {
   display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 1000px;
+  width: 100%;
+  min-height: 420px;
 }
 
-.hero-image-wrapper {
+/* Wrapper that constrains and positions the R3F Canvas */
+.hero-3d-canvas-wrapper {
   position: relative;
   width: 100%;
-  max-width: 520px;
-  border-radius: 18px;
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  background: rgba(11, 11, 18, 0.6);
-  box-shadow: 
-    0 30px 80px rgba(0, 0, 0, 0.8),
-    0 0 50px rgba(139, 92, 246, 0.18);
-  overflow: hidden;
-  transform-style: preserve-3d;
-  will-change: transform;
+  height: 480px;
+  max-width: 580px;
+  border-radius: 20px;
+  overflow: visible;            /* allow glow to bleed out */
+  cursor: grab;
+  /* Ambient purple glow beneath the canvas */
+  filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.22));
 }
 
-.hero-laptop-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: transform 0.5s ease;
+.hero-3d-canvas-wrapper:active {
+  cursor: grabbing;
 }
 
-.hero-image-overlay-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 40%, rgba(168, 85, 247, 0.15) 0%, transparent 60%);
-  pointer-events: none;
+/* R3F Canvas fills its wrapper */
+.hero-3d-canvas-wrapper canvas {
+  border-radius: 20px;
+}
+
+/* ─── CSS Fallback laptop (no WebGL / error) ──────────────────── */
+.hero-3d-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  animation: floatFallback 6s ease-in-out infinite;
+}
+
+@keyframes floatFallback {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+.fallback-screen {
+  width: 320px;
+  height: 200px;
+  background: linear-gradient(135deg, #0d0d1a 0%, #111130 100%);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  padding: 14px 16px;
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.fallback-dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.fallback-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(139, 92, 246, 0.4);
+}
+
+.fallback-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fallback-bar {
+  height: 10px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(139,92,246,0.3) 0%, rgba(99,102,241,0.2) 100%);
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+.fallback-base {
+  width: 340px;
+  height: 12px;
+  background: linear-gradient(180deg, #111130 0%, #0d0d20 100%);
+  border-left: 1px solid rgba(139, 92, 246, 0.2);
+  border-right: 1px solid rgba(139, 92, 246, 0.2);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 0 0 4px 4px;
+}
+
+.fallback-foot {
+  width: 180px;
+  height: 6px;
+  background: #0a0a18;
+  border-radius: 0 0 8px 8px;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  border-top: none;
 }
 
 /* Scroll indicator */
@@ -292,7 +364,7 @@
   .hero-grid-split {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 40px;
+    gap: 32px;
   }
   
   .hero-text-side {
@@ -306,6 +378,13 @@
 
   .hero-image-side {
     justify-content: center;
+    min-height: 360px;
+  }
+
+  /* Tablet canvas — slightly shorter */
+  .hero-3d-canvas-wrapper {
+    height: 380px;
+    max-width: 440px;
   }
 
   .hero-title {
@@ -325,5 +404,36 @@
   }
   .hero-scroll-indicator {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile canvas — compact */
+  .hero-3d-canvas-wrapper {
+    height: 300px;
+    max-width: 100%;
+  }
+
+  .hero-image-side {
+    min-height: 300px;
+  }
+
+  /* Fallback laptop — scale down on small screens */
+  .fallback-screen {
+    width: 260px;
+    height: 164px;
+  }
+  .fallback-base {
+    width: 280px;
+  }
+}
+
+/* Respect prefers-reduced-motion — disable fallback float */
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d-fallback {
+    animation: none;
+  }
+  .fallback-bar {
+    animation: none;
   }
 }
