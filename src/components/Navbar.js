@@ -70,6 +70,8 @@ const Navbar = () => {
     { label: 'Dashboard', href: '/dashboard', isRoute: true },
     { label: 'Roadmap', href: '/roadmap', isRoute: true },
     { label: 'Practice', href: '/practice', isRoute: true },
+    { label: '🏆 Contests', href: '/contests', isRoute: true },
+    { label: '💻 Coding Workspace', href: '/compiler', isRoute: true },
     { label: 'Analytics', href: '/analytics', isRoute: true }
   ] : [
     { label: 'About', href: '#about' },
@@ -221,7 +223,7 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
+                onClick={(e) => handleNavClick(e, item)}
                 className="mobile-link"
               >
                 {item.label}

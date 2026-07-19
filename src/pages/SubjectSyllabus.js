@@ -41,7 +41,142 @@ const SubjectSyllabus = () => {
   const { subjectId } = useParams();
   
   const normalizedSubjectId = subjectId === 'data-structure' ? 'data-structures' : subjectId;
-  const subjectData = SYLLABUS_DATA[normalizedSubjectId] || SYLLABUS_DATA['cpp-oop'] || { syllabus: [] };
+
+  const getSubjectNameFromId = (id) => {
+    const nameMap = {
+      'problem-solving-using-c': 'Problem Solving Using C',
+      'computer-architecture': 'Computer Architecture',
+      'mathematics-foundation': 'Mathematics Foundation',
+      'general-english': 'General English',
+      'indian-knowledge-system': 'Indian Knowledge System',
+      'environmental-science': 'Environmental Science',
+      'cpp-oop': 'Object Oriented Programming using C++',
+      'data-structures': 'Data Structures',
+      'operating-systems': 'Operating Systems',
+      'web-technologies': 'Web Technologies',
+      'java-oop': 'Object Oriented Programming using Java',
+      'indian-constitution': 'Indian Constitution',
+      'operating-systems-advanced': 'Operating Systems Advanced',
+      'relational-dbms': 'Relational DBMS',
+      'python-engineering': 'Python Engineering',
+      'software-engineering': 'Software Engineering',
+      'java-platform-core': 'Java Platform Core',
+      'computer-networks': 'Computer Networks',
+      'web-technologies-stack': 'Web Technologies Stack',
+      'organizational-behaviors': 'Organizational Behaviors',
+      'advanced-web-dev-react': 'Advanced Web Dev (React)',
+      'cloud-server-platforms': 'Cloud Server Platforms',
+      'mobile-app-architecture': 'Mobile App Architecture',
+      'network-security-crypt': 'Network Security Crypt',
+      'machine-learning-core': 'Machine Learning Core',
+      'computer-graphics-canvas': 'Computer Graphics Canvas',
+      'major-thesis-project': 'Major Thesis Project',
+      'enterprise-java-framework': 'Enterprise Java Framework'
+    };
+    return nameMap[id] || id.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  };
+
+  const getSemesterForSubject = (id) => {
+    const semesterMap = {
+      'problem-solving-using-c': 1,
+      'computer-architecture': 1,
+      'mathematics-foundation': 1,
+      'general-english': 1,
+      'indian-knowledge-system': 1,
+      'environmental-science': 1,
+      'cpp-oop': 2,
+      'data-structures': 2,
+      'operating-systems': 2,
+      'web-technologies': 2,
+      'java-oop': 2,
+      'indian-constitution': 2,
+      'operating-systems-advanced': 3,
+      'relational-dbms': 3,
+      'python-engineering': 3,
+      'software-engineering': 3,
+      'java-platform-core': 4,
+      'computer-networks': 4,
+      'web-technologies-stack': 4,
+      'organizational-behaviors': 4,
+      'advanced-web-dev-react': 5,
+      'cloud-server-platforms': 5,
+      'mobile-app-architecture': 5,
+      'network-security-crypt': 5,
+      'machine-learning-core': 6,
+      'computer-graphics-canvas': 6,
+      'major-thesis-project': 6,
+      'enterprise-java-framework': 6
+    };
+    return semesterMap[id] || 2;
+  };
+
+  const getSubjectCode = (id) => {
+    const codeMap = {
+      'problem-solving-using-c': 'BCA-101',
+      'computer-architecture': 'BCA-102',
+      'mathematics-foundation': 'BCA-103',
+      'general-english': 'BCA-104',
+      'indian-knowledge-system': 'BCA-105',
+      'environmental-science': 'BCA-106',
+      'cpp-oop': 'BCA-201',
+      'data-structures': 'BCA-202',
+      'operating-systems': 'BCA-203',
+      'web-technologies': 'BCA-204',
+      'java-oop': 'BCA-205',
+      'indian-constitution': 'BCA-206',
+      'operating-systems-advanced': 'BCA-301',
+      'relational-dbms': 'BCA-302',
+      'python-engineering': 'BCA-303',
+      'software-engineering': 'BCA-304',
+      'java-platform-core': 'BCA-401',
+      'computer-networks': 'BCA-402',
+      'web-technologies-stack': 'BCA-403',
+      'organizational-behaviors': 'BCA-404',
+      'advanced-web-dev-react': 'BCA-501',
+      'cloud-server-platforms': 'BCA-502',
+      'mobile-app-architecture': 'BCA-503',
+      'network-security-crypt': 'BCA-504',
+      'machine-learning-core': 'BCA-601',
+      'computer-graphics-canvas': 'BCA-602',
+      'major-thesis-project': 'BCA-603',
+      'enterprise-java-framework': 'BCA-604'
+    };
+    return codeMap[id] || 'BCA Core';
+  };
+
+  const getSubjectData = (id) => {
+    if (SYLLABUS_DATA[id]) {
+      return SYLLABUS_DATA[id];
+    }
+    return {
+      title: getSubjectNameFromId(id),
+      desc: 'The syllabus content and study materials for this subject are currently under preparation by our academic team.',
+      estTime: 'Coming Soon',
+      credits: '4 Credits',
+      faculty: 'BCA Department Faculty',
+      unitsCount: 0,
+      chaptersCount: 0,
+      syllabus: [
+        {
+          unit: 1,
+          id: 'unit-1',
+          title: 'Unit 1: Syllabus Under Preparation',
+          chapters: [
+            {
+              id: 'ch-1',
+              title: 'Chapter 1: Content Coming Soon',
+              topics: [
+                'This curriculum module is being updated by the department academic committee.',
+                'Please check back later for detailed notes, practice questions, and reference resources.'
+              ]
+            }
+          ]
+        }
+      ]
+    };
+  };
+
+  const subjectData = getSubjectData(normalizedSubjectId);
 
   const [expandedUnit, setExpandedUnit] = useState('unit-1');
   const [completedTopics, setCompletedTopics] = useState({});
@@ -205,7 +340,7 @@ const SubjectSyllabus = () => {
             onClick={(e) => handleBreadcrumbClick(e, 'roadmap')}
             style={{ cursor: 'pointer' }}
           >
-            Semester 2
+            Semester {getSemesterForSubject(normalizedSubjectId)}
           </Link>
           <ChevronRight size={12} className="breadcrumb-separator" />
           <span className="breadcrumb-active">{subjectData.title}</span>
@@ -230,9 +365,9 @@ const SubjectSyllabus = () => {
           <div className="hero-gradient-overlay" />
           <div className="hero-content-wrapper">
             <div className="subject-badge-row">
-              <span className="premium-badge-tag">SEMESTER 2</span>
+              <span className="premium-badge-tag">SEMESTER {getSemesterForSubject(normalizedSubjectId)}</span>
               <span className="badge-bullet">•</span>
-              <span className="subject-code-tag">BCA-202</span>
+              <span className="subject-code-tag">{getSubjectCode(normalizedSubjectId)}</span>
             </div>
             
             <h1 className="subject-hero-title">{subjectData.title}</h1>
@@ -482,7 +617,7 @@ const SubjectSyllabus = () => {
                 }}
               >
                 <div className="related-card-header">
-                  <span className="related-badge">SEMESTER 2</span>
+                  <span className="related-badge">SEMESTER {getSemesterForSubject(sub.id)}</span>
                   <ChevronRight size={16} />
                 </div>
                 <h4>{sub.title}</h4>

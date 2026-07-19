@@ -26,7 +26,7 @@ export const C_LESSONS = [
   { id: 1, title: 'Introduction to C', diff: 'beginner', time: '20 min', phase: 'beginner',
     prereq: 'None',
     desc: 'History of C, its features, applications, and why it is called the mother of all programming languages.',
-    theory: `C is a general-purpose, procedural programming language developed by Dennis Ritchie at Bell Labs between 1969 and 1973. It was designed to develop the UNIX operating system.\n\nC is often called the "mother of all languages" because most modern languages like C++, Java, Python, and JavaScript are influenced by it. It combines the features of high-level languages with the control of assembly.\n\nKey characteristics: compiled, statically typed, structured, portable, efficient memory management via pointers, and direct hardware access.`,
+    theory: `C is a general-purpose programming language. It was developed by Dennis Ritchie in 1972 at Bell Laboratories.\n\n C is one of the most popular programming languages because it is simple, fast, and powerful. It is used to develop operating systems, software applications, games, embedded systems, and system programs.\n\n C is called the mother of many programming languages because languages like C++, Java, and C# are influenced by it.`,
     code: `#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    printf("Welcome to C Programming!\\n");\n    return 0;\n}`,
     output: `Hello, World!\nWelcome to C Programming!`,
     note: 'Every C program must have a main() function. Execution always starts from main().',

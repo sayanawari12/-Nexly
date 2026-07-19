@@ -124,9 +124,19 @@ const Roadmap = () => {
   };
 
   const handleSubjectClick = (sub) => {
-    const slug = getSubjectSlug(sub.code, sub.name);
-    // Keep routing exact: redirecting to /curriculum/semester-2/:subjectId
-    navigate(`/curriculum/semester-2/${slug}`);
+    // Check if the subject has a dedicated technology route
+    const techRoutes = {
+      'BCA-101': '/technologies/c',
+      'BCA-303': '/technologies/python',
+      'BCA-401': '/technologies/java'
+    };
+
+    if (techRoutes[sub.code]) {
+      navigate(techRoutes[sub.code]);
+    } else {
+      const slug = getSubjectSlug(sub.code, sub.name);
+      navigate(`/curriculum/semester-2/${slug}`);
+    }
     window.scrollTo(0, 0);
   };
 

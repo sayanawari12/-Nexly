@@ -44,6 +44,7 @@ const AuthNavbar = ({
     { label: 'Learning Roadmap', icon: <BarChart3 size={14} />, path: '/roadmap' },
     { label: 'Study Analytics', icon: <TrendingUp size={14} />, path: '/analytics' },
     { label: 'Practice Hub', icon: <FileCode size={14} />, path: '/practice' },
+    { label: '💻 Coding Workspace', icon: <FileCode size={14} />, path: '/compiler' },
     { label: 'My Profile', icon: <User size={14} />, path: '/profile' },
     { label: 'Continue Learning', icon: <BookOpen size={14} />, path: '/technologies/c' },
     { label: 'Bookmarks', icon: <Bookmark size={14} />, path: '/profile' },

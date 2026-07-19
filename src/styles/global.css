@@ -21,6 +21,12 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 html {
   scroll-behavior: smooth;
   background-color: var(--bg-primary);
@@ -158,6 +164,21 @@ body {
 
 .glow-glow:hover::after {
   opacity: 0.2;
+}
+
+/* Student layout wrappers — must propagate height for Monaco flex chain */
+.student-layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.main-content-layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 section {

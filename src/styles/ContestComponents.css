@@ -1,0 +1,831 @@
+/* Contest Components Design System Styles */
+
+/* Contest status chip styles */
+.contest-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.status-live {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.status-frozen {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #3b82f6;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+.status-upcoming {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #c084fc;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+}
+
+.status-ended {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.pulse-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+  animation: pulse-glow 1.5s infinite alternate;
+}
+
+@keyframes pulse-glow {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 8px currentColor; }
+}
+
+/* Contest Cards Grid */
+.contests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+/* Contest Card Container */
+.contest-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  cursor: pointer;
+  height: 100%;
+}
+
+.contest-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.contest-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.trophy-icon {
+  color: var(--accent-glow);
+}
+
+.contest-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.contest-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.contest-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: auto;
+  margin-bottom: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-primary);
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.detail-icon {
+  color: var(--primary-purple);
+}
+
+.contest-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.registered-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #10b981;
+}
+
+.unregistered-badge {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-enter-contest {
+  background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-enter-contest:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+/* Timer and clocks */
+.contest-timer-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(139, 92, 246, 0.05);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 12px;
+  padding: 12px 20px;
+  align-items: center;
+  min-width: 140px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.timer-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 4px;
+}
+
+.timer-clock {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent-glow);
+  text-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+}
+
+/* Problem Cards */
+.contest-problem-card {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.problem-index-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--accent-glow);
+}
+
+.problem-card-body {
+  flex-grow: 1;
+}
+
+.problem-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.difficulty-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.diff-easy {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.diff-medium {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.diff-hard {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.score-badge {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-solve-problem {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  padding: 8px 14px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.contest-problem-card:hover .btn-solve-problem {
+  background: var(--primary-purple);
+  border-color: var(--primary-purple);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+/* Submission Table Styles */
+.submission-table-container {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+.contest-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.contest-table th {
+  padding: 14px 16px;
+  border-bottom: 2px solid var(--border-primary);
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+}
+
+.contest-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-primary);
+  color: var(--text-primary);
+}
+
+.submission-row:hover {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.problem-col {
+  font-weight: 600;
+}
+
+.verdict-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.sub-accepted {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.sub-wrong {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.sub-limits {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.sub-errors {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+}
+
+.sub-processing {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  animation: pulse-glow 1s infinite alternate;
+}
+
+.empty-submissions-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* Leaderboard Board Cells */
+.leaderboard-row:hover {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.leaderboard-table th, 
+.leaderboard-table td {
+  padding: 12px 14px;
+}
+
+.board-cell {
+  text-align: center;
+  font-weight: 600;
+}
+
+.cell-solved {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.cell-failed {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.cell-empty {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.cell-time {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.top-rank-1 {
+  background: rgba(245, 158, 11, 0.03);
+}
+
+.rank-gold, .rank-silver, .rank-bronze {
+  font-size: 18px;
+}
+
+/* Freeze Banner */
+.contest-freeze-banner {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.02) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 30px rgba(59, 130, 246, 0.05);
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.freeze-icon {
+  color: #60a5fa;
+}
+
+.banner-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #60a5fa;
+}
+
+.banner-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  flex-grow: 1;
+}
+
+/* Clarifications Panel */
+.clarification-panel {
+  padding: 24px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.panel-header h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.panel-content-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .panel-content-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ask-question-form h5, 
+.clarifications-list-section h5 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: var(--accent-glow);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 6px;
+}
+
+.form-select, 
+.form-textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+  transition: var(--transition-smooth);
+}
+
+.form-select:focus, 
+.form-textarea:focus {
+  border-color: var(--primary-purple);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.15);
+}
+
+.btn-submit-question {
+  display: flex;
+  align-items: center;
+  background: var(--primary-purple);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-submit-question:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+}
+
+.clarifications-scroll-area {
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 6px;
+}
+
+.clarification-card {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-primary);
+  font-size: 13px;
+}
+
+.clar-public {
+  background: rgba(139, 92, 246, 0.02);
+  border-color: rgba(139, 92, 246, 0.1);
+}
+
+.clar-private {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.clar-card-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.clar-time {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.clar-question {
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.clar-answer {
+  color: var(--accent-glow);
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-primary);
+}
+
+.clar-unanswered {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Announcements list panel */
+.announcements-panel {
+  padding: 20px;
+}
+
+.announcements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.announcement-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 3px solid var(--primary-purple);
+}
+
+.announcement-info-icon {
+  color: var(--accent-glow);
+  margin-top: 3px;
+}
+
+.announcement-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.announcement-content {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.announcement-time {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Contest Registration Panel */
+.registration-panel-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 48px auto;
+  padding: 36px;
+  text-align: center;
+}
+
+.lock-icon {
+  color: var(--accent-glow);
+  margin-bottom: 16px;
+}
+
+.registration-panel-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.registration-panel-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.registration-rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.rule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.rule-icon {
+  color: var(--primary-purple);
+  margin-top: 2px;
+}
+
+.rule-item h5 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.rule-item p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+.btn-register-action {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-register-action:hover {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.registration-error-msg {
+  color: #ef4444;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+/* Contest Result Summary card */
+.contest-result-summary {
+  padding: 32px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 36px;
+}
+
+.result-headline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 576px) {
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.result-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-icon-gold { color: #fbbf24; }
+.result-icon-purple { color: #a78bfa; }
+.result-icon-blue { color: #60a5fa; }
+.result-icon-green { color: #34d399; }
+.result-icon-red { color: #f87171; }
+
+.result-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.result-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.result-report-body {
+  text-align: left;
+  border-top: 1px solid var(--border-primary);
+  padding-top: 20px;
+  margin-top: 24px;
+}
+
+.result-report-body h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.result-report-body p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.text-green { color: #10b981; }
+.text-red { color: #ef4444; }
+
+/* Contest Countdown timer */
+.contest-countdown-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.countdown-digit-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 80px;
+}
+
+.countdown-digit-box .digit {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent-glow);
+  text-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+}
+
+.countdown-digit-box .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4px;
+}
+
+.countdown-colon {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.3);
+  padding-bottom: 20px;
+}

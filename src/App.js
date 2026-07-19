@@ -20,6 +20,13 @@ import Analytics from './pages/Analytics';
 import ProgrammingHub from './pages/ProgrammingHub';
 import ProgramViewerPage from './pages/ProgramViewerPage';
 import { AuthProvider } from './context/AuthContext';
+import { ContestProvider } from './context/ContestContext';
+import ContestList from './pages/ContestList';
+import ContestDetails from './pages/ContestDetails';
+import ContestProblemArena from './pages/ContestProblemArena';
+import ContestLeaderboardPage from './pages/ContestLeaderboardPage';
+import ContestResultsPage from './pages/ContestResultsPage';
+const CompilerPage = React.lazy(() => import('./pages/CompilerPage'));
 import { ProgressProvider } from './context/ProgressContext';
 import { LearningProvider } from './context/LearningContext';
 import { ProgramProvider } from './context/ProgramContext';
@@ -32,9 +39,10 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <LearningProvider>
-          <ProgressProvider>
-            <ProgramProvider>
+        <ContestProvider>
+          <LearningProvider>
+            <ProgressProvider>
+              <ProgramProvider>
               <NotificationProvider>
                 <SettingsProvider>
                 <Router>
@@ -73,17 +81,86 @@ function App() {
                           <ProgramViewerPage />
                         </ProtectedRoute>
                       } />
-                      <Route path="/curriculum/semester-2/:subjectId" element={<SubjectSyllabus />} />
-                      <Route path="/technologies/cpp" element={<CppLearningHub />} />
-                      <Route path="/technologies/cpp/quiz" element={<CppQuiz />} />
-                      <Route path="/technologies/cpp/practice" element={<CodingPractice />} />
-                      <Route path="/curriculum/semester-2/data-structures/quiz" element={<DSQuiz />} />
-                      <Route path="/technologies/python" element={<PythonLearningHub />} />
-                      <Route path="/technologies/c" element={<CLearningHub />} />
-                      <Route path="/technologies/java" element={<JavaLearningHub />} />
+                      <Route path="/curriculum/semester-2/:subjectId" element={
+                        <ProtectedRoute>
+                          <SubjectSyllabus />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/technologies/cpp" element={
+                        <ProtectedRoute>
+                          <CppLearningHub />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/technologies/cpp/quiz" element={
+                        <ProtectedRoute>
+                          <CppQuiz />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/technologies/cpp/practice" element={
+                        <ProtectedRoute>
+                          <CodingPractice />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/curriculum/semester-2/data-structures/quiz" element={
+                        <ProtectedRoute>
+                          <DSQuiz />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/technologies/python" element={
+                        <ProtectedRoute>
+                          <PythonLearningHub />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/technologies/c" element={
+                        <ProtectedRoute>
+                          <CLearningHub />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/technologies/java" element={
+                        <ProtectedRoute>
+                          <JavaLearningHub />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/settings" element={
+                        <ProtectedRoute>
+                          <Profile />
+                        </ProtectedRoute>
+                      } />
                       <Route path="/lessons/:lessonId" element={
                         <ProtectedRoute>
                           <LessonViewerPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/contests" element={
+                        <ProtectedRoute>
+                          <ContestList />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/contests/:contestId" element={
+                        <ProtectedRoute>
+                          <ContestDetails />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/contests/:contestId/problems/:problemId" element={
+                        <ProtectedRoute>
+                          <ContestProblemArena />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/contests/:contestId/leaderboard" element={
+                        <ProtectedRoute>
+                          <ContestLeaderboardPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/contests/:contestId/results" element={
+                        <ProtectedRoute>
+                          <ContestResultsPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/compiler" element={
+                        <ProtectedRoute>
+                          <React.Suspense fallback={<div className="page-loading" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', color: 'var(--accent-glow)', fontFamily: 'Space Grotesk, sans-serif' }}>Loading Coding Workspace...</div>}>
+                            <CompilerPage />
+                          </React.Suspense>
                         </ProtectedRoute>
                       } />
                     </Routes>
@@ -94,8 +171,9 @@ function App() {
           </ProgramProvider>
         </ProgressProvider>
       </LearningProvider>
-    </AuthProvider>
-  </ThemeProvider>
+    </ContestProvider>
+  </AuthProvider>
+</ThemeProvider>
   );
 }
 

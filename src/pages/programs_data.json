@@ -4,14 +4,13 @@
       "id": "c_basic_1",
       "title": "Add Two Numbers",
       "statement": "Practice program demonstrating standard implementation of Add Two Numbers in C.",
-      "code": "#include<stdio.h>\r\nint main () {\r\n    int num1, num2,sum;\r\n    printf (\"enter the first number:\");\r\n    scanf (\"%d\",&num1);\r\n\r\n    printf (\"enter the second number:\");\r\n    scanf (\"%d\",&num2);\r\n    sum = num1 + num2;\r\n    printf (\"sum = %d\", sum);\r\n    return 0;\r\n}",
-      "sampleInput": "10",
-      "expectedOutput": "Enter input value: 10\nOutput result = 10",
-      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "code": "#include<stdio.h>\r\nint main () {\r\n    int num1, num2,sum;\r\n    printf (\"enter the first number:\");\r\n    scanf (\"%d\",&num1);\r\n\r\n    printf (\"enter the second number:\");\r\n    scanf (\"%d\",&num2);\r\n    sum = num1 + num2;\r\n    printf (\"Addition is  = %d\", sum);\r\n    return 0;\r\n}",
+      "expectedOutput": "Enter the first number: 10\nEnter the second number: 20\nAddition is = 30",
+      "whyOutput": "Because the program adds the two input numbers (10 and 20), stores the result in the variable 'sum', and prints the value. Therefore, the output is = 30",
       "flow": [
-        "User Input",
-        "Code Logic Processing",
-        "Console Output"
+        "Input num1 & num2 (10, 20)",
+        "Calculate sum (num1 + num2)",
+        "Output sum (30)"
       ],
       "complexity": "O(1)",
       "space": "O(1)",
@@ -29,7 +28,7 @@
       "title": "Area Of Rectangle",
       "statement": "Practice program demonstrating standard implementation of Area Of Rectangle in C.",
       "code": "#include <stdio.h>\r\n\r\nint main() {\r\n    float length, width, area;\r\n    printf(\"Enter length: \");\r\n    scanf(\"%f\", &length);\r\n    printf(\"Enter width: \");\r\n    scanf(\"%f\", &width);\r\n    area = length * width;\r\n    printf(\"Area = %.2f\\n\", area);\r\n    return 0;\r\n}\r\n",
-      "sampleInput": "10\n5",
+      
       "expectedOutput": "Enter length: 10\nEnter width: 5\nArea = 50.00",
       "whyOutput": "The program calculates the area of a rectangle by multiplying the user inputs for length (10) and width (5).",
       "flow": [
@@ -54,12 +53,12 @@
       "statement": "Practice program demonstrating standard implementation of Ascii Arithmetic in C.",
       "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n   char c ='A';\r\n   printf(\"%d\",c+7);\r\n   return 0;\r\n}",
       "sampleInput": null,
-      "expectedOutput": "Program execution successful.",
-      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "expectedOutput": "72",
+      "whyOutput": "Explanation The variable c stores the character 'A'.In C, every character has an ASCII value.The ASCII value of 'A' is 65.When 7 is added to c, C automatically uses its ASCII value.",
       "flow": [
-        "Start Execution",
-        "Process Statements",
-        "Exit Program"
+        "Initialize Character (c = 'A')",
+        "Calculate (ASCII Value of 'A' + 7)(65 + 7 = 72)",
+        "Output Result (72)"
       ],
       "complexity": "O(1)",
       "space": "O(1)",
@@ -78,8 +77,8 @@
       "statement": "Practice program demonstrating standard implementation of Ascii Value in C.",
       "code": "#include<stdio.h>\r\n\r\nint main()\r\n{\r\n    char sayan;\r\n\r\n    printf(\"Enter a character: \");\r\n    scanf(\"%c\", &sayan);\r\n\r\n    printf(\"ASCII value of %c is %d\", sayan, sayan);\r\n\r\n    return 0;\r\n}\r\n",
       "sampleInput": "10",
-      "expectedOutput": "Enter input value: 10\nOutput result = 10",
-      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "expectedOutput": "Enter a character: A\nASCII value of A is 65",
+      "whyOutput": "This program accepts a character from the user and displays its corresponding ASCII value using the %d format specifier.",
       "flow": [
         "User Input",
         "Code Logic Processing",
@@ -102,12 +101,12 @@
       "statement": "Practice program demonstrating standard implementation of Datatype Size in C.",
       "code": "#include<stdio.h>\r\nint main () \r\n{\r\nprintf(\" the size of integer is %u\\n\",sizeof(int));\r\nprintf(\" the size of float is %u\\n\",sizeof(float));\r\nprintf(\" the size of double is %u\\n\",sizeof(double));\r\nprintf(\" the size of char is %u\\n\",sizeof(char));\r\n\r\nreturn 0;\r\n}",
       "sampleInput": null,
-      "expectedOutput": "Program execution successful.",
-      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "expectedOutput": "The size of integer is 4\nThe size of float is 4\nThe size of double is 8\nThe size of char is 1",
+      "whyOutput": "This program uses the sizeof operator to display the memory size (in bytes) of different data types such as int, float, double, and char.",
       "flow": [
-        "Start Execution",
-        "Process Statements",
-        "Exit Program"
+        "Calculate Size of Data Types\n(int, float, double, char)",
+        "Get Size Using sizeof() Operator",
+        "Display the Size of Each Data Type"
       ],
       "complexity": "O(1)",
       "space": "O(1)",
@@ -126,12 +125,12 @@
       "statement": "Practice program demonstrating standard implementation of Datatype Sizes in C.",
       "code": "#include<stdio.h>\r\nint main ()\r\n{\r\n    char sayan;\r\n    int s;\r\n    float a;\r\n    double y;\r\n    long long n;\r\n    printf(\"%d\\n\",sizeof(sayan));\r\n    printf(\"%d\\n\",sizeof(s));\r\n    printf(\"%d\\n\",sizeof(a));\r\n    printf(\"%d\\n\",sizeof(y));\r\n    printf(\"%d\\n\",sizeof(n));\r\n    return 0;\r\n}",
       "sampleInput": null,
-      "expectedOutput": "Program execution successful.",
-      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "expectedOutput": "1\n4\n4\n8\n8",
+      "whyOutput": "The sizeof() operator returns the memory size (in bytes) of each variable based on its data type. The program prints these sizes.",
       "flow": [
-        "Start Execution",
-        "Process Statements",
-        "Exit Program"
+        "Declare Variables(char, int, float, double, long long)",
+        "Find the Size of Each Variable Using sizeof()",
+        "Display the Size of Each Variable"
       ],
       "complexity": "O(1)",
       "space": "O(1)",
@@ -146,16 +145,16 @@
     },
     {
       "id": "c_basic_7",
-      "title": "Getche Input",
+      "title": "Character Input Using Putchar",
       "statement": "Practice program demonstrating standard implementation of Getche Input in C.",
       "code": "#include <stdio.h>\r\n#include <conio.h>\r\n\r\nint main() \r\n{ \r\n    char ch;\r\n    puts(\"Enter one character: \");\r\n    ch = getche();   \r\n    puts(\"\\nYou have given: \");\r\n    putchar(ch);\r\n    getch(); \r\n    return 0;\r\n}\r\n",
       "sampleInput": null,
-      "expectedOutput": "Program execution successful.",
-      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "expectedOutput": "Enter one character: A\nYou have given: A",
+      "whyOutput": "The getche() function accepts a character and displays it immediately (echo). The character is stored in the variable ch. Then putchar(ch) prints the same character on the screen.",
       "flow": [
-        "Start Execution",
-        "Process Statements",
-        "Exit Program"
+        "Input a Character Using getche()",
+        "Store the Character in Variable (ch)",
+        "Display the Character Using putchar()"
       ],
       "complexity": "O(1)",
       "space": "O(1)",
@@ -170,16 +169,16 @@
     },
     {
       "id": "c_basic_8",
-      "title": "Getche Input01",
+      "title": "Getche Character Input",
       "statement": "Practice program demonstrating standard implementation of Getche Input01 in C.",
-      "code": "#include <stdio.h>\r\n#include <conio.h>\r\n\r\nint main() \r\n{ \r\n    char ch;\r\n    printf(\"Enter one character: \");\r\n    ch = getche();   \r\n    printf(\"\\nYou have given: \");\r\n    printf(\"\\n\");\r\n    getch();\r\n    return 0;\r\n}\r\n",
+      "code": "#include <stdio.h>\r\n#include <conio.h>\r\n\r\nint main() \r\n{ \r\n    char ch;\r\n    printf(\"Enter any one character: \");\r\n    ch = getche();   \r\n    printf(\"\\nYou have given: \");\r\n    printf(\"\\n\");\r\n    getch();\r\n    return 0;\r\n}\r\n",
       "sampleInput": null,
-      "expectedOutput": "Program execution successful.",
-      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "expectedOutput": "Enter one character: A\nYou have given: 'A'",
+      "whyOutput": "This program accepts a single character using getche() and displays the same character using putchar(). The getche() function echoes the entered character on the screen.",
       "flow": [
-        "Start Execution",
-        "Process Statements",
-        "Exit Program"
+        "Input a Character Using getche()",
+        "Store the Character in Variable (ch)",
+        "Display the Entered Character on the Screen"
       ],
       "complexity": "O(1)",
       "space": "O(1)",
@@ -198,12 +197,12 @@
       "statement": "Practice program demonstrating standard implementation of Getch Character Input in C.",
       "code": "#include <stdio.h>\r\n#include <conio.h>\r\n\r\nint main()\r\n{\r\n    char ch;\r\n    printf(\"Enter any one character: \");\r\n    ch = getch();  \r\n    printf(\"\\nYou entered: %c\", ch);\r\n\r\n    return 0;\r\n}\r\n",
       "sampleInput": null,
-      "expectedOutput": "Program execution successful.",
-      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "expectedOutput": "Enter any one character: A\n\nYou entered: A",
+      "whyOutput": "The getch() function accepts a single character from the keyboard without displaying it. The character is stored in the variable ch, and then printf() displays it on the screen.",
       "flow": [
-        "Start Execution",
-        "Process Statements",
-        "Exit Program"
+        "Input a Character Using getch()",
+        "Store the Character in Variable (ch)",
+        "Display the Entered Character"
       ],
       "complexity": "O(1)",
       "space": "O(1)",
@@ -218,16 +217,16 @@
     },
     {
       "id": "c_basic_10",
-      "title": "Getch Input",
+      "title": "Character Input Using Getch",
       "statement": "Practice program demonstrating standard implementation of Getch Input in C.",
       "code": "#include<stdio.h>\r\n#include<conio.h>\r\nint main ()\r\n{\r\n    char sayan;\r\n    printf(\"enter any char:-\");\r\n    sayan=getch();\r\n    printf(\"you entered:-%c\\n\",sayan);\r\n    putch(sayan);\r\n    return 0;\r\n}\r\n",
       "sampleInput": null,
-      "expectedOutput": "Program execution successful.",
-      "whyOutput": "The program completes sequence operations successfully without requiring any dynamic keyboard inputs.",
+      "expectedOutput": "enter any char:- A\nyou entered:-A\nA",
+      "whyOutput": "The getch() function reads a character from the keyboard without displaying it on the screen. The character is stored in the variable sayan. Then printf() and putch() display the entered character.",
       "flow": [
-        "Start Execution",
-        "Process Statements",
-        "Exit Program"
+        "Input a Character Using getch()",
+        "Store the Character in Variable",
+        "Display the Character Using printf() and putch()"
       ],
       "complexity": "O(1)",
       "space": "O(1)",
@@ -246,12 +245,12 @@
       "statement": "Practice program demonstrating standard implementation of Percentage Calculator in C.",
       "code": "#include<stdio.h>\r\nint main () \r\n{\r\n    float sub1,sub2,sub3,sub4,sub5,sub6,percentage;\r\n    printf(\" enter your marks \");\r\n    scanf(\"%f%f%f%f%f%f\",&sub1,&sub2,&sub3,&sub4,&sub5,&sub6);\r\n    percentage = (sub1+sub2+sub3+sub4+sub5+sub6)/6;\r\n     printf(\" this is your percent:%.2f%%\\n\", percentage);\r\n\r\n    return 0;\r\n\r\n}",
       "sampleInput": "10",
-      "expectedOutput": "Enter input value: 10\nOutput result = 10",
-      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "expectedOutput": "enter your marks\n70\n80\n75\n90\n85\n80\n\nthis is your percent:80.00%",
+      "whyOutput": "The program accepts the marks of six subjects from the user, \ncalculates their average using the formula:Percentage = (sub1 + sub2 + sub3 + sub4 + sub5 + sub6) / 6\nThen it displays the percentage with 2 decimal places using %.2f.",
       "flow": [
-        "User Input",
-        "Code Logic Processing",
-        "Console Output"
+        "Input Marks of 6 Subjects",
+        "Calculate Percentage(Total Marks ÷ 6)",
+        "Display Percentage"
       ],
       "complexity": "O(1)",
       "space": "O(1)",
@@ -270,12 +269,12 @@
       "statement": "Practice program demonstrating standard implementation of Student Information in C.",
       "code": "#include<stdio.h>\r\n\r\nint main()\r\n{\r\n    int studentId;\r\n    char studentFullName[100];\r\n    int studentAge;\r\n    double studentContactNumber;\r\n    double studentAadharNumber;\r\n\r\n    printf(\"******Before Student Info******\\n\");\r\n\r\n    printf(\"Enter student ID: \");\r\n    scanf(\"%d\", &studentId);\r\n\r\n    getchar(); \r\n\r\n    printf(\"Enter student Fullname: \");\r\n    scanf(\"%[^\\n]\", studentFullName);\r\n\r\n    printf(\"Enter student Age: \");\r\n    scanf(\"%d\", &studentAge);\r\n\r\n    printf(\"Enter student Contact Number: \");\r\n    scanf(\"%lf\", &studentContactNumber);\r\n\r\n    printf(\"Enter student Aadhar Number: \");\r\n    scanf(\"%lf\", &studentAadharNumber);\r\n\r\n    printf(\"\\n******After Student Info******\\n\");\r\n    printf(\"Student ID: %d\\n\", studentId);\r\n    printf(\"Full Name: %s\\n\", studentFullName);\r\n    printf(\"Age: %d\\n\", studentAge);\r\n    printf(\"Contact Number: %.0lf\\n\", studentContactNumber);\r\n    printf(\"Aadhar Number: %.0lf\\n\", studentAadharNumber);\r\n\r\n    return 0;\r\n}\r\n",
       "sampleInput": "10",
-      "expectedOutput": "Enter input value: 10\nOutput result = 10",
-      "whyOutput": "The program takes a console input and prints the computed result to the standard terminal output.",
+      "expectedOutput": "******Before Student Info******\nEnter student ID: 101\nEnter student Fullname: Sayan Awari\nEnter student Age: 19\nEnter student Contact Number: 9876543210\nEnter student Aadhar Number: 123456789012\n\n******After Student Info******\nStudent ID: 101\nFull Name: Sayan Awari\nAge: 19\nContact Number: 9876543210\nAadhar Number: 123456789012",
+      "whyOutput": "The program accepts the student's ID, full name, age, contact number, and Aadhar number from the user. It stores these values in variables and then displays all the entered information on the screen.",
       "flow": [
-        "User Input",
-        "Code Logic Processing",
-        "Console Output"
+        "Input Student Details(ID, Full Name, Age, Contact Number, Aadhar Number)",
+        "Store the Entered Details in Variables",
+        "Display the Student Information"
       ],
       "complexity": "O(n)",
       "space": "O(1)",

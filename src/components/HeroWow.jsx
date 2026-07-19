@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Play } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import laptopMockupImg from '../assets/images/laptop_mockup.jpg';
 import '../styles/HeroWow.css';
 
@@ -65,19 +66,18 @@ const HeroWow = () => {
           </p>
           
           <div className="hero-actions">
+            <Link 
+              to="/compiler" 
+              className="btn-premium-purple"
+            >
+              🚀 Start Coding
+            </Link>
             <a 
               href="#about" 
               onClick={(e) => handleScrollDown(e, '#about')}
-              className="btn-premium-purple"
-            >
-              Explore Department
-            </a>
-            <a 
-              href="#gallery" 
-              onClick={(e) => handleScrollDown(e, '#gallery')}
               className="btn-premium"
             >
-              <Play size={16} fill="currentColor" /> Virtual Tour
+              Explore Department
             </a>
           </div>
         </div>
