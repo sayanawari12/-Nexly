@@ -4,10 +4,10 @@ import { AchievementService } from '../services/achievement.service';
 import { RatingService } from '../services/rating.service';
 import { ProfileRepository } from '../repositories/profile.repository';
 import logger from '../../../utils/logger';
+import { config } from '../../../config';
 
 const REDIS_OPTIONS = {
-  port: 6380, // Dedicated APEX queue/caching Redis container
-  host: 'localhost',
+  url: config.queue.redisUrl,
 };
 
 // Expose the BullMQ queue instance

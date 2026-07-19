@@ -3,8 +3,7 @@ import { ProfileRepository } from '../repositories/profile.repository';
 import { prisma } from '../../../config/database';
 import { Redis } from 'ioredis';
 import logger from '../../../utils/logger';
-
-export class EloStrategy implements RatingStrategy {
+import { config } from '../../../config';export class EloStrategy implements RatingStrategy {
   private readonly K = 32;
 
   public calculate(
@@ -158,10 +157,7 @@ export class RatingService {
 
   constructor(repo = new ProfileRepository()) {
     this.repo = repo;
-    this.redis = new Redis({
-      port: 6380, // Dedicated APEX queue/caching Redis container
-      host: 'localhost',
-    });
+   this.redis = new Redis(config.queue.redisUrl);
     this.defaultStrategy = new Glicko2Strategy();
   }
 

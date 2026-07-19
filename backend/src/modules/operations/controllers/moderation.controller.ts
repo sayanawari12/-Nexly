@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import { prisma } from '../../../config/database';
+import { config } from '../../../config';
 import { OperationsRepository } from '../repositories/operations.repository';
 import { AuditService } from '../services/audit.service';
 import { ApiResponse } from '../../../utils/response';
@@ -16,9 +17,11 @@ export class ModerationController {
   constructor() {
     this.repo = new OperationsRepository();
     this.audit = new AuditService();
-    this.submissionsQueue = new Queue('submissions', {
-      connection: { port: 6380, host: 'localhost' },
-    });
+   this.submissionsQueue = new Queue('submissions', {
+  connection: {
+    url: config.queue.redisUrl,
+  },
+});
   }
 
   /**

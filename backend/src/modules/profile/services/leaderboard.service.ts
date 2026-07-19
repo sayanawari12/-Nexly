@@ -1,15 +1,13 @@
 import { Redis } from 'ioredis';
 import { prisma } from '../../../config/database';
+import { config } from '../../../config';
 import logger from '../../../utils/logger';
 
 export class LeaderboardService {
   private readonly redis: Redis;
 
   constructor() {
-    this.redis = new Redis({
-      port: 6380, // Dedicated APEX queue/caching Redis container
-      host: 'localhost',
-    });
+    this.redis = new Redis(config.queue.redisUrl);
   }
 
   /**
@@ -54,11 +52,10 @@ export class LeaderboardService {
     limitAroundUser = 5
   ): Promise<any[]> {
     const key = `leaderboard:global:${type}`;
-    
-    // Get revrank (index from top)
+
     const rankIndex = await this.redis.zrevrank(key, userId);
+
     if (rankIndex === null) {
-      // User not ranked, return standard top list
       return this.getLeaderboard(type, limitAroundUser, 0);
     }
 
@@ -69,7 +66,7 @@ export class LeaderboardService {
   }
 
   /**
-   * Rebuilds all sorted set caches from PostgreSQL source-of-truth (idempotent cache recovery)
+   * Rebuilds all sorted set caches from PostgreSQL source-of-truth
    */
   public async rebuildAllCaches(): Promise<void> {
     logger.info({
@@ -77,30 +74,39 @@ export class LeaderboardService {
       message: 'Rebuilding all Redis sorted sets from PostgreSQL records.',
     });
 
-    // 1. Wipe current keys
     await this.redis.del('leaderboard:global:rating');
     await this.redis.del('leaderboard:global:solves');
 
-    const seasonsList = await prisma.season.findMany({ select: { id: true } });
+    const seasonsList = await prisma.season.findMany({
+      select: { id: true },
+    });
+
     for (const season of seasonsList) {
       await this.redis.del(`leaderboard:season:${season.id}:rating`);
     }
 
-    // 2. Scan and rebuild global rating and solves keys
-    const ratings = await prisma.userRating.findMany({ include: { user: true } });
+    const ratings = await prisma.userRating.findMany({
+      include: { user: true },
+    });
+
     for (const r of ratings) {
       await this.redis.zadd('leaderboard:global:rating', r.currentRating, r.userId);
     }
 
-    const progresses = await prisma.userProgress.findMany({});
+    const progresses = await prisma.userProgress.findMany();
+
     for (const p of progresses) {
       await this.redis.zadd('leaderboard:global:solves', p.totalSolves, p.userId);
     }
 
-    // 3. Scan and rebuild seasonal ratings
-    const seasonRatings = await prisma.userSeasonRating.findMany({});
+    const seasonRatings = await prisma.userSeasonRating.findMany();
+
     for (const sr of seasonRatings) {
-      await this.redis.zadd(`leaderboard:season:${sr.seasonId}:rating`, sr.currentRating, sr.userId);
+      await this.redis.zadd(
+        `leaderboard:season:${sr.seasonId}:rating`,
+        sr.currentRating,
+        sr.userId
+      );
     }
 
     logger.info({
@@ -110,18 +116,32 @@ export class LeaderboardService {
     });
   }
 
-  private async fetchRankingsFromRedis(key: string, limit: number, offset: number): Promise<any[]> {
-    const range = await this.redis.zrevrange(key, offset, offset + limit - 1, 'WITHSCORES');
+  private async fetchRankingsFromRedis(
+    key: string,
+    limit: number,
+    offset: number
+  ): Promise<any[]> {
+    const range = await this.redis.zrevrange(
+      key,
+      offset,
+      offset + limit - 1,
+      'WITHSCORES'
+    );
+
     if (range.length === 0) return [];
 
     const rankings: any[] = [];
+
     for (let i = 0; i < range.length; i += 2) {
       const userId = range[i];
       const score = parseFloat(range[i + 1]);
 
       const user = await prisma.user.findUnique({
         where: { id: userId },
-        select: { id: true, username: true },
+        select: {
+          id: true,
+          username: true,
+        },
       });
 
       rankings.push({
@@ -139,4 +159,5 @@ export class LeaderboardService {
     await this.redis.quit();
   }
 }
+
 export default LeaderboardService;

@@ -1,5 +1,6 @@
 import { Redis } from 'ioredis';
 import { prisma } from '../../../config/database';
+import { config } from '../../../config';
 import axios from 'axios';
 import os from 'os';
 import logger from '../../../utils/logger';
@@ -8,10 +9,7 @@ export class MonitoringService {
   private readonly redis: Redis;
 
   constructor() {
-    this.redis = new Redis({
-      port: 6380, // Dedicated APEX queue/caching Redis container
-      host: 'localhost',
-    });
+    this.redis = new Redis(config.queue.redisUrl);
   }
 
   /**
@@ -45,17 +43,22 @@ export class MonitoringService {
 
     // 3. Check Judge0
     try {
-      const judgeRes = await axios.get('http://localhost:2358/teachers', { timeout: 3000 }); // Mock /teachers endpoint or standard health checks
+      const judgeRes = await axios.get('http://localhost:2358/teachers', {
+        timeout: 3000,
+      });
       report.services.judge0 = { status: 'UP' };
     } catch (err: any) {
       report.services.judge0 = { status: 'DOWN', error: err.message };
-      // Do not mark system UNHEALTHY if judge0 is down, but record warning
+      // Do not mark system UNHEALTHY if Judge0 is down
     }
 
     // 4. Check Queue Backlog Size (BullMQ submissions queue)
     try {
       const depth = await this.redis.llen('bull:submissions:wait');
-      report.services.submissionsQueue = { status: 'UP', depth };
+      report.services.submissionsQueue = {
+        status: 'UP',
+        depth,
+      };
     } catch (err) {}
 
     // 5. Aggregates system metrics
@@ -112,4 +115,5 @@ export class MonitoringService {
     await this.redis.quit();
   }
 }
+
 export default MonitoringService;
