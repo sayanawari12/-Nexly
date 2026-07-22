@@ -1,16 +1,25 @@
-import Redis from 'ioredis';
+import Redis, { RedisOptions } from 'ioredis';
 import { config } from '../../../config';
 import { logger } from '../../../utils/logger';
 
+/**
+ * Creates a fresh ioredis instance configured with REDIS_URL and mandatory BullMQ options.
+ */
+export function createRedisInstance(extraOptions: Partial<RedisOptions> = {}): Redis {
+  return new Redis(config.queue.redisUrl, {
+    maxRetriesPerRequest: null, // mandatory config for BullMQ compatibility
+    enableReadyCheck: false,
+    ...extraOptions,
+  });
+}
+
 // Create a single shared connection to our dedicated Redis container
-export const redisConnection = new Redis(config.queue.redisUrl, {
-  maxRetriesPerRequest: null, // mandatory config for BullMQ compatibility
-});
+export const redisConnection = createRedisInstance();
 
 redisConnection.on('connect', () => {
   logger.info({
     eventName: 'REDIS_CONNECTION_CONNECTED',
-    message: 'Established connection connection with APEX Redis container.',
+    message: 'Established connection to Redis container.',
   });
 });
 
@@ -18,7 +27,7 @@ redisConnection.on('error', (err) => {
   logger.error({
     eventName: 'REDIS_CONNECTION_FAILED',
     error: err.message,
-    message: 'Lost connection connection to Redis container.',
+    message: 'Lost connection to Redis container.',
   });
 });
 

@@ -8,6 +8,7 @@ import { AuthenticatedRequest } from '../../auth/middleware/auth.middleware';
 import { NotFoundError, ForbiddenError } from '../../../errors';
 import { Queue } from 'bullmq';
 import { ReportStatus, ProblemStatus } from '@prisma/client';
+import { redisConnection } from '../../queue/config/queue.config';
 
 export class ModerationController {
   private readonly repo: OperationsRepository;
@@ -17,11 +18,9 @@ export class ModerationController {
   constructor() {
     this.repo = new OperationsRepository();
     this.audit = new AuditService();
-   this.submissionsQueue = new Queue('submissions', {
-  connection: {
-    url: config.queue.redisUrl,
-  },
-});
+    this.submissionsQueue = new Queue('submissions', {
+      connection: redisConnection,
+    });
   }
 
   /**

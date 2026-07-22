@@ -4,15 +4,11 @@ import { AchievementService } from '../services/achievement.service';
 import { RatingService } from '../services/rating.service';
 import { ProfileRepository } from '../repositories/profile.repository';
 import logger from '../../../utils/logger';
-import { config } from '../../../config';
+import { createRedisInstance, redisConnection } from '../../queue/config/queue.config';
 
-const REDIS_OPTIONS = {
-  url: config.queue.redisUrl,
-};
-
-// Expose the BullMQ queue instance
+// Expose the BullMQ queue instance using shared valid Redis connection
 export const profileQueue = new Queue('profile-queue', {
-  connection: REDIS_OPTIONS,
+  connection: redisConnection,
 });
 
 export class ProfileWorker {
@@ -75,7 +71,7 @@ export class ProfileWorker {
         }
       },
       {
-        connection: REDIS_OPTIONS,
+        connection: createRedisInstance(),
         concurrency: 5,
       }
     );
