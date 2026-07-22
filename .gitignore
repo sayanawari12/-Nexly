@@ -22,3 +22,12 @@ project-apex-codebase.zip
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+backend.zip
+
+*.zip
+
+backend/test_*.js
+
+backend/check_lang.js
+
+backend/run_verify.js

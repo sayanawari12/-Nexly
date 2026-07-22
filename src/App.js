@@ -19,6 +19,8 @@ import Roadmap from './pages/Roadmap';
 import Analytics from './pages/Analytics';
 import ProgrammingHub from './pages/ProgrammingHub';
 import ProgramViewerPage from './pages/ProgramViewerPage';
+import SemesterCSubjectPage from './pages/SemesterCSubjectPage';
+import SemesterCChapterPage from './pages/SemesterCChapterPage';
 import { AuthProvider } from './context/AuthContext';
 import { ContestProvider } from './context/ContestContext';
 import ContestList from './pages/ContestList';
@@ -26,7 +28,6 @@ import ContestDetails from './pages/ContestDetails';
 import ContestProblemArena from './pages/ContestProblemArena';
 import ContestLeaderboardPage from './pages/ContestLeaderboardPage';
 import ContestResultsPage from './pages/ContestResultsPage';
-const CompilerPage = React.lazy(() => import('./pages/CompilerPage'));
 import { ProgressProvider } from './context/ProgressContext';
 import { LearningProvider } from './context/LearningContext';
 import { ProgramProvider } from './context/ProgramContext';
@@ -79,6 +80,16 @@ function App() {
                       <Route path="/practice/programs/:programId" element={
                         <ProtectedRoute>
                           <ProgramViewerPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/curriculum/semester-1/problem-solving-using-c" element={
+                        <ProtectedRoute>
+                          <SemesterCSubjectPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/curriculum/semester-1/problem-solving-using-c/chapter/:chapterSlug" element={
+                        <ProtectedRoute>
+                          <SemesterCChapterPage />
                         </ProtectedRoute>
                       } />
                       <Route path="/curriculum/semester-2/:subjectId" element={
@@ -154,13 +165,6 @@ function App() {
                       <Route path="/contests/:contestId/results" element={
                         <ProtectedRoute>
                           <ContestResultsPage />
-                        </ProtectedRoute>
-                      } />
-                      <Route path="/compiler" element={
-                        <ProtectedRoute>
-                          <React.Suspense fallback={<div className="page-loading" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', color: 'var(--accent-glow)', fontFamily: 'Space Grotesk, sans-serif' }}>Loading Coding Workspace...</div>}>
-                            <CompilerPage />
-                          </React.Suspense>
                         </ProtectedRoute>
                       } />
                     </Routes>

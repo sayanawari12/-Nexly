@@ -23,7 +23,7 @@ import '../../styles/sections.css';
 
 const Roadmap = () => {
   const navigate = useNavigate();
-  const [activeSem, setActiveSem] = useState(2);
+  const [activeSem, setActiveSem] = useState(1);
 
   const semestersInfo = {
     1: {
@@ -126,12 +126,18 @@ const Roadmap = () => {
   const handleSubjectClick = (sub) => {
     // Check if the subject has a dedicated technology route
     const techRoutes = {
-      'BCA-101': '/technologies/c',
       'BCA-303': '/technologies/python',
       'BCA-401': '/technologies/java'
     };
 
-    if (techRoutes[sub.code]) {
+    // BCA-101 (Problem Solving Using C) has its own Semester curriculum page
+    const semesterRoutes = {
+      'BCA-101': '/curriculum/semester-1/problem-solving-using-c'
+    };
+
+    if (semesterRoutes[sub.code]) {
+      navigate(semesterRoutes[sub.code]);
+    } else if (techRoutes[sub.code]) {
       navigate(techRoutes[sub.code]);
     } else {
       const slug = getSubjectSlug(sub.code, sub.name);

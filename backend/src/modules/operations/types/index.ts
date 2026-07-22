@@ -4,7 +4,6 @@ export interface SystemHealthReport {
   api: 'UP' | 'DOWN';
   postgres: 'UP' | 'DOWN';
   redis: 'UP' | 'DOWN';
-  judge0: 'UP' | 'DOWN';
   workers: 'UP' | 'DOWN';
   cpuUsagePercent: number;
   memoryUsageMb: number;

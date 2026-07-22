@@ -44,13 +44,6 @@ export const submitContestSubmission = async (contestId, problemId, sourceCode, 
 };
 
 export const runCode = async (problemId, sourceCode, languageId, stdin = '') => {
-  // Let's implement run code through the backend's sandbox compiler executor.
-  // Wait, does the backend have a custom compile execution endpoint?
-  // In compilerRepository, it was talking to Judge0. But wait! The backend also has a submissions pipeline that can execute code!
-  // In the backend, we can run code by creating a standard submission without contestId (which runs it asynchronously in Judge0 and saves it).
-  // Wait, let's see if the backend has a direct compile test endpoint or if we can use the submissions route:
-  // Yes! The standard submissions POST route executes the code and returns the submission details.
-  // We can call api.post('/submissions', { problemId, sourceCode, languageId }) to trigger the sandbox!
   const response = await api.post('/submissions', {
     problemId,
     sourceCode,

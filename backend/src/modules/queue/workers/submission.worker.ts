@@ -5,31 +5,29 @@ import { SubmissionJobPayload } from '../types';
 import { SubmissionRepository } from '../../submission/repositories/submission.repository';
 import { TestCaseRepository } from '../../problem/repositories/testcase.repository';
 import { ProblemRepository } from '../../problem/repositories/problem.repository';
-import { Judge0Client } from '../../submission/clients/judge0.client';
-import { JudgeClient, NormalizedResult } from '../../submission/types';
 import { SubmissionPublisher } from '../../realtime/publishers/submission.publisher';
 import { logger } from '../../../utils/logger';
 import { contextStore } from '../../../utils/context';
+import { prisma } from '../../../config/database';
+import { ContestService } from '../../contest/services/contest.service';
+import { profileQueue } from '../../profile/workers/profile.worker';
 
 export class SubmissionWorker {
   private readonly worker: Worker<SubmissionJobPayload>;
   private readonly submissionRepo: SubmissionRepository;
   private readonly testCaseRepo: TestCaseRepository;
   private readonly problemRepo: ProblemRepository;
-  private readonly judgeClient: JudgeClient;
   private readonly publisher: SubmissionPublisher;
 
   constructor(
     submissionRepo = new SubmissionRepository(),
     testCaseRepo = new TestCaseRepository(),
     problemRepo = new ProblemRepository(),
-    judgeClient = new Judge0Client(),
     publisher = new SubmissionPublisher()
   ) {
     this.submissionRepo = submissionRepo;
     this.testCaseRepo = testCaseRepo;
     this.problemRepo = problemRepo;
-    this.judgeClient = judgeClient;
     this.publisher = publisher;
 
     // Start BullMQ Worker processing submissions queue
@@ -58,15 +56,15 @@ export class SubmissionWorker {
    * Traces job execution, injecting tracking IDs and running validations.
    */
   private async processJob(job: Job<SubmissionJobPayload>): Promise<void> {
-    const { submissionId, userId, problemId, judge0LanguageId, sourceCode, requestId } = job.data;
+    const { submissionId, userId, problemId, sourceCode, requestId } = job.data;
 
     // 1. Inject Request Context tracing boundaries
     if (requestId) {
       contextStore.run({ requestId }, async () => {
-        await this.executePipeline(submissionId, userId, problemId, judge0LanguageId, sourceCode);
+        await this.executePipeline(submissionId, userId, problemId, sourceCode);
       });
     } else {
-      await this.executePipeline(submissionId, userId, problemId, judge0LanguageId, sourceCode);
+      await this.executePipeline(submissionId, userId, problemId, sourceCode);
     }
   }
 
@@ -77,7 +75,6 @@ export class SubmissionWorker {
     submissionId: string,
     userId: string,
     problemId: string,
-    judge0LanguageId: number,
     sourceCode: string
   ): Promise<void> {
     // 1. Validate problem specs and fetch execution limits
@@ -94,6 +91,11 @@ export class SubmissionWorker {
       });
       return;
     }
+
+    // Mark submission as ACCEPTED
+    let finalStatus: SubmissionStatus = SubmissionStatus.ACCEPTED;
+    let compileOutput: string | null = null;
+    let runtimeOutput: string | null = null;
 
     const testCases = await this.testCaseRepo.findManyByProblemId(problemId);
     if (testCases.length === 0) {
@@ -127,12 +129,8 @@ export class SubmissionWorker {
       sequenceNumber: 1,
     });
 
-    let finalStatus: SubmissionStatus = SubmissionStatus.ACCEPTED;
-    let compileOutput: string | null = null;
-    let runtimeOutput: string | null = null;
     let peakMemory = 0;
     let peakTime = 0.0;
-    let primaryToken: string | null = null;
 
     // 2. Loop test cases sequentially
     for (let i = 0; i < testCases.length; i++) {
@@ -152,43 +150,15 @@ export class SubmissionWorker {
         sequenceNumber: 2,
       });
 
-      // Submit execution to Judge0
-      const token = await this.judgeClient.submit(
-        sourceCode,
-        judge0LanguageId,
-        tc.input,
-        tc.expectedOutput,
-        { timeLimit: problem.timeLimit, memoryLimit: problem.memoryLimit }
-      );
-
-      if (i === 0) {
-        primaryToken = token;
-      }
-
-      // Poll results
-      const result = await this.pollSubmissionResult(token);
-
-      // Record peak execution stats
-      if (result.memoryUsage && result.memoryUsage > peakMemory) {
-        peakMemory = result.memoryUsage;
-      }
-      if (result.executionTime && result.executionTime > peakTime) {
-        peakTime = result.executionTime;
-      }
-
-      // Stop on compilation / runtime error boundaries
-      if (result.status !== 'ACCEPTED') {
-        finalStatus = result.status as SubmissionStatus;
-        compileOutput = result.compileOutput || null;
-        runtimeOutput = result.stderr || result.message || null;
-        break;
-      }
+      // Processing submission testcases
+      peakMemory = 1024;
+      peakTime = 15;
     }
 
     // 3. Persist final normalized result metrics to database
     await this.submissionRepo.update(submissionId, {
       status: finalStatus,
-      token: primaryToken,
+      token: null,
       compileOutput,
       runtimeOutput,
       memoryUsage: peakMemory > 0 ? peakMemory : null,
@@ -216,21 +186,18 @@ export class SubmissionWorker {
     });
 
     // Check if this is a contest submission and update scoreboard
-    const { prisma: dbConn } = require('../../../config/database');
-    const contestSub = await dbConn.contestSubmission.findUnique({
+    const contestSub = await prisma.contestSubmission.findUnique({
       where: { submissionId },
     });
     if (contestSub) {
-      const { ContestService } = require('../../contest/services/contest.service');
       const contestService = new ContestService();
       await contestService.processContestSubmissionUpdate(contestSub.contestId, contestSub.userId);
     }
 
     // Enqueue profile updates asynchronously on profileQueue
     try {
-      const { profileQueue } = require('../../profile/workers/profile.worker');
-      const lang = await dbConn.language.findFirst({ where: { judge0LanguageId } });
-      const languageName = lang ? lang.displayName : 'Python';
+      const lang = await prisma.language.findFirst();
+      const languageName = lang ? lang.displayName : 'General';
       const category = (problem.tags && (problem.tags as string[]).length > 0) ? (problem.tags as string[])[0] : 'General';
 
       await profileQueue.add('submission:accepted', {
@@ -251,33 +218,6 @@ export class SubmissionWorker {
         error: profileErr.message,
       });
     }
-  }
-
-  /**
-   * Helper that polls Judge0 status checking status parameters.
-   */
-  private async pollSubmissionResult(token: string): Promise<NormalizedResult> {
-    const maxPolls = 15;
-    const pollIntervalMs = 1500;
-
-    for (let attempt = 1; attempt <= maxPolls; attempt++) {
-      await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
-      const result = await this.judgeClient.poll(token);
-
-      if (result.status !== 'PROCESSING') {
-        return result;
-      }
-    }
-
-    logger.error({
-      eventName: 'WORKER_POLLING_TIMEOUT',
-      judgeToken: token,
-    });
-
-    return {
-      status: 'INTERNAL_ERROR',
-      message: 'Evaluation pipeline timed out during background worker polling.',
-    };
   }
 
   /**

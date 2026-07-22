@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ContestContext } from '../context/ContestContext';
-import Editor from '@monaco-editor/react';
 import { 
   ArrowLeft, Play, Send, History, HelpCircle, Maximize2, Minimize2, 
   Settings, Clock, Sparkles, Terminal, BookOpen, AlertCircle 
@@ -378,20 +377,25 @@ const ContestProblemArena = () => {
 
         {/* Right Pane - IDE and Console logs splits */}
         <div className="arena-right-pane" style={{ width: `${100 - leftWidth}%` }}>
-          {/* Monaco Editor Wrapper */}
+          {/* Code Editor Wrapper */}
           <div className="arena-editor-wrapper">
-            <Editor
-              height="100%"
-              language={selectedLanguage?.fileExtension === 'py' ? 'python' : selectedLanguage?.fileExtension === 'cpp' ? 'cpp' : selectedLanguage?.fileExtension || 'c'}
-              theme={theme}
+            <textarea
+              className="arena-code-input"
               value={code}
-              onChange={(value) => setCode(value || '')}
-              options={{
-                fontSize,
-                minimap: { enabled: false },
-                automaticLayout: true,
-                cursorBlinking: 'smooth',
-                padding: { top: 12 },
+              onChange={(e) => setCode(e.target.value)}
+              placeholder="// Write your solution here..."
+              style={{
+                width: '100%',
+                height: '100%',
+                background: '#0d0d15',
+                color: '#f4f4f5',
+                fontFamily: 'Fira Code, monospace',
+                fontSize: `${fontSize}px`,
+                padding: '16px',
+                border: 'none',
+                outline: 'none',
+                resize: 'none',
+                lineHeight: '1.6'
               }}
             />
           </div>

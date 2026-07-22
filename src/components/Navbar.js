@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   Menu, X, Code2, ArrowLeft, Search, FileCode, BookOpen, 
-  Code2 as CodeIcon, CheckCircle, Download, LayoutDashboard 
+  Code2 as CodeIcon, CheckCircle, Download, LayoutDashboard, ChevronDown
 } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 import GuestNavbar from './navigation/GuestNavbar';
 import StudentNavbar from './navigation/StudentNavbar';
 import AuthNavbar from './navigation/AuthNavbar';
 import SearchModal from './navigation/SearchModal';
+import { MegaMenuDropdown, MobileMegaMenuAccordion } from './navigation/MegaMenu';
 import '../styles/Navbar.css';
 
 const getInitials = (name) => {
@@ -41,6 +42,21 @@ const Navbar = () => {
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
+  // Mega Menu states
+  const [activeMegaMenu, setActiveMegaMenu] = useState(null); // 'subjects' | 'technologies' | null
+  const megaTimeoutRef = useRef(null);
+
+  const handleMouseEnterMega = (type) => {
+    if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
+    setActiveMegaMenu(type);
+  };
+
+  const handleMouseLeaveMega = () => {
+    megaTimeoutRef.current = setTimeout(() => {
+      setActiveMegaMenu(null);
+    }, 200);
+  };
+
   const isLoginPage = location.pathname === '/login';
 
   useEffect(() => {
@@ -68,17 +84,13 @@ const Navbar = () => {
 
   const navItems = user ? [
     { label: 'Dashboard', href: '/dashboard', isRoute: true },
-    { label: 'Roadmap', href: '/roadmap', isRoute: true },
-    { label: 'Practice', href: '/practice', isRoute: true },
-    { label: '🏆 Contests', href: '/contests', isRoute: true },
-    { label: '💻 Coding Workspace', href: '/compiler', isRoute: true },
-    { label: 'Analytics', href: '/analytics', isRoute: true }
+    { label: 'Roadmap', href: '/roadmap', isRoute: true }
   ] : [
     { label: 'About', href: '#about' },
     { label: 'Curriculum', href: '#roadmap' },
     { label: 'Labs', href: '#labs' },
     { label: 'Projects', href: '#projects' },
-    { label: 'Resources', href: '#resources' },
+    { label: 'Resources', href: '#resources' }
   ];
 
   const searchItems = [
@@ -168,19 +180,67 @@ const Navbar = () => {
           <span>BCA <span className="logo-dept">DEPT</span></span>
         </div>
 
-        {/* Desktop Menu - Common Nav Links */}
+        {/* Desktop Menu - Common Nav Links with Mega Menus */}
         {!isLoginPage && (
           <div className="nav-links">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item)}
-                className="nav-link"
+            <a
+              href="/dashboard"
+              onClick={(e) => { e.preventDefault(); navigate('/dashboard'); setActiveMegaMenu(null); }}
+              className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
+            >
+              Dashboard
+            </a>
+            <a
+              href="/roadmap"
+              onClick={(e) => { e.preventDefault(); navigate('/roadmap'); setActiveMegaMenu(null); }}
+              className={`nav-link ${location.pathname === '/roadmap' ? 'active' : ''}`}
+            >
+              Roadmap
+            </a>
+
+            {/* Subjects Mega Menu Trigger */}
+            <div 
+              className="nav-mega-trigger-wrapper"
+              onMouseEnter={() => handleMouseEnterMega('subjects')}
+              onMouseLeave={handleMouseLeaveMega}
+            >
+              <button 
+                className={`nav-link mm-trigger-btn ${activeMegaMenu === 'subjects' ? 'active' : ''}`}
+                onClick={() => setActiveMegaMenu(activeMegaMenu === 'subjects' ? null : 'subjects')}
               >
-                {item.label}
-              </a>
-            ))}
+                <span>Subjects</span>
+                <ChevronDown size={14} className={`mm-trigger-arrow ${activeMegaMenu === 'subjects' ? 'open' : ''}`} />
+              </button>
+
+              <MegaMenuDropdown 
+                type="subjects"
+                isOpen={activeMegaMenu === 'subjects'}
+                onClose={() => setActiveMegaMenu(null)}
+                navigate={navigate}
+              />
+            </div>
+
+            {/* Technologies Mega Menu Trigger */}
+            <div 
+              className="nav-mega-trigger-wrapper"
+              onMouseEnter={() => handleMouseEnterMega('technologies')}
+              onMouseLeave={handleMouseLeaveMega}
+            >
+              <button 
+                className={`nav-link mm-trigger-btn ${activeMegaMenu === 'technologies' ? 'active' : ''}`}
+                onClick={() => setActiveMegaMenu(activeMegaMenu === 'technologies' ? null : 'technologies')}
+              >
+                <span>Technologies</span>
+                <ChevronDown size={14} className={`mm-trigger-arrow ${activeMegaMenu === 'technologies' ? 'open' : ''}`} />
+              </button>
+
+              <MegaMenuDropdown 
+                type="technologies"
+                isOpen={activeMegaMenu === 'technologies'}
+                onClose={() => setActiveMegaMenu(null)}
+                navigate={navigate}
+              />
+            </div>
           </div>
         )}
 
@@ -202,13 +262,12 @@ const Navbar = () => {
           <GuestNavbar {...commonNavbarProps} />
         )}
 
-        {/* Mobile Hamburguer for Authenticated Users */}
-        {!isLoginPage && user && (
+        {/* Mobile Hamburguer for All Users */}
+        {!isLoginPage && (
           <button 
             className="mobile-menu-btn"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            style={{ display: 'none' }} /* Hidden via media query, activated on small screens */
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -219,16 +278,26 @@ const Navbar = () => {
       {!isLoginPage && (
         <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`}>
           <div className="mobile-links">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item)}
-                className="mobile-link"
-              >
-                {item.label}
-              </a>
-            ))}
+            <a
+              href="/dashboard"
+              onClick={(e) => { e.preventDefault(); navigate('/dashboard'); setMobileMenuOpen(false); }}
+              className="mobile-link"
+            >
+              Dashboard
+            </a>
+            <a
+              href="/roadmap"
+              onClick={(e) => { e.preventDefault(); navigate('/roadmap'); setMobileMenuOpen(false); }}
+              className="mobile-link"
+            >
+              Roadmap
+            </a>
+
+            {/* Mobile Mega Menu Accordions */}
+            <MobileMegaMenuAccordion 
+              navigate={navigate} 
+              closeMobileMenu={() => setMobileMenuOpen(false)} 
+            />
             
             {user ? (
               <button 

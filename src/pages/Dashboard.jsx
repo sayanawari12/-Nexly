@@ -257,38 +257,6 @@ const Dashboard = () => {
                 )}
               </article>
 
-              {/* Coding Workspace Quick Access Card */}
-              <article className="section-card coding-workspace-cta-card">
-                <h2 className="section-title">
-                  <Code2 size={18} style={{ color: 'var(--accent-glow)' }} /> Coding Workspace
-                </h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '12px' }}>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                    Access the central multi-language compiler workspace to write, test, and debug code in C, C++, Java, Python, and JavaScript.
-                  </p>
-                  
-                  {/* Extensible metadata section (Temporary inline helper; will migrate to Workspace Context/Service in future sprint) */}
-                  {profileData?.workspaceMetadata && (
-                    <div className="workspace-dynamic-meta" style={{ display: 'flex', gap: '16px', fontSize: '0.78rem', color: '#8a8a9d', margin: '4px 0' }}>
-                      {profileData.workspaceMetadata.lastUsedLanguage && (
-                        <span>💻 Last used: {profileData.workspaceMetadata.lastUsedLanguage}</span>
-                      )}
-                      {profileData.workspaceMetadata.executionsCount !== undefined && (
-                        <span>⚙️ Runs: {profileData.workspaceMetadata.executionsCount}</span>
-                      )}
-                    </div>
-                  )}
-
-                  <button 
-                    className="continue-btn-action"
-                    onClick={() => navigate('/compiler')}
-                    style={{ width: 'fit-content' }}
-                  >
-                    Open Coding Workspace <ArrowRight size={16} />
-                  </button>
-                </div>
-              </article>
-
               {/* 5. Learning Calendar Contribution Graph */}
               <article className="section-card">
                 <h2 className="section-title">

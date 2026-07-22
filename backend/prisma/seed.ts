@@ -17,7 +17,6 @@ async function main() {
   // 1. Seed Languages (decoupled from internal UUIDs)
   const languages = [
     {
-      judge0LanguageId: 50,
       displayName: 'C (GCC 9.2.0)',
       version: 'GCC 9.2.0',
       fileExtension: 'c',
@@ -25,7 +24,6 @@ async function main() {
       isActive: true,
     },
     {
-      judge0LanguageId: 54,
       displayName: 'C++ (GCC 9.2.0)',
       version: 'GCC 9.2.0',
       fileExtension: 'cpp',
@@ -33,7 +31,6 @@ async function main() {
       isActive: true,
     },
     {
-      judge0LanguageId: 62,
       displayName: 'Java (OpenJDK 13.0.1)',
       version: 'OpenJDK 13.0.1',
       fileExtension: 'java',
@@ -41,7 +38,6 @@ async function main() {
       isActive: true,
     },
     {
-      judge0LanguageId: 71,
       displayName: 'Python (3.8.1)',
       version: '3.8.1',
       fileExtension: 'py',
@@ -49,7 +45,6 @@ async function main() {
       isActive: true,
     },
     {
-      judge0LanguageId: 63,
       displayName: 'JavaScript (Node.js 12.14.0)',
       version: 'Node.js 12.14.0',
       fileExtension: 'js',
@@ -59,11 +54,12 @@ async function main() {
   ];
 
   for (const lang of languages) {
-    await prisma.language.upsert({
-      where: { judge0LanguageId: lang.judge0LanguageId },
-      update: lang,
-      create: lang,
-    });
+    const existing = await prisma.language.findFirst({ where: { fileExtension: lang.fileExtension } });
+    if (existing) {
+      await prisma.language.update({ where: { id: existing.id }, data: lang });
+    } else {
+      await prisma.language.create({ data: lang });
+    }
   }
   console.log(`✅ Seeded ${languages.length} programming languages.`);
 

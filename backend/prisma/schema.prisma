@@ -193,15 +193,18 @@ model Submission {
 }
 
 model Language {
-  id               String       @id @default(uuid()) @db.Uuid
-  judge0LanguageId Int          @unique
-  displayName      String       @db.VarChar(100)
-  version          String       @db.VarChar(50)
-  fileExtension    String       @db.VarChar(10)
-  isCompiled       Boolean      @default(true)
-  isActive         Boolean      @default(true)
-  createdAt        DateTime     @default(now()) @db.Timestamptz
-  updatedAt        DateTime     @updatedAt @db.Timestamptz
+  id               String   @id @default(uuid()) @db.Uuid
+
+  displayName      String
+  version          String
+  fileExtension    String
+
+  isCompiled       Boolean  @default(true)
+  isActive         Boolean  @default(true)
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
   submissions      Submission[]
 }
 

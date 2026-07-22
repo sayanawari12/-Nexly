@@ -41,18 +41,7 @@ export class MonitoringService {
       report.status = 'UNHEALTHY';
     }
 
-    // 3. Check Judge0
-    try {
-      const judgeRes = await axios.get('http://localhost:2358/teachers', {
-        timeout: 3000,
-      });
-      report.services.judge0 = { status: 'UP' };
-    } catch (err: any) {
-      report.services.judge0 = { status: 'DOWN', error: err.message };
-      // Do not mark system UNHEALTHY if Judge0 is down
-    }
-
-    // 4. Check Queue Backlog Size (BullMQ submissions queue)
+// 4. Check Queue Backlog Size (BullMQ submissions queue)
     try {
       const depth = await this.redis.llen('bull:submissions:wait');
       report.services.submissionsQueue = {
@@ -98,9 +87,6 @@ export class MonitoringService {
 
     const redisUp = health.services.redis?.status === 'UP' ? 1 : 0;
     metrics.push(`apex_service_up{service="redis"} ${redisUp}`);
-
-    const j0Up = health.services.judge0?.status === 'UP' ? 1 : 0;
-    metrics.push(`apex_service_up{service="judge0"} ${j0Up}`);
 
     // Queue depth
     const queueDepth = health.services.submissionsQueue?.depth || 0;

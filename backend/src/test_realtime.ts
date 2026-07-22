@@ -84,7 +84,7 @@ async function runTests() {
 
     const { prisma } = require('./config/database');
     const lang = await prisma.language.findFirst({
-      where: { judge0LanguageId: 71 }, // Python
+      where: { fileExtension: 'py' }, // Python
     });
     languageId = lang.id;
     console.log(`✅ Problem prep complete.`);

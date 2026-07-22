@@ -493,3 +493,34 @@
     font-size: 1.8rem;
   }
 }
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 0 12px;
+  }
+
+  .greeting-section {
+    padding: 20px 16px;
+  }
+
+  .greeting-title {
+    font-size: 1.4rem;
+  }
+
+  .stat-card {
+    padding: 16px 14px;
+    gap: 14px;
+  }
+
+  .stat-value {
+    font-size: 1.4rem;
+  }
+
+  .section-card {
+    padding: 16px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

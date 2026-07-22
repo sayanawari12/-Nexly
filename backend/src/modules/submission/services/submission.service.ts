@@ -106,7 +106,6 @@ export class SubmissionService {
       submissionId: submission.id,
       problemId,
       languageId,
-      judge0LanguageId: language.judge0LanguageId,
       sourceCode,
     });
 

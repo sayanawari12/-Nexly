@@ -421,7 +421,7 @@
 
 .subject-analytics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -442,7 +442,7 @@
 
 .skeleton-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -462,5 +462,26 @@
 @media (max-width: 868px) {
   .analytics-split-layout {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .analytics-container {
+    padding: 0 12px;
+  }
+  .analytics-title {
+    font-size: 22px;
+  }
+  .analytics-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .productivity-grid {
+    grid-template-columns: 1fr;
+  }
+  .graph-bars-area {
+    padding: 0 4px;
+  }
+  .graph-day-label {
+    font-size: 9px;
   }
 }

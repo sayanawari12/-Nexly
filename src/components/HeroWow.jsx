@@ -67,10 +67,10 @@ const HeroWow = () => {
           
           <div className="hero-actions">
             <Link 
-              to="/compiler" 
+              to="/roadmap" 
               className="btn-premium-purple"
             >
-              🚀 Start Coding
+              🚀 Start Learning
             </Link>
             <a 
               href="#about" 

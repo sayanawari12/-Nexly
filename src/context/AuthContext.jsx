@@ -26,29 +26,47 @@ export const AuthProvider = ({ children }) => {
     let unsubscribeProfile = null;
 
     const handleAuthChange = async (currentUser) => {
+      console.log("========== AUTH STATE ==========");
+      console.log(currentUser);
+
       if (currentUser) {
         try {
+          console.log("✅ Firebase user detected");
+
           const idToken = await currentUser.getIdToken();
+          console.log("✅ ID TOKEN:", idToken);
+
           const response = await axios.post(
             `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api/v1'}/auth/firebase`,
             {},
             {
-              headers: { Authorization: `Bearer ${idToken}` },
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+              },
               withCredentials: true,
             }
           );
+
+          console.log("✅ BACKEND RESPONSE:", response.data);
+
           const data = response.data?.data;
-          
+
           if (data && data.accessToken) {
+            console.log("✅ Access token received");
+
             localStorage.setItem('apex_token', data.accessToken);
+
             if (data.refreshToken) {
               localStorage.setItem('apex_refresh_token', data.refreshToken);
             }
+
             connectSocket(data.accessToken);
 
-            const fallbackName = currentUser.displayName || currentUser.email?.split('@')[0] || 'Student';
-            
-            // Set User & Base Profile immediately so session state is active and ProtectedRoute doesn't redirect
+            const fallbackName =
+              currentUser.displayName ||
+              currentUser.email?.split('@')[0] ||
+              'Student';
+
             const initialProfile = {
               uid: currentUser.uid,
               email: currentUser.email || '',
@@ -57,44 +75,71 @@ export const AuthProvider = ({ children }) => {
               apexUserId: data.user?.id,
               role: data.user?.role?.toLowerCase() || 'student',
             };
+
             setUser(currentUser);
             setProfile(initialProfile);
             setLoading(false);
 
-            // Sync Firestore user in background
             createUserDocument(currentUser.uid, {
               email: currentUser.email,
               displayName: currentUser.displayName || fallbackName,
-              photoURL: currentUser.photoURL || ''
+              photoURL: currentUser.photoURL || '',
             }).catch((err) => {
-              console.error("Auto user document synchronization failed in background:", err);
+              console.error(
+                'Auto user document synchronization failed:',
+                err
+              );
             });
 
-            // Set up real-time profile listener for dynamic profile updates
             const userDocRef = doc(db, 'users', currentUser.uid);
-            unsubscribeProfile = onSnapshot(userDocRef, (docSnap) => {
-              if (docSnap.exists()) {
-                const baseProfile = docSnap.data();
-                setProfile({
-                  ...baseProfile,
-                  apexUserId: data.user?.id,
-                  role: data.user?.role?.toLowerCase() || baseProfile.role?.toLowerCase() || 'student',
-                });
+
+            unsubscribeProfile = onSnapshot(
+              userDocRef,
+              (docSnap) => {
+                if (docSnap.exists()) {
+                  const baseProfile = docSnap.data();
+
+                  setProfile({
+                    ...baseProfile,
+                    apexUserId: data.user?.id,
+                    role:
+                      data.user?.role?.toLowerCase() ||
+                      baseProfile.role?.toLowerCase() ||
+                      'student',
+                  });
+                }
+              },
+              (err) => {
+                console.error(
+                  'Real-time profile subscription notice:',
+                  err
+                );
               }
-            }, (err) => {
-              console.error("Real-time profile subscription notice:", err);
-            });
+            );
+
             return;
           }
+
+          console.error("❌ Backend didn't return access token");
         } catch (error) {
-          console.error('[AuthContext] Project APEX token exchange failed:', error);
+          console.error('❌ AUTH ERROR:', error);
+
+          if (error.response) {
+            console.error('Status:', error.response.status);
+            console.error('Response:', error.response.data);
+          } else {
+            console.error('Message:', error.message);
+          }
         }
       }
 
-      // If user logs out or exchange fails, clear session parameters
+      console.log('❌ Clearing session');
+
       localStorage.removeItem('apex_token');
       localStorage.removeItem('apex_refresh_token');
+
       disconnectSocket();
+
       setProfile(null);
       setUser(null);
       setLoading(false);
@@ -106,16 +151,25 @@ export const AuthProvider = ({ children }) => {
     });
 
     const handleApexLogout = () => {
-      console.log('[AuthContext] Global logout triggered via refresh token rotation failure.');
+      console.log(
+        '[AuthContext] Global logout triggered via refresh token rotation failure.'
+      );
       logoutUser();
     };
 
     window.addEventListener('apex-logout', handleApexLogout);
-    
+
     return () => {
       unsubscribeAuth();
-      if (unsubscribeProfile) unsubscribeProfile();
-      window.removeEventListener('apex-logout', handleApexLogout);
+
+      if (unsubscribeProfile) {
+        unsubscribeProfile();
+      }
+
+      window.removeEventListener(
+        'apex-logout',
+        handleApexLogout
+      );
     };
   }, []);
 
@@ -126,23 +180,41 @@ export const AuthProvider = ({ children }) => {
   const signup = (email, password) => {
     return signupWithEmail(email, password);
   };
-
-  const logout = async () => {
+    const logout = async () => {
     try {
       const devRefreshToken = localStorage.getItem('apex_refresh_token');
-      const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api/v1';
+      const API_BASE_URL =
+        process.env.REACT_APP_API_BASE_URL ||
+        'http://localhost:5000/api/v1';
+
       const token = localStorage.getItem('apex_token');
-      const payload = devRefreshToken ? { refreshToken: devRefreshToken } : {};
-      await axios.post(`${API_BASE_URL}/auth/logout`, payload, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        withCredentials: true,
-      });
+
+      const payload = devRefreshToken
+        ? { refreshToken: devRefreshToken }
+        : {};
+
+      await axios.post(
+        `${API_BASE_URL}/auth/logout`,
+        payload,
+        {
+          headers: token
+            ? { Authorization: `Bearer ${token}` }
+            : {},
+          withCredentials: true,
+        }
+      );
     } catch (e) {
-      console.warn("Backend session invalidation failed during logout:", e);
+      console.warn(
+        'Backend session invalidation failed during logout:',
+        e
+      );
     }
+
     localStorage.removeItem('apex_token');
     localStorage.removeItem('apex_refresh_token');
+
     disconnectSocket();
+
     return logoutUser();
   };
 
@@ -155,11 +227,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   const getRole = (currentUser, currentProfile) => {
-    if (currentProfile && currentProfile.role) return currentProfile.role;
-    if (!currentUser) return 'guest';
-    if (currentUser.email && currentUser.email.toLowerCase().includes('admin')) {
+    if (currentProfile && currentProfile.role) {
+      return currentProfile.role;
+    }
+
+    if (!currentUser) {
+      return 'guest';
+    }
+
+    if (
+      currentUser.email &&
+      currentUser.email.toLowerCase().includes('admin')
+    ) {
       return 'admin';
     }
+
     return 'student';
   };
 
@@ -172,7 +254,7 @@ export const AuthProvider = ({ children }) => {
     signup,
     logout,
     resetPassword,
-    loginGoogle
+    loginGoogle,
   };
 
   return (

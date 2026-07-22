@@ -134,8 +134,7 @@ export class ScoringService {
             firstSolvedAt = new Date(sub.createdAt).toISOString();
           }
         } else {
-          // If partial scoring was supported, we could fetch details.
-          // For standard Judge0 pipeline, non-ACCEPTED yields 0.
+          // Non-ACCEPTED yields 0.
         }
       }
 

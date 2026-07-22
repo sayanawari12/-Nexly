@@ -22,6 +22,8 @@ profileWorker.start();
 
 // Start HTTP Server
 const server = app.listen(config.app.port, () => {
+  console.log("NODE PID:", process.pid);
+
   logger.info({
     message: `⚡ Server initialized successfully`,
     environment: config.app.env,

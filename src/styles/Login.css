@@ -707,3 +707,34 @@
 .auth-strength-value.strong svg {
   color: #34d399;
 }
+
+@media (max-width: 968px) {
+  .auth-page-container {
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+  }
+
+  .auth-brand-section {
+    display: none;
+  }
+
+  .auth-form-section {
+    padding: 40px 24px;
+    justify-content: center;
+  }
+
+  .auth-card {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-form-section {
+    padding: 24px 16px;
+  }
+
+  .auth-card-title {
+    font-size: 1.5rem;
+  }
+}

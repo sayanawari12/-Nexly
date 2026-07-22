@@ -985,3 +985,15 @@
     max-width: 180px;
   }
 }
+
+@media (max-width: 480px) {
+  .breadcrumb-nav-bar {
+    padding: 12px 4%;
+  }
+  .premium-syllabus-container {
+    padding: 24px 4% 40px;
+  }
+  .subject-hero-card {
+    padding: 24px 16px;
+  }
+}

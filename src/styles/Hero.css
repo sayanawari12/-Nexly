@@ -197,6 +197,33 @@
   }
 }
 
+@media (max-width: 480px) {
+  .hero-simple-section {
+    padding: 80px 4% 40px;
+  }
+  .title-welcome {
+    font-size: 1.2rem;
+  }
+  .title-dept {
+    font-size: 1.6rem;
+  }
+  .title-bca {
+    font-size: 2.5rem;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions .btn-premium,
+  .hero-actions .btn-premium-purple {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /* ============================================
    Hero Cinematic Video Background
    ============================================ */

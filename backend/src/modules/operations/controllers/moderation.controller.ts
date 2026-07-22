@@ -153,7 +153,6 @@ export class ModerationController {
       submissionId,
       userId: submission.userId,
       problemId: submission.problemId,
-      judge0LanguageId: 71, // fallback python
       sourceCode: submission.sourceCode,
     });
 

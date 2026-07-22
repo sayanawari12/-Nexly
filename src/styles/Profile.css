@@ -427,3 +427,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .profile-page-wrapper {
+    padding: 80px 4% 40px;
+  }
+  .profile-hero-card {
+    padding: 20px 16px;
+  }
+  .profile-display-name {
+    font-size: 1.4rem;
+  }
+}

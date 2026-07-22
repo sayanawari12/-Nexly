@@ -56,7 +56,7 @@
 /* Contest Cards Grid */
 .contests-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: 24px;
   margin-top: 24px;
 }
@@ -828,4 +828,27 @@
   font-weight: 700;
   color: rgba(255, 255, 255, 0.3);
   padding-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+  .contest-countdown-wrapper {
+    gap: 8px;
+  }
+  .countdown-digit-box {
+    min-width: 56px;
+    padding: 10px 4px;
+  }
+  .countdown-digit-box .digit {
+    font-size: 20px;
+  }
+  .countdown-colon {
+    font-size: 20px;
+    padding-bottom: 12px;
+  }
+  .contest-card {
+    padding: 16px;
+  }
+  .registration-panel-card {
+    padding: 20px 16px;
+  }
 }

@@ -13,8 +13,6 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(32, 'JWT_REFRESH_SECRET must be at least 32 characters'),
   JWT_ACCESS_EXPIRY: z.string().default('15m'),
   JWT_REFRESH_EXPIRY: z.string().default('7d'),
-  JUDGE0_API_URL: z.string().url(),
-  JUDGE0_CALLBACK_URL: z.string().url(),
   LOG_LEVEL: z.string().default('info'),
   PAGINATION_DEFAULT_LIMIT: z.coerce.number().default(20),
   PAGINATION_MAX_LIMIT: z.coerce.number().default(100),
@@ -48,10 +46,6 @@ export const config = {
   },
   queue: {
     redisUrl: parsedEnv.data.REDIS_URL,
-  },
-  judge0: {
-    apiUrl: parsedEnv.data.JUDGE0_API_URL,
-    callbackUrl: parsedEnv.data.JUDGE0_CALLBACK_URL,
   },
   logger: {
     level: parsedEnv.data.LOG_LEVEL,
