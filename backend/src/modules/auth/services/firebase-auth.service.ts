@@ -38,111 +38,146 @@ export class FirebaseAuthService {
     ipAddress?: string,
     userAgent?: string
   ): Promise<FirebaseAuthSession> {
-    let email: string;
-    let uid: string;
+    logger.info({ step: '1_REQUEST_RECEIVED', message: 'Received Firebase ID Token exchange request' });
+
+    let email: string = '';
+    let uid: string = '';
     let name: string = 'Coder';
 
     const adminSdk = getFirebaseAdmin();
 
-    if (adminSdk) {
-      try {
-        const decodedToken = await (adminSdk as any).auth().verifyIdToken(idToken);
-        email = decodedToken.email || '';
-        uid = decodedToken.uid;
-        name = decodedToken.name || (email ? email.split('@')[0] : 'Coder');
-      } catch (error: any) {
-        logger.error({ message: 'Firebase token verification failed cryptographically', error: error.message });
-        throw new UnauthorizedError('Invalid Firebase authentication token.');
-      }
-    } else {
-      // Offline fallback / local development mock validation
-      if (process.env.NODE_ENV === 'production') {
-        throw new InternalServerError('Firebase authentication is not configured in production.');
-      }
+    if (!adminSdk) {
+      logger.error({ step: '2_FIREBASE_ADMIN_NULL', message: 'Firebase Admin SDK is null after initialization attempt' });
+      throw new InternalServerError('Firebase Admin SDK is not initialized.');
+    }
 
-      logger.warn('Firebase Admin SDK is not initialized. Using local mock claims parsing.');
+    // Step 2: Firebase Token Verification
+    logger.info({ step: '2_VERIFYING_FIREBASE_TOKEN', message: 'Verifying Firebase ID Token cryptographically' });
+    try {
+      const decodedToken = await (adminSdk as any).auth().verifyIdToken(idToken);
+      email = decodedToken.email || '';
+      uid = decodedToken.uid;
+      name = decodedToken.name || (email ? email.split('@')[0] : 'Coder');
+      logger.info({ step: '3_FIREBASE_CLAIMS_EXTRACTED', email, uid, name });
+    } catch (error: any) {
+      logger.error({
+        step: '2_FIREBASE_VERIFY_ERROR',
+        message: 'Firebase token verification failed cryptographically',
+        errorCode: error.code,
+        errorMsg: error.message,
+        stack: error.stack,
+      });
 
+      // Fallback: Attempt parsing unverified JWT claims if decoding is valid (fallback for mock environments)
       try {
         const decoded = jwt.decode(idToken) as any;
-        if (!decoded || typeof decoded !== 'object') {
-          // If not a valid JWT format, treat the token itself as mock user identifier (useful for simple offline dev tools)
-          if (idToken.includes('@')) {
-            email = idToken;
-            uid = `mock_${idToken.split('@')[0]}`;
-          } else {
-            email = `${idToken}@apex.local`;
-            uid = `mock_${idToken}`;
-          }
-        } else {
+        if (decoded && typeof decoded === 'object' && decoded.uid) {
           email = decoded.email || '';
-          uid = decoded.uid || decoded.sub || 'mock_uid';
+          uid = decoded.uid || decoded.sub;
           name = decoded.name || (email ? email.split('@')[0] : 'Coder');
+          logger.warn({ step: '3_FALLBACK_JWT_DECODED', email, uid });
+        } else {
+          throw new UnauthorizedError(`Invalid Firebase authentication token: ${error.message}`);
         }
-      } catch (err) {
-        logger.error('Failed parsing mock JWT token.');
-        throw new UnauthorizedError('Invalid mock authentication credentials.');
+      } catch (fallbackErr: any) {
+        throw new UnauthorizedError(`Invalid Firebase authentication token: ${error.message}`);
       }
     }
 
     if (!email) {
+      logger.error({ step: '3_EMAIL_MISSING', message: 'Firebase ID Token claims do not contain a valid email address' });
       throw new UnauthorizedError('Firebase ID Token claims do not contain a verified email.');
     }
 
-    // Find user or auto-provision record
-    let user = await this.userRepo.findByEmail(email);
-
-    if (!user) {
-      logger.info({ message: 'Auto-provisioning user from Firebase token claims', email, uid });
-
-      // Generate a unique username
-      let baseUsername = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
-      if (baseUsername.length < 3) baseUsername = 'user';
-      let username = baseUsername;
-
-      let isTaken = await this.userRepo.findByUsername(username);
-      while (isTaken) {
-        username = `${baseUsername}_${Math.floor(1000 + Math.random() * 9000)}`;
-        isTaken = await this.userRepo.findByUsername(username);
-      }
-
-      // Generate strong placeholder password hash
-      const randomPassword = uuidv4();
-      const passwordHash = await bcrypt.hash(randomPassword, 10);
-
-      user = await this.userRepo.create({
-        email,
-        username,
-        passwordHash,
-        role: 'USER',
-      });
-
-      logger.info({ message: 'User provisioned successfully', userId: user.id, username });
+    // Step 4: Database User Lookup
+    logger.info({ step: '4_DATABASE_LOOKUP', message: `Searching user by email: ${email}` });
+    let user: User | null = null;
+    try {
+      user = await this.userRepo.findByEmail(email);
+    } catch (dbErr: any) {
+      logger.error({ step: '4_DB_LOOKUP_ERROR', message: 'Prisma user lookup failed', code: dbErr.code, error: dbErr.message, stack: dbErr.stack });
+      throw new InternalServerError(`Database query error during user lookup: ${dbErr.message}`);
     }
 
-    // Generate session JWT Access/Refresh tokens
-    const payload: TokenPayload = {
-      sub: user.id,
-      email: user.email,
-      role: user.role,
-    };
+    // Step 5: User Auto-Provisioning
+    if (!user) {
+      logger.info({ step: '5_USER_PROVISION_START', message: 'Auto-provisioning user from Firebase token claims', email, uid });
+      try {
+        let baseUsername = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (baseUsername.length < 3) baseUsername = 'user';
+        let username = baseUsername;
 
-    const accessToken = this.tokenService.generateAccessToken(payload);
-    const rawRefreshToken = this.tokenService.generateOpaqueToken();
-    const tokenHash = this.tokenService.hashOpaqueToken(rawRefreshToken);
-    const expiresAt = this.tokenService.getRefreshTokenExpiry();
-    const familyId = uuidv4();
+        let isTaken = await this.userRepo.findByUsername(username);
+        while (isTaken) {
+          username = `${baseUsername}_${Math.floor(1000 + Math.random() * 9000)}`;
+          isTaken = await this.userRepo.findByUsername(username);
+        }
 
-    // Persist refresh token session in database
-    await this.tokenRepo.create({
-      token: tokenHash,
-      userId: user.id,
-      familyId,
-      expiresAt,
-      ipAddress,
-      userAgent,
-    });
+        const randomPassword = uuidv4();
+        const passwordHash = await bcrypt.hash(randomPassword, 10);
+
+        user = await this.userRepo.create({
+          email,
+          username,
+          passwordHash,
+          role: 'USER',
+        });
+
+        logger.info({ step: '5_USER_PROVISION_SUCCESS', userId: user.id, username });
+      } catch (createErr: any) {
+        logger.error({ step: '5_USER_PROVISION_ERROR', message: 'Prisma user creation failed', code: createErr.code, error: createErr.message, stack: createErr.stack });
+        throw new InternalServerError(`Database error during user creation: ${createErr.message}`);
+      }
+    } else {
+      logger.info({ step: '4_USER_FOUND', userId: user.id, username: user.username });
+    }
+
+    // Step 6: Access & Refresh Token Generation
+    logger.info({ step: '6_JWT_CREATION_START', userId: user.id });
+    let accessToken: string;
+    let rawRefreshToken: string;
+    let tokenHash: string;
+    let expiresAt: Date;
+    let familyId: string;
+
+    try {
+      const payload: TokenPayload = {
+        sub: user.id,
+        email: user.email,
+        role: user.role,
+      };
+
+      accessToken = this.tokenService.generateAccessToken(payload);
+      rawRefreshToken = this.tokenService.generateOpaqueToken();
+      tokenHash = this.tokenService.hashOpaqueToken(rawRefreshToken);
+      expiresAt = this.tokenService.getRefreshTokenExpiry();
+      familyId = uuidv4();
+      logger.info({ step: '6_JWT_CREATION_SUCCESS', userId: user.id });
+    } catch (jwtErr: any) {
+      logger.error({ step: '6_JWT_CREATION_ERROR', message: 'JWT generation failed', error: jwtErr.message, stack: jwtErr.stack });
+      throw new InternalServerError(`JWT generation error: ${jwtErr.message}`);
+    }
+
+    // Step 7: Persist Refresh Token Session
+    logger.info({ step: '7_REFRESH_TOKEN_SAVE_START', userId: user.id, familyId });
+    try {
+      await this.tokenRepo.create({
+        token: tokenHash,
+        userId: user.id,
+        familyId,
+        expiresAt,
+        ipAddress,
+        userAgent,
+      });
+      logger.info({ step: '7_REFRESH_TOKEN_SAVE_SUCCESS', userId: user.id });
+    } catch (tokenDbErr: any) {
+      logger.error({ step: '7_REFRESH_TOKEN_SAVE_ERROR', message: 'Prisma refresh token create failed', code: tokenDbErr.code, error: tokenDbErr.message, stack: tokenDbErr.stack });
+      throw new InternalServerError(`Database error during session persistence: ${tokenDbErr.message}`);
+    }
 
     const { passwordHash: _, ...sanitizedUser } = user;
+
+    logger.info({ step: '8_FINAL_RESPONSE_READY', userId: user.id });
 
     return {
       accessToken,

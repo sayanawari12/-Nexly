@@ -1,35 +1,74 @@
-import admin from 'firebase-admin';
+import * as admin from 'firebase-admin';
 import { logger } from '../../../utils/logger';
 
-const firebaseAdmin: any = admin;
+function getAdminSdk() {
+  if ((admin as any).initializeApp) {
+    return admin;
+  }
+  if ((admin as any).default && (admin as any).default.initializeApp) {
+    return (admin as any).default;
+  }
+  return admin;
+}
+
 let isInitialized = false;
 
 export function initializeFirebaseAdmin() {
   if (isInitialized) return;
 
+  const firebaseAdmin = getAdminSdk();
+  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON || process.env.FIREBASE_SERVICE_ACCOUNT;
+  const projectId = process.env.FIREBASE_PROJECT_ID || 'bca-department-website';
+
   try {
-    if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
-      const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
-      firebaseAdmin.initializeApp({
-        credential: firebaseAdmin.credential.cert(serviceAccount),
-      });
-      logger.info('Firebase Admin SDK initialized successfully via service account JSON.');
-      isInitialized = true;
-    } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    if (serviceAccountJson) {
+      let serviceAccount: any;
+      try {
+        if (serviceAccountJson.trim().startsWith('{')) {
+          serviceAccount = JSON.parse(serviceAccountJson);
+        } else {
+          const decoded = Buffer.from(serviceAccountJson, 'base64').toString('utf8');
+          serviceAccount = JSON.parse(decoded);
+        }
+
+        firebaseAdmin.initializeApp({
+          credential: firebaseAdmin.credential.cert(serviceAccount),
+          projectId: serviceAccount.project_id || projectId,
+        });
+        logger.info({ message: 'Firebase Admin SDK initialized with Service Account Credentials.', projectId: serviceAccount.project_id || projectId });
+        isInitialized = true;
+        return;
+      } catch (jsonErr: any) {
+        logger.warn({ message: 'Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON, falling back to Project ID initialization', error: jsonErr.message });
+      }
+    }
+
+    if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
       firebaseAdmin.initializeApp({
         credential: firebaseAdmin.credential.applicationDefault(),
+        projectId,
       });
-      logger.info('Firebase Admin SDK initialized successfully via Application Default Credentials.');
+      logger.info({ message: 'Firebase Admin SDK initialized with Application Default Credentials.', projectId });
+      isInitialized = true;
+      return;
+    }
+
+    // Default Fallback: Initialize with Project ID for ID token cryptographic verification via Google public keys
+    firebaseAdmin.initializeApp({
+      projectId,
+    });
+    logger.info({ message: 'Firebase Admin SDK initialized with Project ID for token verification.', projectId });
+    isInitialized = true;
+  } catch (error: any) {
+    if (error.code === 'app/duplicate-app' || error.message?.includes('already exists')) {
       isInitialized = true;
     } else {
-      logger.warn('Firebase Admin SDK was not initialized: missing credentials. Mock fallback authentication will be active in development.');
+      logger.error({ message: 'Firebase Admin SDK initialization error', error: error.message, stack: error.stack });
     }
-  } catch (error) {
-    logger.error({ message: 'Firebase Admin SDK initialization failed', error });
   }
 }
 
 export function getFirebaseAdmin() {
   initializeFirebaseAdmin();
-  return isInitialized ? firebaseAdmin : null;
+  return isInitialized ? getAdminSdk() : null;
 }

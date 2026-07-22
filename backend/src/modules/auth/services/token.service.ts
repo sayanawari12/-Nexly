@@ -65,7 +65,7 @@ export class TokenService {
     res.cookie('refreshToken', token, {
       httpOnly: true,
       secure: isProd, // true in prod (requires HTTPS)
-      sameSite: isProd ? 'strict' : 'lax', // strict in prod to block CSRF
+      sameSite: isProd ? 'none' : 'lax', // 'none' in prod to allow cross-site cookie transmission between Vercel and Render
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
       path: '/api/v1/auth', // scope cookies specifically to auth handlers
     });
