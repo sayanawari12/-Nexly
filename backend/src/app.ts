@@ -42,7 +42,19 @@ app.use(cookieParser());
 app.use(requestContextMiddleware);
 app.use(morganMiddleware);
 
-// 3. Health check route
+// 3. Root & Health check routes
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    service: 'BCA Department Backend API',
+    version: '1.0.0',
+    environment: process.env.NODE_ENV,
+    status: 'Running',
+    health: '/api/v1/health',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.get('/api/v1/health', (req: Request, res: Response) => {
   const requestId = RequestContext.getRequestId() || 'unknown';
   res.status(200).json({

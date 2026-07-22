@@ -4,6 +4,7 @@ import { auth, db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import axios from 'axios';
 import { connectSocket, disconnectSocket } from '../services/socketService';
+import { API_BASE_URL } from '../config/api.config';
 import {
   loginWithEmail,
   signupWithEmail,
@@ -30,14 +31,16 @@ export const AuthProvider = ({ children }) => {
       console.log(currentUser);
 
       if (currentUser) {
-        try {
-          console.log("✅ Firebase user detected");
+        let apexUserId = null;
+        let userRole = 'student';
 
+        try {
+          console.log("✅ Firebase user detected:", currentUser.email);
           const idToken = await currentUser.getIdToken();
-          console.log("✅ ID TOKEN:", idToken);
+          console.log("✅ ID TOKEN retrieved");
 
           const response = await axios.post(
-            `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api/v1'}/auth/firebase`,
+            `${API_BASE_URL}/auth/firebase`,
             {},
             {
               headers: {
@@ -48,7 +51,6 @@ export const AuthProvider = ({ children }) => {
           );
 
           console.log("✅ BACKEND RESPONSE:", response.data);
-
           const data = response.data?.data;
 
           if (data && data.accessToken) {
@@ -62,78 +64,72 @@ export const AuthProvider = ({ children }) => {
 
             connectSocket(data.accessToken);
 
-            const fallbackName =
-              currentUser.displayName ||
-              currentUser.email?.split('@')[0] ||
-              'Student';
-
-            const initialProfile = {
-              uid: currentUser.uid,
-              email: currentUser.email || '',
-              displayName: currentUser.displayName || fallbackName,
-              photoURL: currentUser.photoURL || '',
-              apexUserId: data.user?.id,
-              role: data.user?.role?.toLowerCase() || 'student',
-            };
-
-            setUser(currentUser);
-            setProfile(initialProfile);
-            setLoading(false);
-
-            createUserDocument(currentUser.uid, {
-              email: currentUser.email,
-              displayName: currentUser.displayName || fallbackName,
-              photoURL: currentUser.photoURL || '',
-            }).catch((err) => {
-              console.error(
-                'Auto user document synchronization failed:',
-                err
-              );
-            });
-
-            const userDocRef = doc(db, 'users', currentUser.uid);
-
-            unsubscribeProfile = onSnapshot(
-              userDocRef,
-              (docSnap) => {
-                if (docSnap.exists()) {
-                  const baseProfile = docSnap.data();
-
-                  setProfile({
-                    ...baseProfile,
-                    apexUserId: data.user?.id,
-                    role:
-                      data.user?.role?.toLowerCase() ||
-                      baseProfile.role?.toLowerCase() ||
-                      'student',
-                  });
-                }
-              },
-              (err) => {
-                console.error(
-                  'Real-time profile subscription notice:',
-                  err
-                );
-              }
-            );
-
-            return;
-          }
-
-          console.error("❌ Backend didn't return access token");
-        } catch (error) {
-          console.error('❌ AUTH ERROR:', error);
-
-          if (error.response) {
-            console.error('Status:', error.response.status);
-            console.error('Response:', error.response.data);
+            apexUserId = data.user?.id;
+            userRole = data.user?.role?.toLowerCase() || 'student';
           } else {
-            console.error('Message:', error.message);
+            console.warn("⚠️ Backend response missing access token");
           }
+        } catch (error) {
+          console.warn('⚠️ Backend token exchange warning (continuing with Firebase user session):', error.message);
         }
+
+        const fallbackName =
+          currentUser.displayName ||
+          currentUser.email?.split('@')[0] ||
+          'Student';
+
+        const initialProfile = {
+          uid: currentUser.uid,
+          email: currentUser.email || '',
+          displayName: currentUser.displayName || fallbackName,
+          photoURL: currentUser.photoURL || '',
+          apexUserId: apexUserId || currentUser.uid,
+          role: userRole,
+        };
+
+        setUser(currentUser);
+        setProfile(initialProfile);
+        setLoading(false);
+
+        createUserDocument(currentUser.uid, {
+          email: currentUser.email,
+          displayName: currentUser.displayName || fallbackName,
+          photoURL: currentUser.photoURL || '',
+        }).catch((err) => {
+          console.error(
+            'Auto user document synchronization failed:',
+            err
+          );
+        });
+
+        const userDocRef = doc(db, 'users', currentUser.uid);
+
+        unsubscribeProfile = onSnapshot(
+          userDocRef,
+          (docSnap) => {
+            if (docSnap.exists()) {
+              const baseProfile = docSnap.data();
+
+              setProfile((prev) => ({
+                ...prev,
+                ...baseProfile,
+                apexUserId: apexUserId || prev?.apexUserId || currentUser.uid,
+                role: baseProfile.role?.toLowerCase() || userRole || 'student',
+              }));
+            }
+          },
+          (err) => {
+            console.error(
+              'Real-time profile subscription notice:',
+              err
+            );
+          }
+        );
+
+        return;
       }
 
-      console.log('❌ Clearing session');
+      console.log('❌ Clearing session for unauthenticated state');
 
       localStorage.removeItem('apex_token');
       localStorage.removeItem('apex_refresh_token');
@@ -180,13 +176,9 @@ export const AuthProvider = ({ children }) => {
   const signup = (email, password) => {
     return signupWithEmail(email, password);
   };
-    const logout = async () => {
+  const logout = async () => {
     try {
       const devRefreshToken = localStorage.getItem('apex_refresh_token');
-      const API_BASE_URL =
-        process.env.REACT_APP_API_BASE_URL ||
-        'http://localhost:5000/api/v1';
-
       const token = localStorage.getItem('apex_token');
 
       const payload = devRefreshToken
