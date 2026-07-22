@@ -3,14 +3,38 @@ import { config } from '../../../config';
 import { logger } from '../../../utils/logger';
 
 /**
- * Creates a fresh ioredis instance configured with REDIS_URL and mandatory BullMQ options.
+ * Centralized factory for ALL Redis connections in the application.
+ * Explicitly parses REDIS_URL to extract host, port, auth, and TLS so ioredis never falls back to "host".
  */
 export function createRedisInstance(extraOptions: Partial<RedisOptions> = {}): Redis {
-  return new Redis(config.queue.redisUrl, {
-    maxRetriesPerRequest: null, // mandatory config for BullMQ compatibility
-    enableReadyCheck: false,
-    ...extraOptions,
-  });
+  const redisUrl = config.queue.redisUrl;
+  if (!redisUrl) {
+    throw new Error('❌ REDIS_URL environment variable is missing or empty!');
+  }
+
+  try {
+    const parsedUrl = new URL(redisUrl);
+    const isTls = parsedUrl.protocol === 'rediss:';
+
+    return new Redis({
+      host: parsedUrl.hostname,
+      port: parsedUrl.port ? parseInt(parsedUrl.port, 10) : 6379,
+      username: parsedUrl.username ? decodeURIComponent(parsedUrl.username) : undefined,
+      password: parsedUrl.password ? decodeURIComponent(parsedUrl.password) : undefined,
+      db: parsedUrl.pathname ? parseInt(parsedUrl.pathname.replace('/', ''), 10) || 0 : 0,
+      tls: isTls ? { rejectUnauthorized: false } : undefined,
+      maxRetriesPerRequest: null, // mandatory config for BullMQ compatibility
+      enableReadyCheck: false,
+      ...extraOptions,
+    });
+  } catch (err: any) {
+    // Fallback: If URL parsing fails, pass string directly
+    return new Redis(redisUrl, {
+      maxRetriesPerRequest: null,
+      enableReadyCheck: false,
+      ...extraOptions,
+    });
+  }
 }
 
 // Create a single shared connection to our dedicated Redis container

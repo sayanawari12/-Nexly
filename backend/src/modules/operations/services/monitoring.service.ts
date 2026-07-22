@@ -4,12 +4,13 @@ import { config } from '../../../config';
 import axios from 'axios';
 import os from 'os';
 import logger from '../../../utils/logger';
+import { createRedisInstance } from '../../queue/config/queue.config';
 
 export class MonitoringService {
   private readonly redis: Redis;
 
   constructor() {
-    this.redis = new Redis(config.queue.redisUrl);
+    this.redis = createRedisInstance();
   }
 
   /**

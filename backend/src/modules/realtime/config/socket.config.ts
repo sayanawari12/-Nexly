@@ -3,6 +3,7 @@ import { createAdapter } from '@socket.io/redis-adapter';
 import Redis from 'ioredis';
 import { config } from '../../../config';
 import { logger } from '../../../utils/logger';
+import { createRedisInstance } from '../../queue/config/queue.config';
 
 let ioServer: Server | null = null;
 let pubClient: Redis | null = null;
@@ -23,7 +24,7 @@ export function initSocketServer(httpServer: any): Server {
   });
 
   // Decoupled Redis Pub/Sub connections for cluster-wide adapter synchronization
-  pubClient = new Redis(config.queue.redisUrl);
+  pubClient = createRedisInstance();
   subClient = pubClient.duplicate();
 
   ioServer.adapter(createAdapter(pubClient, subClient));

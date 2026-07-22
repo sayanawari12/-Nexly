@@ -2,12 +2,13 @@ import { Redis } from 'ioredis';
 import { prisma } from '../../../config/database';
 import { config } from '../../../config';
 import logger from '../../../utils/logger';
+import { createRedisInstance } from '../../queue/config/queue.config';
 
 export class LeaderboardService {
   private readonly redis: Redis;
 
   constructor() {
-    this.redis = new Redis(config.queue.redisUrl);
+    this.redis = createRedisInstance();
   }
 
   /**
