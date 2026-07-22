@@ -15,9 +15,15 @@ export function createRedisInstance(extraOptions: Partial<RedisOptions> = {}): R
   try {
     const parsedUrl = new URL(redisUrl);
     const isTls = parsedUrl.protocol === 'rediss:';
+    let host = parsedUrl.hostname;
+
+    // Fix placeholder "host" hostname in environment variables
+    if (host === 'host' || !host) {
+      host = '127.0.0.1';
+    }
 
     return new Redis({
-      host: parsedUrl.hostname,
+      host,
       port: parsedUrl.port ? parseInt(parsedUrl.port, 10) : 6379,
       username: parsedUrl.username ? decodeURIComponent(parsedUrl.username) : undefined,
       password: parsedUrl.password ? decodeURIComponent(parsedUrl.password) : undefined,
@@ -25,13 +31,19 @@ export function createRedisInstance(extraOptions: Partial<RedisOptions> = {}): R
       tls: isTls ? { rejectUnauthorized: false } : undefined,
       maxRetriesPerRequest: null, // mandatory config for BullMQ compatibility
       enableReadyCheck: false,
+      retryStrategy(times) {
+        // Capped backoff (max 30s) to prevent reconnect log spamming
+        return Math.min(times * 1000, 30000);
+      },
       ...extraOptions,
     });
   } catch (err: any) {
-    // Fallback: If URL parsing fails, pass string directly
     return new Redis(redisUrl, {
       maxRetriesPerRequest: null,
       enableReadyCheck: false,
+      retryStrategy(times) {
+        return Math.min(times * 1000, 30000);
+      },
       ...extraOptions,
     });
   }
