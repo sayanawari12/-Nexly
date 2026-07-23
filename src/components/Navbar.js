@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
-  Menu, X, Code2, ArrowLeft, Search, FileCode, BookOpen, 
-  Code2 as CodeIcon, CheckCircle, Download, LayoutDashboard, ChevronDown
+  Menu, X, Code2, ArrowLeft, Search, BookOpen, 
+  LayoutDashboard, Map, Info, User, LogOut, LogIn, ChevronDown
 } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 import GuestNavbar from './navigation/GuestNavbar';
 import StudentNavbar from './navigation/StudentNavbar';
 import AuthNavbar from './navigation/AuthNavbar';
 import SearchModal from './navigation/SearchModal';
-import { MegaMenuDropdown, MobileMegaMenuAccordion } from './navigation/MegaMenu';
 import '../styles/Navbar.css';
 
 const getInitials = (name) => {
@@ -20,11 +19,13 @@ const getInitials = (name) => {
 };
 
 const getUsername = (userObj) => {
+  if (!userObj) return '@student';
   if (userObj.username) return `@${userObj.username}`;
   if (userObj.displayName) {
     return `@${userObj.displayName.toLowerCase().replace(/\s+/g, '')}12`;
   }
-  return `@student_${userObj.uid.slice(0, 5)}`;
+  if (userObj.uid) return `@student_${userObj.uid.slice(0, 5)}`;
+  return '@student';
 };
 
 const Navbar = () => {
@@ -42,20 +43,7 @@ const Navbar = () => {
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-  // Mega Menu states
-  const [activeMegaMenu, setActiveMegaMenu] = useState(null); // 'subjects' | 'technologies' | null
-  const megaTimeoutRef = useRef(null);
-
-  const handleMouseEnterMega = (type) => {
-    if (megaTimeoutRef.current) clearTimeout(megaTimeoutRef.current);
-    setActiveMegaMenu(type);
-  };
-
-  const handleMouseLeaveMega = () => {
-    megaTimeoutRef.current = setTimeout(() => {
-      setActiveMegaMenu(null);
-    }, 200);
-  };
+  const [activeMegaMenu, setActiveMegaMenu] = useState(null);
 
   const isLoginPage = location.pathname === '/login';
 
@@ -67,11 +55,14 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close search modal on Escape key press, open on Ctrl+K / Cmd+K
+  // Keyboard accessibility: ESC key closes search modal & left drawer
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
         setSearchModalOpen(false);
+        setMobileMenuOpen(false);
+        setNotifDropdownOpen(false);
+        setProfileDropdownOpen(false);
       }
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
@@ -82,24 +73,24 @@ const Navbar = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Lock body scroll when left drawer is active
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   const navItems = [
     { label: 'Home', href: '/', isRoute: true },
     { label: 'Dashboard', href: '/dashboard', isRoute: true },
     { label: 'Roadmap', href: '/roadmap', isRoute: true },
     { label: 'Resources', href: '#resources', isRoute: false },
     { label: 'About', href: '#about', isRoute: false }
-  ];
-
-  const searchItems = [
-    { title: "Introduction to C", category: "Roadmaps", type: "roadmap" },
-    { title: "Setup & Environment", category: "Roadmaps", type: "roadmap" },
-    { title: "Lecture 1: History of C", category: "Lessons", type: "lesson" },
-    { title: "Lecture 2: C Compilation", category: "Lessons", type: "lesson" },
-    { title: "Hello World in C", category: "Programs", type: "program" },
-    { title: "Array Traversal", category: "Programs", type: "program" },
-    { title: "Loops Challenge Quiz", category: "Quizzes", type: "quiz" },
-    { title: "Syllabus Semester 2 PDF", category: "Downloads", type: "download" },
-    { title: "Tic Tac Toe Console Game", category: "Projects", type: "project" }
   ];
 
   const handleNavClick = (e, item) => {
@@ -112,7 +103,6 @@ const Navbar = () => {
     }
 
     const href = typeof item === 'string' ? item : item.href;
-    // If not on the homepage, route to home first and then scroll
     if (location.pathname !== '/') {
       navigate('/');
       setTimeout(() => {
@@ -142,11 +132,6 @@ const Navbar = () => {
     }
   };
 
-  const filteredSearch = searchItems.filter(item => 
-    item.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Common Props for Child Navbars
   const commonNavbarProps = {
     user,
     profile,
@@ -166,18 +151,34 @@ const Navbar = () => {
     setSearchOpen,
     searchQuery,
     mobileMenuOpen,
-    setMobileMenuOpen
+    setMobileMenuOpen,
+    userRole
   };
 
   return (
     <>
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-        <div className="nav-logo" onClick={handleLogoClick}>
-          <Code2 className="logo-icon" size={24} />
-          <span>BCA <span className="logo-dept">DEPT</span></span>
+        <div className="nav-left">
+          {/* Hamburger Menu Button for Mobile & Tablet */}
+          {!isLoginPage && (
+            <button 
+              className="mobile-menu-btn"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          )}
+
+          {/* Brand Logo */}
+          <div className="nav-logo" onClick={handleLogoClick}>
+            <Code2 className="logo-icon" size={24} />
+            <span>BCA <span className="logo-dept">DEPT</span></span>
+          </div>
         </div>
 
-        {/* Desktop Menu - Home, Dashboard, Roadmap, Resources, About */}
+        {/* Desktop Navigation Links (≥1024px) */}
         {!isLoginPage && (
           <div className="nav-links">
             <a
@@ -226,7 +227,7 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* Dynamic Navigation Delegated based on Role state */}
+        {/* Dynamic Controls based on Auth state */}
         {isLoginPage ? (
           <div className="nav-right">
             <a 
@@ -243,88 +244,121 @@ const Navbar = () => {
         ) : (
           <GuestNavbar {...commonNavbarProps} />
         )}
-
-        {/* Mobile Hamburguer for All Users */}
-        {!isLoginPage && (
-          <button 
-            className="mobile-menu-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        )}
       </nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Slide-out Left Drawer & Backdrop */}
       {!isLoginPage && (
-        <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`}>
-          <div className="mobile-links">
-            <a
-              href="/"
-              onClick={(e) => { e.preventDefault(); navigate('/'); setMobileMenuOpen(false); }}
-              className="mobile-link"
-            >
-              Home
-            </a>
-            <a
-              href="/dashboard"
-              onClick={(e) => { e.preventDefault(); navigate('/dashboard'); setMobileMenuOpen(false); }}
-              className="mobile-link"
-            >
-              Dashboard
-            </a>
-            <a
-              href="/roadmap"
-              onClick={(e) => { e.preventDefault(); navigate('/roadmap'); setMobileMenuOpen(false); }}
-              className="mobile-link"
-            >
-              Roadmap
-            </a>
-            <a
-              href="#resources"
-              onClick={(e) => {
-                handleNavClick(e, { label: 'Resources', href: '#resources', isRoute: false });
-                setMobileMenuOpen(false);
-              }}
-              className="mobile-link"
-            >
-              Resources
-            </a>
-            <a
-              href="#about"
-              onClick={(e) => {
-                handleNavClick(e, { label: 'About', href: '#about', isRoute: false });
-                setMobileMenuOpen(false);
-              }}
-              className="mobile-link"
-            >
-              About
-            </a>
+        <>
+          <div 
+            className={`nav-drawer-backdrop ${mobileMenuOpen ? 'open' : ''}`}
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
 
-            {user ? (
+          <aside 
+            className={`nav-drawer ${mobileMenuOpen ? 'open' : ''}`}
+            aria-label="Navigation drawer"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="drawer-header">
+              <div className="nav-logo" onClick={() => { handleLogoClick(); setMobileMenuOpen(false); }}>
+                <Code2 className="logo-icon" size={22} />
+                <span>BCA <span className="logo-dept">DEPT</span></span>
+              </div>
               <button 
-                onClick={() => { logout(); setMobileMenuOpen(false); }}
-                className="btn-premium"
-                style={{ marginTop: '20px', width: '80%', justifyContent: 'center', cursor: 'pointer' }}
+                className="drawer-close-btn"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close menu"
               >
-                Sign Out
+                <X size={20} />
               </button>
-            ) : (
-              <a 
-                href="/login" 
-                onClick={(e) => { e.preventDefault(); navigate('/login'); setMobileMenuOpen(false); }}
-                className="btn-premium"
-                style={{ marginTop: '20px', width: '80%', justifyContent: 'center' }}
-              >
-                Sign In
-              </a>
-            )}
-          </div>
-        </div>
+            </div>
+
+            <div className="drawer-content">
+              <div className="drawer-nav-list">
+                <a
+                  href="/"
+                  onClick={(e) => { e.preventDefault(); navigate('/'); setMobileMenuOpen(false); }}
+                  className={`drawer-nav-item ${location.pathname === '/' ? 'active' : ''}`}
+                >
+                  <Code2 size={18} className="drawer-item-icon" />
+                  <span>Home</span>
+                </a>
+                <a
+                  href="/dashboard"
+                  onClick={(e) => { e.preventDefault(); navigate('/dashboard'); setMobileMenuOpen(false); }}
+                  className={`drawer-nav-item ${location.pathname === '/dashboard' ? 'active' : ''}`}
+                >
+                  <LayoutDashboard size={18} className="drawer-item-icon" />
+                  <span>Dashboard</span>
+                </a>
+                <a
+                  href="/roadmap"
+                  onClick={(e) => { e.preventDefault(); navigate('/roadmap'); setMobileMenuOpen(false); }}
+                  className={`drawer-nav-item ${location.pathname === '/roadmap' ? 'active' : ''}`}
+                >
+                  <Map size={18} className="drawer-item-icon" />
+                  <span>Roadmap</span>
+                </a>
+                <a
+                  href="#resources"
+                  onClick={(e) => {
+                    handleNavClick(e, { label: 'Resources', href: '#resources', isRoute: false });
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`drawer-nav-item ${location.hash === '#resources' ? 'active' : ''}`}
+                >
+                  <BookOpen size={18} className="drawer-item-icon" />
+                  <span>Resources</span>
+                </a>
+                <a
+                  href="#about"
+                  onClick={(e) => {
+                    handleNavClick(e, { label: 'About', href: '#about', isRoute: false });
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`drawer-nav-item ${location.hash === '#about' ? 'active' : ''}`}
+                >
+                  <Info size={18} className="drawer-item-icon" />
+                  <span>About</span>
+                </a>
+              </div>
+
+              <div className="drawer-footer">
+                {user ? (
+                  <>
+                    <button 
+                      className="drawer-action-btn"
+                      onClick={() => { navigate('/profile'); setMobileMenuOpen(false); }}
+                    >
+                      <User size={18} className="drawer-item-icon" />
+                      <span>My Profile</span>
+                    </button>
+                    <button 
+                      className="drawer-action-btn logout-btn"
+                      onClick={() => { logout(); setMobileMenuOpen(false); }}
+                    >
+                      <LogOut size={18} className="drawer-item-icon" />
+                      <span>Logout</span>
+                    </button>
+                  </>
+                ) : (
+                  <button 
+                    className="drawer-action-btn login-btn"
+                    onClick={() => { navigate('/login'); setMobileMenuOpen(false); }}
+                  >
+                    <LogIn size={18} className="drawer-item-icon" />
+                    <span>Sign In</span>
+                  </button>
+                )}
+              </div>
+            </div>
+          </aside>
+        </>
       )}
 
-      {/* Premium Spotlight Global Search Modal Overlay */}
+      {/* Global Search Modal Overlay */}
       <SearchModal 
         isOpen={searchModalOpen}
         onClose={() => setSearchModalOpen(false)}
