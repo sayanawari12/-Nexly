@@ -138,6 +138,10 @@ const Dashboard = () => {
     resumeLearning(navigate);
   };
 
+  const handleResumeLesson = (lessonId) => {
+    navigate(`/lessons/c-lesson-${lessonId || 1}`);
+  };
+
   return (
     <StudentLayout>
       <div className="dashboard-wrapper">
@@ -327,6 +331,15 @@ const Dashboard = () => {
                       key={g.id} 
                       className={`goal-item-row ${g.completed ? 'completed' : ''}`}
                       onClick={() => toggleGoal(g.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          toggleGoal(g.id);
+                        }
+                      }}
+                      role="checkbox"
+                      aria-checked={g.completed}
+                      tabIndex={0}
                     >
                       <div className={`goal-checkbox ${g.completed ? 'checked' : ''}`}>
                         {g.completed && <Check size={12} />}
