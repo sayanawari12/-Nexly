@@ -8,6 +8,7 @@ const HeroWow = () => {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
+    if (window.innerWidth < 768) return;
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
     // Calculate tilt offset angles (limit to -10 to +10 degrees for elegant restraint)
