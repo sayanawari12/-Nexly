@@ -45,6 +45,7 @@ export class AuthController {
 
     res.status(200).json(ApiResponse.success({
       accessToken: session.accessToken,
+      refreshToken: session.refreshToken,
       user: session.user,
     }));
   };
@@ -119,6 +120,7 @@ export class AuthController {
 
     res.status(200).json(ApiResponse.success({
       accessToken: session.accessToken,
+      refreshToken: session.refreshToken,
       user: session.user,
     }));
   };
