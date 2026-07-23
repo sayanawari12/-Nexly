@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import { getAuth, Auth } from 'firebase-admin/auth';
 import { logger } from '../../../utils/logger';
 
 function getAdminSdk() {
@@ -91,4 +92,14 @@ export function getFirebaseAdmin() {
     return sdk;
   }
   return isInitialized ? sdk : null;
+}
+
+export function getFirebaseAuth(): Auth | null {
+  initializeFirebaseAdmin();
+  try {
+    return getAuth();
+  } catch (err: any) {
+    logger.error({ message: 'Failed to retrieve FirebaseAuth instance', error: err.message });
+    return null;
+  }
 }

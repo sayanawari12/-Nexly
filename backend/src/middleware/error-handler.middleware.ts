@@ -15,6 +15,38 @@ export const errorHandlerMiddleware = (
   const requestId = RequestContext.getRequestId() || 'unknown';
   const timestamp = new Date().toISOString();
 
+  // Comprehensive diagnostic logging at the very start of the error handler
+  console.error("==================== RUNTIME EXCEPTION TRACE ====================");
+  console.error("Timestamp:      ", timestamp);
+  console.error("HTTP Method:    ", req.method);
+  console.error("Request Path:   ", req.originalUrl);
+  console.error("Request ID:     ", requestId);
+  console.error("Exception Class:", err.constructor ? err.constructor.name : 'UnknownClass');
+  console.error("Exception Name: ", err.name);
+  console.error("Error Message:  ", err.message);
+  console.error("Full Stack:\n", err.stack);
+  if ((err as any).cause) {
+    console.error("err.cause:\n", (err as any).cause);
+  }
+  console.error("Raw Error Object:", err);
+  console.error("=================================================================");
+
+  logger.error(
+    {
+      err,
+      requestId,
+      method: req.method,
+      path: req.originalUrl,
+      timestamp,
+      exceptionClass: err.constructor ? err.constructor.name : 'UnknownClass',
+      exceptionName: err.name,
+      message: err.message,
+      stack: err.stack,
+      cause: (err as any).cause || null,
+    },
+    "UNHANDLED_HTTP_EXCEPTION"
+  );
+
   // 1. AppError operational exceptions
   if (err instanceof AppError) {
     logger.warn({

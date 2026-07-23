@@ -1,7 +1,7 @@
 import { UserRepository } from '../repositories/user.repository';
 import { RefreshTokenRepository } from '../repositories/refresh-token.repository';
 import { TokenService, TokenPayload } from './token.service';
-import { getFirebaseAdmin } from '../providers/firebase.provider';
+import { getFirebaseAuth } from '../providers/firebase.provider';
 import { UnauthorizedError, InternalServerError } from '../../../errors';
 import { logger } from '../../../utils/logger';
 import bcrypt from 'bcrypt';
@@ -44,17 +44,17 @@ export class FirebaseAuthService {
     let uid: string = '';
     let name: string = 'Coder';
 
-    const adminSdk = getFirebaseAdmin();
+    const authService = getFirebaseAuth();
 
-    if (!adminSdk) {
-      logger.error({ step: '2_FIREBASE_ADMIN_NULL', message: 'Firebase Admin SDK is null after initialization attempt' });
-      throw new InternalServerError('Firebase Admin SDK is not initialized.');
+    if (!authService) {
+      logger.error({ step: '2_FIREBASE_AUTH_NULL', message: 'FirebaseAuth instance is null after initialization attempt' });
+      throw new InternalServerError('Firebase Auth is not initialized.');
     }
 
-    // Step 2: Firebase Token Verification
+    // Step 2: Firebase Token Verification using getAuth() from firebase-admin/auth
     logger.info({ step: '2_VERIFYING_FIREBASE_TOKEN', message: 'Verifying Firebase ID Token cryptographically' });
     try {
-      const decodedToken = await (adminSdk as any).auth().verifyIdToken(idToken);
+      const decodedToken = await authService.verifyIdToken(idToken);
       email = decodedToken.email || '';
       uid = decodedToken.uid || decodedToken.sub || decodedToken.user_id || '';
       name = decodedToken.name || (email ? email.split('@')[0] : 'Coder');
