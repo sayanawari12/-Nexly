@@ -1,265 +1,164 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Play, CheckCircle2, Circle, Lock, Clock, BookOpen, 
-  ChevronDown, ChevronRight, BarChart3, Award, Sparkles 
-} from 'lucide-react';
-import { useLearning } from '../context/LearningContext';
-import { useProgress } from '../context/ProgressContext';
+import { motion } from 'framer-motion';
+import { SiTypescript } from 'react-icons/si';
+import { TECH_LOGOS } from '../components/sections/TechLogos';
 import StudentLayout from '../layouts/StudentLayout';
-import '../styles/Roadmap.css';
+import '../styles/RoadmapSection.css';
 
 const Roadmap = () => {
   const navigate = useNavigate();
-  const { semesters, subjects, units, lessons, loadingLearning } = useLearning();
-  const { 
-    completedLessons, 
-    inProgressLessons, 
-    semesterProgress, 
-    subjectProgress, 
-    loadingProgress,
-    resumeLearning
-  } = useProgress();
 
-  // Track expanded units (accordion map)
-  const [expandedUnits, setExpandedUnits] = useState({});
+  const languagesRow1 = [
+    { name: 'C', key: 'c', path: '/roadmaps/programming/c', svg: TECH_LOGOS.c },
+    { name: 'C++', key: 'cpp', path: '/roadmaps/programming/cpp', svg: TECH_LOGOS.cpp },
+    { name: 'Java', key: 'java', path: '/roadmaps/programming/java', svg: TECH_LOGOS.java }
+  ];
 
-  const toggleUnit = (unitId) => {
-    setExpandedUnits(prev => ({
-      ...prev,
-      [unitId]: !prev[unitId]
-    }));
+  const languagesRow2 = [
+    { name: 'Python', key: 'python', path: '/roadmaps/programming/python', svg: TECH_LOGOS.python },
+    { name: 'JavaScript', key: 'javascript', path: '/roadmaps/programming/javascript', svg: TECH_LOGOS.javascript },
+    { name: 'TypeScript', key: 'typescript', path: '/roadmaps/programming/typescript', isIcon: true }
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
   };
 
-  if (loadingLearning || loadingProgress) {
-    return (
-      <StudentLayout>
-        <div className="roadmap-loading-container">
-          <div className="roadmap-skeleton-header"></div>
-          <div className="roadmap-skeleton-cards">
-            <div className="skeleton-card"></div>
-            <div className="skeleton-card"></div>
-          </div>
-        </div>
-      </StudentLayout>
-    );
-  }
-
-  // Active semester: semester-2
-  const activeSemester = semesters.find(s => s.id === 'semester-2') || semesters[0];
-  const semesterSubjects = subjects.filter(s => s.semesterId === (activeSemester?.id || 'semester-2'));
-
-  // Get first uncompleted lesson of a subject to resume
-  const getSubjectResumeLessonId = (subjectId) => {
-    const subjectUnits = units.filter(u => u.subjectId === subjectId);
-    const subjectUnitIds = new Set(subjectUnits.map(u => u.id));
-    const subjectLessons = lessons.filter(l => subjectUnitIds.has(l.unitId));
-
-    const uncompleted = subjectLessons.find(l => !completedLessons.has(String(l.id)) && !completedLessons.has(Number(l.id)));
-    return uncompleted ? uncompleted.id : (subjectLessons[0] ? subjectLessons[0].id : null);
-  };
-
-  const handleResumeSubject = (subjectId) => {
-    const resumeId = getSubjectResumeLessonId(subjectId);
-    if (resumeId) {
-      navigate(`/lessons/${resumeId}`);
+  const cardVariants = {
+    hidden: { opacity: 0, y: 25 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
     }
   };
 
   return (
     <StudentLayout>
-      <div className="roadmap-wrapper">
-        <div className="roadmap-container">
-          
-          {/* Header */}
-          <header className="roadmap-header slide-up-in">
-            <div className="roadmap-title-row">
-              <h1 className="roadmap-title">Syllabus Learning Roadmap</h1>
-              <span className="roadmap-badge">{activeSemester?.title || 'Semester 2'}</span>
-            </div>
-            <p className="roadmap-desc">
-              Track your conceptual milestones, view unit breakdowns, and monitor subject completion scores in real time.
-            </p>
-          </header>
+      <section className="roadmap-apple-section">
+        {/* Section Header */}
+        <motion.div 
+          className="roadmap-apple-header"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="roadmap-apple-title">Learning Roadmaps</h1>
+          <p className="roadmap-apple-subtitle">
+            Choose your learning journey and master industry-ready skills through structured roadmaps.
+          </p>
+        </motion.div>
 
-          {/* Sticky Overall Semester Progress Bar */}
-          <section className="sticky-progress-panel">
-            <div className="progress-panel-details">
-              <div className="panel-text-box">
-                <span className="panel-title">Overall Semester Completion</span>
-                <span className="panel-desc">All subjects and lesson checkmarks aggregated</span>
+        {/* Layout: Exactly 3 Equal Cards */}
+        <motion.div 
+          className="roadmap-apple-grid"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* 1. Programming Languages Card */}
+          <motion.div className="roadmap-apple-card" variants={cardVariants}>
+            <div className="roadmap-card-header">
+              <h2 className="roadmap-card-title">💻 Programming Languages</h2>
+              <p className="roadmap-card-desc">
+                Master the most popular programming languages through structured roadmaps and hands-on projects.
+              </p>
+            </div>
+
+            <div className="roadmap-card-body">
+              <div className="roadmap-logo-grid">
+                {/* Row 1: C, C++, Java */}
+                <div className="roadmap-logo-row">
+                  {languagesRow1.map((lang) => (
+                    <button
+                      key={lang.key}
+                      className="roadmap-tech-btn"
+                      onClick={() => navigate(lang.path)}
+                      aria-label={`Learn ${lang.name}`}
+                    >
+                      <div 
+                        className="roadmap-tech-icon"
+                        dangerouslySetInnerHTML={{ __html: lang.svg }}
+                      />
+                      <span className="roadmap-tech-name">{lang.name}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Row 2: Python, JavaScript, TypeScript */}
+                <div className="roadmap-logo-row">
+                  {languagesRow2.map((lang) => (
+                    <button
+                      key={lang.key}
+                      className="roadmap-tech-btn"
+                      onClick={() => navigate(lang.path)}
+                      aria-label={`Learn ${lang.name}`}
+                    >
+                      <div className="roadmap-tech-icon">
+                        {lang.isIcon ? (
+                          <SiTypescript size={30} style={{ color: '#3178C6' }} />
+                        ) : (
+                          <div dangerouslySetInnerHTML={{ __html: lang.svg }} />
+                        )}
+                      </div>
+                      <span className="roadmap-tech-name">{lang.name}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-              <span className="panel-percentage">{semesterProgress}%</span>
-            </div>
-            <div className="panel-bar-bg">
-              <div 
-                className="panel-bar-fill" 
-                style={{ width: `${semesterProgress}%` }}
-              ></div>
-            </div>
-          </section>
-
-          {/* Subjects Grid */}
-          <main className="roadmap-workspace">
-            <h2 className="workspace-section-title">
-              <BarChart3 size={18} style={{ color: 'var(--accent-glow)' }} /> Subjects Overview
-            </h2>
-            
-            <div className="subjects-grid">
-              {semesterSubjects.map(subject => {
-                const stats = subjectProgress[subject.id] || { percentage: 0, completed: 0, total: 0, remaining: 0 };
-                return (
-                  <article key={subject.id} className="subject-progress-card">
-                    <div className="subject-card-header">
-                      <div className="subject-card-icon-box">
-                        <BookOpen size={20} />
-                      </div>
-                      <div className="subject-card-meta">
-                        <h3 className="subject-card-title">{subject.title}</h3>
-                        <span className="subject-card-subtitle">{subject.code || 'BCA Core'}</span>
-                      </div>
-                    </div>
-
-                    <div className="subject-card-progress-section">
-                      <div className="progress-text-row">
-                        <span>{stats.percentage}% Completed</span>
-                        <span>{stats.completed} / {stats.total} Lessons</span>
-                      </div>
-                      <div className="subject-progress-bar-bg">
-                        <div 
-                          className="subject-progress-bar-fill"
-                          style={{ width: `${stats.percentage}%` }}
-                        ></div>
-                      </div>
-                    </div>
-
-                    <div className="subject-card-footer">
-                      <span className="remaining-lessons-tag">
-                        {stats.remaining > 0 ? `${stats.remaining} lessons remaining` : 'Subject Completed! 🎉'}
-                      </span>
-                      <button 
-                        className="subject-resume-action-btn"
-                        onClick={() => handleResumeSubject(subject.id)}
-                      >
-                        <Play size={12} fill="currentColor" />
-                        <span>Resume</span>
-                      </button>
-                    </div>
-                  </article>
-                );
-              })}
             </div>
 
-            {/* Syllabus Accoridons Breakdown */}
-            <h2 className="workspace-section-title" style={{ marginTop: '32px' }}>
-              <Sparkles size={18} style={{ color: '#10b981' }} /> Curricular Units & Lesson Checklist
-            </h2>
+            <div className="roadmap-card-footer">
+              <p className="roadmap-footer-text">Click any language to begin learning.</p>
+            </div>
+          </motion.div>
 
-            <div className="syllabus-tree-container">
-              {semesterSubjects.map(subject => {
-                const subjectUnits = units.filter(u => u.subjectId === subject.id);
-                return (
-                  <div key={subject.id} className="subject-tree-block">
-                    <h3 className="subject-tree-block-title">{subject.title}</h3>
-                    
-                    <div className="units-list-stack">
-                      {subjectUnits.map(unit => {
-                        const unitLessons = lessons.filter(l => l.unitId === unit.id);
-                        
-                        // Calculate Unit statistics
-                        const total = unitLessons.length;
-                        const completed = unitLessons.filter(l => completedLessons.has(String(l.id)) || completedLessons.has(Number(l.id))).length;
-                        const inProgress = unitLessons.filter(l => inProgressLessons.has(String(l.id)) || inProgressLessons.has(Number(l.id))).length;
-                        const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-                        const isExpanded = !!expandedUnits[unit.id];
-
-                        return (
-                          <div key={unit.id} className={`unit-accordion-item ${isExpanded ? 'active' : ''}`}>
-                            <button 
-                              className="unit-accordion-trigger"
-                              onClick={() => toggleUnit(unit.id)}
-                            >
-                              <div className="trigger-left">
-                                {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-                                <div className="unit-trigger-titles">
-                                  <span className="unit-trigger-code">{unit.code || 'Unit'}</span>
-                                  <span className="unit-trigger-name">{unit.title}</span>
-                                </div>
-                              </div>
-
-                              <div className="trigger-right">
-                                <span className="unit-trigger-stats">
-                                  {completed}/{total} Done ({percentage}%)
-                                </span>
-                                <div className="unit-trigger-mini-bar-bg">
-                                  <div 
-                                    className="unit-trigger-mini-bar-fill"
-                                    style={{ width: `${percentage}%` }}
-                                  ></div>
-                                </div>
-                              </div>
-                            </button>
-
-                            {isExpanded && (
-                              <div className="unit-accordion-content">
-                                <ul className="lessons-checklist-stack">
-                                  {unitLessons.map(lesson => {
-                                    const isComp = completedLessons.has(String(lesson.id)) || completedLessons.has(Number(lesson.id));
-                                    const isInProg = inProgressLessons.has(String(lesson.id)) || inProgressLessons.has(Number(lesson.id));
-                                    
-                                    // Visual Status Determination
-                                    let statusIcon = <Circle size={16} className="status-icon-unstarted" />;
-                                    let statusLabel = 'Not Started';
-                                    let statusClass = 'lesson-unstarted';
-
-                                    if (isComp) {
-                                      statusIcon = <CheckCircle2 size={16} className="status-icon-completed" />;
-                                      statusLabel = 'Completed';
-                                      statusClass = 'lesson-completed';
-                                    } else if (isInProg) {
-                                      statusIcon = <Circle size={16} className="status-icon-inprogress" fill="currentColor" />;
-                                      statusLabel = 'In Progress';
-                                      statusClass = 'lesson-inprogress';
-                                    }
-
-                                    return (
-                                      <li 
-                                        key={lesson.id}
-                                        className={`lesson-checklist-item-row ${statusClass}`}
-                                        onClick={() => navigate(`/lessons/${lesson.id}`)}
-                                      >
-                                        <div className="lesson-row-left">
-                                          {statusIcon}
-                                          <div className="lesson-row-info">
-                                            <span className="lesson-row-title">{lesson.title}</span>
-                                            <span className="lesson-row-est-time">
-                                              <Clock size={10} /> {lesson.estimatedTime || '15 mins'}
-                                            </span>
-                                          </div>
-                                        </div>
-
-                                        <div className="lesson-row-right">
-                                          <span className={`status-badge-text ${statusClass}`}>{statusLabel}</span>
-                                          <ChevronRight size={14} className="lesson-row-arrow" />
-                                        </div>
-                                      </li>
-                                    );
-                                  })}
-                                </ul>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
+          {/* 2. Web Development Card */}
+          <motion.div className="roadmap-apple-card" variants={cardVariants}>
+            <div className="roadmap-card-header">
+              <h2 className="roadmap-card-title">🌐 Web Development</h2>
+              <p className="roadmap-card-desc">
+                Become a professional Full Stack Developer with modern web technologies.
+              </p>
             </div>
 
-          </main>
-        </div>
-      </div>
+            <div className="roadmap-card-body">
+              <span className="coming-soon-badge">COMING SOON</span>
+              <p className="coming-soon-subtext">This roadmap is currently under development.</p>
+            </div>
+
+            <div className="roadmap-card-footer">
+              <p className="roadmap-footer-text">Stay tuned for upcoming tracks.</p>
+            </div>
+          </motion.div>
+
+          {/* 3. Data Structures & Algorithms Card */}
+          <motion.div className="roadmap-apple-card" variants={cardVariants}>
+            <div className="roadmap-card-header">
+              <h2 className="roadmap-card-title">🧩 Data Structures & Algorithms</h2>
+              <p className="roadmap-card-desc">
+                Build strong problem-solving skills for interviews and placements.
+              </p>
+            </div>
+
+            <div className="roadmap-card-body">
+              <span className="coming-soon-badge">COMING SOON</span>
+              <p className="coming-soon-subtext">This roadmap is currently under development.</p>
+            </div>
+
+            <div className="roadmap-card-footer">
+              <p className="roadmap-footer-text">Stay tuned for upcoming tracks.</p>
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
     </StudentLayout>
   );
 };
