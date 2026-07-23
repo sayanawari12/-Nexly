@@ -102,6 +102,11 @@ function App() {
                           <CppLearningHub />
                         </ProtectedRoute>
                       } />
+                      <Route path="/roadmaps/programming/cpp" element={
+                        <ProtectedRoute>
+                          <CppLearningHub />
+                        </ProtectedRoute>
+                      } />
                       <Route path="/technologies/cpp/quiz" element={
                         <ProtectedRoute>
                           <CppQuiz />
@@ -122,12 +127,37 @@ function App() {
                           <PythonLearningHub />
                         </ProtectedRoute>
                       } />
+                      <Route path="/roadmaps/programming/python" element={
+                        <ProtectedRoute>
+                          <PythonLearningHub />
+                        </ProtectedRoute>
+                      } />
                       <Route path="/technologies/c" element={
                         <ProtectedRoute>
                           <CLearningHub />
                         </ProtectedRoute>
                       } />
+                      <Route path="/roadmaps/programming/c" element={
+                        <ProtectedRoute>
+                          <CLearningHub />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/roadmaps/programming/javascript" element={
+                        <ProtectedRoute>
+                          <CLearningHub />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/roadmaps/programming/typescript" element={
+                        <ProtectedRoute>
+                          <CLearningHub />
+                        </ProtectedRoute>
+                      } />
                       <Route path="/technologies/java" element={
+                        <ProtectedRoute>
+                          <JavaLearningHub />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/roadmaps/programming/java" element={
                         <ProtectedRoute>
                           <JavaLearningHub />
                         </ProtectedRoute>
