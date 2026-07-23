@@ -24,7 +24,7 @@ const getPasswordStrength = (pass) => {
 };
 
 const Login = () => {
-  const { login, signup, resetPassword, loginGoogle, user } = useAuth();
+  const { login, signup, resetPassword, loginGoogle, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -51,10 +51,10 @@ const Login = () => {
   const redirectPath = location.state?.from?.pathname || '/dashboard';
 
   useEffect(() => {
-    if (user && !success) {
+    if (user && !authLoading) {
       navigate(redirectPath, { replace: true });
     }
-  }, [user, navigate, redirectPath, success]);
+  }, [user, authLoading, navigate, redirectPath]);
 
   // Mouse movement capture inside the page container
   const handleMouseMove = (e) => {
@@ -79,9 +79,6 @@ const Login = () => {
       const displayName = result.user?.displayName || result.user?.email?.split('@')[0] || 'User';
       setSuccessName(displayName);
       setSuccess(true);
-      setTimeout(() => {
-        navigate(redirectPath, { replace: true });
-      }, 900);
     } catch (err) {
       console.error(err);
       setError(err.message || 'Failed to authenticate with Google.');
@@ -139,9 +136,6 @@ const Login = () => {
         await signup(email, password);
         setSuccessName(name);
         setSuccess(true);
-        setTimeout(() => {
-          navigate(redirectPath, { replace: true });
-        }, 900);
       } catch (err) {
         console.error(err);
         setError(err.message || 'Failed to create an account.');
@@ -159,9 +153,6 @@ const Login = () => {
         const displayName = result.user?.displayName || email.split('@')[0] || 'User';
         setSuccessName(displayName);
         setSuccess(true);
-        setTimeout(() => {
-          navigate(redirectPath, { replace: true });
-        }, 900);
       } catch (err) {
         console.error(err);
         setError('Invalid credentials.');

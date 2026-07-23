@@ -153,9 +153,9 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     };
 
-    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
       setLoading(true);
-      handleAuthChange(currentUser);
+      await handleAuthChange(currentUser);
     });
 
     const handleApexLogout = () => {
