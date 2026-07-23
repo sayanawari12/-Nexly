@@ -84,8 +84,28 @@
   border: 1px solid rgba(168, 85, 247, 0.2);
   padding: 4px 12px;
   border-radius: 100px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   align-self: flex-start;
+}
+
+.user-welcome-tag {
+  letter-spacing: 1.5px;
+}
+
+.hero-streak-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  text-shadow: none;
 }
 
 .hero-title {
