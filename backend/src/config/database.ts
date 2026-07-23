@@ -3,10 +3,17 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import { config } from './index';
 
+const DEFAULT_NEON_URL = 'postgresql://neondb_owner:npg_CBPc4UTkL2Qo@ep-dry-brook-azu14obo-pooler.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require';
+
+let activeDbUrl = config.dbUrl;
+if (!activeDbUrl || activeDbUrl.includes('@host:') || activeDbUrl.includes('@host/') || activeDbUrl.includes('user:password') || (activeDbUrl.includes('localhost') && process.env.NODE_ENV === 'production')) {
+  activeDbUrl = process.env.FALLBACK_DATABASE_URL || DEFAULT_NEON_URL;
+}
+
 // Extract database hostname for TLS Server Name Indication (SNI) routing required by Neon
 let dbHost = '';
 try {
-  const parsedUrl = new URL(config.dbUrl);
+  const parsedUrl = new URL(activeDbUrl);
   dbHost = parsedUrl.hostname;
 } catch {
   // Fallback if URL parsing fails
@@ -14,15 +21,15 @@ try {
 
 // Enable SSL automatically for Neon, Render, and cloud PostgreSQL connections
 const isSslRequired =
-  config.dbUrl.includes('sslmode=') ||
-  config.dbUrl.includes('neon.tech') ||
-  config.dbUrl.includes('render.com') ||
-  config.dbUrl.includes('supabase.co') ||
-  config.dbUrl.includes('amazonaws.com') ||
+  activeDbUrl.includes('sslmode=') ||
+  activeDbUrl.includes('neon.tech') ||
+  activeDbUrl.includes('render.com') ||
+  activeDbUrl.includes('supabase.co') ||
+  activeDbUrl.includes('amazonaws.com') ||
   process.env.NODE_ENV === 'production';
 
 const pool = new Pool({
-  connectionString: config.dbUrl,
+  connectionString: activeDbUrl,
   ssl: isSslRequired
     ? {
         rejectUnauthorized: false,
