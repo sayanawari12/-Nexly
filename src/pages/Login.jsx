@@ -318,6 +318,7 @@ const Login = () => {
                     placeholder="Enter name" 
                     className="auth-input"
                     style={{ paddingLeft: '40px' }}
+                    autoComplete="name"
                     required
                   />
                 </div>
@@ -335,6 +336,7 @@ const Login = () => {
                   placeholder="Enter email" 
                   className="auth-input"
                   style={{ paddingLeft: '40px' }}
+                  autoComplete="email"
                   required
                 />
               </div>
@@ -352,12 +354,14 @@ const Login = () => {
                     placeholder="Enter password" 
                     className="auth-input"
                     style={{ paddingLeft: '40px', paddingRight: '40px' }}
+                    autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
                     required
                   />
                   <button 
                     type="button" 
                     className="auth-password-toggle"
                     onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                   </button>
@@ -406,6 +410,7 @@ const Login = () => {
                     placeholder="Confirm password" 
                     className="auth-input"
                     style={{ paddingLeft: '40px' }}
+                    autoComplete="new-password"
                     required
                   />
                 </div>
