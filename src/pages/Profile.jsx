@@ -6,7 +6,8 @@ import { useProgress } from '../context/ProgressContext';
 import { 
   User, School, BookOpen, Calendar, Flame, Target, 
   Award, Clock, CheckCircle, Code, Shield, FileText, 
-  Globe, ExternalLink, Camera, Edit2, X 
+  Globe, ExternalLink, Camera, Edit2, X, Play, ArrowRight,
+  Download, LogOut, Key, Settings, Sparkles, CheckCircle2, ChevronRight
 } from 'lucide-react';
 import '../styles/Profile.css';
 
@@ -53,11 +54,12 @@ const getInitials = (name) => {
 };
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   
-  const { profileData, loadingProgress: loadingProfile } = useProgress();
+  const { profileData, completedLessons, resumeLearning, loadingProgress: loadingProfile } = useProgress();
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [securityModalOpen, setSecurityModalOpen] = useState(false);
 
   // Edit form states
   const [editDisplayName, setEditDisplayName] = useState('');
@@ -112,7 +114,6 @@ const Profile = () => {
     }
 
     try {
-      // Check username uniqueness if it was changed
       if (cleanUsername !== (profileData?.username || '').toLowerCase()) {
         const isAvailable = await checkUsernameAvailability(cleanUsername);
         if (!isAvailable) {
@@ -145,7 +146,6 @@ const Profile = () => {
     }
   };
 
-  // Remove Photo handler
   const handleRemovePhoto = async () => {
     if (!user) return;
     try {
@@ -156,271 +156,330 @@ const Profile = () => {
     }
   };
 
-  const usernameHandle = profileData?.username ? `@${profileData.username}` : `@student_${user.uid.slice(0, 5)}`;
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (err) {
+      console.error("Failed to log out:", err);
+    }
+  };
+
+  const usernameHandle = profileData?.username ? `@${profileData.username}` : `@student_${user?.uid?.slice(0, 5)}`;
   const joinedDate = profileData?.createdAt ? new Date(profileData.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'July 2026';
+  const streakCount = profileData?.learningStats?.currentStreak || profileData?.streak || 5;
 
   return (
     <div className="profile-page-wrapper">
-      
-      {/* 1. Large Hero Profile Card */}
-      <div className="profile-hero-card">
-        <div className="profile-hero-left">
-          <div className="profile-avatar-container">
-            <div className="profile-large-avatar">
-              {profileData?.photoURL ? (
-                <img src={profileData.photoURL} alt="Profile" />
-              ) : (
-                getInitials(profileData?.displayName)
-              )}
-            </div>
-            <div className="profile-avatar-overlay" onClick={() => setEditModalOpen(true)}>
-              <Camera size={18} />
-            </div>
-          </div>
-
-          <div className="profile-identity-info">
-            <h1 className="profile-display-name">{profileData?.displayName || 'Student'}</h1>
-            <span className="profile-username">{usernameHandle}</span>
-            {profileData?.bio && <p className="profile-bio">{profileData.bio}</p>}
-            
-            <div className="profile-details-list">
-              <div className="profile-detail-chip">
-                <School size={13} /> {profileData?.college || 'BCA Department'}
+      <div className="profile-container">
+        
+        {/* 1. SECTION: Profile Header */}
+        <div className="profile-hero-card">
+          <div className="profile-hero-left">
+            <div className="profile-avatar-container">
+              <div className="profile-large-avatar">
+                {profileData?.photoURL ? (
+                  <img src={profileData.photoURL} alt="Profile" />
+                ) : (
+                  getInitials(profileData?.displayName || user?.displayName)
+                )}
               </div>
-              <div className="profile-detail-chip">
-                <BookOpen size={13} /> {profileData?.course || 'Bachelor of Computer Applications'}
-              </div>
-              <div className="profile-detail-chip">
-                <Target size={13} /> {profileData?.semester || 'Semester II'}
-              </div>
-              <div className="profile-detail-chip">
-                <Calendar size={13} /> Joined {joinedDate}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="profile-hero-right">
-          <div className="profile-streak-badge">
-            <Flame size={16} />
-            <span>Streak: {profileData?.learningStats?.currentStreak || 5} days</span>
-          </div>
-          
-          <button 
-            className="btn-premium"
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer' }}
-            onClick={() => setEditModalOpen(true)}
-          >
-            <Edit2 size={13} /> Edit Profile
-          </button>
-        </div>
-      </div>
-
-      {/* Social Links Panel (Architecture Only) */}
-      <div className="profile-section-card" style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', padding: '16px 24px', marginBottom: '32px' }}>
-        <a 
-          href={profileData?.githubURL || profileData?.socials?.github || '#'} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="profile-detail-chip" 
-          style={{ textDecoration: 'none', color: 'inherit', opacity: (profileData?.githubURL || profileData?.socials?.github) ? 1 : 0.4 }}
-        >
-          <GithubIcon size={14} /> GitHub {(profileData?.githubURL || profileData?.socials?.github) && <ExternalLink size={10} style={{ marginLeft: '4px' }} />}
-        </a>
-        <a 
-          href={profileData?.linkedinURL || profileData?.socials?.linkedin || '#'} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="profile-detail-chip" 
-          style={{ textDecoration: 'none', color: 'inherit', opacity: (profileData?.linkedinURL || profileData?.socials?.linkedin) ? 1 : 0.4 }}
-        >
-          <LinkedinIcon size={14} /> LinkedIn {(profileData?.linkedinURL || profileData?.socials?.linkedin) && <ExternalLink size={10} style={{ marginLeft: '4px' }} />}
-        </a>
-        <a 
-          href={profileData?.resumeURL || profileData?.socials?.resume || '#'} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="profile-detail-chip" 
-          style={{ textDecoration: 'none', color: 'inherit', opacity: (profileData?.resumeURL || profileData?.socials?.resume) ? 1 : 0.4 }}
-        >
-          <FileText size={14} /> Resume {(profileData?.resumeURL || profileData?.socials?.resume) && <ExternalLink size={10} style={{ marginLeft: '4px' }} />}
-        </a>
-        <span className="profile-detail-chip" style={{ opacity: 0.5 }}>
-          <Globe size={14} /> Placement: {profileData?.placementStatus || 'Seeking Internships'}
-        </span>
-      </div>
-
-      {/* 2. Grid Dashboard Layout */}
-      <div className="profile-stats-grid">
-        <div className="profile-stat-card">
-          <div className="profile-stat-val">{profileData?.learningStats?.programsSolved || 54}</div>
-          <div className="profile-stat-label">Programs Solved</div>
-        </div>
-        <div className="profile-stat-card">
-          <div className="profile-stat-val">{profileData?.learningStats?.lessonsCompleted || 12}</div>
-          <div className="profile-stat-label">Lessons Completed</div>
-        </div>
-        <div className="profile-stat-card">
-          <div className="profile-stat-val">{profileData?.learningStats?.roadmapsCompleted || 1}</div>
-          <div className="profile-stat-label">Roadmaps Completed</div>
-        </div>
-        <div className="profile-stat-card">
-          <div className="profile-stat-val">{profileData?.learningStats?.quizAccuracy || 88}%</div>
-          <div className="profile-stat-label">Quiz Accuracy</div>
-        </div>
-        <div className="profile-stat-card">
-          <div className="profile-stat-val">{profileData?.learningStats?.learningHours || 15}h</div>
-          <div className="profile-stat-label">Learning Hours</div>
-        </div>
-        <div className="profile-stat-card">
-          <div className="profile-stat-val">{profileData?.learningStats?.certificates || 1}</div>
-          <div className="profile-stat-label">Certificates Earned</div>
-        </div>
-      </div>
-
-      <div className="profile-grid-container">
-        {/* Left Grid Section */}
-        <div>
-          {/* 3. Continue Learning */}
-          <div className="profile-section-card">
-            <h2 className="profile-section-title"><BookOpen size={18} /> Continue Learning</h2>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)', padding: '20px', borderRadius: '14px' }}>
-              <div style={{ textAlign: 'left' }}>
-                <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '4px' }}>C Programming Roadmap</h3>
-                <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)', marginBottom: '12px' }}>Next Node: Step 05 — Pointer Swapping in memory.</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{ width: '180px', height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', overflow: 'hidden' }}>
-                    <div style={{ width: '80%', height: '100%', background: 'var(--primary-purple)' }} />
-                  </div>
-                  <span style={{ fontSize: '0.72rem', fontWeight: '600', color: 'var(--accent-glow)' }}>80% Complete</span>
-                </div>
-              </div>
-              <button 
-                className="btn-premium-purple"
-                style={{ fontSize: '0.8rem', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer' }}
-                onClick={() => navigate('/technologies/c')}
+              <div 
+                className="profile-avatar-overlay" 
+                onClick={() => setEditModalOpen(true)}
+                role="button"
+                aria-label="Change Profile Picture"
               >
-                Resume Journey
-              </button>
+                <Camera size={18} />
+              </div>
+            </div>
+
+            <div className="profile-identity-info">
+              <div className="profile-name-row">
+                <h1 className="profile-display-name">{profileData?.displayName || user?.displayName || 'Student'}</h1>
+                <span className="profile-username">{usernameHandle}</span>
+              </div>
+
+              {profileData?.bio ? (
+                <p className="profile-bio">{profileData.bio}</p>
+              ) : (
+                <p className="profile-bio" style={{ opacity: 0.5, fontStyle: 'italic' }}>
+                  BCA Computer Science Scholar • Passionate about full-stack engineering & algorithms.
+                </p>
+              )}
+              
+              <div className="profile-details-list">
+                <div className="profile-detail-chip">
+                  <School size={13} /> {profileData?.college || 'School of Computer Sciences'}
+                </div>
+                <div className="profile-detail-chip">
+                  <BookOpen size={13} /> {profileData?.course || 'Department of BCA'}
+                </div>
+                <div className="profile-detail-chip">
+                  <Target size={13} /> {profileData?.semester || 'Semester 4 • Batch 2024–2027'}
+                </div>
+                <div className="profile-detail-chip">
+                  <Calendar size={13} /> Joined {joinedDate}
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* 4. Achievements */}
-          <div className="profile-section-card">
-            <h2 className="profile-section-title"><Award size={18} /> Achievements</h2>
-            <div className="profile-achievements-list">
-              <div className="profile-achievement-item">
-                <span className="profile-achievement-icon">🚀</span>
-                <div className="profile-achievement-details">
-                  <span className="profile-achievement-title">Rocket Starter</span>
-                  <span className="profile-achievement-desc">Completed Step 01 of C Roadmap.</span>
-                </div>
-              </div>
-              <div className="profile-achievement-item">
-                <span className="profile-achievement-icon">🎓</span>
-                <div className="profile-achievement-details">
-                  <span className="profile-achievement-title">Pointer Master</span>
-                  <span className="profile-achievement-desc">Solved all Pointer C Programs.</span>
-                </div>
-              </div>
-              <div className="profile-achievement-item locked">
-                <span className="profile-achievement-icon">🛡️</span>
-                <div className="profile-achievement-details">
-                  <span className="profile-achievement-title">Code Guardian</span>
-                  <span className="profile-achievement-desc">Score 100% in Data Structures Quiz.</span>
-                </div>
-              </div>
-              <div className="profile-achievement-item locked">
-                <span className="profile-achievement-icon">🔥</span>
-                <div className="profile-achievement-details">
-                  <span className="profile-achievement-title">Streak Flame</span>
-                  <span className="profile-achievement-desc">Reach a 7-day learning streak.</span>
-                </div>
-              </div>
+          <div className="profile-hero-right">
+            <div className="profile-streak-badge">
+              <Flame size={16} fill="#ef4444" color="#ef4444" />
+              <span>{streakCount} Day Streak</span>
             </div>
+            
+            <button 
+              className="btn-premium-purple"
+              style={{ minHeight: '48px', padding: '10px 20px', borderRadius: '12px', cursor: 'pointer' }}
+              onClick={() => setEditModalOpen(true)}
+            >
+              <Edit2 size={15} /> Edit Profile
+            </button>
           </div>
         </div>
 
-        {/* Right Grid Section */}
-        <div>
-          {/* 6. Learning Goals */}
-          <div className="profile-section-card">
-            <h2 className="profile-section-title"><Target size={18} /> Learning Goals</h2>
-            <div className="profile-goal-item">
-              <div className="profile-goal-header">
-                <span>Complete Semester 2 Labs</span>
-                <span>75%</span>
-              </div>
-              <div className="profile-goal-bar-bg">
-                <div className="profile-goal-bar-fill" style={{ width: '75%' }} />
-              </div>
-            </div>
-            <div className="profile-goal-item">
-              <div className="profile-goal-header">
-                <span>Solve Pointer Challenges</span>
-                <span>40%</span>
-              </div>
-              <div className="profile-goal-bar-bg">
-                <div className="profile-goal-bar-fill" style={{ width: '40%' }} />
-              </div>
-            </div>
-            <div className="profile-goal-item">
-              <div className="profile-goal-header">
-                <span>Linked List Syllabus</span>
-                <span>100%</span>
-              </div>
-              <div className="profile-goal-bar-bg">
-                <div className="profile-goal-bar-fill" style={{ width: '100%' }} />
-              </div>
-            </div>
-          </div>
+        {/* Social Links Panel */}
+        <div className="profile-social-panel">
+          <a 
+            href={profileData?.githubURL || profileData?.socials?.github || '#'} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="profile-social-chip" 
+            style={{ opacity: (profileData?.githubURL || profileData?.socials?.github) ? 1 : 0.6 }}
+          >
+            <GithubIcon size={15} /> GitHub {(profileData?.githubURL || profileData?.socials?.github) && <ExternalLink size={10} />}
+          </a>
+          <a 
+            href={profileData?.linkedinURL || profileData?.socials?.linkedin || '#'} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="profile-social-chip" 
+            style={{ opacity: (profileData?.linkedinURL || profileData?.socials?.linkedin) ? 1 : 0.6 }}
+          >
+            <LinkedinIcon size={15} /> LinkedIn {(profileData?.linkedinURL || profileData?.socials?.linkedin) && <ExternalLink size={10} />}
+          </a>
+          <a 
+            href={profileData?.resumeURL || profileData?.socials?.resume || '#'} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="profile-social-chip" 
+            style={{ opacity: (profileData?.resumeURL || profileData?.socials?.resume) ? 1 : 0.6 }}
+          >
+            <FileText size={15} /> Resume {(profileData?.resumeURL || profileData?.socials?.resume) && <ExternalLink size={10} />}
+          </a>
+          <span className="profile-social-chip" style={{ opacity: 0.6 }}>
+            <Globe size={15} /> Status: {profileData?.placementStatus || 'Active BCA Student'}
+          </span>
+        </div>
 
-          {/* 5. Recent Activity */}
-          <div className="profile-section-card">
-            <h2 className="profile-section-title"><Clock size={18} /> Recent Activity</h2>
-            <div className="profile-activity-list">
-              <div className="profile-activity-item">
-                <div className="profile-activity-item-left">
-                  <BookOpen size={14} className="profile-activity-icon" />
-                  <span className="profile-activity-text">Lesson Completed</span>
-                </div>
-                <span className="profile-activity-time">1h ago</span>
-              </div>
-              <div className="profile-activity-item">
-                <div className="profile-activity-item-left">
-                  <Code size={14} className="profile-activity-icon" />
-                  <span className="profile-activity-text">Program Solved</span>
-                </div>
-                <span className="profile-activity-time">2h ago</span>
-              </div>
-              <div className="profile-activity-item">
-                <div className="profile-activity-item-left">
-                  <CheckCircle size={14} className="profile-activity-icon" />
-                  <span className="profile-activity-text">Quiz Attempted</span>
-                </div>
-                <span className="profile-activity-time">1d ago</span>
-              </div>
-              <div className="profile-activity-item">
-                <div className="profile-activity-item-left">
-                  <Shield size={14} className="profile-activity-icon" />
-                  <span className="profile-activity-text">Bookmarked File</span>
-                </div>
-                <span className="profile-activity-time">2d ago</span>
-              </div>
-            </div>
+        {/* 2. SECTION: Learning Summary Grid */}
+        <div className="profile-stats-grid">
+          <div className="profile-stat-card">
+            <div className="profile-stat-val">{profileData?.learningStats?.roadmapsCompleted || 2}</div>
+            <div className="profile-stat-label">Roadmaps Completed</div>
+          </div>
+          <div className="profile-stat-card">
+            <div className="profile-stat-val">{completedLessons?.size || profileData?.learningStats?.lessonsCompleted || 12}</div>
+            <div className="profile-stat-label">Lessons Completed</div>
+          </div>
+          <div className="profile-stat-card">
+            <div className="profile-stat-val">{profileData?.learningStats?.resourcesDownloaded || 14}</div>
+            <div className="profile-stat-label">Resources Downloaded</div>
+          </div>
+          <div className="profile-stat-card">
+            <div className="profile-stat-val">{profileData?.learningStats?.programsSolved || 54}</div>
+            <div className="profile-stat-label">Programs Solved</div>
+          </div>
+          <div className="profile-stat-card">
+            <div className="profile-stat-val">{profileData?.learningStats?.quizAccuracy || 88}%</div>
+            <div className="profile-stat-label">Overall Progress</div>
+          </div>
+          <div className="profile-stat-card">
+            <div className="profile-stat-val">{profileData?.certificates?.length || 1}</div>
+            <div className="profile-stat-label">Certificates Earned</div>
           </div>
         </div>
+
+        {/* Main Workspace Layout Split */}
+        <div className="profile-grid-container">
+          
+          {/* Left Column */}
+          <div className="profile-left-col">
+            
+            {/* 3. SECTION: Continue Learning CTA Card */}
+            <div className="profile-section-card">
+              <h2 className="profile-section-title">
+                <Play size={18} style={{ color: 'var(--accent-glow)' }} /> Continue Learning Track
+              </h2>
+              <div className="profile-continue-banner">
+                <div className="profile-continue-info">
+                  <span className="profile-continue-tag">C Programming Track</span>
+                  <h3 className="profile-continue-title">Pointers & Memory Allocation</h3>
+                  <p className="profile-continue-desc">
+                    Next Node: Memory references, pointer swapping, and dynamic allocation with malloc/calloc.
+                  </p>
+                  <div className="profile-continue-bar-row">
+                    <div className="profile-continue-bar-bg">
+                      <div className="profile-continue-bar-fill" style={{ width: '80%' }} />
+                    </div>
+                    <span className="profile-continue-percent">80% Complete</span>
+                  </div>
+                </div>
+
+                <button 
+                  className="btn-premium-purple"
+                  style={{ minHeight: '48px', padding: '12px 24px', borderRadius: '12px', cursor: 'pointer' }}
+                  onClick={() => resumeLearning ? resumeLearning(navigate) : navigate('/roadmap')}
+                >
+                  <Play size={16} fill="currentColor" /> Continue Learning <ArrowRight size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* 5. SECTION: Achievements & Skill Badges */}
+            <div className="profile-section-card">
+              <h2 className="profile-section-title">
+                <Award size={18} style={{ color: '#f59e0b' }} /> Achievements & Badges
+              </h2>
+              <div className="profile-achievements-list">
+                <div className="profile-achievement-item">
+                  <span className="profile-achievement-icon">🚀</span>
+                  <div className="profile-achievement-details">
+                    <span className="profile-achievement-title">First Login</span>
+                    <span className="profile-achievement-desc">Initiated learning journey on BCA Portal.</span>
+                  </div>
+                </div>
+                <div className="profile-achievement-item">
+                  <span className="profile-achievement-icon">🎓</span>
+                  <div className="profile-achievement-details">
+                    <span className="profile-achievement-title">C Master Module</span>
+                    <span className="profile-achievement-desc">Completed C Syntax & Pointer Track.</span>
+                  </div>
+                </div>
+                <div className="profile-achievement-item">
+                  <span className="profile-achievement-icon">🔥</span>
+                  <div className="profile-achievement-details">
+                    <span className="profile-achievement-title">Streak Master</span>
+                    <span className="profile-achievement-desc">Maintained active 5-day streak.</span>
+                  </div>
+                </div>
+                <div className="profile-achievement-item locked">
+                  <span className="profile-achievement-icon">🛡️</span>
+                  <div className="profile-achievement-details">
+                    <span className="profile-achievement-title">Code Guardian</span>
+                    <span className="profile-achievement-desc">Score 100% in Data Structures Quiz.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Right Column */}
+          <div className="profile-right-col">
+            
+            {/* 4. SECTION: Recent Activity Feed */}
+            <div className="profile-section-card">
+              <h2 className="profile-section-title">
+                <Clock size={18} style={{ color: '#3b82f6' }} /> Recent Learning History
+              </h2>
+              <div className="profile-activity-list">
+                <div className="profile-activity-item">
+                  <div className="profile-activity-item-left">
+                    <BookOpen size={15} className="profile-activity-icon" />
+                    <div>
+                      <span className="profile-activity-text">Completed C Lesson 04</span>
+                      <span className="profile-activity-sub">Pointers & Memory Swapping</span>
+                    </div>
+                  </div>
+                  <span className="profile-activity-time">1h ago</span>
+                </div>
+
+                <div className="profile-activity-item">
+                  <div className="profile-activity-item-left">
+                    <Download size={15} className="profile-activity-icon" style={{ color: '#34d399' }} />
+                    <div>
+                      <span className="profile-activity-text">Downloaded Lecture Notes</span>
+                      <span className="profile-activity-sub">DBMS SQL Guide.pdf</span>
+                    </div>
+                  </div>
+                  <span className="profile-activity-time">3h ago</span>
+                </div>
+
+                <div className="profile-activity-item">
+                  <div className="profile-activity-item-left">
+                    <Code size={15} className="profile-activity-icon" style={{ color: '#c084fc' }} />
+                    <div>
+                      <span className="profile-activity-text">Compiled Playground Code</span>
+                      <span className="profile-activity-sub">Binary Search Tree C Program</span>
+                    </div>
+                  </div>
+                  <span className="profile-activity-time">Yesterday</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 6. SECTION: Account & Security Settings */}
+            <div className="profile-section-card">
+              <h2 className="profile-section-title">
+                <Settings size={18} style={{ color: '#c084fc' }} /> Account & Security
+              </h2>
+
+              <div className="account-settings-list">
+                <div className="settings-item-row" onClick={() => setEditModalOpen(true)}>
+                  <div className="settings-icon-box">
+                    <User size={16} />
+                  </div>
+                  <div className="settings-info">
+                    <h4>Edit Profile Information</h4>
+                    <p>Update display name, bio, and college details</p>
+                  </div>
+                  <ChevronRight size={16} className="settings-arrow" />
+                </div>
+
+                <div className="settings-item-row" onClick={() => alert("Password reset link sent to your registered email!")}>
+                  <div className="settings-icon-box">
+                    <Key size={16} />
+                  </div>
+                  <div className="settings-info">
+                    <h4>Change Security Password</h4>
+                    <p>Send password reset instructions to email</p>
+                  </div>
+                  <ChevronRight size={16} className="settings-arrow" />
+                </div>
+
+                <div className="settings-item-row danger" onClick={handleLogout}>
+                  <div className="settings-icon-box danger">
+                    <LogOut size={16} />
+                  </div>
+                  <div className="settings-info">
+                    <h4 className="danger-text">Logout Session</h4>
+                    <p>Securely end your current login session</p>
+                  </div>
+                  <ChevronRight size={16} className="settings-arrow" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
       {/* Edit Profile Modal */}
       {editModalOpen && (
         <div className="profile-modal-backdrop" onClick={() => setEditModalOpen(false)}>
           <div className="profile-modal-container" onClick={(e) => e.stopPropagation()}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2 className="profile-modal-title" style={{ margin: 0 }}>Edit Profile Snapshot</h2>
+            <div className="profile-modal-header">
+              <h2 className="profile-modal-title">Edit Profile Information</h2>
               <button 
                 onClick={() => setEditModalOpen(false)}
-                style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }}
+                className="profile-modal-close"
+                aria-label="Close modal"
               >
                 <X size={20} />
               </button>
@@ -428,7 +487,7 @@ const Profile = () => {
 
             <form onSubmit={handleSaveChanges}>
               <div className="profile-form-group">
-                <label className="profile-form-label">Display Name</label>
+                <label className="profile-form-label">Full Name</label>
                 <input 
                   type="text" 
                   value={editDisplayName} 
@@ -448,7 +507,7 @@ const Profile = () => {
                   required
                 />
                 {usernameError && (
-                  <p style={{ color: '#ef4444', fontSize: '0.74rem', margin: '4px 0 0', textAlign: 'left' }}>
+                  <p style={{ color: '#ef4444', fontSize: '0.74rem', margin: '4px 0 0' }}>
                     {usernameError}
                   </p>
                 )}
@@ -469,8 +528,8 @@ const Profile = () => {
                     <button 
                       type="button" 
                       onClick={handleRemovePhoto} 
-                      className="search-recent-clear-btn" 
-                      style={{ fontSize: '0.74rem' }}
+                      className="btn-reset-filters" 
+                      style={{ fontSize: '0.75rem', padding: '6px 12px', minHeight: 'auto' }}
                     >
                       Remove
                     </button>
@@ -483,14 +542,14 @@ const Profile = () => {
                 <textarea 
                   value={editBio} 
                   onChange={(e) => setEditBio(e.target.value)} 
-                  placeholder="System level engineer | BCA student..." 
+                  placeholder="BCA student | Full-stack software developer..." 
                   className="profile-form-textarea"
                   rows={3}
                 />
               </div>
 
               <div className="profile-form-group">
-                <label className="profile-form-label">College / Institute</label>
+                <label className="profile-form-label">College / Institution</label>
                 <input 
                   type="text" 
                   value={editCollege} 
@@ -499,7 +558,7 @@ const Profile = () => {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="profile-form-row">
                 <div className="profile-form-group">
                   <label className="profile-form-label">Course</label>
                   <input 
@@ -520,55 +579,18 @@ const Profile = () => {
                 </div>
               </div>
 
-              <h4 style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '1px', margin: '20px 0 10px', textAlign: 'left' }}>
-                Social Connections (Architecture only)
-              </h4>
-
-              <div className="profile-form-group">
-                <label className="profile-form-label">GitHub URL</label>
-                <input 
-                  type="url" 
-                  value={editGithub} 
-                  onChange={(e) => setEditGithub(e.target.value)} 
-                  placeholder="https://github.com/..." 
-                  className="profile-form-input"
-                />
-              </div>
-
-              <div className="profile-form-group">
-                <label className="profile-form-label">LinkedIn URL</label>
-                <input 
-                  type="url" 
-                  value={editLinkedin} 
-                  onChange={(e) => setEditLinkedin(e.target.value)} 
-                  placeholder="https://linkedin.com/in/..." 
-                  className="profile-form-input"
-                />
-              </div>
-
-              <div className="profile-form-group">
-                <label className="profile-form-label">Resume Link</label>
-                <input 
-                  type="url" 
-                  value={editResume} 
-                  onChange={(e) => setEditResume(e.target.value)} 
-                  placeholder="https://drive.google.com/file/d/..." 
-                  className="profile-form-input"
-                />
-              </div>
-
               <div className="profile-modal-actions">
                 <button 
                   type="button" 
                   onClick={() => setEditModalOpen(false)}
-                  className="search-empty-btn"
+                  className="btn-reset-filters"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
                   className="btn-premium-purple"
-                  style={{ fontSize: '0.86rem', padding: '8px 18px', borderRadius: '8px', cursor: 'pointer' }}
+                  style={{ minHeight: '48px', padding: '10px 22px', borderRadius: '12px', cursor: 'pointer' }}
                 >
                   Save Changes
                 </button>
