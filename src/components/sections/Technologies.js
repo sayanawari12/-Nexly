@@ -16,22 +16,22 @@ const Technologies = () => {
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   const techs = [
-    { name: 'C Language', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.c }} />, color: '#A8B9CC', desc: 'Syntax Basics & Memory Control', path: '/technologies/c' },
-    { name: 'C++', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.cpp }} />, color: '#00599C', desc: 'OOP Concepts & STL Programming', path: '/technologies/cpp' },
-    { name: 'Python', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.python }} />, color: '#3776AB', desc: 'Automation & Data Science', path: '/technologies/python' },
-    { name: 'Java Platform', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.java }} />, color: '#ED8B00', desc: 'Object-Oriented & Enterprise Apps', path: '/technologies/java' },
-    { name: 'HTML5', icon: <SiHtml5 size={60} />, color: '#E34F26', desc: 'Page Structure & Web Content' },
-    { name: 'CSS3', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.css }} />, color: '#1572B6', desc: 'Styling & Responsive Design' },
-    { name: 'JavaScript', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.javascript }} />, color: '#F7DF1E', desc: 'Interactive UI & DOM Manipulation' },
-    { name: 'React.js', icon: <SiReact size={60} />, color: '#61DAFB', desc: 'Component-Based & Modern UI' },
-    { name: 'Node.js', icon: <SiNodedotjs size={60} />, color: '#339933', desc: 'Backend APIs & Server Runtime' },
-    { name: 'SQL / DBMS', icon: <SiMysql size={60} />, color: '#4479A1', desc: 'Database Design & SQL Queries' },
-    { name: 'Git Controls', icon: <SiGit size={60} />, color: '#F05032', desc: 'Version Control & Team Collaboration' },
-    { name: 'Linux OS', icon: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px' }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.linux }} />, color: '#FCC624', desc: 'Command Line & System Administration' }
+    { id: 'c', name: 'C Language', svg: TECH_LOGOS.c, color: '#A8B9CC', desc: 'Syntax Basics & Memory Control', path: '/technologies/c' },
+    { id: 'cpp', name: 'C++', svg: TECH_LOGOS.cpp, color: '#00599C', desc: 'OOP Concepts & STL Programming', path: '/technologies/cpp' },
+    { id: 'python', name: 'Python', svg: TECH_LOGOS.python, color: '#3776AB', desc: 'Automation & Data Science', path: '/technologies/python' },
+    { id: 'java', name: 'Java Platform', svg: TECH_LOGOS.java, color: '#ED8B00', desc: 'Object-Oriented & Enterprise Apps', path: '/technologies/java' },
+    { id: 'html5', name: 'HTML5', component: SiHtml5, color: '#E34F26', desc: 'Page Structure & Web Content' },
+    { id: 'css3', name: 'CSS3', svg: TECH_LOGOS.css, color: '#1572B6', desc: 'Styling & Responsive Design' },
+    { id: 'javascript', name: 'JavaScript', svg: TECH_LOGOS.javascript, color: '#F7DF1E', desc: 'Interactive UI & DOM Manipulation' },
+    { id: 'react', name: 'React.js', component: SiReact, color: '#61DAFB', desc: 'Component-Based & Modern UI' },
+    { id: 'nodejs', name: 'Node.js', component: SiNodedotjs, color: '#339933', desc: 'Backend APIs & Server Runtime' },
+    { id: 'sql', name: 'SQL / DBMS', component: SiMysql, color: '#4479A1', desc: 'Database Design & SQL Queries' },
+    { id: 'git', name: 'Git Controls', component: SiGit, color: '#F05032', desc: 'Version Control & Team Collaboration' },
+    { id: 'linux', name: 'Linux OS', svg: TECH_LOGOS.linux, color: '#FCC624', desc: 'Command Line & System Administration' }
   ];
 
   return (
-    <section id="technologies">
+    <section id="technologies" className="tech-section">
       <div className="section-header">
         <span className="section-tag">Tech Stack</span>
         <h2 className="section-title">Core Languages & Tools</h2>
@@ -41,48 +41,62 @@ const Technologies = () => {
       </div>
 
       <div className="tech-grid">
-        {techs.map((tech, idx) => (
-          <motion.div
-            key={idx}
-            className={`glass-card tech-card ${tech.path ? 'clickable-tech' : ''}`}
-            onMouseEnter={() => setHoveredIdx(idx)}
-            onMouseLeave={() => setHoveredIdx(null)}
-            onClick={() => tech.path && navigate(tech.path)}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: idx * 0.05 }}
-            style={{
-              borderColor: hoveredIdx === idx ? `${tech.color}55` : 'var(--border-primary)',
-              boxShadow: hoveredIdx === idx 
-                ? `0 10px 30px ${tech.color}15, inset 0 0 15px ${tech.color}10` 
-                : 'none'
-            }}
-          >
-            <div 
-              className="tech-icon"
-              style={{ 
-                color: tech.color,
-                filter: hoveredIdx === idx ? `drop-shadow(0 0 10px ${tech.color}88)` : 'none'
+        {techs.map((tech, idx) => {
+          const isHovered = hoveredIdx === idx;
+          return (
+            <motion.div
+              key={tech.id || idx}
+              className={`tech-card ${tech.path ? 'clickable-tech' : ''}`}
+              onMouseEnter={() => setHoveredIdx(idx)}
+              onMouseLeave={() => setHoveredIdx(null)}
+              onClick={() => tech.path && navigate(tech.path)}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.35, delay: (idx % 6) * 0.04 }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                borderColor: isHovered ? `${tech.color}66` : 'rgba(255, 255, 255, 0.08)',
+                boxShadow: isHovered 
+                  ? `0 12px 35px ${tech.color}22, inset 0 0 20px ${tech.color}12` 
+                  : 'none'
               }}
             >
-              {tech.icon}
-            </div>
-            <div className="tech-name" style={{ color: hoveredIdx === idx ? '#fff' : 'var(--text-secondary)' }}>
-              {tech.name}
-            </div>
-            {hoveredIdx === idx && (
-              <motion.div 
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', lineHeight: 1.2 }}
+              <div 
+                className="tech-icon-box"
+                style={{ 
+                  color: tech.color,
+                  filter: isHovered ? `drop-shadow(0 0 12px ${tech.color}99)` : 'none'
+                }}
               >
-                {tech.desc}
-                {tech.path && <div style={{ color: 'var(--accent-glow)', marginTop: '4px', fontWeight: 'bold' }}>Click to Learn →</div>}
-              </motion.div>
-            )}
-          </motion.div>
-        ))}
+                {tech.component ? (
+                  <tech.component className="tech-icon-svg" />
+                ) : (
+                  <div className="tech-icon-svg" dangerouslySetInnerHTML={{ __html: tech.svg }} />
+                )}
+              </div>
+
+              <span 
+                className="tech-name"
+                style={{ color: isHovered ? '#ffffff' : 'rgba(255, 255, 255, 0.85)' }}
+              >
+                {tech.name}
+              </span>
+
+              {isHovered && tech.desc && (
+                <motion.div 
+                  className="tech-hover-desc"
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <span>{tech.desc}</span>
+                  {tech.path && <span className="tech-learn-link">Click to Learn →</span>}
+                </motion.div>
+              )}
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );
