@@ -48,7 +48,7 @@ const Login = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
-  const redirectPath = location.state?.from?.pathname || '/dashboard';
+  const redirectPath = location.state?.from?.pathname || '/';
 
   useEffect(() => {
     if (user && !authLoading) {
