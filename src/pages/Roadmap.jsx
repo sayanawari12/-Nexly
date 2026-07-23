@@ -26,17 +26,17 @@ const Roadmap = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15
+        staggerChildren: 0.12
       }
     }
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 25 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] }
     }
   };
 
@@ -46,9 +46,9 @@ const Roadmap = () => {
         {/* Section Header */}
         <motion.div 
           className="roadmap-apple-header"
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           <h1 className="roadmap-apple-title">Learning Roadmaps</h1>
           <p className="roadmap-apple-subtitle">
@@ -64,7 +64,11 @@ const Roadmap = () => {
           animate="visible"
         >
           {/* 1. Programming Languages Card */}
-          <motion.div className="roadmap-apple-card" variants={cardVariants}>
+          <motion.div 
+            className="roadmap-apple-card" 
+            variants={cardVariants}
+            whileTap={{ scale: 0.99 }}
+          >
             <div className="roadmap-card-header">
               <h2 className="roadmap-card-title">💻 Programming Languages</h2>
               <p className="roadmap-card-desc">
@@ -77,39 +81,41 @@ const Roadmap = () => {
                 {/* Row 1: C, C++, Java */}
                 <div className="roadmap-logo-row">
                   {languagesRow1.map((lang) => (
-                    <button
+                    <motion.button
                       key={lang.key}
                       className="roadmap-tech-btn"
                       onClick={() => navigate(lang.path)}
                       aria-label={`Learn ${lang.name}`}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <div 
                         className="roadmap-tech-icon"
                         dangerouslySetInnerHTML={{ __html: lang.svg }}
                       />
                       <span className="roadmap-tech-name">{lang.name}</span>
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
 
                 {/* Row 2: Python, JavaScript, TypeScript */}
                 <div className="roadmap-logo-row">
                   {languagesRow2.map((lang) => (
-                    <button
+                    <motion.button
                       key={lang.key}
                       className="roadmap-tech-btn"
                       onClick={() => navigate(lang.path)}
                       aria-label={`Learn ${lang.name}`}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <div className="roadmap-tech-icon">
                         {lang.isIcon ? (
-                          <SiTypescript size={30} style={{ color: '#3178C6' }} />
+                          <SiTypescript size={28} style={{ color: '#3178C6' }} />
                         ) : (
                           <div dangerouslySetInnerHTML={{ __html: lang.svg }} />
                         )}
                       </div>
                       <span className="roadmap-tech-name">{lang.name}</span>
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </div>
@@ -121,7 +127,11 @@ const Roadmap = () => {
           </motion.div>
 
           {/* 2. Web Development Card */}
-          <motion.div className="roadmap-apple-card" variants={cardVariants}>
+          <motion.div 
+            className="roadmap-apple-card" 
+            variants={cardVariants}
+            whileTap={{ scale: 0.99 }}
+          >
             <div className="roadmap-card-header">
               <h2 className="roadmap-card-title">🌐 Web Development</h2>
               <p className="roadmap-card-desc">
@@ -140,7 +150,11 @@ const Roadmap = () => {
           </motion.div>
 
           {/* 3. Data Structures & Algorithms Card */}
-          <motion.div className="roadmap-apple-card" variants={cardVariants}>
+          <motion.div 
+            className="roadmap-apple-card" 
+            variants={cardVariants}
+            whileTap={{ scale: 0.99 }}
+          >
             <div className="roadmap-card-header">
               <h2 className="roadmap-card-title">🧩 Data Structures & Algorithms</h2>
               <p className="roadmap-card-desc">
