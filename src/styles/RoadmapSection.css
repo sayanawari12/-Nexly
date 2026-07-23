@@ -1,30 +1,52 @@
-/* Premium Apple/Linear/Perplexity Dark Minimal Roadmap Section Styles */
+/* ============================================================
+   PREMIUM ROADMAP SECTION STYLES (MOBILE-FIRST APPROACH)
+   ============================================================ */
 
 .roadmap-apple-section {
   background-color: #050505;
   color: #ffffff;
-  padding: 100px 24px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, sans-serif;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
-/* Subtle background glow effect */
+/* Outer Section Padding */
+@media (min-width: 1024px) {
+  .roadmap-apple-section {
+    padding: 100px 32px 80px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .roadmap-apple-section {
+    padding: 72px 24px 60px;
+  }
+}
+
+@media (max-width: 767px) {
+  .roadmap-apple-section {
+    padding: 48px 16px 40px;
+  }
+}
+
+/* Background Glow Effect */
 .roadmap-apple-section::before {
   content: '';
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 70%);
+  width: 90vw;
+  max-width: 700px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, rgba(0, 0, 0, 0) 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -32,15 +54,17 @@
 /* Header Section */
 .roadmap-apple-header {
   text-align: center;
-  max-width: 680px;
-  margin-bottom: 64px;
+  max-width: 720px;
+  width: 100%;
+  margin-bottom: 48px;
   position: relative;
   z-index: 1;
 }
 
 .roadmap-apple-title {
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 2.75rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.03em;
   color: #ffffff;
   margin: 0 0 16px 0;
@@ -49,23 +73,66 @@
 
 .roadmap-apple-subtitle {
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.65);
   line-height: 1.6;
   margin: 0;
   font-weight: 400;
-  letter-spacing: -0.01em;
 }
 
-/* Grid Layout: Exactly 3 cards, equal width and height */
+@media (max-width: 767px) {
+  .roadmap-apple-header {
+    margin-bottom: 32px;
+  }
+  .roadmap-apple-title {
+    font-size: 2rem;
+  }
+  .roadmap-apple-subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .roadmap-apple-title {
+    font-size: 1.75rem;
+  }
+  .roadmap-apple-subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+/* Grid Layout */
 .roadmap-apple-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  max-width: 1200px;
   width: 100%;
+  max-width: 1240px;
   position: relative;
   z-index: 1;
-  align-items: stretch;
+  box-sizing: border-box;
+}
+
+/* Desktop Grid (≥1024px): 3 equal columns */
+@media (min-width: 1024px) {
+  .roadmap-apple-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    align-items: stretch;
+  }
+}
+
+/* Tablet Grid (768px – 1023px): 2 columns */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .roadmap-apple-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+/* Mobile Grid (<768px): 1 column (100% width) */
+@media (max-width: 767px) {
+  .roadmap-apple-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 
 /* Premium Dark Minimal Card */
@@ -73,77 +140,107 @@
   background-color: #0b0b0b;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  padding: 36px 32px;
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-  min-height: 480px;
+  width: 100%;
 }
 
-.roadmap-apple-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 255, 255, 0.03);
+@media (min-width: 1024px) {
+  .roadmap-apple-card {
+    min-height: 480px;
+  }
+  .roadmap-apple-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(168, 85, 247, 0.3);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(168, 85, 247, 0.08);
+  }
 }
 
-/* Card Top Section */
+@media (max-width: 767px) {
+  .roadmap-apple-card {
+    padding: 24px 20px;
+    border-radius: 18px;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 360px) {
+  .roadmap-apple-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+}
+
+/* Card Header */
 .roadmap-card-header {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .roadmap-card-title {
-  font-size: 1.45rem;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.35rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0;
   letter-spacing: -0.02em;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .roadmap-card-desc {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.6);
   line-height: 1.55;
   margin: 0;
 }
 
-/* Card Center Section (for Coming Soon Cards & Logos) */
+@media (max-width: 767px) {
+  .roadmap-card-title {
+    font-size: 1.2rem;
+  }
+  .roadmap-card-desc {
+    font-size: 0.88rem;
+  }
+}
+
+/* Card Center Section */
 .roadmap-card-body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   flex: 1;
-  margin: 32px 0;
+  margin: 28px 0;
+  width: 100%;
 }
 
-/* Two aligned rows of logos for Programming Languages Card */
+/* Two rows of tech buttons */
 .roadmap-logo-grid {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   width: 100%;
   align-items: center;
 }
 
 .roadmap-logo-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   width: 100%;
 }
 
@@ -156,24 +253,30 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
-  padding: 14px 16px;
-  width: 76px;
-  height: 76px;
+  padding: 10px 8px;
+  min-height: 72px;
+  width: 100%;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 .roadmap-tech-btn:hover {
-  transform: scale(1.08) translateY(-4px);
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.06);
+  transform: translateY(-3px);
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.35);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(168, 85, 247, 0.1);
+}
+
+.roadmap-tech-btn:active {
+  transform: scale(0.96);
 }
 
 .roadmap-tech-icon {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -189,8 +292,24 @@
 .roadmap-tech-name {
   font-size: 0.72rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.8);
   letter-spacing: 0.01em;
+  text-align: center;
+}
+
+@media (max-width: 360px) {
+  .roadmap-tech-btn {
+    min-height: 64px;
+    padding: 8px 4px;
+  }
+  .roadmap-tech-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+  }
+  .roadmap-tech-name {
+    font-size: 0.68rem;
+  }
 }
 
 /* Outlined Coming Soon Badge */
@@ -199,10 +318,10 @@
   align-items: center;
   justify-content: center;
   padding: 8px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(168, 85, 247, 0.3);
   border-radius: 100px;
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.85);
+  background: rgba(168, 85, 247, 0.08);
+  color: #c084fc;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -212,64 +331,21 @@
 
 .coming-soon-subtext {
   font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.45);
   text-align: center;
   margin: 0;
-  letter-spacing: -0.01em;
+  line-height: 1.5;
 }
 
 /* Card Bottom Text */
 .roadmap-card-footer {
   text-align: center;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .roadmap-footer-text {
   font-size: 0.82rem;
   color: rgba(255, 255, 255, 0.45);
   margin: 0;
-  letter-spacing: -0.01em;
-}
-
-/* Responsive Media Queries */
-@media (max-width: 1024px) {
-  .roadmap-apple-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 680px) {
-  .roadmap-apple-section {
-    padding: 60px 16px;
-  }
-
-  .roadmap-apple-title {
-    font-size: 2rem;
-  }
-
-  .roadmap-apple-subtitle {
-    font-size: 0.98rem;
-  }
-
-  .roadmap-apple-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .roadmap-apple-card {
-    padding: 28px 24px;
-    min-height: 420px;
-  }
-
-  .roadmap-tech-btn {
-    width: 68px;
-    height: 68px;
-    padding: 10px 12px;
-  }
-
-  .roadmap-tech-icon {
-    width: 28px;
-    height: 28px;
-  }
 }
