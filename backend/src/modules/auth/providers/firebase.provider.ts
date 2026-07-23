@@ -20,24 +20,40 @@ export function initializeFirebaseAdmin() {
   const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON || process.env.FIREBASE_SERVICE_ACCOUNT;
   const projectId = process.env.FIREBASE_PROJECT_ID || 'bca-department-website';
 
+  if (firebaseAdmin.apps && firebaseAdmin.apps.length > 0) {
+    isInitialized = true;
+    return;
+  }
+
   try {
     if (serviceAccountJson) {
       let serviceAccount: any;
       try {
-        if (serviceAccountJson.trim().startsWith('{')) {
-          serviceAccount = JSON.parse(serviceAccountJson);
+        let rawStr = serviceAccountJson.trim();
+        if ((rawStr.startsWith('"') && rawStr.endsWith('"')) || (rawStr.startsWith("'") && rawStr.endsWith("'"))) {
+          rawStr = rawStr.slice(1, -1);
+        }
+
+        if (rawStr.startsWith('{')) {
+          serviceAccount = JSON.parse(rawStr);
         } else {
-          const decoded = Buffer.from(serviceAccountJson, 'base64').toString('utf8');
+          const decoded = Buffer.from(rawStr, 'base64').toString('utf8');
           serviceAccount = JSON.parse(decoded);
         }
 
-        firebaseAdmin.initializeApp({
-          credential: firebaseAdmin.credential.cert(serviceAccount),
-          projectId: serviceAccount.project_id || projectId,
-        });
-        logger.info({ message: 'Firebase Admin SDK initialized with Service Account Credentials.', projectId: serviceAccount.project_id || projectId });
-        isInitialized = true;
-        return;
+        if (serviceAccount && serviceAccount.private_key) {
+          serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+        }
+
+        if (serviceAccount && serviceAccount.project_id) {
+          firebaseAdmin.initializeApp({
+            credential: firebaseAdmin.credential.cert(serviceAccount),
+            projectId: serviceAccount.project_id,
+          });
+          logger.info({ message: 'Firebase Admin SDK initialized with Service Account Credentials.', projectId: serviceAccount.project_id });
+          isInitialized = true;
+          return;
+        }
       } catch (jsonErr: any) {
         logger.warn({ message: 'Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON, falling back to Project ID initialization', error: jsonErr.message });
       }
@@ -53,7 +69,7 @@ export function initializeFirebaseAdmin() {
       return;
     }
 
-    // Default Fallback: Initialize with Project ID for ID token cryptographic verification via Google public keys
+    // Default Fallback: Initialize with Project ID for cryptographic ID token verification
     firebaseAdmin.initializeApp({
       projectId,
     });
@@ -70,5 +86,9 @@ export function initializeFirebaseAdmin() {
 
 export function getFirebaseAdmin() {
   initializeFirebaseAdmin();
-  return isInitialized ? getAdminSdk() : null;
+  const sdk = getAdminSdk();
+  if (sdk.apps && sdk.apps.length > 0) {
+    return sdk;
+  }
+  return isInitialized ? sdk : null;
 }
