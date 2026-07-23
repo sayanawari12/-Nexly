@@ -39,38 +39,50 @@ export const AuthProvider = ({ children }) => {
           const idToken = await currentUser.getIdToken();
           console.log("✅ ID TOKEN retrieved");
 
-          const response = await axios.post(
-            `${API_BASE_URL}/auth/firebase`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${idToken}`,
-              },
-              withCredentials: true,
+          let response = null;
+          for (let attempt = 0; attempt < 3; attempt++) {
+            try {
+              response = await axios.post(
+                `${API_BASE_URL}/auth/firebase`,
+                {},
+                {
+                  headers: {
+                    Authorization: `Bearer ${idToken}`,
+                  },
+                  withCredentials: true,
+                  timeout: 15000,
+                }
+              );
+              if (response?.data?.data?.accessToken) break;
+            } catch (err) {
+              console.warn(`Attempt ${attempt + 1} for token exchange notice:`, err.message);
+              if (attempt < 2) await new Promise((r) => setTimeout(r, 2000));
             }
-          );
+          }
 
-          console.log("✅ BACKEND RESPONSE:", response.data);
-          const data = response.data?.data;
+          if (response?.data?.data) {
+            console.log("✅ BACKEND RESPONSE:", response.data);
+            const data = response.data.data;
 
-          if (data && data.accessToken) {
-            console.log("✅ Access token received");
+            if (data.accessToken) {
+              console.log("✅ Access token received");
 
-            localStorage.setItem('apex_token', data.accessToken);
+              localStorage.setItem('apex_token', data.accessToken);
 
-            if (data.refreshToken) {
-              localStorage.setItem('apex_refresh_token', data.refreshToken);
+              if (data.refreshToken) {
+                localStorage.setItem('apex_refresh_token', data.refreshToken);
+              }
+
+              connectSocket(data.accessToken);
+
+              apexUserId = data.user?.id;
+              userRole = data.user?.role?.toLowerCase() || 'student';
             }
-
-            connectSocket(data.accessToken);
-
-            apexUserId = data.user?.id;
-            userRole = data.user?.role?.toLowerCase() || 'student';
           } else {
-            console.warn("⚠️ Backend response missing access token");
+            console.warn("⚠️ Backend token exchange did not return access token");
           }
         } catch (error) {
-          console.warn('⚠️ Backend token exchange warning (continuing with Firebase user session):', error.message);
+          console.warn('⚠️ Backend token exchange error:', error.message);
         }
 
         const fallbackName =

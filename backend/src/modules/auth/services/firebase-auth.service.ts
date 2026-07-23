@@ -55,8 +55,10 @@ export class FirebaseAuthService {
     logger.info({ step: '2_VERIFYING_FIREBASE_TOKEN', message: 'Verifying Firebase ID Token cryptographically' });
     try {
       const decodedToken = await authService.verifyIdToken(idToken);
-      email = decodedToken.email || '';
       uid = decodedToken.uid || decodedToken.sub || decodedToken.user_id || '';
+      email = decodedToken.email ||
+              (decodedToken.firebase?.identities?.email ? decodedToken.firebase.identities.email[0] : '') ||
+              (uid ? `${uid}@firebase.user` : '');
       name = decodedToken.name || (email ? email.split('@')[0] : 'Coder');
       logger.info({ step: '3_FIREBASE_CLAIMS_EXTRACTED', email, uid, name });
     } catch (error: any) {
@@ -73,7 +75,9 @@ export class FirebaseAuthService {
         const decoded = jwt.decode(idToken) as any;
         if (decoded && typeof decoded === 'object') {
           uid = decoded.uid || decoded.sub || decoded.user_id || '';
-          email = decoded.email || (decoded.firebase?.identities?.email ? decoded.firebase.identities.email[0] : '');
+          email = decoded.email ||
+                  (decoded.firebase?.identities?.email ? decoded.firebase.identities.email[0] : '') ||
+                  (uid ? `${uid}@firebase.user` : '');
           name = decoded.name || (email ? email.split('@')[0] : 'Coder');
           logger.warn({ step: '3_FALLBACK_JWT_DECODED', email, uid });
         }
