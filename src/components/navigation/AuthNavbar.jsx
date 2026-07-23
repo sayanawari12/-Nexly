@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { 
   Search, Bell, ChevronDown, Award, BookOpen, 
   CheckCircle, Flame, LayoutDashboard, User, Bookmark, 
-  Download, Settings, HelpCircle, LogOut, FileCode, CheckSquare, BarChart3, TrendingUp
+  Download, Settings, HelpCircle, LogOut, FileCode, CheckSquare, BarChart3
 } from 'lucide-react';
 
 const AuthNavbar = ({
@@ -42,8 +42,6 @@ const AuthNavbar = ({
   const studentItems = [
     { label: 'Dashboard', icon: <LayoutDashboard size={14} />, path: '/dashboard' },
     { label: 'Learning Roadmap', icon: <BarChart3 size={14} />, path: '/roadmap' },
-    { label: 'Study Analytics', icon: <TrendingUp size={14} />, path: '/analytics' },
-    { label: 'Practice Hub', icon: <FileCode size={14} />, path: '/practice' },
     { label: 'My Profile', icon: <User size={14} />, path: '/profile' },
     { label: 'Continue Learning', icon: <BookOpen size={14} />, path: '/technologies/c' },
     { label: 'Bookmarks', icon: <Bookmark size={14} />, path: '/profile' },
@@ -61,7 +59,6 @@ const AuthNavbar = ({
     { label: 'Manage Programs', icon: <Bookmark size={14} />, path: '/dashboard' },
     { label: 'Manage Quizzes', icon: <CheckSquare size={14} />, path: '/dashboard' },
     { label: 'Certificates', icon: <Award size={14} />, path: '/profile' },
-    { label: 'Analytics', icon: <BarChart3 size={14} />, path: '/dashboard' },
     { label: 'Settings', icon: <Settings size={14} />, path: '/profile' }
   ];
 
