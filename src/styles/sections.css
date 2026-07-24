@@ -1462,31 +1462,61 @@
   border-color: #a855f7;
 }
 
-/* Responsive Media Queries (<768px) */
+/* Responsive Media Queries (<768px): 2 Compact Cards Per Row Layout */
 @media (max-width: 767px) {
   .resources-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
   }
 
   .resource-card {
-    padding: 20px 16px;
-    border-radius: 16px;
+    padding: 14px 12px !important;
+    border-radius: 16px !important;
+  }
+
+  .resource-icon-wrapper {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+  }
+
+  .resource-title {
+    font-size: 0.9rem !important;
+    line-height: 1.25 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    margin-bottom: 4px !important;
+  }
+
+  .resource-desc {
+    font-size: 0.78rem !important;
+    line-height: 1.35 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    margin-bottom: 10px !important;
   }
 
   .resource-card-bottom {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 8px;
+    padding-top: 10px;
   }
 
   .resource-file-meta {
     text-align: center;
+    font-size: 0.72rem;
   }
 
   .resource-action-btn {
     width: 100%;
-    min-height: 48px;
+    min-height: 44px !important;
+    font-size: 0.76rem !important;
+    padding: 6px 8px !important;
     justify-content: center;
   }
 }

@@ -286,11 +286,55 @@
   }
 }
 
-/* Mobile Grid (<768px): 1 column (100% width) */
+/* Mobile Grid (<768px): 2 compact cards per row (320px–430px) */
 @media (max-width: 767px) {
   .roadmap-apple-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .lang-hub-card {
+    padding: 16px 12px !important;
+    border-radius: 16px !important;
+  }
+
+  .lang-logo-wrapper {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+  }
+
+  .lang-svg-box {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .lang-card-title {
+    font-size: 0.92rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 4px !important;
+  }
+
+  .lang-card-desc {
+    font-size: 0.78rem !important;
+    line-height: 1.35 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    margin-bottom: 10px !important;
+  }
+
+  .lang-card-meta {
+    font-size: 0.72rem !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .lang-btn-action {
+    min-height: 44px !important;
+    font-size: 0.76rem !important;
+    padding: 6px 8px !important;
   }
 }
 

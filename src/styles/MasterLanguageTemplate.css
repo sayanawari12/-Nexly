@@ -971,8 +971,67 @@
     grid-template-columns: 1fr;
   }
 
-  .modules-grid-container, .mini-projects-grid {
-    grid-template-columns: 1fr;
+  /* Mobile (320px – 767px): 2 Cards per Row Compact Grid Layout */
+  .modules-grid-container, 
+  .mini-projects-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .module-card-item,
+  .mini-project-card {
+    padding: 14px 12px !important;
+    border-radius: 16px !important;
+    min-height: auto;
+  }
+
+  .module-icon-wrapper {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+  }
+
+  .module-status-badge,
+  .project-status-pill,
+  .project-badge {
+    font-size: 0.65rem !important;
+    padding: 2px 6px !important;
+  }
+
+  .module-name,
+  .project-title {
+    font-size: 0.9rem !important;
+    line-height: 1.25 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    margin-bottom: 4px !important;
+  }
+
+  .project-desc {
+    font-size: 0.78rem !important;
+    line-height: 1.35 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    margin-bottom: 10px !important;
+  }
+
+  .module-meta-info {
+    font-size: 0.72rem !important;
+    flex-wrap: wrap;
+    gap: 6px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .btn-module-action,
+  .btn-project-action {
+    min-height: 44px !important;
+    font-size: 0.76rem !important;
+    padding: 6px 6px !important;
+    width: 100% !important;
   }
 
   .progress-metrics-row {
@@ -981,7 +1040,7 @@
   }
 
   .master-section-card {
-    padding: 20px 16px;
+    padding: 18px 14px;
     border-radius: 16px;
   }
 
