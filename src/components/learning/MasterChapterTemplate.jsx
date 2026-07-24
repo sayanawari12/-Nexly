@@ -478,7 +478,7 @@ export const MasterChapterTemplate = ({
           {prevChapter ? (
             <button 
               className="mc-nav-btn prev"
-              onClick={() => onNavigateChapter &amp;&amp; onNavigateChapter(prevChapter.slug)}
+              onClick={() => onNavigateChapter && onNavigateChapter(prevChapter.slug)}
             >
               <ChevronLeft size={16} />
               <div className="nav-btn-meta">
@@ -500,7 +500,7 @@ export const MasterChapterTemplate = ({
           {nextChapter ? (
             <button 
               className="mc-nav-btn next"
-              onClick={() => onNavigateChapter &amp;&amp; onNavigateChapter(nextChapter.slug)}
+              onClick={() => onNavigateChapter && onNavigateChapter(nextChapter.slug)}
             >
               <div className="nav-btn-meta text-right">
                 <span className="nav-label">Next</span>
