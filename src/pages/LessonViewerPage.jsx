@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { AlertTriangle } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 import { useLearning } from '../context/LearningContext';
 import { useProgress } from '../context/ProgressContext';
@@ -41,12 +42,19 @@ const LessonViewerPage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [loadingBookmark, setLoadingBookmark] = useState(false);
 
-  // 1. Deep linking / route sync: Set active lesson from parameter
+  // 1. Set active lesson ID from parameter
   useEffect(() => {
     if (lessonId) {
       setActiveLessonId(lessonId);
     }
   }, [lessonId, setActiveLessonId]);
+
+  // 1.5 Auto-initialize subject if not set
+  useEffect(() => {
+    if (!activeSubjectId && subjects.length > 0) {
+      setActiveSubjectId(subjects[0].id);
+    }
+  }, [activeSubjectId, subjects, setActiveSubjectId]);
 
   // 2. Automatically resolve parent hierarchy (Subject -> Semester -> Unit) of loaded lesson
   useEffect(() => {
@@ -105,32 +113,7 @@ const LessonViewerPage = () => {
     }
   }, [user, activeLessonId, activeSubjectId, activeUnitId, activeSemesterId, completedLessons, lessons]);
 
-  // 3. Track Subject Changes to redirect to first lesson of newly selected subject
-  useEffect(() => {
-    if (activeSubjectId && lessons.length > 0 && units.length > 0) {
-      const currentLesson = lessons.find(l => l.id === activeLessonId);
-      const lessonUnit = currentLesson ? units.find(u => u.id === currentLesson.unitId) : null;
-      
-      // If active lesson doesn't belong to active subject, redirect to first lesson of active subject
-      if (!lessonUnit || lessonUnit.subjectId !== activeSubjectId) {
-        const subjectUnits = units.filter(u => u.subjectId === activeSubjectId);
-        if (subjectUnits.length > 0) {
-          // Sort units by order
-          const sortedUnits = [...subjectUnits].sort((a, b) => (a.order || 0) - (b.order || 0));
-          const firstUnit = sortedUnits[0];
-          const unitLessons = lessons.filter(l => l.unitId === firstUnit.id);
-          
-          if (unitLessons.length > 0) {
-            const sortedLessons = [...unitLessons].sort((a, b) => (a.order || 0) - (b.order || 0));
-            const firstLesson = sortedLessons[0];
-            navigate(`/lessons/${firstLesson.id}`, { replace: true });
-          }
-        }
-      }
-    }
-  }, [activeSubjectId, activeLessonId, lessons, units, navigate]);
-
-  // 4. Fetch Bookmark Status on active lesson/user change
+  // 3. Fetch Bookmark Status on active lesson/user change
   useEffect(() => {
     if (user && activeLessonId) {
       const fetchBookmark = async () => {
@@ -148,7 +131,7 @@ const LessonViewerPage = () => {
     }
   }, [user, activeLessonId]);
 
-  // Toggle Bookmark Handler
+  // Handlers
   const handleToggleBookmark = async () => {
     if (!user || !activeLessonId) return;
     setLoadingBookmark(true);
@@ -167,7 +150,6 @@ const LessonViewerPage = () => {
     }
   };
 
-  // Toggle Lesson Completion Handler
   const handleToggleComplete = async () => {
     if (!activeLessonId) return;
     try {
@@ -185,7 +167,8 @@ const LessonViewerPage = () => {
     navigate(`/lessons/${id}`);
   };
 
-  if (loadingLearning || loadingProgress || !activeLesson) {
+  // 4. Loading Skeleton State
+  if (loadingLearning || loadingProgress) {
     return (
       <div className="lesson-viewer-loading-container">
         <div className="skeleton-grid">
@@ -198,6 +181,27 @@ const LessonViewerPage = () => {
             <div className="skeleton-body-line"></div>
           </div>
           <div className="skeleton-sticky"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // 5. Error State (Never render a blank black screen when lesson is missing!)
+  if (!activeLesson) {
+    return (
+      <div className="lesson-viewer-page-wrapper" style={{ padding: '60px 20px', display: 'flex', justifyContent: 'center' }}>
+        <div className="mc-error-state-card glass-card" style={{ maxWidth: 500, width: '100%' }}>
+          <AlertTriangle size={42} style={{ color: '#f59e0b', marginBottom: 16 }} />
+          <h2 className="error-title">Lesson Not Found</h2>
+          <p className="error-desc">
+            The requested lesson could not be loaded. Please return to your curriculum workspace.
+          </p>
+          <button 
+            className="btn-primary-purple" 
+            onClick={() => navigate('/curriculum/semester-1/problem-solving-using-c')}
+          >
+            Go to Problem Solving Using C
+          </button>
         </div>
       </div>
     );
