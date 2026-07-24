@@ -3461,9 +3461,72 @@
   .curriculum-status-strip {
     grid-template-columns: 1fr;
   }
+
+  /* Compact 2-Column Subject Grid (320px–430px) */
   .subjects-inner-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
   }
+
+  .premium-subject-details-card {
+    padding: 14px 12px !important;
+    border-radius: 16px !important;
+    min-height: auto !important;
+  }
+
+  .subject-header-top-row {
+    margin-bottom: 8px !important;
+  }
+
+  .subject-icon-box {
+    padding: 6px !important;
+    border-radius: 8px !important;
+  }
+
+  .subject-icon-box svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .category-badge {
+    display: none !important;
+  }
+
+  .difficulty-badge {
+    font-size: 0.65rem !important;
+    padding: 1px 5px !important;
+  }
+
+  .subject-title-h4 {
+    font-size: 0.92rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    margin-bottom: 6px !important;
+  }
+
+  /* Hide long descriptions on mobile */
+  .subject-body-desc {
+    display: none !important;
+  }
+
+  .subject-meta-row {
+    padding-top: 8px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .sub-hours-meta {
+    font-size: 0.72rem !important;
+  }
+
+  .open-subject-arrow-btn {
+    font-size: 0.76rem !important;
+    min-height: 44px !important;
+  }
+
   /* Mobile stack for CTA card */
   .cta-curriculum-card {
     padding: 30px 24px;
