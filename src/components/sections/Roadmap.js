@@ -331,20 +331,6 @@ const Roadmap = () => {
             );
           })}
         </div>
-
-        {/* Pagination Dots Indicator */}
-        <div className="carousel-pagination-dots" role="tablist">
-          {[1, 2, 3, 4, 5, 6].map((sem) => (
-            <button
-              key={sem}
-              className={`pagination-dot ${activeSem === sem ? 'active' : ''}`}
-              onClick={() => scrollToSemester(sem)}
-              aria-label={`Semester ${sem} dot`}
-              role="tab"
-              aria-selected={activeSem === sem}
-            />
-          ))}
-        </div>
       </div>
 
       {/* ────────────────────────────────────────────────────────────
