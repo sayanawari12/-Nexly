@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -17,98 +17,178 @@ import {
   CheckCircle2, 
   Play, 
   Download, 
-  HelpCircle 
+  HelpCircle,
+  ChevronRight,
+  ChevronLeft,
+  Sparkles
 } from 'lucide-react';
 import '../../styles/sections.css';
+
+const semestersInfo = {
+  1: {
+    number: 'Semester 1',
+    title: 'Programming Foundations',
+    desc: 'Master the basics of computation, coding logic, and mathematical algorithms.',
+    duration: 'Est. Duration: 6 Months',
+    subjectsCount: '6 Core Subjects',
+    subjects: [
+      { code: 'BCA-101', name: 'Problem Solving Using C', category: 'Programming', difficulty: 'Medium', hours: 60, icon: <Code2 size={22} />, desc: 'Learn programming fundamentals, arrays, pointers, structures, and problem-solving using C.' },
+      { code: 'BCA-102', name: 'Computer Architecture', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <Cpu size={22} />, desc: 'Study CPU organization, memory hierarchy, instruction execution, and digital logic.' },
+      { code: 'BCA-103', name: 'Mathematics Foundation', category: 'Theory', difficulty: 'Hard', hours: 50, icon: <Layers size={22} />, desc: 'Build logic foundations through sets, matrices, relations, and graph theory.' },
+      { code: 'BCA-104', name: 'General English', category: 'Practical', difficulty: 'Easy', hours: 30, icon: <BookOpen size={22} />, desc: 'Develop professional communication, technical writing, and business vocabulary.' },
+      { code: 'BCA-105', name: 'Indian Knowledge System', category: 'Theory', difficulty: 'Easy', hours: 30, icon: <Globe size={22} />, desc: "Explore India's traditional scientific heritage and its modern application." },
+      { code: 'BCA-106', name: 'Environmental Science', category: 'Theory', difficulty: 'Easy', hours: 30, icon: <ShieldAlert size={22} />, desc: 'Understand sustainable development, ecological conservation, and climate policies.' }
+    ]
+  },
+  2: {
+    number: 'Semester 2',
+    title: 'Object Orientation & Structures',
+    desc: 'Structure complex software applications, OOP design patterns, and hardware controllers.',
+    duration: 'Est. Duration: 6 Months',
+    subjectsCount: '6 Core Subjects',
+    subjects: [
+      { code: 'BCA-201', name: 'OOP using C++', category: 'Programming', difficulty: 'Medium', hours: 60, icon: <Zap size={22} />, desc: 'Master classes, objects, inheritance, polymorphism, templates, and exception handling.' },
+      { code: 'BCA-202', name: 'Data Structures', category: 'Programming', difficulty: 'Hard', hours: 60, icon: <GitBranch size={22} />, desc: 'Study linked lists, stacks, queues, binary trees, sorting, searching, and complexity.' },
+      { code: 'BCA-203', name: 'Operating Systems', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <Cpu size={22} />, desc: 'Understand threads, scheduling algorithms, paging systems, and mutual exclusions.' },
+      { code: 'BCA-204', name: 'Web Technologies', category: 'Practical', difficulty: 'Medium', hours: 50, icon: <Globe size={22} />, desc: 'Build responsive interfaces using HTML5, CSS3, DOM APIs, and JavaScript.' },
+      { code: 'BCA-205', name: 'OOP using Java', category: 'Programming', difficulty: 'Medium', hours: 60, icon: <Terminal size={22} />, desc: 'Study Java platform core, memory compilation, exception safety, and packages.' },
+      { code: 'BCA-206', name: 'Indian Constitution', category: 'Theory', difficulty: 'Easy', hours: 30, icon: <ShieldAlert size={22} />, desc: 'Explore state structures, fundamental rights, and civil law guidelines.' }
+    ]
+  },
+  3: {
+    number: 'Semester 3',
+    title: 'Systems & Relational Databases',
+    desc: 'Connect applications to relational structures, file systems, and automated data scripts.',
+    duration: 'Est. Duration: 6 Months',
+    subjectsCount: '4 Core Subjects',
+    subjects: [
+      { code: 'BCA-301', name: 'Operating Systems Advanced', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <Cpu size={22} />, desc: 'Analyze thread scheduling, paging tables, file structures, and lock models.' },
+      { code: 'BCA-302', name: 'Relational DBMS', category: 'Programming', difficulty: 'Medium', hours: 50, icon: <Layers size={22} />, desc: 'Write SQL statements, design normalized schemas, and control ACID transactions.' },
+      { code: 'BCA-303', name: 'Python Engineering', category: 'Programming', difficulty: 'Medium', hours: 50, icon: <Terminal size={22} />, desc: 'Build automation scripts, work with libraries, and handle file system pipelines.' },
+      { code: 'BCA-304', name: 'Software Engineering', category: 'Theory', difficulty: 'Easy', hours: 40, icon: <BookOpen size={22} />, desc: 'Understand Agile methodologies, UML designs, testing structures, and deployments.' }
+    ]
+  },
+  4: {
+    number: 'Semester 4',
+    title: 'Networking & Web Architectures',
+    desc: 'Study data network layers, web routing sockets, and enterprise software compilation.',
+    duration: 'Est. Duration: 6 Months',
+    subjectsCount: '4 Core Subjects',
+    subjects: [
+      { code: 'BCA-401', name: 'Java Platform Core', category: 'Programming', difficulty: 'Hard', hours: 60, icon: <Terminal size={22} />, desc: 'Learn JVM configurations, multithreading loops, AWT controls, and TCP sockets.' },
+      { code: 'BCA-402', name: 'Computer Networks', category: 'Theory', difficulty: 'Medium', hours: 45, icon: <Globe size={22} />, desc: 'Configure IP headers, study routing protocols, subnets, and transport ports.' },
+      { code: 'BCA-403', name: 'Web Technologies Stack', category: 'Practical', difficulty: 'Medium', hours: 50, icon: <Code2 size={22} />, desc: 'Develop dynamic interfaces using ES6 JS arrays, fetch APIs, and JSON structures.' },
+      { code: 'BCA-404', name: 'Organizational Behaviors', category: 'Theory', difficulty: 'Easy', hours: 30, icon: <ShieldAlert size={22} />, desc: 'Understand corporate dynamics, resource management, and team leadership.' }
+    ]
+  },
+  5: {
+    number: 'Semester 5',
+    title: 'Advanced Web & Cloud Architectures',
+    desc: 'Deploy backend endpoints, create mobile app binaries, and configure serverless nodes.',
+    duration: 'Est. Duration: 6 Months',
+    subjectsCount: '4 Core Subjects',
+    subjects: [
+      { code: 'BCA-501', name: 'Advanced Web Dev (React)', category: 'Programming', difficulty: 'Hard', hours: 60, icon: <Zap size={22} />, desc: 'Master virtual DOM, SPA routing, state hooks, and component lifecycles.' },
+      { code: 'BCA-502', name: 'Cloud Server Platforms', category: 'Practical', difficulty: 'Hard', hours: 50, icon: <Cpu size={22} />, desc: 'Learn AWS virtualization, serverless compute functions, and Docker containers.' },
+      { code: 'BCA-503', name: 'Mobile App Architecture', category: 'Programming', difficulty: 'Medium', hours: 50, icon: <Code2 size={22} />, desc: 'Build Android layouts, manage intents, sync databases, and run background services.' },
+      { code: 'BCA-504', name: 'Network Security Crypt', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <ShieldAlert size={22} />, desc: 'Learn cryptographic ciphers, public key handshakes, firewalls, and HTTPS protocols.' }
+    ]
+  },
+  6: {
+    number: 'Semester 6',
+    title: 'AI, Canvas Graphics & Thesis Portfolio',
+    desc: 'Build machine learning algorithms, rasterize 3D spaces, and launch a complete product.',
+    duration: 'Est. Duration: 6 Months',
+    subjectsCount: '4 Core Subjects',
+    subjects: [
+      { code: 'BCA-601', name: 'Machine Learning Core', category: 'Programming', difficulty: 'Hard', hours: 60, icon: <Terminal size={22} />, desc: 'Train regressors, design neural network layers, and validate model accuracy.' },
+      { code: 'BCA-602', name: 'Computer Graphics Canvas', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <Layers size={22} />, desc: 'Learn rasterization routines, 3D transformations, and WebGL shader matrixes.' },
+      { code: 'BCA-603', name: 'Major Thesis Project', category: 'Practical', difficulty: 'Medium', hours: 80, icon: <Award size={22} />, desc: 'Build, deploy, package, and document a commercial-grade SaaS web product.' },
+      { code: 'BCA-604', name: 'Enterprise Java Framework', category: 'Programming', difficulty: 'Hard', hours: 55, icon: <Cpu size={22} />, desc: 'Develop REST endpoints using Spring Boot, Hibernate ORMs, and Microservices.' }
+    ]
+  }
+};
 
 const Roadmap = () => {
   const navigate = useNavigate();
   const [activeSem, setActiveSem] = useState(1);
+  const [showSwipeHint, setShowSwipeHint] = useState(false);
+  const carouselRef = useRef(null);
+  const isScrollingRef = useRef(false);
 
-  const semestersInfo = {
-    1: {
-      number: 'Semester 1',
-      title: 'Programming Foundations',
-      desc: 'Master the basics of computation, coding logic, and mathematical algorithms.',
-      duration: 'Est. Duration: 6 Months',
-      subjectsCount: '6 Core Subjects',
-      subjects: [
-        { code: 'BCA-101', name: 'Problem Solving Using C', category: 'Programming', difficulty: 'Medium', hours: 60, icon: <Code2 size={22} />, desc: 'Learn programming fundamentals, arrays, pointers, structures, and problem-solving using C.' },
-        { code: 'BCA-102', name: 'Computer Architecture', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <Cpu size={22} />, desc: 'Study CPU organization, memory hierarchy, instruction execution, and digital logic.' },
-        { code: 'BCA-103', name: 'Mathematics Foundation', category: 'Theory', difficulty: 'Hard', hours: 50, icon: <Layers size={22} />, desc: 'Build logic foundations through sets, matrices, relations, and graph theory.' },
-        { code: 'BCA-104', name: 'General English', category: 'Practical', difficulty: 'Easy', hours: 30, icon: <BookOpen size={22} />, desc: 'Develop professional communication, technical writing, and business vocabulary.' },
-        { code: 'BCA-105', name: 'Indian Knowledge System', category: 'Theory', difficulty: 'Easy', hours: 30, icon: <Globe size={22} />, desc: "Explore India's traditional scientific heritage and its modern application." },
-        { code: 'BCA-106', name: 'Environmental Science', category: 'Theory', difficulty: 'Easy', hours: 30, icon: <ShieldAlert size={22} />, desc: 'Understand sustainable development, ecological conservation, and climate policies.' }
-      ]
-    },
-    2: {
-      number: 'Semester 2',
-      title: 'Object Orientation & Structures',
-      desc: 'Structure complex software applications, OOP design patterns, and hardware controllers.',
-      duration: 'Est. Duration: 6 Months',
-      subjectsCount: '6 Core Subjects',
-      subjects: [
-        { code: 'BCA-201', name: 'OOP using C++', category: 'Programming', difficulty: 'Medium', hours: 60, icon: <Zap size={22} />, desc: 'Master classes, objects, inheritance, polymorphism, templates, and exception handling.' },
-        { code: 'BCA-202', name: 'Data Structures', category: 'Programming', difficulty: 'Hard', hours: 60, icon: <GitBranch size={22} />, desc: 'Study linked lists, stacks, queues, binary trees, sorting, searching, and complexity.' },
-        { code: 'BCA-203', name: 'Operating Systems', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <Cpu size={22} />, desc: 'Understand threads, scheduling algorithms, paging systems, and mutual exclusions.' },
-        { code: 'BCA-204', name: 'Web Technologies', category: 'Practical', difficulty: 'Medium', hours: 50, icon: <Globe size={22} />, desc: 'Build responsive interfaces using HTML5, CSS3, DOM APIs, and JavaScript.' },
-        { code: 'BCA-205', name: 'OOP using Java', category: 'Programming', difficulty: 'Medium', hours: 60, icon: <Terminal size={22} />, desc: 'Study Java platform core, memory compilation, exception safety, and packages.' },
-        { code: 'BCA-206', name: 'Indian Constitution', category: 'Theory', difficulty: 'Easy', hours: 30, icon: <ShieldAlert size={22} />, desc: 'Explore state structures, fundamental rights, and civil law guidelines.' }
-      ]
-    },
-    3: {
-      number: 'Semester 3',
-      title: 'Systems & Relational Databases',
-      desc: 'Connect applications to relational structures, file systems, and automated data scripts.',
-      duration: 'Est. Duration: 6 Months',
-      subjectsCount: '4 Core Subjects',
-      subjects: [
-        { code: 'BCA-301', name: 'Operating Systems Advanced', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <Cpu size={22} />, desc: 'Analyze thread scheduling, paging tables, file structures, and lock models.' },
-        { code: 'BCA-302', name: 'Relational DBMS', category: 'Programming', difficulty: 'Medium', hours: 50, icon: <Layers size={22} />, desc: 'Write SQL statements, design normalized schemas, and control ACID transactions.' },
-        { code: 'BCA-303', name: 'Python Engineering', category: 'Programming', difficulty: 'Medium', hours: 50, icon: <Terminal size={22} />, desc: 'Build automation scripts, work with libraries, and handle file system pipelines.' },
-        { code: 'BCA-304', name: 'Software Engineering', category: 'Theory', difficulty: 'Easy', hours: 40, icon: <BookOpen size={22} />, desc: 'Understand Agile methodologies, UML designs, testing structures, and deployments.' }
-      ]
-    },
-    4: {
-      number: 'Semester 4',
-      title: 'Networking & Web Architectures',
-      desc: 'Study data network layers, web routing sockets, and enterprise software compilation.',
-      duration: 'Est. Duration: 6 Months',
-      subjectsCount: '4 Core Subjects',
-      subjects: [
-        { code: 'BCA-401', name: 'Java Platform Core', category: 'Programming', difficulty: 'Hard', hours: 60, icon: <Terminal size={22} />, desc: 'Learn JVM configurations, multithreading loops, AWT controls, and TCP sockets.' },
-        { code: 'BCA-402', name: 'Computer Networks', category: 'Theory', difficulty: 'Medium', hours: 45, icon: <Globe size={22} />, desc: 'Configure IP headers, study routing protocols, subnets, and transport ports.' },
-        { code: 'BCA-403', name: 'Web Technologies Stack', category: 'Practical', difficulty: 'Medium', hours: 50, icon: <Code2 size={22} />, desc: 'Develop dynamic interfaces using ES6 JS arrays, fetch APIs, and JSON structures.' },
-        { code: 'BCA-404', name: 'Organizational Behaviors', category: 'Theory', difficulty: 'Easy', hours: 30, icon: <ShieldAlert size={22} />, desc: 'Understand corporate dynamics, resource management, and team leadership.' }
-      ]
-    },
-    5: {
-      number: 'Semester 5',
-      title: 'Advanced Web & Cloud Architectures',
-      desc: 'Deploy backend endpoints, create mobile app binaries, and configure serverless nodes.',
-      duration: 'Est. Duration: 6 Months',
-      subjectsCount: '4 Core Subjects',
-      subjects: [
-        { code: 'BCA-501', name: 'Advanced Web Dev (React)', category: 'Programming', difficulty: 'Hard', hours: 60, icon: <Zap size={22} />, desc: 'Master virtual DOM, SPA routing, state hooks, and component lifecycles.' },
-        { code: 'BCA-502', name: 'Cloud Server Platforms', category: 'Practical', difficulty: 'Hard', hours: 50, icon: <Cpu size={22} />, desc: 'Learn AWS virtualization, serverless compute functions, and Docker containers.' },
-        { code: 'BCA-503', name: 'Mobile App Architecture', category: 'Programming', difficulty: 'Medium', hours: 50, icon: <Code2 size={22} />, desc: 'Build Android layouts, manage intents, sync databases, and run background services.' },
-        { code: 'BCA-504', name: 'Network Security Crypt', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <ShieldAlert size={22} />, desc: 'Learn cryptographic ciphers, public key handshakes, firewalls, and HTTPS protocols.' }
-      ]
-    },
-    6: {
-      number: 'Semester 6',
-      title: 'AI, Canvas Graphics & Thesis Portfolio',
-      desc: 'Build machine learning algorithms, rasterize 3D spaces, and launch a complete product.',
-      duration: 'Est. Duration: 6 Months',
-      subjectsCount: '4 Core Subjects',
-      subjects: [
-        { code: 'BCA-601', name: 'Machine Learning Core', category: 'Programming', difficulty: 'Hard', hours: 60, icon: <Terminal size={22} />, desc: 'Train regressors, design neural network layers, and validate model accuracy.' },
-        { code: 'BCA-602', name: 'Computer Graphics Canvas', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <Layers size={22} />, desc: 'Learn rasterization routines, 3D transformations, and WebGL shader matrixes.' },
-        { code: 'BCA-603', name: 'Major Thesis Project', category: 'Practical', difficulty: 'Medium', hours: 80, icon: <Award size={22} />, desc: 'Build, deploy, package, and document a commercial-grade SaaS web product.' },
-        { code: 'BCA-604', name: 'Enterprise Java Framework', category: 'Programming', difficulty: 'Hard', hours: 55, icon: <Cpu size={22} />, desc: 'Develop REST endpoints using Spring Boot, Hibernate ORMs, and Microservices.' }
-      ]
+  // Check session storage for swipe hint overlay
+  useEffect(() => {
+    const hasSwiped = sessionStorage.getItem('hasSwipedSemesters');
+    if (!hasSwiped) {
+      setShowSwipeHint(true);
+      const timer = setTimeout(() => {
+        setShowSwipeHint(false);
+        sessionStorage.setItem('hasSwipedSemesters', 'true');
+      }, 3500);
+      return () => clearTimeout(timer);
     }
+  }, []);
+
+  const handleDismissHint = () => {
+    setShowSwipeHint(false);
+    sessionStorage.setItem('hasSwipedSemesters', 'true');
   };
+
+  // Scroll carousel to a specific semester
+  const scrollToSemester = useCallback((semNumber) => {
+    setActiveSem(semNumber);
+    if (!carouselRef.current) return;
+
+    const container = carouselRef.current;
+    const cardElement = container.querySelector(`[data-sem="${semNumber}"]`);
+    if (cardElement) {
+      isScrollingRef.current = true;
+      const containerWidth = container.offsetWidth;
+      const cardLeft = cardElement.offsetLeft;
+      const cardWidth = cardElement.offsetWidth;
+      const targetScrollLeft = cardLeft - (containerWidth / 2) + (cardWidth / 2);
+
+      container.scrollTo({
+        left: targetScrollLeft,
+        behavior: 'smooth'
+      });
+
+      setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 500);
+    }
+  }, []);
+
+  // Sync scroll position with active semester & pagination
+  const handleCarouselScroll = useCallback(() => {
+    if (isScrollingRef.current || !carouselRef.current) return;
+
+    const container = carouselRef.current;
+    const containerCenter = container.scrollLeft + (container.offsetWidth / 2);
+
+    let closestSem = 1;
+    let minDistance = Infinity;
+
+    [1, 2, 3, 4, 5, 6].forEach((sem) => {
+      const cardElement = container.querySelector(`[data-sem="${sem}"]`);
+      if (cardElement) {
+        const cardCenter = cardElement.offsetLeft + (cardElement.offsetWidth / 2);
+        const distance = Math.abs(containerCenter - cardCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestSem = sem;
+        }
+      }
+    });
+
+    if (closestSem !== activeSem) {
+      setActiveSem(closestSem);
+    }
+
+    if (showSwipeHint) {
+      handleDismissHint();
+    }
+  }, [activeSem, showSwipeHint]);
 
   const getSubjectSlug = (code, name) => {
     const sem2Slugs = {
@@ -124,13 +204,11 @@ const Roadmap = () => {
   };
 
   const handleSubjectClick = (sub) => {
-    // Check if the subject has a dedicated technology route
     const techRoutes = {
       'BCA-303': '/technologies/python',
       'BCA-401': '/technologies/java'
     };
 
-    // BCA-101 (Problem Solving Using C) has its own Semester curriculum page
     const semesterRoutes = {
       'BCA-101': '/curriculum/semester-1/problem-solving-using-c'
     };
@@ -168,10 +246,114 @@ const Roadmap = () => {
         </p>
       </div>
 
+      {/* ────────────────────────────────────────────────────────────
+          STICKY SEMESTER NAVIGATION TABS (Mobile & Tablet)
+         ──────────────────────────────────────────────────────────── */}
+      <div className="sticky-semester-tabs-container">
+        <div className="sticky-semester-tabs-wrapper">
+          {[1, 2, 3, 4, 5, 6].map((sem) => (
+            <button
+              key={sem}
+              className={`sticky-sem-tab-btn ${activeSem === sem ? 'active' : ''}`}
+              onClick={() => scrollToSemester(sem)}
+              aria-label={`Go to Semester ${sem}`}
+            >
+              <span>Sem {sem}</span>
+              {activeSem === sem && (
+                <motion.div 
+                  className="sticky-tab-active-indicator" 
+                  layoutId="activeSemTab" 
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ────────────────────────────────────────────────────────────
+          MOBILE & TABLET CAROUSEL VIEW (<1024px)
+         ──────────────────────────────────────────────────────────── */}
+      <div className="mobile-carousel-section">
+        
+        {/* Swipe Hint Toast Overlay */}
+        <AnimatePresence>
+          {showSwipeHint && (
+            <motion.div 
+              className="swipe-hint-toast"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              onClick={handleDismissHint}
+            >
+              <Sparkles size={14} style={{ color: '#c084fc' }} />
+              <span>← Swipe to explore semesters →</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Scroll Snap Carousel Track */}
+        <div 
+          className="semesters-mobile-carousel" 
+          ref={carouselRef}
+          onScroll={handleCarouselScroll}
+        >
+          {[1, 2, 3, 4, 5, 6].map((sem) => {
+            const semData = semestersInfo[sem];
+            const isActive = activeSem === sem;
+
+            return (
+              <div
+                key={sem}
+                data-sem={sem}
+                className={`mobile-sem-card-wrapper ${isActive ? 'active' : ''}`}
+                onClick={() => scrollToSemester(sem)}
+              >
+                <div className="mobile-sem-card glass-card">
+                  <div className="mobile-card-top-row">
+                    <span className="mobile-sem-tag">{semData.number}</span>
+                    <span className="mobile-sub-count">{semData.subjectsCount}</span>
+                  </div>
+
+                  <h3 className="mobile-sem-title">{semData.title}</h3>
+                  <p className="mobile-sem-desc">{semData.desc}</p>
+
+                  <div className="mobile-card-bottom-row">
+                    <span className="mobile-dur-pill">{semData.duration}</span>
+                    <span className="mobile-active-hint">
+                      {isActive ? 'Active Semester' : 'Tap to Select'}
+                    </span>
+                  </div>
+
+                  {isActive && <div className="mobile-card-active-glow" />}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Pagination Dots Indicator */}
+        <div className="carousel-pagination-dots" role="tablist">
+          {[1, 2, 3, 4, 5, 6].map((sem) => (
+            <button
+              key={sem}
+              className={`pagination-dot ${activeSem === sem ? 'active' : ''}`}
+              onClick={() => scrollToSemester(sem)}
+              aria-label={`Semester ${sem} dot`}
+              role="tab"
+              aria-selected={activeSem === sem}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ────────────────────────────────────────────────────────────
+          DESKTOP & WORKSPACE MAIN LAYOUT (≥1024px)
+         ──────────────────────────────────────────────────────────── */}
       <div className="roadmap-main-layout">
         
-        {/* Visual Timeline and Semester Cards */}
-        <div className="timeline-journey-container">
+        {/* Desktop Left Timeline (Hidden on Mobile) */}
+        <div className="timeline-journey-container desktop-only-timeline">
           <div className="timeline-connector-line">
             <div className="timeline-line-glow" style={{ height: `${(activeSem - 1) * 20}%` }} />
           </div>
@@ -188,7 +370,6 @@ const Roadmap = () => {
                   className={`semester-roadmap-node-card glass-card ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
                   onClick={() => setActiveSem(sem)}
                 >
-                  {/* Timeline Indicator Ring */}
                   <div className="timeline-ring-node">
                     {isCompleted ? <CheckCircle2 size={16} /> : <span>{sem}</span>}
                   </div>
@@ -207,7 +388,6 @@ const Roadmap = () => {
                     </div>
                   </div>
                   
-                  {/* Glowing dynamic background border */}
                   <div className="card-hover-border-glow" />
                 </div>
               );
@@ -215,14 +395,14 @@ const Roadmap = () => {
           </div>
         </div>
 
-        {/* Right side display: Expanded subjects */}
+        {/* Expanded Subjects Panel (Renders selected semester subjects) */}
         <div className="expanded-curriculum-panel">
           
           {/* Progress Preview UI Card */}
           <div className="curriculum-status-strip">
             <div className="progress-preview-card glass-card">
               <div className="progress-card-info">
-                <span className="progress-title">Overall Progress Preview</span>
+                <span className="progress-title">Semester {activeSem} Progress Preview</span>
                 <span className="progress-percent">68%</span>
               </div>
               <div className="progress-bar-block">
