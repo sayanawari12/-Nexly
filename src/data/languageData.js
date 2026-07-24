@@ -9,54 +9,86 @@ export const LANGUAGE_HUB_DATA = {
     difficulty: 'Beginner',
     category: 'System & Core',
     estimatedTime: '15–20 Hours',
-    totalModules: 8,
+    prerequisites: 'None (Basic Computer Logic & High School Math)',
+    totalModules: 10,
     totalLessons: 26,
     totalPrograms: 45,
     svg: TECH_LOGOS.c,
     nextLanguage: 'cpp',
     nextLanguageName: 'C++',
+    about: {
+      what: 'C is a procedural programming language developed in 1972 by Dennis Ritchie at Bell Labs. It serves as the foundation for modern operating systems, compilers, database engines, and embedded microcontrollers.',
+      where: 'Operating System Kernels (Linux, Windows, macOS), Database Engines (MySQL, SQLite), Embedded Systems, Microcontrollers, Game Engines, and Low-Latency Financial Systems.',
+      why: 'Provides direct hardware memory access, manual pointer arithmetic, high execution speed, and essential computer science fundamentals required for all BCA coursework.',
+      career: 'Essential foundation for Systems Software Engineers, Kernel Developers, Embedded Engineers, and Computer Science Academics.'
+    },
     whyLearn: [
-      'Low-level memory management and pointer arithmetic.',
-      'Foundation for OS kernels (Linux, Windows, macOS).',
-      'High execution speed and lightweight system binary footprints.',
-      'Essential core prerequisite for BCA academic success.'
+      'Low-level memory management and direct pointer manipulation.',
+      'Core foundation behind Operating System kernels (Linux, Windows, macOS).',
+      'Ultra-high execution speed and minimal runtime memory overhead.',
+      'Primary mandatory prerequisite for BCA academic curriculum success.'
     ],
     progress: {
-      percentage: 75,
-      completedModules: 6,
-      remainingModules: 2,
-      currentChapter: 'Module 05: Pointers & Memory Swapping'
+      percentage: 70,
+      completedModules: 7,
+      remainingModules: 3,
+      currentChapter: 'Step 14: Pointers & Address Operators'
     },
     roadmapNodes: [
-      { id: 1, title: 'C Syntax & Fundamentals', status: 'completed', desc: 'Variables, printf/scanf, operators, basic data types.' },
-      { id: 2, title: 'Control Flow & Decision Making', status: 'completed', desc: 'If-else statements, switch-case, for/while loops.' },
-      { id: 3, title: 'Functions & Modular Code', status: 'completed', desc: 'Function prototypes, pass-by-value vs pass-by-reference.' },
-      { id: 4, title: 'Arrays & String Manipulation', status: 'completed', desc: '1D/2D arrays, string functions (strcpy, strcmp, strlen).' },
-      { id: 5, title: 'Pointers & Dynamic Memory', status: 'current', desc: 'Pointer arithmetic, malloc(), calloc(), realloc(), free().' },
-      { id: 6, title: 'Structures & Unions', status: 'unlocked', desc: 'Custom types, typedef, nested structs, memory alignment.' },
-      { id: 7, title: 'File Handling & Streams', status: 'locked', desc: 'fopen(), fclose(), fread(), fwrite(), binary file I/O.' },
-      { id: 8, title: 'Preprocessor Directives & Macros', status: 'locked', desc: '#define, #include, conditional compilation guards.' }
+      { id: 1, title: '01. Introduction & Overview', status: 'completed', desc: 'Understanding machine instructions, compilers, and C architecture.' },
+      { id: 2, title: '02. History & Evolution of C', status: 'completed', desc: 'Dennis Ritchie, Bell Labs, ANSI C, C99, C11, C17 standards.' },
+      { id: 3, title: '03. Compiler Setup & Toolchain', status: 'completed', desc: 'GCC, Clang, VS Code, linking binaries and header files.' },
+      { id: 4, title: '04. First C Program (Hello World)', status: 'completed', desc: 'Main function, stdio.h header, compilation phases.' },
+      { id: 5, title: '05. Input & Output Streams', status: 'completed', desc: 'Format specifiers (%d, %f, %c, %s), printf() and scanf().' },
+      { id: 6, title: '06. Variables & Constants', status: 'completed', desc: 'Identifiers, const qualifier, variable scoping, storage classes.' },
+      { id: 7, title: '07. Data Types & Typecasting', status: 'completed', desc: 'Primitive types (int, float, double, char), implicit/explicit casting.' },
+      { id: 8, title: '08. Operators & Expressions', status: 'completed', desc: 'Arithmetic, relational, logical, bitwise, and assignment operators.' },
+      { id: 9, title: '09. Decision Making Structures', status: 'completed', desc: 'if, if-else, nested condition statements, switch-case blocks.' },
+      { id: 10, title: '10. Loops & Iterations', status: 'completed', desc: 'for loops, while loops, do-while loops, break & continue.' },
+      { id: 11, title: '11. Modular Functions', status: 'completed', desc: 'Function prototypes, pass-by-value, pass-by-reference, recursion.' },
+      { id: 12, title: '12. Arrays & Grid Matrices', status: 'completed', desc: '1D arrays, 2D matrix operations, array boundary safety.' },
+      { id: 13, title: '13. Strings & Character Arrays', status: 'completed', desc: 'Null terminator \\0, string.h library (strcpy, strcmp, strlen, strcat).' },
+      { id: 14, title: '14. Pointers & Address Operators', status: 'current', desc: 'Address-of (&), dereference (*), pointer arithmetic, void pointers.' },
+      { id: 15, title: '15. Structures & typedef Types', status: 'unlocked', desc: 'struct definitions, member access (.), arrow operator (->), typedef.' },
+      { id: 16, title: '16. Unions & Bit-Fields', status: 'locked', desc: 'Shared memory unions, memory-efficient bit-field structs.' },
+      { id: 17, title: '17. Dynamic Memory Management', status: 'locked', desc: 'Heap allocation with malloc(), calloc(), realloc(), free().' },
+      { id: 18, title: '18. File Handling Operations', status: 'locked', desc: 'FILE pointer, fopen(), fclose(), fprintf(), fscanf(), binary I/O.' },
+      { id: 19, title: '19. Mini Capstone Project', status: 'locked', desc: 'Building Student Management System CLI app.' },
+      { id: 20, title: '20. Final Assessment & Certificate', status: 'locked', desc: 'Comprehensive exam & practical lab evaluation.' }
     ],
     modules: [
-      { id: 'm1', name: 'Module 1: Syntax & Data Types', status: 'completed', lessons: 4, time: '2 hrs', icon: 'FileText' },
-      { id: 'm2', name: 'Module 2: Control Flow & Loops', status: 'completed', lessons: 4, time: '2.5 hrs', icon: 'Code' },
-      { id: 'm3', name: 'Module 3: Functions & Recursion', status: 'completed', lessons: 3, time: '2 hrs', icon: 'Layers' },
-      { id: 'm4', name: 'Module 4: Arrays & Strings', status: 'completed', lessons: 4, time: '3 hrs', icon: 'Binary' },
-      { id: 'm5', name: 'Module 5: Pointers & Memory', status: 'in_progress', lessons: 4, time: '3.5 hrs', icon: 'Target' },
-      { id: 'm6', name: 'Module 6: Structures & Custom Types', status: 'unlocked', lessons: 3, time: '2.5 hrs', icon: 'Shield' },
-      { id: 'm7', name: 'Module 7: File I/O Operations', status: 'locked', lessons: 2, time: '2 hrs', icon: 'FileText' },
-      { id: 'm8', name: 'Module 8: Preprocessor & Macros', status: 'locked', lessons: 2, time: '1.5 hrs', icon: 'BookOpen' }
+      { id: 'm1', name: 'Module 1: Syntax & Environment Setup', status: 'completed', lessons: 4, time: '2 hrs', icon: 'FileText' },
+      { id: 'm2', name: 'Module 2: Variables & Data Types', status: 'completed', lessons: 3, time: '2 hrs', icon: 'Code' },
+      { id: 'm3', name: 'Module 3: Control Flow & Loops', status: 'completed', lessons: 4, time: '2.5 hrs', icon: 'Layers' },
+      { id: 'm4', name: 'Module 4: Modular Functions & Recursion', status: 'completed', lessons: 3, time: '2 hrs', icon: 'Binary' },
+      { id: 'm5', name: 'Module 5: Arrays & Matrix Operations', status: 'completed', lessons: 4, time: '3 hrs', icon: 'Target' },
+      { id: 'm6', name: 'Module 6: String Manipulation', status: 'completed', lessons: 3, time: '2.5 hrs', icon: 'Shield' },
+      { id: 'm7', name: 'Module 7: Pointers & Memory Addresses', status: 'in_progress', lessons: 4, time: '3.5 hrs', icon: 'Target' },
+      { id: 'm8', name: 'Module 8: Structures & Custom Types', status: 'unlocked', lessons: 3, time: '2.5 hrs', icon: 'Shield' },
+      { id: 'm9', name: 'Module 9: Dynamic Heap Allocation', status: 'locked', lessons: 3, time: '3 hrs', icon: 'Binary' },
+      { id: 'm10', name: 'Module 10: File I/O & Capstone Project', status: 'locked', lessons: 3, time: '3.5 hrs', icon: 'BookOpen' }
     ],
     resources: [
       { title: 'C Memory Allocation Cheat Sheet', type: 'PDF', size: '2.4 MB', ext: 'PDF' },
       { title: 'BCA Pointer Operations Lab Manual', type: 'PDF', size: '1.8 MB', ext: 'PDF' },
       { title: 'C End-Sem Exam PYQs (2020–2025)', type: 'ZIP', size: '4.2 MB', ext: 'ZIP' },
+      { title: 'The C Programming Language (K&R Reference)', type: 'Book', size: 'Reference', ext: 'PDF' },
       { title: 'Interactive C Memory Simulator', type: 'Tool', size: 'Web App', ext: 'LINK' }
     ],
     practice: [
       { id: 'p1', title: 'Swap Two Variables using Pointers', difficulty: 'Easy', status: 'Solved' },
-      { id: 'p2', title: 'Dynamic Array Allocation with realloc()', difficulty: 'Medium', status: 'Solved' },
-      { id: 'p3', title: 'Reverse a Linked List in C', difficulty: 'Hard', status: 'Unsolved' }
+      { id: 'p2', title: 'Factorial Calculation using Recursion', difficulty: 'Easy', status: 'Solved' },
+      { id: 'p3', title: 'Check Matrix Symmetry & Transpose', difficulty: 'Medium', status: 'Solved' },
+      { id: 'p4', title: 'Dynamic Array Allocation with realloc()', difficulty: 'Medium', status: 'Solved' },
+      { id: 'p5', title: 'Reverse a Singly Linked List in C', difficulty: 'Hard', status: 'Unsolved' },
+      { id: 'p6', title: 'Implement Custom Malloc Memory Allocator', difficulty: 'Hard', status: 'Unsolved' }
+    ],
+    miniProjects: [
+      { id: 'proj1', title: 'Console Calculator CLI', difficulty: 'Easy', desc: 'Build an interactive multi-operation mathematical CLI tool.', status: 'Completed' },
+      { id: 'proj2', title: 'Number Guessing Game', difficulty: 'Easy', desc: 'Random number generator with feedback loop and score logging.', status: 'Completed' },
+      { id: 'proj3', title: 'Student Record Management System', difficulty: 'Medium', desc: 'CRUD operations on student records saved to file storage.', status: 'In Progress' },
+      { id: 'proj4', title: 'Bank Account Management System', difficulty: 'Medium', desc: 'Account creation, deposit, withdrawal, and transaction logging.', status: 'Unlocked' },
+      { id: 'proj5', title: 'Library Book Catalog System', difficulty: 'Hard', desc: 'Book cataloging with binary search and struct storage.', status: 'Locked' }
     ]
   },
   cpp: {
@@ -67,12 +99,19 @@ export const LANGUAGE_HUB_DATA = {
     difficulty: 'Intermediate',
     category: 'System & Core',
     estimatedTime: '20–30 Hours',
+    prerequisites: 'C Programming Fundamentals',
     totalModules: 8,
     totalLessons: 30,
     totalPrograms: 50,
     svg: TECH_LOGOS.cpp,
     nextLanguage: 'java',
     nextLanguageName: 'Java',
+    about: {
+      what: 'C++ is an extension of C developed by Bjarne Stroustrup in 1979. It adds Object-Oriented Programming (OOP), templates, exception handling, and the Standard Template Library (STL).',
+      where: 'Game Engines (Unreal Engine), Desktop Applications (Adobe Photoshop), Operating System Components, High-Frequency Financial Trading, and Competitive Programming.',
+      why: 'Combines low-level C memory performance with zero-cost high-level object-oriented abstractions.',
+      career: 'High-demand for Game Developers, Systems Software Engineers, HFT Quant Developers, and Competitive Programmers.'
+    },
     whyLearn: [
       'Industry standard for game development (Unreal Engine).',
       'Standard Template Library (STL) for competitive coding.',
@@ -113,6 +152,9 @@ export const LANGUAGE_HUB_DATA = {
     practice: [
       { id: 'p1', title: 'Implement Custom Vector Class', difficulty: 'Medium', status: 'Solved' },
       { id: 'p2', title: 'LRU Cache using STL Map & List', difficulty: 'Hard', status: 'Unsolved' }
+    ],
+    miniProjects: [
+      { id: 'proj1', title: 'Bank Account Management System', difficulty: 'Medium', desc: 'OOP bank system with persistence.', status: 'Completed' }
     ]
   },
   java: {
@@ -123,12 +165,19 @@ export const LANGUAGE_HUB_DATA = {
     difficulty: 'Intermediate',
     category: 'Enterprise & OOP',
     estimatedTime: '25–35 Hours',
+    prerequisites: 'Basic Programming Concepts',
     totalModules: 8,
     totalLessons: 28,
     totalPrograms: 40,
     svg: TECH_LOGOS.java,
     nextLanguage: 'python',
     nextLanguageName: 'Python',
+    about: {
+      what: 'Java is a class-based, object-oriented programming language designed by James Gosling at Sun Microsystems in 1995. Its "Write Once, Run Anywhere" (WORA) philosophy relies on the Java Virtual Machine (JVM).',
+      where: 'Enterprise Web Backends (Spring Boot), Mobile Applications (Android SDK), Financial Banking Systems, and Big Data Processing (Apache Hadoop, Spark).',
+      why: 'Robust memory safety, automatic garbage collection, platform independence, and massive enterprise adoption.',
+      career: 'High demand for Java Backend Engineers, Android Developers, and Enterprise Solutions Architects.'
+    },
     whyLearn: [
       'Dominant language for enterprise cloud backends.',
       'Official language for Android mobile app engineering.',
@@ -167,6 +216,9 @@ export const LANGUAGE_HUB_DATA = {
     ],
     practice: [
       { id: 'p1', title: 'Multithreaded Producer-Consumer Queue', difficulty: 'Hard', status: 'Unsolved' }
+    ],
+    miniProjects: [
+      { id: 'proj1', title: 'Library Catalog System', difficulty: 'Medium', desc: 'Java OOP library management application.', status: 'Completed' }
     ]
   },
   python: {
@@ -177,12 +229,19 @@ export const LANGUAGE_HUB_DATA = {
     difficulty: 'Beginner',
     category: 'Data & AI',
     estimatedTime: '15–25 Hours',
+    prerequisites: 'Basic Algebra & Computer Literacy',
     totalModules: 8,
     totalLessons: 24,
     totalPrograms: 35,
     svg: TECH_LOGOS.python,
     nextLanguage: 'javascript',
     nextLanguageName: 'JavaScript',
+    about: {
+      what: 'Python is a high-level, interpreted programming language created by Guido van Rossum in 1991. It emphasizes code readability and clean syntax.',
+      where: 'Artificial Intelligence, Machine Learning, Data Science, Web Backends (Django, FastAPI), Automation Scripts, and Cyber Security.',
+      why: 'Clean syntax, dynamic typing, fast development velocity, and unmatched machine learning ecosystems.',
+      career: 'Top choice for Data Scientists, AI/ML Engineers, Backend Developers, and DevOps Automation Engineers.'
+    },
     whyLearn: [
       '#1 language for Artificial Intelligence, ML, and Data Science.',
       'Clean syntax with fast prototyping capabilities.',
@@ -221,6 +280,9 @@ export const LANGUAGE_HUB_DATA = {
     ],
     practice: [
       { id: 'p1', title: 'Build a Web Scraper in Python', difficulty: 'Easy', status: 'Solved' }
+    ],
+    miniProjects: [
+      { id: 'proj1', title: 'Weather Forecast CLI App', difficulty: 'Easy', desc: 'Fetch live weather data via REST API.', status: 'Completed' }
     ]
   },
   javascript: {
@@ -231,12 +293,19 @@ export const LANGUAGE_HUB_DATA = {
     difficulty: 'Beginner-Intermediate',
     category: 'Web & Fullstack',
     estimatedTime: '20–30 Hours',
+    prerequisites: 'Basic HTML & Web Concepts',
     totalModules: 8,
     totalLessons: 25,
     totalPrograms: 40,
     svg: TECH_LOGOS.javascript,
     nextLanguage: 'typescript',
     nextLanguageName: 'TypeScript',
+    about: {
+      what: 'JavaScript is a dynamic programming language created by Brendan Eich in 1995. It is the cornerstone of modern interactive web development.',
+      where: 'Frontend Web Apps (React, Vue, Next.js), Backend Web Servers (Node.js, Express), Desktop Apps (Electron), and Mobile Apps (React Native).',
+      why: 'Runs in every browser, massive npm package ecosystem, and non-blocking asynchronous event loop.',
+      career: 'Essential for Frontend, Backend, and Full-Stack Web Engineers.'
+    },
     whyLearn: [
       'Runs natively in every web browser worldwide.',
       'Full-stack flexibility with Node.js on backend.',
@@ -275,6 +344,9 @@ export const LANGUAGE_HUB_DATA = {
     ],
     practice: [
       { id: 'p1', title: 'Build a Custom Promise Implementation', difficulty: 'Hard', status: 'Unsolved' }
+    ],
+    miniProjects: [
+      { id: 'proj1', title: 'Interactive Task Manager Web App', difficulty: 'Medium', desc: 'DOM CRUD app with localStorage persistence.', status: 'Completed' }
     ]
   },
   typescript: {
@@ -285,12 +357,19 @@ export const LANGUAGE_HUB_DATA = {
     difficulty: 'Intermediate',
     category: 'Web & Fullstack',
     estimatedTime: '15–25 Hours',
+    prerequisites: 'JavaScript (ES6+) Knowledge',
     totalModules: 6,
     totalLessons: 20,
     totalPrograms: 30,
     isIcon: true,
     nextLanguage: 'c',
     nextLanguageName: 'C',
+    about: {
+      what: 'TypeScript is a strongly typed programming language developed by Microsoft in 2012 that builds on JavaScript.',
+      where: 'Large scale web applications, React / Next.js enterprise frontends, Node.js microservices, and open-source libraries.',
+      why: 'Eliminates entire classes of runtime type errors, improves developer velocity, and provides superior IDE autocomplete.',
+      career: 'Standard requirement for Senior Web Developers, React Engineers, and Tech Lead roles.'
+    },
     whyLearn: [
       'Eliminates runtime type errors during build compile time.',
       'Industry standard for React, Next.js, and enterprise codebases.',
@@ -324,6 +403,9 @@ export const LANGUAGE_HUB_DATA = {
     ],
     practice: [
       { id: 'p1', title: 'Implement Strongly Typed Event Emitter', difficulty: 'Hard', status: 'Unsolved' }
+    ],
+    miniProjects: [
+      { id: 'proj1', title: 'Type-Safe E-Commerce Cart Engine', difficulty: 'Hard', desc: 'Strict interface state store for shopping items.', status: 'Completed' }
     ]
   }
 };

@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SiTypescript } from 'react-icons/si';
 import { 
   Play, BookOpen, Clock, Target, CheckCircle2, Lock, Unlock, 
   Download, ArrowRight, Sparkles, Code, FileText, Binary, 
-  Shield, Layers, ChevronRight, Check, Bot, Award, FileCode2, ExternalLink
+  Shield, Layers, ChevronRight, Check, Bot, Award, FileCode2, ExternalLink,
+  Briefcase, Cpu, HelpCircle, FolderGit2, Star, CheckCircle, Terminal
 } from 'lucide-react';
 import StudentLayout from '../../layouts/StudentLayout';
+import { TECH_LOGOS } from '../sections/TechLogos';
 import '../../styles/MasterLanguageTemplate.css';
 
 const MasterLanguageTemplate = ({ data }) => {
   const navigate = useNavigate();
   const [downloadToast, setDownloadToast] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [activePracticeDiff, setActivePracticeDiff] = useState('All');
 
   if (!data) return null;
 
@@ -25,19 +28,22 @@ const MasterLanguageTemplate = ({ data }) => {
     difficulty,
     category,
     estimatedTime,
+    prerequisites = 'None (Basic Computer Logic)',
     totalModules,
     totalLessons,
     totalPrograms,
     svg,
     isIcon,
-    nextLanguage,
-    nextLanguageName,
+    about = {},
+    nextLanguage = 'cpp',
+    nextLanguageName = 'C++',
     whyLearn = [],
     progress = {},
     roadmapNodes = [],
     modules = [],
     resources = [],
-    practice = []
+    practice = [],
+    miniProjects = []
   } = data;
 
   const handleDownload = (resTitle) => {
@@ -56,6 +62,12 @@ const MasterLanguageTemplate = ({ data }) => {
       default: return <BookOpen size={18} />;
     }
   };
+
+  // Filter practice items by difficulty tab
+  const filteredPractice = useMemo(() => {
+    if (activePracticeDiff === 'All') return practice;
+    return practice.filter(p => p.difficulty.toLowerCase() === activePracticeDiff.toLowerCase());
+  }, [practice, activePracticeDiff]);
 
   return (
     <StudentLayout>
@@ -100,6 +112,7 @@ const MasterLanguageTemplate = ({ data }) => {
                   </span>
                   <span className="master-cat-badge">{category}</span>
                   <span className="master-time-badge"><Clock size={12} /> {estimatedTime}</span>
+                  <span className="master-prereq-badge"><HelpCircle size={12} /> Prerequisite: {prerequisites}</span>
                 </div>
 
                 <h1 className="master-hero-title">{title}</h1>
@@ -120,21 +133,67 @@ const MasterLanguageTemplate = ({ data }) => {
                     onClick={() => navigate('/code-editor')}
                     aria-label="Open Code Playground"
                   >
-                    <Code size={16} /> Open Playground
+                    <Terminal size={16} /> Open C Compiler Playground
                   </button>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 2. LEARNING PROGRESS SECTION */}
+          {/* 2. ABOUT LANGUAGE & CAREER RELEVANCE SECTION */}
+          {about.what && (
+            <div className="master-section-card about-lang-card">
+              <div className="section-card-header">
+                <h2 className="section-card-title">
+                  <BookOpen size={20} style={{ color: '#c084fc' }} /> About {name} & Industry Scope
+                </h2>
+                <span className="section-card-subtitle">Understand what {name} is, where it is deployed, and why it matters.</span>
+              </div>
+
+              <div className="about-lang-grid">
+                <div className="about-item-box">
+                  <div className="about-item-header">
+                    <Sparkles size={16} className="about-icon" />
+                    <h3>What is {name}?</h3>
+                  </div>
+                  <p>{about.what}</p>
+                </div>
+
+                <div className="about-item-box">
+                  <div className="about-item-header">
+                    <Cpu size={16} className="about-icon" style={{ color: '#60a5fa' }} />
+                    <h3>Where is {name} Used?</h3>
+                  </div>
+                  <p>{about.where}</p>
+                </div>
+
+                <div className="about-item-box">
+                  <div className="about-item-header">
+                    <Shield size={16} className="about-icon" style={{ color: '#34d399' }} />
+                    <h3>Why Learn {name}?</h3>
+                  </div>
+                  <p>{about.why}</p>
+                </div>
+
+                <div className="about-item-box">
+                  <div className="about-item-header">
+                    <Briefcase size={16} className="about-icon" style={{ color: '#f59e0b' }} />
+                    <h3>Career Opportunities</h3>
+                  </div>
+                  <p>{about.career}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 3. LEARNING PROGRESS SECTION */}
           <div className="master-section-card progress-overview-card">
             <div className="progress-card-top">
               <div className="progress-title-box">
                 <Target size={20} style={{ color: '#c084fc' }} />
                 <div>
                   <h2 className="progress-card-heading">Your Learning Progress</h2>
-                  <span className="progress-chapter-subtitle">{progress.currentChapter || 'Active Module'}</span>
+                  <span className="progress-chapter-subtitle">{progress.currentChapter || 'Active Milestone'}</span>
                 </div>
               </div>
               <div className="progress-percent-display">{progress.percentage || 0}%</div>
@@ -166,13 +225,13 @@ const MasterLanguageTemplate = ({ data }) => {
             </div>
           </div>
 
-          {/* 3. INTERACTIVE ROADMAP TIMELINE */}
+          {/* 4. INTERACTIVE ROADMAP TIMELINE */}
           <div className="master-section-card">
             <div className="section-card-header">
               <h2 className="section-card-title">
-                <Sparkles size={20} style={{ color: '#c084fc' }} /> Visual Learning Roadmap
+                <Sparkles size={20} style={{ color: '#c084fc' }} /> Interactive Learning Roadmap (20 Steps)
               </h2>
-              <span className="section-card-subtitle">Follow step-by-step milestones to master {name}.</span>
+              <span className="section-card-subtitle">Follow step-by-step structured milestones to master {name}.</span>
             </div>
 
             <div className="roadmap-timeline-container">
@@ -191,7 +250,7 @@ const MasterLanguageTemplate = ({ data }) => {
 
                   <div className="node-content">
                     <div className="node-top-row">
-                      <span className="node-step-tag">Step 0{node.id}</span>
+                      <span className="node-step-tag">Step {node.id < 10 ? `0${node.id}` : node.id}</span>
                       <span className={`node-status-pill ${node.status}`}>
                         {node.status.toUpperCase()}
                       </span>
@@ -211,16 +270,16 @@ const MasterLanguageTemplate = ({ data }) => {
           {/* Split Layout: Modules & Side Panels */}
           <div className="master-split-grid">
             
-            {/* Left Column: Learning Modules & Practice */}
+            {/* Left Column: Learning Modules, Practice & Mini Projects */}
             <div className="master-main-col">
               
-              {/* 4. LEARNING MODULES GRID CARDS */}
+              {/* 5. LEARNING MODULES GRID CARDS */}
               <div className="master-section-card">
                 <div className="section-card-header">
                   <h2 className="section-card-title">
-                    <Layers size={20} style={{ color: '#60a5fa' }} /> Curriculum Modules
+                    <Layers size={20} style={{ color: '#60a5fa' }} /> Curriculum Modules Grid
                   </h2>
-                  <span className="section-card-subtitle">Structured modules for in-depth understanding.</span>
+                  <span className="section-card-subtitle">Structured course modules covering core computer science topics.</span>
                 </div>
 
                 <div className="modules-grid-container">
@@ -255,24 +314,42 @@ const MasterLanguageTemplate = ({ data }) => {
                 </div>
               </div>
 
-              {/* 6. PRACTICE SECTION */}
+              {/* 6. PRACTICE SECTION WITH DIFFICULTY FILTERS */}
               <div className="master-section-card">
-                <div className="section-card-header">
-                  <h2 className="section-card-title">
-                    <Code size={20} style={{ color: '#34d399' }} /> Practice & Playground Arena
-                  </h2>
-                  <span className="section-card-subtitle">Solve hands-on programming problems.</span>
+                <div className="section-card-header-flex">
+                  <div>
+                    <h2 className="section-card-title">
+                      <Code size={20} style={{ color: '#34d399' }} /> Coding Exercises & Practice Arena
+                    </h2>
+                    <span className="section-card-subtitle">Hands-on problem sets categorized by difficulty.</span>
+                  </div>
+
+                  {/* Difficulty Tabs */}
+                  <div className="practice-diff-tabs">
+                    {['All', 'Easy', 'Medium', 'Hard'].map((diff) => (
+                      <button
+                        key={diff}
+                        className={`practice-tab-btn ${activePracticeDiff === diff ? 'active' : ''}`}
+                        onClick={() => setActivePracticeDiff(diff)}
+                      >
+                        {diff}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="practice-list">
-                  {practice.length > 0 ? (
-                    practice.map((p) => (
+                  {filteredPractice.length > 0 ? (
+                    filteredPractice.map((p) => (
                       <div key={p.id} className="practice-item-row">
                         <div className="practice-item-left">
                           <FileCode2 size={18} className="practice-icon" />
                           <div>
                             <h4 className="practice-title">{p.title}</h4>
-                            <span className={`practice-diff ${p.difficulty.toLowerCase()}`}>{p.difficulty}</span>
+                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                              <span className={`practice-diff ${p.difficulty.toLowerCase()}`}>{p.difficulty}</span>
+                              <span className="practice-status-chip">{p.status}</span>
+                            </div>
                           </div>
                         </div>
 
@@ -286,14 +363,49 @@ const MasterLanguageTemplate = ({ data }) => {
                     ))
                   ) : (
                     <div className="practice-empty">
-                      <p>Multiple practice challenges available in the interactive playground.</p>
-                      <button className="btn-master-primary" onClick={() => navigate('/code-editor')}>
-                        Launch Playground
+                      <p>No practice problems matching "{activePracticeDiff}" difficulty filter.</p>
+                      <button className="btn-master-primary" onClick={() => setActivePracticeDiff('All')}>
+                        Show All Exercises
                       </button>
                     </div>
                   )}
                 </div>
               </div>
+
+              {/* 7. MINI PROJECTS SECTION */}
+              {miniProjects.length > 0 && (
+                <div className="master-section-card">
+                  <div className="section-card-header">
+                    <h2 className="section-card-title">
+                      <FolderGit2 size={20} style={{ color: '#f59e0b' }} /> Real-World Mini Projects
+                    </h2>
+                    <span className="section-card-subtitle">Apply your {name} knowledge by building real portfolio software.</span>
+                  </div>
+
+                  <div className="mini-projects-grid">
+                    {miniProjects.map((proj) => (
+                      <div key={proj.id} className="mini-project-card">
+                        <div className="project-card-top">
+                          <span className="project-badge">{proj.difficulty}</span>
+                          <span className={`project-status-pill ${proj.status.toLowerCase().replace(/[^a-z]/g, '')}`}>
+                            {proj.status}
+                          </span>
+                        </div>
+
+                        <h3 className="project-title">{proj.title}</h3>
+                        <p className="project-desc">{proj.desc}</p>
+
+                        <button 
+                          className="btn-project-action"
+                          onClick={() => navigate('/code-editor')}
+                        >
+                          Build Project <ArrowRight size={14} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
             </div>
 
@@ -304,7 +416,7 @@ const MasterLanguageTemplate = ({ data }) => {
               {whyLearn.length > 0 && (
                 <div className="master-section-card">
                   <h2 className="section-card-title" style={{ fontSize: '1.1rem' }}>
-                    💡 Why Learn {name}?
+                    💡 Key Learning Highlights
                   </h2>
                   <ul className="why-learn-list">
                     {whyLearn.map((reason, rIdx) => (
@@ -317,10 +429,10 @@ const MasterLanguageTemplate = ({ data }) => {
                 </div>
               )}
 
-              {/* 5. LEARNING RESOURCES */}
+              {/* 8. LEARNING RESOURCES & BOOKS */}
               <div className="master-section-card">
                 <h2 className="section-card-title" style={{ fontSize: '1.1rem' }}>
-                  <Download size={18} style={{ color: '#60a5fa' }} /> Study Resources & PDFs
+                  <Download size={18} style={{ color: '#60a5fa' }} /> Notes, PDFs & Reference Books
                 </h2>
 
                 <div className="resources-list">
@@ -345,25 +457,55 @@ const MasterLanguageTemplate = ({ data }) => {
                 </div>
               </div>
 
-              {/* 7. RELATED LANGUAGES & PATHWAYS */}
+              {/* 9. RELATED LANGUAGES & SUGGESTED PATHWAYS */}
               <div className="master-section-card">
                 <h2 className="section-card-title" style={{ fontSize: '1.1rem' }}>
-                  🗺️ Suggested Learning Pathway
+                  🗺️ Related Languages & Pathways
                 </h2>
-                <p className="pathway-desc">After mastering {name}, continue your engineering journey with:</p>
+                <p className="pathway-desc">After mastering {name}, upgrade your skill matrix with:</p>
 
-                <div 
-                  className="related-lang-card"
-                  onClick={() => navigate(`/roadmaps/programming/${nextLanguage || 'cpp'}`)}
-                >
-                  <div className="related-card-left">
-                    <Sparkles size={20} style={{ color: '#c084fc' }} />
-                    <div>
-                      <h4 className="related-title">Next Language: {nextLanguageName || 'C++'}</h4>
-                      <span className="related-sub">Expand your systems & OOP architecture</span>
+                <div className="related-languages-stack">
+                  <div 
+                    className="related-lang-card"
+                    onClick={() => navigate('/roadmaps/programming/cpp')}
+                  >
+                    <div className="related-card-left">
+                      <div dangerouslySetInnerHTML={{ __html: TECH_LOGOS.cpp }} style={{ width: 22, height: 22 }} />
+                      <div>
+                        <h4 className="related-title">C++ Systems & OOP</h4>
+                        <span className="related-sub">Object-Oriented Architecture & STL</span>
+                      </div>
                     </div>
+                    <ChevronRight size={18} style={{ color: '#c084fc' }} />
                   </div>
-                  <ChevronRight size={18} style={{ color: '#c084fc' }} />
+
+                  <div 
+                    className="related-lang-card"
+                    onClick={() => navigate('/roadmaps/programming/java')}
+                  >
+                    <div className="related-card-left">
+                      <div dangerouslySetInnerHTML={{ __html: TECH_LOGOS.java }} style={{ width: 22, height: 22 }} />
+                      <div>
+                        <h4 className="related-title">Java Enterprise Tech</h4>
+                        <span className="related-sub">JVM Architecture & Spring Backend</span>
+                      </div>
+                    </div>
+                    <ChevronRight size={18} style={{ color: '#c084fc' }} />
+                  </div>
+
+                  <div 
+                    className="related-lang-card"
+                    onClick={() => navigate('/roadmaps/programming/python')}
+                  >
+                    <div className="related-card-left">
+                      <div dangerouslySetInnerHTML={{ __html: TECH_LOGOS.python }} style={{ width: 22, height: 22 }} />
+                      <div>
+                        <h4 className="related-title">Python & AI Hub</h4>
+                        <span className="related-sub">Data Science, Automation & Machine Learning</span>
+                      </div>
+                    </div>
+                    <ChevronRight size={18} style={{ color: '#c084fc' }} />
+                  </div>
                 </div>
               </div>
 
@@ -372,13 +514,13 @@ const MasterLanguageTemplate = ({ data }) => {
                 <div className="ai-tutor-header">
                   <Bot size={22} style={{ color: '#c084fc' }} />
                   <div>
-                    <h3 className="ai-tutor-title">BCA AI Code Tutor</h3>
-                    <span className="ai-tutor-sub">Instant answers & code debugging</span>
+                    <h3 className="ai-tutor-title">BCA AI C Assistant</h3>
+                    <span className="ai-tutor-sub">Pointers, memory & syntax helper</span>
                   </div>
                 </div>
-                <p className="ai-tutor-text">Stuck on a pointer or syntax error? Ask our AI assistant for step-by-step explanations.</p>
-                <button className="btn-ai-tutor" onClick={() => alert("AI Code Assistant is ready! Ask your coding question.")}>
-                  Ask AI Tutor <Sparkles size={14} />
+                <p className="ai-tutor-text">Stuck on segmentation faults or pointer dereferencing? Ask our AI code tutor for instant step-by-step explanations.</p>
+                <button className="btn-ai-tutor" onClick={() => alert("AI Code Assistant is ready! Ask your C programming question.")}>
+                  Ask AI Code Tutor <Sparkles size={14} />
                 </button>
               </div>
 
