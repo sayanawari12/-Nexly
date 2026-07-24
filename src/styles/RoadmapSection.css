@@ -1,5 +1,5 @@
 /* ============================================================
-   PREMIUM ROADMAP SECTION STYLES (MOBILE-FIRST APPROACH)
+   PREMIUM PROGRAMMING LANGUAGES HUB STYLES (ROADMAP SECTION)
    ============================================================ */
 
 .roadmap-apple-section {
@@ -26,7 +26,7 @@
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .roadmap-apple-section {
-    padding: 72px 24px 60px;
+    padding: 80px 24px 60px;
   }
 }
 
@@ -46,7 +46,7 @@
   width: 90vw;
   max-width: 700px;
   height: 450px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, rgba(0, 0, 0, 0) 70%);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -54,11 +54,27 @@
 /* Header Section */
 .roadmap-apple-header {
   text-align: center;
-  max-width: 720px;
+  max-width: 760px;
   width: 100%;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
   position: relative;
   z-index: 1;
+}
+
+.hub-tagline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  color: #c084fc;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
 }
 
 .roadmap-apple-title {
@@ -72,35 +88,178 @@
 }
 
 .roadmap-apple-subtitle {
-  font-size: 1.1rem;
+  font-size: 1.08rem;
   color: rgba(255, 255, 255, 0.65);
   line-height: 1.6;
-  margin: 0;
+  margin: 0 0 24px 0;
   font-weight: 400;
 }
 
-@media (max-width: 767px) {
-  .roadmap-apple-header {
-    margin-bottom: 32px;
-  }
-  .roadmap-apple-title {
-    font-size: 2rem;
-  }
-  .roadmap-apple-subtitle {
-    font-size: 0.95rem;
-  }
+/* Stats Bar */
+.hub-stats-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-@media (max-width: 360px) {
-  .roadmap-apple-title {
-    font-size: 1.75rem;
-  }
-  .roadmap-apple-subtitle {
-    font-size: 0.9rem;
-  }
+.hub-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Grid Layout */
+.hub-stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #c084fc;
+}
+
+.hub-stat-lbl {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.hub-stat-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Search & Filter Control Panel */
+.lang-control-panel {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.lang-search-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.lang-search-icon {
+  position: absolute;
+  left: 18px;
+  color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+.lang-search-input {
+  width: 100%;
+  min-height: 52px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  color: #ffffff;
+  font-size: 0.98rem;
+  padding: 12px 48px 12px 50px;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.lang-search-input:focus {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.03);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.15), 0 0 0 2px rgba(168, 85, 247, 0.2);
+}
+
+.lang-search-clear {
+  position: absolute;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-filter-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.lang-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.filter-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.lang-filter-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.lang-filter-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.lang-filter-pill {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  min-height: 40px;
+  border-radius: 100px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lang-filter-pill:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.lang-filter-pill.active {
+  background: #a855f7;
+  color: #ffffff;
+  border-color: #a855f7;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+}
+
+/* 3-Column Responsive Grid */
 .roadmap-apple-grid {
   display: grid;
   width: 100%;
@@ -135,217 +294,362 @@
   }
 }
 
-/* Premium Dark Minimal Card */
-.roadmap-apple-card {
-  background-color: #0b0b0b;
+/* Premium Dark Card */
+.lang-hub-card {
+  background-color: rgba(255, 255, 255, 0.015);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  padding: 32px 28px;
+  padding: 28px 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.35s ease,
-              box-shadow 0.35s ease;
-  position: relative;
-  overflow: hidden;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-@media (min-width: 1024px) {
-  .roadmap-apple-card {
-    min-height: 480px;
-  }
-  .roadmap-apple-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(168, 85, 247, 0.3);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(168, 85, 247, 0.08);
-  }
-}
-
-@media (max-width: 767px) {
-  .roadmap-apple-card {
-    padding: 24px 20px;
-    border-radius: 18px;
-    min-height: auto;
-  }
-}
-
-@media (max-width: 360px) {
-  .roadmap-apple-card {
-    padding: 20px 16px;
-    border-radius: 16px;
-  }
-}
-
-/* Card Header */
-.roadmap-card-header {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.roadmap-card-title {
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  letter-spacing: -0.02em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.roadmap-card-desc {
-  font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.55;
-  margin: 0;
-}
-
-@media (max-width: 767px) {
-  .roadmap-card-title {
-    font-size: 1.2rem;
-  }
-  .roadmap-card-desc {
-    font-size: 0.88rem;
-  }
-}
-
-/* Card Center Section */
-.roadmap-card-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  margin: 28px 0;
-  width: 100%;
-}
-
-/* Two rows of tech buttons */
-.roadmap-logo-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  width: 100%;
-  align-items: center;
-}
-
-.roadmap-logo-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  width: 100%;
-}
-
-/* Individual Tech Logo Button */
-.roadmap-tech-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  padding: 10px 8px;
-  min-height: 72px;
-  width: 100%;
-  cursor: pointer;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
+  width: 100%;
 }
 
-.roadmap-tech-btn:hover {
-  transform: translateY(-3px);
+.lang-hub-card:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 20px 45px rgba(168, 85, 247, 0.12);
+}
+
+.lang-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.lang-logo-wrapper {
+  width: 52px;
+  height: 52px;
   background: rgba(168, 85, 247, 0.1);
-  border-color: rgba(168, 85, 247, 0.35);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(168, 85, 247, 0.1);
-}
-
-.roadmap-tech-btn:active {
-  transform: scale(0.96);
-}
-
-.roadmap-tech-icon {
-  width: 30px;
-  height: 30px;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 6px;
+  flex-shrink: 0;
 }
 
-.roadmap-tech-icon svg {
+.lang-svg-box {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lang-svg-box svg {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.roadmap-tech-name {
+.lang-badge-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.lang-diff-badge {
   font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.lang-diff-badge.beginner {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.lang-diff-badge.intermediate {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.lang-category-badge {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.lang-card-content {
+  flex-grow: 1;
+  margin-bottom: 24px;
+}
+
+.lang-card-title {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+  line-height: 1.25;
+}
+
+.lang-card-desc {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.lang-card-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 18px;
+}
+
+.lang-card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Progress Bar Component */
+.lang-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lang-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.5);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-  letter-spacing: 0.01em;
-  text-align: center;
 }
 
-@media (max-width: 360px) {
-  .roadmap-tech-btn {
-    min-height: 64px;
-    padding: 8px 4px;
-  }
-  .roadmap-tech-icon {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 4px;
-  }
-  .roadmap-tech-name {
-    font-size: 0.68rem;
-  }
+.lang-progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 100px;
+  overflow: hidden;
 }
 
-/* Outlined Coming Soon Badge */
-.coming-soon-badge {
-  display: inline-flex;
+.lang-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8b5cf6 0%, #c084fc 100%);
+  border-radius: 100px;
+}
+
+/* Card Action Button */
+.lang-card-footer {
+  width: 100%;
+}
+
+.lang-btn-action {
+  width: 100%;
+  min-height: 48px; /* Minimum 48px touch height */
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+  color: #ffffff;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 20px;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  border-radius: 100px;
-  background: rgba(168, 85, 247, 0.08);
-  color: #c084fc;
-  font-size: 0.78rem;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lang-btn-action:hover {
+  background: linear-gradient(135deg, #9333ea 0%, #c084fc 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+}
+
+.lang-btn-action:active {
+  transform: scale(0.97);
+}
+
+/* Empty State Styling */
+.lang-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 24px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  max-width: 560px;
+  margin: 20px auto;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+.empty-icon-box {
+  width: 72px;
+  height: 72px;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.lang-empty-state h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
+  color: #ffffff;
+  margin: 0 0 10px 0;
 }
 
-.coming-soon-subtext {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.45);
-  text-align: center;
-  margin: 0;
+.lang-empty-state p {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.92rem;
   line-height: 1.5;
+  margin: 0 0 24px 0;
 }
 
-/* Card Bottom Text */
-.roadmap-card-footer {
-  text-align: center;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+.btn-reset-filters {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 10px 22px;
+  min-height: 48px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.roadmap-footer-text {
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.45);
+.btn-reset-filters:hover {
+  background: #a855f7;
+  border-color: #a855f7;
+}
+
+/* Upcoming Track Section */
+.upcoming-tracks-wrapper {
+  width: 100%;
+  max-width: 1240px;
+  margin: 56px auto 0;
+  position: relative;
+  z-index: 1;
+}
+
+.upcoming-tracks-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.upcoming-tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.upcoming-track-card {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.upcoming-card-header {
+  margin-bottom: 12px;
+}
+
+.upcoming-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #c084fc;
+  letter-spacing: 0.8px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.upcoming-track-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
   margin: 0;
+}
+
+.upcoming-track-card p {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+}
+
+.upcoming-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.btn-track-action {
+  background: none;
+  border: none;
+  color: #c084fc;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-track-action:hover {
+  color: #ffffff;
+}
+
+/* Mobile Responsive Tweaks (<768px) */
+@media (max-width: 767px) {
+  .roadmap-apple-title {
+    font-size: 2rem;
+  }
+
+  .hub-stats-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 16px;
+    gap: 12px;
+  }
+
+  .hub-stat-divider {
+    display: none;
+  }
+
+  .upcoming-tracks-grid {
+    grid-template-columns: 1fr;
+  }
 }
