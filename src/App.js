@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import SubjectSyllabus from './pages/SubjectSyllabus';
+import MasterLanguagePage from './pages/MasterLanguagePage';
 import CppLearningHub from './pages/CppLearningHub';
 import CppQuiz from './pages/CppQuiz';
 import CodingPractice from './pages/CodingPractice';
@@ -99,12 +100,12 @@ function App() {
                       } />
                       <Route path="/technologies/cpp" element={
                         <ProtectedRoute>
-                          <CppLearningHub />
+                          <MasterLanguagePage defaultLang="cpp" />
                         </ProtectedRoute>
                       } />
                       <Route path="/roadmaps/programming/cpp" element={
                         <ProtectedRoute>
-                          <CppLearningHub />
+                          <MasterLanguagePage defaultLang="cpp" />
                         </ProtectedRoute>
                       } />
                       <Route path="/technologies/cpp/quiz" element={
@@ -124,42 +125,57 @@ function App() {
                       } />
                       <Route path="/technologies/python" element={
                         <ProtectedRoute>
-                          <PythonLearningHub />
+                          <MasterLanguagePage defaultLang="python" />
                         </ProtectedRoute>
                       } />
                       <Route path="/roadmaps/programming/python" element={
                         <ProtectedRoute>
-                          <PythonLearningHub />
+                          <MasterLanguagePage defaultLang="python" />
                         </ProtectedRoute>
                       } />
                       <Route path="/technologies/c" element={
                         <ProtectedRoute>
-                          <CLearningHub />
+                          <MasterLanguagePage defaultLang="c" />
                         </ProtectedRoute>
                       } />
                       <Route path="/roadmaps/programming/c" element={
                         <ProtectedRoute>
-                          <CLearningHub />
+                          <MasterLanguagePage defaultLang="c" />
                         </ProtectedRoute>
                       } />
                       <Route path="/roadmaps/programming/javascript" element={
                         <ProtectedRoute>
-                          <CLearningHub />
+                          <MasterLanguagePage defaultLang="javascript" />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/technologies/javascript" element={
+                        <ProtectedRoute>
+                          <MasterLanguagePage defaultLang="javascript" />
                         </ProtectedRoute>
                       } />
                       <Route path="/roadmaps/programming/typescript" element={
                         <ProtectedRoute>
-                          <CLearningHub />
+                          <MasterLanguagePage defaultLang="typescript" />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/technologies/typescript" element={
+                        <ProtectedRoute>
+                          <MasterLanguagePage defaultLang="typescript" />
                         </ProtectedRoute>
                       } />
                       <Route path="/technologies/java" element={
                         <ProtectedRoute>
-                          <JavaLearningHub />
+                          <MasterLanguagePage defaultLang="java" />
                         </ProtectedRoute>
                       } />
                       <Route path="/roadmaps/programming/java" element={
                         <ProtectedRoute>
-                          <JavaLearningHub />
+                          <MasterLanguagePage defaultLang="java" />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/roadmaps/programming/:langId" element={
+                        <ProtectedRoute>
+                          <MasterLanguagePage />
                         </ProtectedRoute>
                       } />
                       <Route path="/settings" element={
