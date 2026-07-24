@@ -1,27 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import {
   ArrowLeft, BookOpen, Code2, Terminal, ChevronRight,
   Info, Copy, CheckCircle, ChevronLeft, ChevronDown, ChevronUp,
   Sparkles, Check, Bookmark, Share2, HelpCircle, Layers,
-  Cpu, Play, ArrowRight, Bot, Shield, Lightbulb, CheckSquare
+  Cpu, Play, ArrowRight, Bot, Shield, Lightbulb, CheckSquare, AlertTriangle
 } from 'lucide-react';
 import StudentLayout from '../../layouts/StudentLayout';
 import '../../styles/MasterChapterTemplate.css';
 
+// ─── React Error Boundary Wrapper ─────────────────────────────────────────────
+class LocalErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("MasterChapterTemplate Error Boundary caught an error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="mc-error-state-card glass-card">
+          <AlertTriangle size={36} className="mc-error-icon" />
+          <h3>Something went wrong loading this section</h3>
+          <p>{this.state.error?.message || 'An unexpected rendering error occurred.'}</p>
+          <button 
+            className="mc-back-btn" 
+            onClick={() => window.location.reload()}
+          >
+            Reload Section
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 // ─── 1. Syntax-Highlighted Code Editor Block ──────────────────────────────────
-const CodeEditorBlock = ({ code, language = 'C', filename = 'main.c' }) => {
+const CodeEditorBlock = ({ code = '', language = 'C', filename = 'main.c' }) => {
   const [copied, setCopied] = useState(false);
+  const safeCode = code || '// No code example provided for this chapter.';
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(code);
+    navigator.clipboard.writeText(safeCode);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const highlight = (line) => {
-    const keywords = /\b(int|float|double|char|void|return|if|else|for|while|do|switch|case|break|continue|default|struct|typedef|union|enum|const|sizeof|NULL|include|define|ifdef|ifndef|endif|printf|scanf|main|static|extern|class|public|private|protected|import|package|def|lambda|async|await|const|let|var|function)\b/g;
+    if (!line) return '';
+    const keywords = /\b(int|float|double|char|void|return|if|else|for|while|do|switch|case|break|continue|default|struct|typedef|union|enum|const|sizeof|NULL|include|define|ifdef|ifndef|endif|printf|scanf|main|static|extern|class|public|private|protected|import|package|def|lambda|async|await|let|var|function)\b/g;
     const strings = /(\"[^\"]*\"|\'[^\']*\')/g;
     const comments = /(\/\/.*$|#.*$)/;
     const numbers = /\b(\d+\.?\d*)\b/g;
@@ -64,7 +101,7 @@ const CodeEditorBlock = ({ code, language = 'C', filename = 'main.c' }) => {
       <div className="mc-code-scroll-track">
         <pre className="mc-code-pre">
           <code>
-            {code.split('\n').map((line, i) => (
+            {safeCode.split('\n').map((line, i) => (
               <div key={i} className="mc-code-line-row">
                 <span className="mc-line-num">{String(i + 1).padStart(2, ' ')}</span>
                 <span
@@ -81,33 +118,38 @@ const CodeEditorBlock = ({ code, language = 'C', filename = 'main.c' }) => {
 };
 
 // ─── 2. Realistic Terminal Execution Output ────────────────────────────────────
-const TerminalOutputBlock = ({ output, filename = 'main.c' }) => (
-  <div className="mc-terminal-card">
-    <div className="mc-terminal-header">
-      <div className="terminal-header-left">
-        <Terminal size={14} style={{ color: '#34d399' }} />
-        <span>Terminal Execution Log</span>
-      </div>
-      <span className="terminal-status-tag">Status: 0 OK</span>
-    </div>
+const TerminalOutputBlock = ({ output = '', filename = 'main.c' }) => {
+  const safeOutput = output || 'Program executed successfully with zero warnings.';
 
-    <div className="mc-terminal-body">
-      <div className="terminal-command-line">
-        <span className="prompt-symbol">$</span>
-        <span className="command-text">gcc {filename} -o main &amp;&amp; ./main</span>
+  return (
+    <div className="mc-terminal-card">
+      <div className="mc-terminal-header">
+        <div className="terminal-header-left">
+          <Terminal size={14} style={{ color: '#34d399' }} />
+          <span>Terminal Execution Log</span>
+        </div>
+        <span className="terminal-status-tag">Status: 0 OK</span>
       </div>
-      <pre className="terminal-output-text">{output}</pre>
-      <div className="terminal-footer-line">
-        <span className="success-dot" />
-        <span>Process finished with exit code 0</span>
+
+      <div className="mc-terminal-body">
+        <div className="terminal-command-line">
+          <span className="prompt-symbol">$</span>
+          <span className="command-text">gcc {filename} -o main &amp;&amp; ./main</span>
+        </div>
+        <pre className="terminal-output-text">{safeOutput}</pre>
+        <div className="terminal-footer-line">
+          <span className="success-dot" />
+          <span>Process finished with exit code 0</span>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // ─── 3. Theory Renderer (Paragraph Chunking & Callouts) ─────────────────────────
-const TheoryContentRenderer = ({ text }) => {
-  const rawParagraphs = text ? text.split('\n\n').filter(p => p.trim()) : [];
+const TheoryContentRenderer = ({ text = '' }) => {
+  const safeText = text || 'No detailed theory text available for this chapter.';
+  const rawParagraphs = safeText.split('\n\n').filter(p => p.trim());
 
   return (
     <div className="mc-theory-flow">
@@ -189,7 +231,7 @@ const ConceptWorkflowCard = ({ conceptStages = [] }) => {
     { title: 'Program Output', desc: 'Runs in hardware RAM & prints results', icon: <Terminal size={16} /> }
   ];
 
-  const stages = conceptStages.length > 0 ? conceptStages : defaultStages;
+  const stages = (conceptStages && conceptStages.length > 0) ? conceptStages : defaultStages;
 
   return (
     <div className="mc-concept-card glass-card">
@@ -203,7 +245,7 @@ const ConceptWorkflowCard = ({ conceptStages = [] }) => {
         {stages.map((stage, idx) => (
           <React.Fragment key={idx}>
             <div className="mc-concept-stage-chip">
-              <div className="stage-icon-circle">{stage.icon}</div>
+              <div className="stage-icon-circle">{stage.icon || <Code2 size={16} />}</div>
               <div className="stage-info">
                 <span className="stage-num">STAGE 0{idx + 1}</span>
                 <h4 className="stage-title">{stage.title}</h4>
@@ -225,11 +267,11 @@ const ConceptWorkflowCard = ({ conceptStages = [] }) => {
 // ─── 5. Code Breakdown Accordion ──────────────────────────────────────────────
 const CodeBreakdownAccordion = ({ explanation = [] }) => {
   const [openItems, setOpenItems] = useState({});
+  const safeExplanation = explanation || [];
 
   useEffect(() => {
-    // Open all by default for fast learning
     const initial = {};
-    explanation.forEach((_, idx) => { initial[idx] = true; });
+    safeExplanation.forEach((_, idx) => { initial[idx] = true; });
     setOpenItems(initial);
   }, [explanation]);
 
@@ -237,7 +279,7 @@ const CodeBreakdownAccordion = ({ explanation = [] }) => {
     setOpenItems(prev => ({ ...prev, [idx]: !prev[idx] }));
   };
 
-  if (!explanation || explanation.length === 0) return null;
+  if (safeExplanation.length === 0) return null;
 
   return (
     <div className="mc-breakdown-wrapper">
@@ -251,7 +293,7 @@ const CodeBreakdownAccordion = ({ explanation = [] }) => {
           onClick={() => {
             const allOpen = Object.values(openItems).every(Boolean);
             const newState = {};
-            explanation.forEach((_, idx) => { newState[idx] = !allOpen; });
+            safeExplanation.forEach((_, idx) => { newState[idx] = !allOpen; });
             setOpenItems(newState);
           }}
         >
@@ -260,7 +302,7 @@ const CodeBreakdownAccordion = ({ explanation = [] }) => {
       </div>
 
       <div className="mc-breakdown-accordion-list">
-        {explanation.map((item, idx) => {
+        {safeExplanation.map((item, idx) => {
           const isOpen = !!openItems[idx];
           return (
             <div key={idx} className={`mc-accordion-item ${isOpen ? 'open' : ''}`}>
@@ -307,7 +349,7 @@ const ChapterSummaryCard = ({ summaryItems = [] }) => {
     'Compilation stages from preprocessing to binary linking'
   ];
 
-  const items = summaryItems.length > 0 ? summaryItems : defaultSummary;
+  const items = (summaryItems && summaryItems.length > 0) ? summaryItems : defaultSummary;
 
   return (
     <div className="mc-summary-card glass-card">
@@ -350,7 +392,10 @@ export const MasterChapterTemplate = ({
   summaryItems = [],
   prevChapter = null,
   nextChapter = null,
-  onNavigateChapter
+  onNavigateChapter,
+  isLoading = false,
+  isError = false,
+  errorMessage = null
 }) => {
   const navigate = useNavigate();
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -360,161 +405,205 @@ export const MasterChapterTemplate = ({
 
   const difficultyColors = { Beginner: '#34d399', Intermediate: '#60a5fa', Advanced: '#ef4444' };
 
+  // 1. Loading Skeleton State
+  if (isLoading) {
+    return (
+      <StudentLayout>
+        <div className="master-chapter-wrapper">
+          <div className="mc-skeleton-hero" />
+          <div className="mc-skeleton-card" />
+          <div className="mc-skeleton-card" />
+        </div>
+      </StudentLayout>
+    );
+  }
+
+  // 2. Error / Not Found State (Never render a blank black screen!)
+  if (isError || !chapterTitle || chapterTitle === "Chapter Not Found") {
+    return (
+      <StudentLayout>
+        <div className="master-chapter-wrapper">
+          <div className="mc-top-control-bar">
+            <button className="mc-back-btn" onClick={() => navigate(subjectPath)}>
+              <ArrowLeft size={16} /> <span>Back to {subjectTitle}</span>
+            </button>
+          </div>
+
+          <div className="mc-error-state-card glass-card">
+            <AlertTriangle size={42} style={{ color: '#f59e0b', marginBottom: 16 }} />
+            <h2 className="error-title">Learning Chapter Not Found</h2>
+            <p className="error-desc">
+              {errorMessage || `We couldn't locate the requested chapter data. Please return to the subject roadmap.`}
+            </p>
+            <button 
+              className="btn-primary-purple"
+              onClick={() => navigate(subjectPath)}
+            >
+              Return to Subject Syllabus
+            </button>
+          </div>
+        </div>
+      </StudentLayout>
+    );
+  }
+
   return (
-    <StudentLayout>
-      {/* Scroll Progress Bar at very top */}
-      <motion.div className="mc-reading-progress-bar" style={{ scaleX }} />
+    <LocalErrorBoundary>
+      <StudentLayout>
+        {/* Scroll Progress Bar at very top */}
+        <motion.div className="mc-reading-progress-bar" style={{ scaleX }} />
 
-      <div className="master-chapter-wrapper">
+        <div className="master-chapter-wrapper">
 
-        {/* ── Top Bar with Sticky Back Button & Actions ── */}
-        <div className="mc-top-control-bar">
-          <button
-            className="mc-back-btn"
-            onClick={() => navigate(subjectPath)}
-            aria-label={`Back to ${subjectTitle}`}
+          {/* ── Top Bar with Sticky Back Button & Actions ── */}
+          <div className="mc-top-control-bar">
+            <button
+              className="mc-back-btn"
+              onClick={() => navigate(subjectPath)}
+              aria-label={`Back to ${subjectTitle}`}
+            >
+              <ArrowLeft size={16} /> <span>Back to {subjectTitle}</span>
+            </button>
+
+            <div className="mc-top-actions">
+              <button 
+                className={`mc-action-icon-btn ${isBookmarked ? 'active' : ''}`}
+                onClick={() => setIsBookmarked(!isBookmarked)}
+                aria-label="Bookmark Chapter"
+              >
+                <Bookmark size={16} fill={isBookmarked ? "#c084fc" : "none"} />
+              </button>
+            </div>
+          </div>
+
+          {/* ── Compact Mobile Breadcrumb ── */}
+          <div className="mc-breadcrumb">
+            <span className="mc-breadcrumb-link" onClick={() => navigate('/dashboard')}>Dashboard</span>
+            <ChevronRight size={12} className="mc-breadcrumb-sep" />
+            <span className="mc-breadcrumb-link" onClick={() => navigate(subjectPath)}>{subjectTitle}</span>
+            <ChevronRight size={12} className="mc-breadcrumb-sep" />
+            <span className="mc-breadcrumb-active">{chapterTitle}</span>
+          </div>
+
+          {/* ── 1. COMPACT HERO CARD (Max height 300-350px) ── */}
+          <motion.div
+            className="mc-chapter-hero-card"
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
           >
-            <ArrowLeft size={16} /> <span>Back to {subjectTitle}</span>
-          </button>
-
-          <div className="mc-top-actions">
-            <button 
-              className={`mc-action-icon-btn ${isBookmarked ? 'active' : ''}`}
-              onClick={() => setIsBookmarked(!isBookmarked)}
-              aria-label="Bookmark Chapter"
-            >
-              <Bookmark size={16} fill={isBookmarked ? "#c084fc" : "none"} />
-            </button>
-          </div>
-        </div>
-
-        {/* ── Compact Mobile Breadcrumb ── */}
-        <div className="mc-breadcrumb">
-          <span className="mc-breadcrumb-link" onClick={() => navigate('/dashboard')}>Dashboard</span>
-          <ChevronRight size={12} className="mc-breadcrumb-sep" />
-          <span className="mc-breadcrumb-link" onClick={() => navigate(subjectPath)}>{subjectTitle}</span>
-          <ChevronRight size={12} className="mc-breadcrumb-sep" />
-          <span className="mc-breadcrumb-active">{chapterTitle}</span>
-        </div>
-
-        {/* ── 1. COMPACT HERO CARD (Max height 300-350px) ── */}
-        <motion.div
-          className="mc-chapter-hero-card"
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
-        >
-          <div className="hero-floating-icon-badge">
-            <BookOpen size={24} style={{ color: '#c084fc' }} />
-          </div>
-
-          <div className="hero-top-badges-row">
-            <span className="hero-chapter-num-pill">CHAPTER 0{chapterId}</span>
-            <span className="hero-code-pill">{subjectCode}</span>
-            <span 
-              className="hero-diff-pill"
-              style={{ color: difficultyColors[difficulty] || '#c084fc' }}
-            >
-              {difficulty}
-            </span>
-            <span className="hero-time-pill"><Clock size={12} /> {estimatedTime}</span>
-          </div>
-
-          <h1 className="mc-hero-chapter-title">{chapterTitle}</h1>
-          <p className="mc-hero-chapter-desc">{chapterDesc}</p>
-        </motion.div>
-
-        {/* ── MAIN LEARNING FLOW ── */}
-        <div className="mc-learning-flow-container">
-
-          {/* ── 2. THEORY READING CARD ── */}
-          <div className="mc-flow-section">
-            <div className="mc-section-header">
-              <BookOpen size={18} style={{ color: '#c084fc' }} />
-              <h2>1. Theory &amp; Concepts</h2>
+            <div className="hero-floating-icon-badge">
+              <BookOpen size={24} style={{ color: '#c084fc' }} />
             </div>
-            <div className="mc-theory-reading-card glass-card">
-              <TheoryContentRenderer text={theory} />
+
+            <div className="hero-top-badges-row">
+              <span className="hero-chapter-num-pill">CHAPTER 0{chapterId}</span>
+              <span className="hero-code-pill">{subjectCode}</span>
+              <span 
+                className="hero-diff-pill"
+                style={{ color: difficultyColors[difficulty] || '#c084fc' }}
+              >
+                {difficulty}
+              </span>
+              <span className="hero-time-pill"><Clock size={12} /> {estimatedTime}</span>
             </div>
-          </div>
 
-          {/* ── 3. VISUAL CONCEPT WORKFLOW CARD ── */}
-          <div className="mc-flow-section">
-            <ConceptWorkflowCard conceptStages={conceptStages} />
-          </div>
+            <h1 className="mc-hero-chapter-title">{chapterTitle}</h1>
+            <p className="mc-hero-chapter-desc">{chapterDesc}</p>
+          </motion.div>
 
-          {/* ── 4. PRACTICAL CODE BLOCK ── */}
-          <div className="mc-flow-section">
-            <div className="mc-section-header">
-              <Code2 size={18} style={{ color: '#60a5fa' }} />
-              <h2>2. Practical Code Example</h2>
-            </div>
-            <CodeEditorBlock code={code} language={language} filename={filename} />
-          </div>
+          {/* ── MAIN LEARNING FLOW ── */}
+          <div className="mc-learning-flow-container">
 
-          {/* ── 5. TERMINAL OUTPUT BLOCK ── */}
-          <div className="mc-flow-section">
-            <div className="mc-section-header">
-              <Terminal size={18} style={{ color: '#34d399' }} />
-              <h2>3. Terminal Output</h2>
-            </div>
-            <TerminalOutputBlock output={output} filename={filename} />
-          </div>
-
-          {/* ── 6. CODE BREAKDOWN ACCORDION ── */}
-          <div className="mc-flow-section">
-            <CodeBreakdownAccordion explanation={explanation} />
-          </div>
-
-          {/* ── 7. CHAPTER SUMMARY CHECKLIST ── */}
-          <div className="mc-flow-section">
-            <ChapterSummaryCard summaryItems={summaryItems} />
-          </div>
-
-        </div>
-
-        {/* ── 8. STICKY BOTTOM NAVIGATION & PROGRESS ── */}
-        <div className="mc-bottom-chapter-nav">
-          {prevChapter ? (
-            <button 
-              className="mc-nav-btn prev"
-              onClick={() => onNavigateChapter && onNavigateChapter(prevChapter.slug)}
-            >
-              <ChevronLeft size={16} />
-              <div className="nav-btn-meta">
-                <span className="nav-label">Previous</span>
-                <span className="nav-title">{prevChapter.title}</span>
+            {/* ── 2. THEORY READING CARD ── */}
+            <div className="mc-flow-section">
+              <div className="mc-section-header">
+                <BookOpen size={18} style={{ color: '#c084fc' }} />
+                <h2>1. Theory &amp; Concepts</h2>
               </div>
-            </button>
-          ) : (
-            <div className="nav-btn-placeholder" />
-          )}
-
-          <button 
-            className="mc-nav-btn home"
-            onClick={() => navigate(subjectPath)}
-          >
-            All Chapters
-          </button>
-
-          {nextChapter ? (
-            <button 
-              className="mc-nav-btn next"
-              onClick={() => onNavigateChapter && onNavigateChapter(nextChapter.slug)}
-            >
-              <div className="nav-btn-meta text-right">
-                <span className="nav-label">Next</span>
-                <span className="nav-title">{nextChapter.title}</span>
+              <div className="mc-theory-reading-card glass-card">
+                <TheoryContentRenderer text={theory} />
               </div>
-              <ChevronRight size={16} />
-            </button>
-          ) : (
-            <div className="nav-btn-placeholder" />
-          )}
-        </div>
+            </div>
 
-      </div>
-    </StudentLayout>
+            {/* ── 3. VISUAL CONCEPT WORKFLOW CARD ── */}
+            <div className="mc-flow-section">
+              <ConceptWorkflowCard conceptStages={conceptStages} />
+            </div>
+
+            {/* ── 4. PRACTICAL CODE BLOCK ── */}
+            <div className="mc-flow-section">
+              <div className="mc-section-header">
+                <Code2 size={18} style={{ color: '#60a5fa' }} />
+                <h2>2. Practical Code Example</h2>
+              </div>
+              <CodeEditorBlock code={code} language={language} filename={filename} />
+            </div>
+
+            {/* ── 5. TERMINAL OUTPUT BLOCK ── */}
+            <div className="mc-flow-section">
+              <div className="mc-section-header">
+                <Terminal size={18} style={{ color: '#34d399' }} />
+                <h2>3. Terminal Output</h2>
+              </div>
+              <TerminalOutputBlock output={output} filename={filename} />
+            </div>
+
+            {/* ── 6. CODE BREAKDOWN ACCORDION ── */}
+            <div className="mc-flow-section">
+              <CodeBreakdownAccordion explanation={explanation} />
+            </div>
+
+            {/* ── 7. CHAPTER SUMMARY CHECKLIST ── */}
+            <div className="mc-flow-section">
+              <ChapterSummaryCard summaryItems={summaryItems} />
+            </div>
+
+          </div>
+
+          {/* ── 8. STICKY BOTTOM NAVIGATION & PROGRESS ── */}
+          <div className="mc-bottom-chapter-nav">
+            {prevChapter ? (
+              <button 
+                className="mc-nav-btn prev"
+                onClick={() => onNavigateChapter && onNavigateChapter(prevChapter.slug)}
+              >
+                <ChevronLeft size={16} />
+                <div className="nav-btn-meta">
+                  <span className="nav-label">Previous</span>
+                  <span className="nav-title">{prevChapter.title}</span>
+                </div>
+              </button>
+            ) : (
+              <div className="nav-btn-placeholder" />
+            )}
+
+            <button 
+              className="mc-nav-btn home"
+              onClick={() => navigate(subjectPath)}
+            >
+              All Chapters
+            </button>
+
+            {nextChapter ? (
+              <button 
+                className="mc-nav-btn next"
+                onClick={() => onNavigateChapter && onNavigateChapter(nextChapter.slug)}
+              >
+                <div className="nav-btn-meta text-right">
+                  <span className="nav-label">Next</span>
+                  <span className="nav-title">{nextChapter.title}</span>
+                </div>
+                <ChevronRight size={16} />
+              </button>
+            ) : (
+              <div className="nav-btn-placeholder" />
+            )}
+          </div>
+
+        </div>
+      </StudentLayout>
+    </LocalErrorBoundary>
   );
 };
 
