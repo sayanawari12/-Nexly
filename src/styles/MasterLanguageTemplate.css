@@ -121,9 +121,9 @@
   border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
-.master-cat-badge, .master-time-badge {
+.master-cat-badge, .master-time-badge, .master-prereq-badge {
   font-size: 0.76rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.65);
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 4px 10px;
@@ -131,6 +131,12 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
+}
+
+.master-prereq-badge {
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.25);
+  background: rgba(168, 85, 247, 0.05);
 }
 
 .master-hero-title {
@@ -219,6 +225,15 @@
   margin-bottom: 20px;
 }
 
+.section-card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .section-card-title {
   font-family: 'Space Grotesk', -apple-system, sans-serif;
   font-size: 1.25rem;
@@ -235,7 +250,47 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* 2. LEARNING PROGRESS SECTION */
+/* 2. ABOUT LANGUAGE SECTION */
+.about-lang-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.about-item-box {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 18px;
+  border-radius: 14px;
+}
+
+.about-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.about-icon {
+  color: #c084fc;
+}
+
+.about-item-header h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.about-item-box p {
+  font-size: 0.86rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 3. LEARNING PROGRESS SECTION */
 .progress-overview-card {
   background: linear-gradient(135deg, rgba(168, 85, 247, 0.04) 0%, rgba(10, 10, 15, 0.95) 100%);
   border-color: rgba(168, 85, 247, 0.2);
@@ -307,7 +362,7 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* 3. INTERACTIVE ROADMAP TIMELINE */
+/* 4. INTERACTIVE ROADMAP TIMELINE */
 .roadmap-timeline-container {
   display: flex;
   flex-direction: column;
@@ -432,7 +487,7 @@
   width: 100%;
 }
 
-/* 4. LEARNING MODULES GRID CARDS */
+/* 5. LEARNING MODULES GRID CARDS */
 .modules-grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -518,7 +573,175 @@
 .btn-module-action.unlocked { background: rgba(255, 255, 255, 0.04); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1); }
 .btn-module-action.locked { background: rgba(255, 255, 255, 0.02); color: rgba(255, 255, 255, 0.3); cursor: not-allowed; }
 
-/* 5. RESOURCES & WHY LEARN */
+/* 6. PRACTICE ARENA */
+.practice-diff-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.practice-tab-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.practice-tab-btn.active {
+  background: #a855f7;
+  color: #ffffff;
+  border-color: #a855f7;
+}
+
+.practice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.practice-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+}
+
+.practice-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.practice-icon {
+  color: #34d399;
+}
+
+.practice-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 2px 0;
+}
+
+.practice-diff {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.practice-diff.easy { color: #34d399; background: rgba(16, 185, 129, 0.1); }
+.practice-diff.medium { color: #60a5fa; background: rgba(59, 130, 246, 0.1); }
+.practice-diff.hard { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
+
+.practice-status-chip {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.btn-practice-action {
+  background: none;
+  border: none;
+  color: #c084fc;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 40px;
+}
+
+/* 7. MINI PROJECTS SECTION */
+.mini-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.mini-project-card {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.project-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.project-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #f59e0b;
+  letter-spacing: 0.5px;
+}
+
+.project-status-pill {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.project-status-pill.completed { color: #34d399; background: rgba(16, 185, 129, 0.1); }
+.project-status-pill.inprogress { color: #c084fc; background: rgba(168, 85, 247, 0.1); }
+.project-status-pill.unlocked { color: #60a5fa; background: rgba(59, 130, 246, 0.1); }
+.project-status-pill.locked { color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.03); }
+
+.project-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+}
+
+.project-desc {
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.45;
+  margin: 0 0 16px 0;
+}
+
+.btn-project-action {
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #c084fc;
+  padding: 8px 14px;
+  min-height: 40px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-project-action:hover {
+  background: #a855f7;
+  color: #ffffff;
+}
+
+/* 8. RESOURCES & RELATED LANGUAGES */
 .why-learn-list {
   list-style: none;
   padding: 0;
@@ -593,71 +816,10 @@
   justify-content: center;
 }
 
-/* 6. PRACTICE ARENA */
-.practice-list {
+.related-languages-stack {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.practice-item-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-}
-
-.practice-item-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.practice-icon {
-  color: #34d399;
-}
-
-.practice-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 2px 0;
-}
-
-.practice-diff {
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
-  text-transform: uppercase;
-}
-
-.practice-diff.easy { color: #34d399; background: rgba(16, 185, 129, 0.1); }
-.practice-diff.medium { color: #60a5fa; background: rgba(59, 130, 246, 0.1); }
-.practice-diff.hard { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
-
-.btn-practice-action {
-  background: none;
-  border: none;
-  color: #c084fc;
-  font-size: 0.84rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  min-height: 40px;
-}
-
-/* 7. RELATED PATHWAYS & AI TUTOR */
-.pathway-desc {
-  font-size: 0.84rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0 0 12px 0;
 }
 
 .related-lang-card {
@@ -665,15 +827,16 @@
   justify-content: space-between;
   align-items: center;
   padding: 14px;
-  background: rgba(168, 85, 247, 0.04);
-  border: 1px solid rgba(168, 85, 247, 0.25);
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .related-lang-card:hover {
-  background: rgba(168, 85, 247, 0.08);
+  background: rgba(168, 85, 247, 0.06);
+  border-color: rgba(168, 85, 247, 0.3);
 }
 
 .related-card-left {
@@ -759,6 +922,9 @@
   .master-split-grid {
     grid-template-columns: 1fr;
   }
+  .about-lang-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* Mobile (<768px): Single-column stacked layout */
@@ -797,11 +963,15 @@
     min-height: 48px;
   }
 
+  .about-lang-grid {
+    grid-template-columns: 1fr;
+  }
+
   .master-split-grid {
     grid-template-columns: 1fr;
   }
 
-  .modules-grid-container {
+  .modules-grid-container, .mini-projects-grid {
     grid-template-columns: 1fr;
   }
 
@@ -813,5 +983,10 @@
   .master-section-card {
     padding: 20px 16px;
     border-radius: 16px;
+  }
+
+  .section-card-header-flex {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
