@@ -3,11 +3,140 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft, BookOpen, ChevronRight, Code2, CheckCircle,
-  Clock, Award, Layers, User, Terminal
+  Clock, Award, Layers, User, Play, ArrowRight, Sparkles
 } from 'lucide-react';
 import StudentLayout from '../layouts/StudentLayout';
 import { TECH_LOGOS } from '../components/sections/TechLogos';
 import '../styles/SemesterCPages.css';
+
+// ─── Reusable Information-First Subject Hero Card ─────────────────────────────
+export const SubjectHeroCard = ({
+  title = "Problem Solving Using C",
+  code = "BCA-101",
+  semester = "Semester 1",
+  difficulty = "Beginner",
+  rating = "4.8",
+  desc = "Master the fundamentals of C programming from scratch. Learn procedural programming, memory management, and algorithmic problem-solving skills.",
+  logoSvg = TECH_LOGOS.c,
+  chaptersCount = 20,
+  duration = "~8 Hours",
+  credits = "4 Credits",
+  instructor = "Prof. S. R. Awari",
+  progressPercent = 35,
+  onContinue
+}) => {
+  const [readMore, setReadMore] = useState(false);
+
+  return (
+    <motion.div 
+      className="subject-hero-card-v2"
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      {/* Background Watermark Logo (Subtle 6-8% Opacity) */}
+      <div 
+        className="subject-hero-watermark"
+        dangerouslySetInnerHTML={{ __html: logoSvg }}
+        aria-hidden="true"
+      />
+
+      {/* Floating App-Icon Logo Badge (Top Right) */}
+      <motion.div 
+        className="subject-floating-logo-badge"
+        whileHover={{ scale: 1.06, rotate: 3 }}
+        transition={{ type: "spring", stiffness: 300, damping: 15 }}
+      >
+        <div 
+          className="floating-logo-svg"
+          dangerouslySetInnerHTML={{ __html: logoSvg }}
+        />
+        <div className="floating-logo-glow" />
+      </motion.div>
+
+      {/* Top Header Pill */}
+      <div className="subject-hero-header-row">
+        <span className="hero-sem-code-pill">{semester} • {code}</span>
+      </div>
+
+      {/* Title */}
+      <h1 className="subject-hero-title-v2">{title}</h1>
+
+      {/* Rating & Difficulty */}
+      <div className="subject-rating-diff-row">
+        <div className="star-rating-box">
+          <span className="stars-icons">⭐⭐⭐⭐⭐</span>
+          <span className="rating-num">{rating}</span>
+        </div>
+        <span className="rating-dot-sep">•</span>
+        <span className="hero-diff-tag">{difficulty}</span>
+      </div>
+
+      {/* Description with Read More */}
+      <div className="subject-hero-desc-box">
+        <p className={`subject-hero-desc-v2 ${readMore ? 'expanded' : 'truncated'}`}>
+          {desc}
+        </p>
+        {desc.length > 120 && (
+          <button 
+            className="btn-read-more-toggle"
+            onClick={() => setReadMore(!readMore)}
+          >
+            {readMore ? 'Show Less' : 'Read More'}
+          </button>
+        )}
+      </div>
+
+      {/* Primary Action Button (Full Width on Mobile) */}
+      <motion.button 
+        className="btn-hero-continue-cta"
+        onClick={onContinue}
+        whileTap={{ scale: 0.98 }}
+      >
+        <Play size={16} fill="currentColor" />
+        <span>Continue Learning</span>
+        <ArrowRight size={16} />
+      </motion.button>
+
+      {/* Course Quick Stats 2x2 Grid */}
+      <div className="subject-stats-2x2-grid">
+        <div className="stat-chip-card">
+          <BookOpen size={15} className="chip-icon" />
+          <span><strong>{chaptersCount}</strong> Chapters</span>
+        </div>
+        <div className="stat-chip-card">
+          <Clock size={15} className="chip-icon" style={{ color: '#60a5fa' }} />
+          <span><strong>{duration}</strong></span>
+        </div>
+        <div className="stat-chip-card">
+          <Award size={15} className="chip-icon" style={{ color: '#f59e0b' }} />
+          <span><strong>{credits}</strong></span>
+        </div>
+        <div className="stat-chip-card">
+          <User size={15} className="chip-icon" style={{ color: '#34d399' }} />
+          <span><strong>{instructor}</strong></span>
+        </div>
+      </div>
+
+      {/* Progress Bar Display */}
+      <div className="subject-hero-progress-block">
+        <div className="progress-label-row">
+          <span className="progress-title-lbl">Course Progress</span>
+          <span className="progress-percent-lbl">{progressPercent}% Completed</span>
+        </div>
+        <div className="hero-progress-track">
+          <motion.div 
+            className="hero-progress-fill" 
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercent}%` }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          />
+        </div>
+      </div>
+
+    </motion.div>
+  );
+};
 
 // ─── Chapter list for Problem Solving Using C ───────────────────────────────
 export const C_CHAPTERS = [
@@ -193,10 +322,10 @@ export const C_CHAPTERS = [
   }
 ];
 
-const difficultyColor = { Beginner: '#4ade80', Intermediate: '#f59e0b', Advanced: '#f87171' };
-const difficultyBg = { Beginner: 'rgba(74,222,128,0.08)', Intermediate: 'rgba(245,158,11,0.08)', Advanced: 'rgba(248,113,113,0.08)' };
+const difficultyColor = { Beginner: '#34d399', Intermediate: '#60a5fa', Advanced: '#ef4444' };
+const difficultyBg = { Beginner: 'rgba(52,211,153,0.08)', Intermediate: 'rgba(96,165,250,0.08)', Advanced: 'rgba(239,68,68,0.08)' };
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// ─── Main Subject Page Component ─────────────────────────────────────────────
 const SemesterCSubjectPage = () => {
   const navigate = useNavigate();
   const [hoveredId, setHoveredId] = useState(null);
@@ -211,25 +340,24 @@ const SemesterCSubjectPage = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.35 } }
+    hidden: { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } }
   };
 
   return (
     <StudentLayout>
       <div className="sc-page-wrapper">
 
-        {/* ── Back Button (row 1) ── */}
-        <button className="sc-back-btn" onClick={() => navigate(-1)}>
-          <ArrowLeft size={16} /> Back
-        </button>
+        {/* Top Control Header */}
+        <div className="sc-top-control-bar">
+          <button className="sc-back-btn" onClick={() => navigate(-1)}>
+            <ArrowLeft size={16} /> <span>Back</span>
+          </button>
+        </div>
 
-        {/* ── Breadcrumb (row 2) ── */}
+        {/* Breadcrumb */}
         <div className="sc-breadcrumb">
-          <span
-            className="sc-breadcrumb-link"
-            onClick={() => navigate('/dashboard')}
-          >
+          <span className="sc-breadcrumb-link" onClick={() => navigate('/dashboard')}>
             Dashboard
           </span>
           <ChevronRight size={12} className="sc-breadcrumb-sep" />
@@ -240,82 +368,27 @@ const SemesterCSubjectPage = () => {
           <span className="sc-breadcrumb-active">Problem Solving Using C</span>
         </div>
 
-        {/* Hero Card */}
-        <div className="sc-hero-card">
-          {/* Layered background effects */}
-          <div className="sc-hero-glow-tl" />
-          <div className="sc-hero-glow-br" />
-          <div className="sc-hero-shimmer" />
+        {/* ── Information-First Redesigned Subject Hero ── */}
+        <SubjectHeroCard 
+          title="Problem Solving Using C"
+          code="BCA-101"
+          semester="Semester 1"
+          difficulty="Beginner"
+          rating="4.8"
+          desc="Master procedural programming, pointer arithmetic, memory management, and foundational problem-solving in C."
+          logoSvg={TECH_LOGOS.c}
+          chaptersCount={20}
+          duration="~8 Hours"
+          credits="4 Credits"
+          instructor="Prof. S. R. Awari"
+          progressPercent={35}
+          onContinue={() => handleChapterClick(C_CHAPTERS[0])}
+        />
 
-          {/* Left: Content */}
-          <div className="sc-hero-content">
-            <div className="sc-hero-badges">
-              <span className="sc-badge-sem">SEMESTER 1</span>
-              <span className="sc-badge-dot">•</span>
-              <span className="sc-badge-code">BCA-101</span>
-            </div>
-            <h1 className="sc-hero-title">Problem Solving Using C</h1>
-            <p className="sc-hero-desc">
-              Master the fundamentals of C programming from scratch. This subject builds your
-              foundation in procedural programming, memory management, and problem-solving
-              skills essential for every higher-level course in BCA.
-            </p>
-            <div className="sc-hero-meta">
-              <div className="sc-meta-item">
-                <Award size={15} /> <span>4 Credits</span>
-              </div>
-              <div className="sc-meta-item">
-                <User size={15} /> <span>Prof. S. R. Awari</span>
-              </div>
-              <div className="sc-meta-item">
-                <Clock size={15} /> <span>~8 Hours</span>
-              </div>
-              <div className="sc-meta-item">
-                <Layers size={15} /> <span>20 Chapters</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Official C Language Logo Illustration */}
-          <div className="sc-hero-illustration" aria-hidden="true">
-            {/* Ambient soft glow background */}
-            <div className="sc-illus-glow" />
-            {/* Subtle geometric backing rings */}
-            <div className="sc-illus-ring sc-illus-ring-outer" />
-            <div className="sc-illus-ring sc-illus-ring-inner" />
-            
-            {/* Official C Logo from Tech Stack */}
-            <div 
-              className="sc-illus-logo-wrapper"
-              dangerouslySetInnerHTML={{ __html: TECH_LOGOS.c }}
-            />
-          </div>
-        </div>
-
-        {/* Stats Row */}
-        <div className="sc-stats-row">
-          <div className="sc-stat-box">
-            <span className="sc-stat-num">20</span>
-            <span className="sc-stat-lbl">Chapters</span>
-          </div>
-          <div className="sc-stat-box">
-            <span className="sc-stat-num">12</span>
-            <span className="sc-stat-lbl">Beginner &amp; Intermediate</span>
-          </div>
-          <div className="sc-stat-box">
-            <span className="sc-stat-num">8</span>
-            <span className="sc-stat-lbl">Hours of Content</span>
-          </div>
-          <div className="sc-stat-box">
-            <span className="sc-stat-num">20</span>
-            <span className="sc-stat-lbl">Example Programs</span>
-          </div>
-        </div>
-
-        {/* Section Title */}
+        {/* Section Header */}
         <div className="sc-section-header">
-          <BookOpen size={18} style={{ color: 'var(--accent-glow)' }} />
-          <h2 className="sc-section-title">All Chapters</h2>
+          <BookOpen size={18} style={{ color: '#c084fc' }} />
+          <h2 className="sc-section-title">All Chapters ({C_CHAPTERS.length})</h2>
         </div>
 
         {/* Chapter Grid */}
