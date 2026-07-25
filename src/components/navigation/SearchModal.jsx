@@ -1,56 +1,63 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Search, BookOpen, FileCode, Code, CheckCircle, 
-  FileText, Award, User, CornerDownLeft, ArrowDown, ArrowUp, X 
+  FileText, Award, User, CornerDownLeft, ArrowDown, ArrowUp, X,
+  Compass, Flame, Clock, Sparkles, Download, Briefcase, ChevronRight
 } from 'lucide-react';
+import { searchPlatformIndex } from '../../services/searchService';
 import '../../styles/SearchModal.css';
 
-const searchDatabase = [
-  { id: '1', title: 'History of C Language', desc: 'Explore the foundations and development of C.', category: 'Lessons', type: 'lesson', path: '/technologies/c' },
-  { id: '2', title: 'C Compiling Process', desc: 'Understanding preprocessing, compilation, assembly, and linking.', category: 'Lessons', type: 'lesson', path: '/technologies/c' },
-  { id: '3', title: 'C Programming Roadmap', desc: 'From basic loops to advanced dynamic memory management.', category: 'Roadmaps', type: 'roadmap', path: '/' },
-  { id: '4', title: 'Hello World and Syntax', desc: 'Write and dissect your very first C program.', category: 'Programs', type: 'program', path: '/technologies/c' },
-  { id: '5', title: 'Dynamic Pointer Swapping', desc: 'Pass pointers to modify variables in scope.', category: 'Programs', type: 'program', path: '/technologies/c' },
-  { id: '6', title: 'Loops and Control Structures Quiz', desc: 'Test your understanding of nested loops and branches.', category: 'Quizzes', type: 'quiz', path: '/' },
-  { id: '7', title: 'Semester 2 Lab Manual PDF', desc: 'Official lab assignment program codes and syllabus.', category: 'Notes & PDFs', type: 'note', path: '/' },
-  { id: '8', title: 'Linked List Implementation Guides', desc: 'Step-by-step PDF detailing single and doubly linked lists.', category: 'Notes & PDFs', type: 'note', path: '/' },
-  { id: '9', title: 'C Advanced Structures Certificate', desc: 'Official completion certificate for system structures.', category: 'Certificates', type: 'certificate', path: '/' },
-  { id: '10', title: 'View Student Portfolio', desc: 'See your learning stats, streaks, and certificates.', category: 'Profile', type: 'profile', path: '/' }
+const quickNavigationShortcuts = [
+  { id: 'qn-1', title: 'Continue Learning: C Pointers', desc: 'Step 14: Pointers & Address Arithmetic', category: 'Continue Learning', type: 'technology', path: '/technologies/c' },
+  { id: 'qn-2', title: 'Open Student Dashboard', desc: 'View overall study metrics and progress analytics.', category: 'Quick Navigation', type: 'navigation', path: '/dashboard' },
+  { id: 'qn-3', title: 'Explore Interactive Roadmaps', desc: 'Visual step-by-step curriculum node trees.', category: 'Quick Navigation', type: 'navigation', path: '/roadmap' },
+  { id: 'qn-4', title: 'Browse Study Resources', desc: 'Lab manuals, syllabus, and PYQ PDFs.', category: 'Quick Navigation', type: 'navigation', path: '/resources' }
 ];
 
-const quickActions = [
-  { id: 'q1', title: 'Continue Learning', desc: 'Jump back into your last active lesson.', category: 'Quick Actions', type: 'action', path: '/' },
-  { id: 'q2', title: 'Open Dashboard', desc: 'View your general learning progress metrics.', category: 'Quick Actions', type: 'action', path: '/' },
-  { id: 'q3', title: 'Open Certificates', desc: 'Access your earned department credentials.', category: 'Quick Actions', type: 'action', path: '/' },
-  { id: 'q4', title: 'Open Bookmarks', desc: 'See your bookmarked programs and notes.', category: 'Quick Actions', type: 'action', path: '/' },
-  { id: 'q5', title: 'Open Roadmaps', desc: 'Browse the interactive curriculum nodes.', category: 'Quick Actions', type: 'action', path: '/' }
+const popularTopics = [
+  { id: 'pt-1', label: 'Pointers & Memory', query: 'pointers' },
+  { id: 'pt-2', label: 'C++ STL Vectors', query: 'stl' },
+  { id: 'pt-3', label: 'Operating System Kernel', query: 'operating system' },
+  { id: 'pt-4', label: 'SQL DBMS Queries', query: 'dbms' },
+  { id: 'pt-5', label: 'Lab Manual PDF', query: 'lab manual' }
 ];
 
-const SearchModal = ({ isOpen, onClose, navigate }) => {
+export const SearchModal = ({ isOpen, onClose, navigate }) => {
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [recentSearches, setRecentSearches] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   
   const inputRef = useRef(null);
   const itemsRef = useRef([]);
 
-  // Load recent searches from localStorage on mount
+  // Debounce search query input (220ms)
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem('bca_recent_searches');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        setRecentSearches(Array.isArray(parsed) ? parsed : []);
-      } else {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 220);
+    return () => clearTimeout(handler);
+  }, [query]);
+
+  // Load recent searches from localStorage on mount/open
+  useEffect(() => {
+    if (isOpen) {
+      try {
+        const stored = localStorage.getItem('bca_recent_searches');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setRecentSearches(Array.isArray(parsed) ? parsed : []);
+        } else {
+          setRecentSearches([]);
+        }
+      } catch (e) {
+        console.error("Failed to load recent searches", e);
         setRecentSearches([]);
       }
-    } catch (e) {
-      console.error("Failed to load recent searches", e);
-      setRecentSearches([]);
     }
   }, [isOpen]);
 
-  // Focus input on mount/open
+  // Focus input on open
   useEffect(() => {
     if (isOpen && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 50);
@@ -58,10 +65,13 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
     }
   }, [isOpen]);
 
-  // Handle global shortcuts (Ctrl+K / Cmd+K)
+  // Global Keyboard listener for Ctrl+K / Cmd+K and ESC
   useEffect(() => {
     const handleGlobalKeyDown = (e) => {
-      if (e.key === 'Escape' && isOpen) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        if (isOpen) onClose();
+      } else if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };
@@ -74,7 +84,9 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
   // Clear query
   const handleClearQuery = () => {
     setQuery('');
+    setDebouncedQuery('');
     setSelectedIndex(0);
+    if (inputRef.current) inputRef.current.focus();
   };
 
   // Save to recent searches
@@ -101,64 +113,59 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
     }
   };
 
-  // Filtered Results
-  const filteredResults = query.trim()
-    ? searchDatabase.filter(item => 
-        item.title.toLowerCase().includes(query.toLowerCase()) ||
-        item.desc.toLowerCase().includes(query.toLowerCase()) ||
-        item.category.toLowerCase().includes(query.toLowerCase())
-      )
-    : [];
+  // Execute intelligent search engine query
+  const filteredResults = searchPlatformIndex(debouncedQuery);
 
   // Determine current active list of items
   let activeList = [];
-  if (query.trim() === '') {
-    // If empty query: show Recent Searches (mapped to action format) + Quick Actions
+  if (debouncedQuery.trim() === '') {
     const recentMapped = recentSearches.map((term, idx) => ({
-      id: `r-${idx}`,
+      id: `recent-${idx}`,
       title: term,
-      desc: 'Recent search term',
+      desc: 'Recent search history term',
       category: 'Recent Searches',
       type: 'recent',
       searchTerm: term
     }));
-    activeList = [...recentMapped, ...quickActions];
+    activeList = [...recentMapped, ...quickNavigationShortcuts];
   } else {
     activeList = filteredResults;
   }
 
-  // Handle index out of bounds on list updates
+  // Bound selected index
   if (selectedIndex >= activeList.length && activeList.length > 0) {
     setSelectedIndex(0);
   }
 
-  // Handle click on item
+  // Handle item selection/navigation
   const handleItemClick = (item) => {
     if (item.type === 'recent') {
       setQuery(item.searchTerm);
+      setDebouncedQuery(item.searchTerm);
       setSelectedIndex(0);
       return;
     }
 
-    // Save search query if it matches results
     if (query.trim()) {
       saveRecentSearch(query);
     }
 
     onClose();
-    navigate(item.path);
+    if (item.path) {
+      navigate(item.path);
+    }
   };
 
-  // Keyboard navigation listeners
+  // Keyboard navigation listener (ArrowUp, ArrowDown, Enter, Tab)
   const handleKeyDown = (e) => {
     if (activeList.length === 0) return;
 
-    if (e.key === 'ArrowDown') {
+    if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
       e.preventDefault();
       const nextIndex = (selectedIndex + 1) % activeList.length;
       setSelectedIndex(nextIndex);
       itemsRef.current[nextIndex]?.scrollIntoView({ block: 'nearest' });
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
       e.preventDefault();
       const prevIndex = (selectedIndex - 1 + activeList.length) % activeList.length;
       setSelectedIndex(prevIndex);
@@ -166,15 +173,10 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
     } else if (e.key === 'Enter') {
       e.preventDefault();
       handleItemClick(activeList[selectedIndex]);
-    } else if (e.key === 'Tab') {
-      e.preventDefault();
-      const nextIndex = (selectedIndex + 1) % activeList.length;
-      setSelectedIndex(nextIndex);
-      itemsRef.current[nextIndex]?.scrollIntoView({ block: 'nearest' });
     }
   };
 
-  // Group items by category to render
+  // Group items by category for rendering headers
   const groupedItems = activeList.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
@@ -183,8 +185,7 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
     return acc;
   }, {});
 
-  // Map item IDs to their flat index for scrolling and highlight selection
-  let flatIndexCounter = 0;
+  // Index map for keyboard highlights
   const itemIndexMap = {};
   activeList.forEach((item, index) => {
     itemIndexMap[item.id] = index;
@@ -192,37 +193,40 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
 
   const getIcon = (type) => {
     switch (type) {
-      case 'lesson': return <BookOpen size={16} />;
-      case 'roadmap': return <FileCode size={16} />;
-      case 'program': return <Code size={16} />;
-      case 'quiz': return <CheckCircle size={16} />;
-      case 'note': return <FileText size={16} />;
-      case 'certificate': return <Award size={16} />;
-      case 'profile': return <User size={16} />;
-      case 'recent': return <Search size={16} style={{ color: 'rgba(255,255,255,0.25)' }} />;
-      default: return <CornerDownLeft size={16} />;
+      case 'technology': return <Code size={16} style={{ color: '#c084fc' }} />;
+      case 'subject': return <BookOpen size={16} style={{ color: '#60a5fa' }} />;
+      case 'chapter': return <FileText size={16} style={{ color: '#34d399' }} />;
+      case 'program': return <FileCode size={16} style={{ color: '#f59e0b' }} />;
+      case 'download': return <Download size={16} style={{ color: '#a855f7' }} />;
+      case 'interview': return <Briefcase size={16} style={{ color: '#f43f5e' }} />;
+      case 'navigation': return <Compass size={16} style={{ color: '#38bdf8' }} />;
+      case 'recent': return <Clock size={16} style={{ color: 'rgba(255,255,255,0.4)' }} />;
+      default: return <Sparkles size={16} />;
     }
   };
 
   return (
-    <div className="search-modal-backdrop" onClick={onClose}>
+    <div className="search-modal-backdrop" onClick={onClose} aria-modal="true" role="dialog">
       <div className="search-modal-container" onClick={(e) => e.stopPropagation()}>
-        {/* Modal Search Input Header */}
+        
+        {/* Command Palette Search Input Header */}
         <div className="search-modal-header">
-          <Search size={20} style={{ color: 'var(--primary-purple)' }} />
+          <Search size={20} style={{ color: '#c084fc' }} />
           <input 
             ref={inputRef}
             type="text"
-            placeholder="Search lessons, roadmaps, programs, quizzes..."
+            placeholder="Search languages, subjects, chapters, programs..."
             value={query}
             onChange={(e) => { setQuery(e.target.value); setSelectedIndex(0); }}
             onKeyDown={handleKeyDown}
             className="search-modal-input"
+            aria-label="Global intelligent search input"
           />
           {query && (
             <button 
               onClick={handleClearQuery}
-              style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+              className="search-clear-btn"
+              aria-label="Clear search text"
             >
               <X size={16} />
             </button>
@@ -232,14 +236,15 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
           </div>
         </div>
 
-        {/* Modal Results List Body */}
+        {/* Command Palette Body Content */}
         <div className="search-modal-body">
           {activeList.length > 0 ? (
-            Object.keys(groupedItems).map((category, groupIdx) => (
+            Object.keys(groupedItems).map((category) => (
               <div key={category} className="search-results-group">
+                
                 {category === 'Recent Searches' ? (
                   <div className="search-recent-header">
-                    <span className="search-results-section-header" style={{ margin: 0 }}>Recent Searches</span>
+                    <span className="search-results-section-header">Recent Searches</span>
                     <button className="search-recent-clear-btn" onClick={handleClearAllRecent}>Clear Recents</button>
                   </div>
                 ) : (
@@ -267,10 +272,11 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
                           <span className="search-result-desc">{item.desc}</span>
                         </div>
                       </div>
+
                       <div className="search-result-meta">
                         <span className="search-result-badge">{item.type}</span>
                         <span className="search-result-enter-hint">
-                          <CornerDownLeft size={10} />
+                          <ChevronRight size={14} />
                         </span>
                       </div>
                     </button>
@@ -279,23 +285,50 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
               </div>
             ))
           ) : (
-            /* Empty State Suggestion */
+            /* No Results Found State */
             <div className="search-empty-state">
+              <div className="search-empty-icon"><Search size={32} style={{ color: 'rgba(255,255,255,0.3)' }} /></div>
               <div className="search-empty-title">No results found for "{query}"</div>
-              <div className="search-empty-desc">Check the spelling or try selecting one of these categories instead:</div>
-              <div className="search-empty-actions">
-                <button className="search-empty-btn" onClick={() => { setQuery('Roadmap'); setSelectedIndex(0); }}>🗺 Roadmaps</button>
-                <button className="search-empty-btn" onClick={() => { setQuery('History'); setSelectedIndex(0); }}>📚 Lessons</button>
+              <div className="search-empty-desc">Check your spelling or try searching popular topics:</div>
+              <div className="search-popular-tags">
+                {popularTopics.map((pt) => (
+                  <button 
+                    key={pt.id} 
+                    className="search-popular-tag-btn"
+                    onClick={() => { setQuery(pt.query); setDebouncedQuery(pt.query); setSelectedIndex(0); }}
+                  >
+                    <Flame size={12} style={{ color: '#f59e0b' }} /> {pt.label}
+                  </button>
+                ))}
               </div>
             </div>
           )}
+
+          {/* Popular Topics Section when search is empty */}
+          {!query && (
+            <div className="search-popular-section">
+              <div className="search-results-section-header">🔥 Popular Topics</div>
+              <div className="search-popular-tags">
+                {popularTopics.map((pt) => (
+                  <button 
+                    key={pt.id} 
+                    className="search-popular-tag-btn"
+                    onClick={() => { setQuery(pt.query); setDebouncedQuery(pt.query); setSelectedIndex(0); }}
+                  >
+                    {pt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
 
-        {/* Modal Search Footer Guidelines */}
+        {/* Modal Search Footer Keyboard Guidelines */}
         <div className="search-modal-footer">
           <div className="search-footer-tip">
-            <kbd className="search-footer-kbd"><ArrowUp size={8} /></kbd>
-            <kbd className="search-footer-kbd"><ArrowDown size={8} /></kbd>
+            <kbd className="search-footer-kbd"><ArrowUp size={9} /></kbd>
+            <kbd className="search-footer-kbd"><ArrowDown size={9} /></kbd>
             <span>Navigate</span>
           </div>
           <div className="search-footer-tip">
@@ -307,6 +340,7 @@ const SearchModal = ({ isOpen, onClose, navigate }) => {
             <span>Close</span>
           </div>
         </div>
+
       </div>
     </div>
   );

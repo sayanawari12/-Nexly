@@ -9,6 +9,7 @@ const GuestNavbar = ({
   setSearchOpen, 
   searchQuery, 
   setSearchQuery, 
+  setSearchModalOpen,
   navigate,
   mobileMenuOpen,
   setMobileMenuOpen
@@ -26,8 +27,9 @@ const GuestNavbar = ({
         />
         <button 
           className="search-btn"
-          onClick={() => setSearchOpen(!searchOpen)}
-          aria-label="Toggle search"
+          onClick={() => setSearchModalOpen ? setSearchModalOpen(true) : setSearchOpen(!searchOpen)}
+          aria-label="Search learning database (Ctrl+K)"
+          title="Search (Ctrl+K)"
         >
           <Search size={20} />
         </button>
