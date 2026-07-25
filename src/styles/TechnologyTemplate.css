@@ -1,0 +1,423 @@
+/* ============================================================
+   GLOBAL TECHNOLOGY MASTER TEMPLATE CSS
+   Mobile: 320px–430px | Tablet: 768px–1023px | Desktop: 1024px–1728px
+   ============================================================ */
+
+.tech-template-wrapper {
+  min-height: 100vh;
+  background: #050505;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(168, 85, 247, 0.03) 0%, transparent 50%);
+  padding-top: 70px;
+  color: #ffffff;
+  width: 100%;
+}
+
+.tech-template-progress-bar {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #A855F7, #8B5CF6);
+  z-index: 1000;
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+.tech-download-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #09090b;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(52, 211, 153, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  z-index: 9999;
+}
+
+.tech-template-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px 24px 0 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* ── 3-COLUMN HERO CARD ── */
+.tech-hero-card {
+  background: linear-gradient(135deg, #050505 0%, #0B0B10 50%, #11111A 100%);
+  border: 1px solid rgba(139, 92, 246, 0.18) !important;
+  border-radius: 20px !important;
+  padding: 36px 40px !important;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6) !important;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.tech-hero-card::before {
+  content: '';
+  position: absolute;
+  top: -90px;
+  right: -90px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.tech-hero-inner {
+  display: grid;
+  grid-template-columns: auto 1fr 340px;
+  gap: 36px;
+  align-items: center;
+  width: 100%;
+}
+
+.tech-logo-box {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 24px rgba(168, 85, 247, 0.35));
+}
+
+.tech-svg-render {
+  width: 100%;
+  height: 100%;
+}
+
+.tech-default-logo {
+  width: 90px;
+  height: 90px;
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #c084fc;
+}
+
+.tech-hero-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tech-hero-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin: 0;
+}
+
+.tech-hero-subtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #A855F7, #8B5CF6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.tech-hero-desc {
+  font-size: 0.92rem;
+  color: #b0b0bc;
+  line-height: 1.6;
+  max-width: 540px;
+  margin: 4px 0 0 0;
+}
+
+.tech-hero-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.tech-stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #b0b0bc;
+}
+
+.tech-stat-pill strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.tech-hero-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* Glass Progress Card */
+.tech-progress-card {
+  background: rgba(11, 11, 16, 0.7);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.progress-card-hdr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-card-hdr h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.progress-card-body {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.circle-progress-badge {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 3px solid rgba(168, 85, 247, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #c084fc;
+  flex-shrink: 0;
+  background: rgba(168, 85, 247, 0.05);
+}
+
+.circle-progress-badge small {
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.progress-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.p-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.p-row strong {
+  color: #ffffff;
+}
+
+.tech-login-save-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 9px;
+  border-radius: 10px;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: rgba(168, 85, 247, 0.1);
+  color: #c084fc;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tech-login-save-btn:hover {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: #a855f7;
+}
+
+/* ── TAB CONTENT AREA ── */
+.tech-content-area {
+  padding: 32px 0 60px;
+  width: 100%;
+}
+
+.tech-content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.tech-tab-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 28px;
+  align-items: start;
+}
+
+.about-card {
+  padding: 28px !important;
+}
+
+.about-text {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 12px 0;
+}
+
+.about-text.sub {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.92rem;
+}
+
+.popular-topics-card {
+  padding: 24px !important;
+}
+
+.popular-topics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popular-topic-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.popular-topic-row:hover {
+  background: rgba(168, 85, 247, 0.08);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.topic-num {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.15);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topic-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ffffff;
+  flex: 1;
+}
+
+.topic-arrow {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.lessons-simple-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lesson-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+/* TABLET (768px–1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tech-hero-inner {
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+  }
+
+  .tech-progress-card {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .tech-tab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* MOBILE (<768px) */
+@media (max-width: 767px) {
+  .tech-template-container {
+    padding: 16px 16px 0 16px;
+  }
+
+  .tech-hero-card {
+    padding: 24px 20px !important;
+  }
+
+  .tech-hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .tech-hero-title {
+    font-size: 2rem;
+  }
+
+  .tech-progress-card {
+    width: 100%;
+  }
+
+  .tech-tab-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
