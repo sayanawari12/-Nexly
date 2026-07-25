@@ -20,7 +20,11 @@ import {
   HelpCircle,
   ChevronRight,
   ChevronLeft,
-  Sparkles
+  Sparkles,
+  BarChart2,
+  Database,
+  TrendingUp,
+  Brain
 } from 'lucide-react';
 import '../../styles/sections.css';
 
@@ -57,15 +61,17 @@ const semestersInfo = {
   },
   3: {
     number: 'Semester 3',
-    title: 'Systems & Relational Databases',
-    desc: 'Connect applications to relational structures, file systems, and automated data scripts.',
+    title: 'Data Analytics, Systems & Software Engineering',
+    desc: 'Master probability, relational database management, Python scripts, software engineering, feature engineering, and spreadsheet analytics.',
     duration: 'Est. Duration: 6 Months',
-    subjectsCount: '4 Core Subjects',
+    subjectsCount: '6 Core Subjects',
     subjects: [
-      { code: 'BCA-301', name: 'Operating Systems Advanced', category: 'Theory', difficulty: 'Hard', hours: 45, icon: <Cpu size={22} />, desc: 'Analyze thread scheduling, paging tables, file structures, and lock models.' },
-      { code: 'BCA-302', name: 'Relational DBMS', category: 'Programming', difficulty: 'Medium', hours: 50, icon: <Layers size={22} />, desc: 'Write SQL statements, design normalized schemas, and control ACID transactions.' },
-      { code: 'BCA-303', name: 'Python Engineering', category: 'Programming', difficulty: 'Medium', hours: 50, icon: <Terminal size={22} />, desc: 'Build automation scripts, work with libraries, and handle file system pipelines.' },
-      { code: 'BCA-304', name: 'Software Engineering', category: 'Theory', difficulty: 'Easy', hours: 40, icon: <BookOpen size={22} />, desc: 'Understand Agile methodologies, UML designs, testing structures, and deployments.' }
+      { code: 'BCA-301', name: 'Probability & Statistics', category: 'Mathematics', difficulty: 'Medium', hours: 50, icon: <BarChart2 size={22} />, desc: 'Descriptive statistics, probability distributions, hypothesis testing, and statistical inferences for computing.' },
+      { code: 'BCA-302', name: 'Database Management System (DBMS)', category: 'Database', difficulty: 'Medium', hours: 60, icon: <Database size={22} />, desc: 'Relational database design, ER modeling, SQL query optimization, normalization, and ACID transactions.' },
+      { code: 'BCA-303', name: 'Python Programming', category: 'Programming Language', difficulty: 'Medium', hours: 60, icon: <Code2 size={22} />, desc: 'Python language fundamentals, OOP structures, data manipulation, file handling, and library ecosystem.' },
+      { code: 'BCA-304', name: 'Software Engineering', category: 'Software Development', difficulty: 'Medium', hours: 45, icon: <Cpu size={22} />, desc: 'Software development life cycle (SDLC), Agile methodologies, software testing, UML modeling, and architecture.' },
+      { code: 'BCA-305', name: 'Feature Engineering', category: 'Artificial Intelligence / Data Science', difficulty: 'Hard', hours: 50, icon: <Sparkles size={22} />, desc: 'Data preprocessing, feature selection, transformation, encoding, and dimensional reduction for ML models.' },
+      { code: 'BCA-306', name: 'Basics of Data Analytics using Spreadsheets', category: 'Data Analytics', difficulty: 'Easy', hours: 40, icon: <TrendingUp size={22} />, desc: 'Excel & spreadsheet data cleaning, pivot tables, VLOOKUP/XLOOKUP, formulas, data visualization, and reporting.' }
     ]
   },
   4: {
@@ -191,6 +197,14 @@ const Roadmap = () => {
   }, [activeSem, showSwipeHint]);
 
   const getSubjectSlug = (code, name) => {
+    const sem3Slugs = {
+      'BCA-301': 'probability-and-statistics',
+      'BCA-302': 'dbms',
+      'BCA-303': 'python-programming',
+      'BCA-304': 'software-engineering',
+      'BCA-305': 'feature-engineering',
+      'BCA-306': 'data-analytics-spreadsheets'
+    };
     const sem2Slugs = {
       'BCA-201': 'cpp-oop',
       'BCA-202': 'data-structures',
@@ -199,6 +213,7 @@ const Roadmap = () => {
       'BCA-205': 'java-oop',
       'BCA-206': 'indian-constitution'
     };
+    if (sem3Slugs[code]) return sem3Slugs[code];
     if (sem2Slugs[code]) return sem2Slugs[code];
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   };

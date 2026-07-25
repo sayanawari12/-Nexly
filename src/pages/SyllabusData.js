@@ -865,5 +865,118 @@ export const SYLLABUS_DATA = {
         ]
       }
     ]
+  },
+
+  'probability-and-statistics': {
+    title: 'Probability & Statistics',
+    desc: 'Descriptive statistics, probability distributions, hypothesis testing, and statistical inferences for computing.',
+    estTime: '50 Hours',
+    unitsCount: 4,
+    chaptersCount: 8,
+    syllabus: [
+      {
+        unit: 1,
+        id: 'unit-1',
+        title: 'Unit 1: Descriptive Statistics & Data Visualization',
+        chapters: [
+          { id: 'ch-1', title: 'Chapter 1: Measures of Central Tendency & Dispersion', topics: ['Mean, Median, Mode', 'Variance, Standard Deviation', 'Skewness & Kurtosis'] },
+          { id: 'ch-2', title: 'Chapter 2: Correlation & Regression Analysis', topics: ['Pearson Correlation Coefficient', 'Spearman Rank Correlation', 'Linear Regression Lines'] }
+        ]
+      },
+      {
+        unit: 2,
+        id: 'unit-2',
+        title: 'Unit 2: Probability Theory & Random Variables',
+        chapters: [
+          { id: 'ch-3', title: 'Chapter 3: Probability Fundamentals & Bayes Theorem', topics: ['Sample Spaces & Events', 'Conditional Probability', 'Bayes Theorem & Applications'] },
+          { id: 'ch-4', title: 'Chapter 4: Probability Distributions', topics: ['Binomial & Poisson Distributions', 'Normal Distribution & Z-Scores', 'Continuous Random Variables'] }
+        ]
+      }
+    ]
+  },
+
+  'dbms': {
+    title: 'Database Management System (DBMS)',
+    desc: 'Relational database design, ER modeling, SQL query optimization, normalization, and ACID transactions.',
+    estTime: '60 Hours',
+    unitsCount: 4,
+    chaptersCount: 8,
+    syllabus: [
+      {
+        unit: 1,
+        id: 'unit-1',
+        title: 'Unit 1: Database Architecture & ER Modeling',
+        chapters: [
+          { id: 'ch-1', title: 'Chapter 1: Introduction to DBMS Architecture', topics: ['DBMS vs File Processing System', 'Three-Schema Architecture', 'Data Independence (Physical & Logical)'] },
+          { id: 'ch-2', title: 'Chapter 2: Entity-Relationship (ER) Data Modeling', topics: ['Entities, Attributes & Relationships', 'ER Diagram Notations', 'Conversion of ER Diagrams to Relational Tables'] }
+        ]
+      },
+      {
+        unit: 2,
+        id: 'unit-2',
+        title: 'Unit 2: Relational Model, SQL & Normalization',
+        chapters: [
+          { id: 'ch-3', title: 'Chapter 3: Relational Algebra & Structured Query Language (SQL)', topics: ['SELECT, WHERE, GROUP BY, HAVING', 'JOIN Operations (INNER, LEFT, RIGHT)', 'Nested Subqueries'] },
+          { id: 'ch-4', title: 'Chapter 4: Database Normalization & Functional Dependencies', topics: ['1NF, 2NF, 3NF, BCNF Normal Forms', 'Lossless Join Decomposition', 'Dependency Preservation'] }
+        ]
+      }
+    ]
+  },
+
+  'software-engineering': {
+    title: 'Software Engineering',
+    desc: 'Software development life cycle (SDLC), Agile methodologies, software testing, UML modeling, and architecture.',
+    estTime: '45 Hours',
+    unitsCount: 4,
+    chaptersCount: 8,
+    syllabus: [
+      {
+        unit: 1,
+        id: 'unit-1',
+        title: 'Unit 1: Software Development Life Cycle & Agile',
+        chapters: [
+          { id: 'ch-1', title: 'Chapter 1: SDLC Models (Waterfall, Spiral, Agile Scrum)', topics: ['Waterfall & Incremental Models', 'Agile Principles & Scrum Framework', 'Requirements Engineering & SRS'] },
+          { id: 'ch-2', title: 'Chapter 2: UML Diagrams & Software Design Patterns', topics: ['Use Case, Class, Sequence Diagrams', 'Architectural Design Patterns', 'Component-Based Design'] }
+        ]
+      }
+    ]
+  },
+
+  'feature-engineering': {
+    title: 'Feature Engineering',
+    desc: 'Data preprocessing, feature selection, transformation, encoding, and dimensional reduction for ML models.',
+    estTime: '50 Hours',
+    unitsCount: 4,
+    chaptersCount: 8,
+    syllabus: [
+      {
+        unit: 1,
+        id: 'unit-1',
+        title: 'Unit 1: Data Preprocessing & Feature Extraction',
+        chapters: [
+          { id: 'ch-1', title: 'Chapter 1: Missing Value Imputation & Outlier Handling', topics: ['Mean/Median/KNN Imputation', 'IQR & Z-score Outlier Filtering', 'Categorical One-Hot & Target Encoding'] },
+          { id: 'ch-2', title: 'Chapter 2: Feature Scaling & Dimensionality Reduction', topics: ['MinMax & Standard Scaler', 'Principal Component Analysis (PCA)', 'Feature Selection Techniques'] }
+        ]
+      }
+    ]
+  },
+
+  'data-analytics-spreadsheets': {
+    title: 'Basics of Data Analytics using Spreadsheets',
+    desc: 'Excel & spreadsheet data cleaning, pivot tables, VLOOKUP/XLOOKUP, formulas, data visualization, and reporting.',
+    estTime: '40 Hours',
+    unitsCount: 4,
+    chaptersCount: 8,
+    syllabus: [
+      {
+        unit: 1,
+        id: 'unit-1',
+        title: 'Unit 1: Spreadsheet Formulas & Data Wrangling',
+        chapters: [
+          { id: 'ch-1', title: 'Chapter 1: Advanced Excel Formulas & Lookup Functions', topics: ['VLOOKUP, XLOOKUP, INDEX & MATCH', 'IF, SUMIFS, COUNTIFS Conditionals', 'Data Text-to-Columns & Cleaning'] },
+          { id: 'ch-2', title: 'Chapter 2: Pivot Tables & Visual Analytics Dashboards', topics: ['Creating Interactive Pivot Tables', 'Calculated Fields & Slicers', 'Chart Dashboards & KPI Summaries'] }
+        ]
+      }
+    ]
   }
 };

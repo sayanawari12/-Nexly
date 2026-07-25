@@ -59,7 +59,12 @@ const SubjectSyllabus = () => {
       'operating-systems-advanced': 'Operating Systems Advanced',
       'relational-dbms': 'Relational DBMS',
       'python-engineering': 'Python Engineering',
+      'probability-and-statistics': 'Probability & Statistics',
+      'dbms': 'Database Management System (DBMS)',
+      'python-programming': 'Python Programming',
       'software-engineering': 'Software Engineering',
+      'feature-engineering': 'Feature Engineering',
+      'data-analytics-spreadsheets': 'Basics of Data Analytics using Spreadsheets',
       'java-platform-core': 'Java Platform Core',
       'computer-networks': 'Computer Networks',
       'web-technologies-stack': 'Web Technologies Stack',
@@ -93,7 +98,12 @@ const SubjectSyllabus = () => {
       'operating-systems-advanced': 3,
       'relational-dbms': 3,
       'python-engineering': 3,
+      'probability-and-statistics': 3,
+      'dbms': 3,
+      'python-programming': 3,
       'software-engineering': 3,
+      'feature-engineering': 3,
+      'data-analytics-spreadsheets': 3,
       'java-platform-core': 4,
       'computer-networks': 4,
       'web-technologies-stack': 4,
@@ -107,7 +117,7 @@ const SubjectSyllabus = () => {
       'major-thesis-project': 6,
       'enterprise-java-framework': 6
     };
-    return semesterMap[id] || 2;
+    return semesterMap[id] || 3;
   };
 
   const getSubjectCode = (id) => {
@@ -127,7 +137,12 @@ const SubjectSyllabus = () => {
       'operating-systems-advanced': 'BCA-301',
       'relational-dbms': 'BCA-302',
       'python-engineering': 'BCA-303',
+      'probability-and-statistics': 'BCA-301',
+      'dbms': 'BCA-302',
+      'python-programming': 'BCA-303',
       'software-engineering': 'BCA-304',
+      'feature-engineering': 'BCA-305',
+      'data-analytics-spreadsheets': 'BCA-306',
       'java-platform-core': 'BCA-401',
       'computer-networks': 'BCA-402',
       'web-technologies-stack': 'BCA-403',
