@@ -496,26 +496,33 @@ export const GlobalChapterTemplate = ({
               </div>
             </motion.div>
 
-            {/* ── MAIN LEARNING SEQUENCE ── */}
+            {/* ── MAIN LEARNING SEQUENCE (Adaptive Grid Containers) ── */}
             <div className="gct-sequence-container">
 
-              {/* ── SECTION 2: THEORY READING CARD ── */}
-              <section className="gct-section">
-                <div className="gct-section-hdr">
-                  <BookOpen size={18} style={{ color: '#c084fc' }} />
-                  <h2>1. Theory</h2>
-                </div>
-                <div className="gct-theory-card glass-card">
-                  <TheoryContentRenderer text={theory} />
-                </div>
-              </section>
+              {/* ── 2-COLUMN GRID ON DESKTOP: THEORY (Left) & KEY TAKEAWAY (Right) ── */}
+              <div className="gct-theory-takeaway-grid">
+                {/* SECTION 2: THEORY READING CARD */}
+                <section className="gct-section gct-section-theory">
+                  <div className="gct-section-hdr">
+                    <BookOpen size={18} style={{ color: '#c084fc' }} />
+                    <h2>1. Theory</h2>
+                  </div>
+                  <div className="gct-theory-card glass-card">
+                    <TheoryContentRenderer text={theory} />
+                  </div>
+                </section>
 
-              {/* ── SECTION 3: KEY TAKEAWAY CARD ── */}
-              <section className="gct-section">
-                <KeyTakeawayCard takeaway={takeaway} />
-              </section>
+                {/* SECTION 3: KEY TAKEAWAY CARD */}
+                <section className="gct-section gct-section-takeaway">
+                  <div className="gct-section-hdr desktop-only">
+                    <Lightbulb size={18} style={{ color: '#c084fc' }} />
+                    <h2>Key Insight</h2>
+                  </div>
+                  <KeyTakeawayCard takeaway={takeaway} />
+                </section>
+              </div>
 
-              {/* ── SECTION 4: PRACTICAL CODE EDITOR ── */}
+              {/* ── SECTION 4: PRACTICAL CODE EDITOR (FULL WIDTH) ── */}
               <section className="gct-section">
                 <div className="gct-section-hdr">
                   <Code2 size={18} style={{ color: '#60a5fa' }} />
@@ -524,21 +531,24 @@ export const GlobalChapterTemplate = ({
                 <CodeEditorBlock code={code} language={language} filename={filename} />
               </section>
 
-              {/* ── SECTION 5: REALISTIC TERMINAL OUTPUT ── */}
-              <section className="gct-section">
-                <div className="gct-section-hdr">
-                  <Terminal size={18} style={{ color: '#34d399' }} />
-                  <h2>3. Terminal Output</h2>
-                </div>
-                <TerminalOutputBlock output={output} filename={filename} />
-              </section>
+              {/* ── 2-COLUMN GRID ON DESKTOP: TERMINAL OUTPUT (Left) & CODE BREAKDOWN (Right) ── */}
+              <div className="gct-output-breakdown-grid">
+                {/* SECTION 5: REALISTIC TERMINAL OUTPUT */}
+                <section className="gct-section gct-section-terminal">
+                  <div className="gct-section-hdr">
+                    <Terminal size={18} style={{ color: '#34d399' }} />
+                    <h2>3. Terminal Output</h2>
+                  </div>
+                  <TerminalOutputBlock output={output} filename={filename} />
+                </section>
 
-              {/* ── SECTION 6: CODE BREAKDOWN ACCORDION ── */}
-              <section className="gct-section">
-                <CodeBreakdownAccordion explanation={explanation} />
-              </section>
+                {/* SECTION 6: CODE BREAKDOWN ACCORDION */}
+                <section className="gct-section gct-section-breakdown">
+                  <CodeBreakdownAccordion explanation={explanation} />
+                </section>
+              </div>
 
-              {/* ── SECTION 7: CHAPTER SUMMARY CHECKLIST ── */}
+              {/* ── SECTION 7: CHAPTER SUMMARY CHECKLIST (FULL WIDTH) ── */}
               <section className="gct-section">
                 <ChapterSummaryCard summaryItems={summaryItems} />
               </section>
