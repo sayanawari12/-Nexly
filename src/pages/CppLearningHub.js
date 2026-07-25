@@ -13,6 +13,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { TECH_LOGOS } from '../components/sections/TechLogos';
+import TechnologyLogo from '../components/ui/TechnologyLogo';
 import { useProgress } from '../context/ProgressContext';
 import useAuth from '../hooks/useAuth';
 import { saveUserNote, getUserNote, addUserBookmark } from '../services/userDatabase';
@@ -440,7 +441,7 @@ const TABS = [
 
 /* C++ Logo Icon Component */
 const CppLogo = () => (
-  <div style={{ width: '80px', height: '80px', flexShrink: 0 }} dangerouslySetInnerHTML={{ __html: TECH_LOGOS.cpp }} />
+  <TechnologyLogo svg={TECH_LOGOS.cpp} name="C++" />
 );
 
 /* Overview Tab */

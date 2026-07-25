@@ -17,6 +17,7 @@ import ProgressBar from '../ui/ProgressBar';
 import StickyTabs from '../ui/StickyTabs';
 import SectionTitle from '../ui/SectionTitle';
 import Breadcrumb from '../ui/Breadcrumb';
+import TechnologyLogo from '../ui/TechnologyLogo';
 import { DESIGN_TOKENS } from '../../styles/design-tokens';
 import '../../styles/TechnologyTemplate.css';
 
@@ -127,16 +128,12 @@ export const TechnologyTemplate = ({
         <div className="tech-hero-card glass-card">
           <div className="tech-hero-inner">
             
-            {/* Left: Large Technology Logo */}
-            <div className="tech-logo-box">
-              {LogoComponent ? (
-                <LogoComponent />
-              ) : logoSvg ? (
-                <div dangerouslySetInnerHTML={{ __html: logoSvg }} className="tech-svg-render" />
-              ) : (
-                <div className="tech-default-logo">{languageName.substring(0, 2)}</div>
-              )}
-            </div>
+            {/* Left: Standardized Technology Logo Container */}
+            <TechnologyLogo 
+              component={LogoComponent} 
+              svg={logoSvg} 
+              name={languageName} 
+            />
 
             {/* Center: Hero Details */}
             <div className="tech-hero-details">

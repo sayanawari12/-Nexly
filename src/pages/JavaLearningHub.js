@@ -10,6 +10,7 @@ import {
   RotateCcw, ArrowRight, Check, X, Eye, EyeOff, Search
 } from 'lucide-react';
 import { TECH_LOGOS } from '../components/sections/TechLogos';
+import TechnologyLogo from '../components/ui/TechnologyLogo';
 import '../styles/JavaLearningHub.css';
 
 /* ============================================================
@@ -1390,11 +1391,7 @@ const DownloadsTab = () => (
    JAVA LOGO SVG
    ============================================================ */
 const JavaLogo = () => (
-  <div
-    className="j-hero-logo"
-    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '110px' }}
-    dangerouslySetInnerHTML={{ __html: TECH_LOGOS.java }}
-  />
+  <TechnologyLogo svg={TECH_LOGOS.java} name="Java" />
 );
 
 /* ============================================================

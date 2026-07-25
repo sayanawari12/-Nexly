@@ -12,6 +12,7 @@ import {
   RefreshCw, Cpu, Sliders, Hash, Link2, Rocket, Monitor, Activity, Calculator, Repeat, Type
 } from 'lucide-react';
 import { TECH_LOGOS } from '../components/sections/TechLogos';
+import TechnologyLogo from '../components/ui/TechnologyLogo';
 import { useProgress } from '../context/ProgressContext';
 import useAuth from '../hooks/useAuth';
 import { saveUserNote, getUserNote, addUserBookmark } from '../services/userDatabase';
@@ -3041,11 +3042,7 @@ const DownloadsTab = () => (
    C LOGO SVG
    ============================================================ */
 const CLogo = () => (
-  <div
-    className="c-hero-logo"
-    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '110px' }}
-    dangerouslySetInnerHTML={{ __html: TECH_LOGOS.c }}
-  />
+  <TechnologyLogo svg={TECH_LOGOS.c} name="C" />
 );
 
 /* ============================================================
