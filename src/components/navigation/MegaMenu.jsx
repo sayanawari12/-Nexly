@@ -39,14 +39,16 @@ export const SUBJECTS_MEGA_DATA = [
   },
   {
     semester: 'Semester 3',
-    title: 'Systems & Relational DB',
+    title: 'Data Analytics & Software Systems',
     icon: <Database size={16} className="mm-sem-icon" />,
-    badge: 'Systems',
+    badge: 'Analytics & Systems',
     subjects: [
-      { code: 'BCA-301', name: 'OS Advanced', path: '/curriculum/semester-2/operating-systems-advanced', active: true },
-      { code: 'BCA-302', name: 'Relational DBMS', path: '/curriculum/semester-2/relational-dbms', active: true },
-      { code: 'BCA-303', name: 'Python Engineering', path: '/technologies/python', active: true },
-      { code: 'BCA-304', name: 'Software Engineering', path: '/curriculum/semester-2/software-engineering', active: true }
+      { code: 'BCA-301', name: 'Probability & Statistics', path: '/curriculum/semester-2/probability-and-statistics', active: true },
+      { code: 'BCA-302', name: 'DBMS', path: '/curriculum/semester-2/dbms', active: true },
+      { code: 'BCA-303', name: 'Python Programming', path: '/technologies/python', active: true },
+      { code: 'BCA-304', name: 'Software Engineering', path: '/curriculum/semester-2/software-engineering', active: true },
+      { code: 'BCA-305', name: 'Feature Engineering', path: '/curriculum/semester-2/feature-engineering', active: true },
+      { code: 'BCA-306', name: 'Spreadsheet Data Analytics', path: '/curriculum/semester-2/data-analytics-spreadsheets', active: true }
     ]
   },
   {
