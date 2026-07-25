@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import TechnologyTemplate from '../components/technology/TechnologyTemplate';
+import TechnologyTemplate from '../templates/TechnologyTemplate';
 import CLearningHub from './CLearningHub';
 import CppLearningHub from './CppLearningHub';
 import PythonLearningHub from './PythonLearningHub';
