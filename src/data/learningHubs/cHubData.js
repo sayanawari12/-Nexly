@@ -1,0 +1,186 @@
+/* ─── Static Data Module for C Learning Hub ─── */
+
+export const C_LESSONS = [
+  { id: 1, title: 'Introduction to C', diff: 'beginner', time: '20 min', phase: 'beginner',
+    prereq: 'None',
+    desc: 'History of C, its features, applications, and why it is called the mother of all programming languages.',
+    theory: `C is a general-purpose programming language. It was developed by Dennis Ritchie in 1972 at Bell Laboratories.\n\n C is one of the most popular programming languages because it is simple, fast, and powerful. It is used to develop operating systems, software applications, games, embedded systems, and system programs.\n\n C is called the mother of many programming languages because languages like C++, Java, and C# are influenced by it.`,
+    code: `#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    printf("Welcome to C Programming!\\n");\n    return 0;\n}`,
+    output: `Hello, World!\nWelcome to C Programming!`,
+    note: 'Every C program must have a main() function. Execution always starts from main().',
+    warning: 'Forgetting the #include <stdio.h> directive will cause printf() to be undefined.',
+    tip: 'Always use return 0; at the end of main() to indicate successful program termination.',
+    interviewTip: '"What is C language?" — Emphasize: compiled, procedural, portable, low-level memory access via pointers, developed by Dennis Ritchie in 1972.',
+    mistakes: ['Missing semicolons at end of statements', 'Forgetting to include required header files', 'Not returning 0 from main()'],
+    summary: 'C is a foundational, compiled, procedural language essential for system programming, embedded systems, and understanding how computers work.'
+  },
+  { id: 2, title: 'Compiler & IDE Setup', diff: 'beginner', time: '25 min', phase: 'beginner',
+    prereq: 'Introduction to C',
+    desc: 'Installing GCC compiler, setting up VS Code / Code::Blocks, understanding the compilation process.',
+    theory: `A compiler translates C source code (.c files) into machine code (executable). The most popular C compiler is GCC (GNU Compiler Collection).\n\nCompilation steps: Preprocessing → Compilation → Assembly → Linking.\n\nPopular IDEs: Code::Blocks (beginner-friendly), VS Code + GCC, Dev-C++, CLion.`,
+    code: `// Compile with: gcc -o hello hello.c\n// Run with: ./hello (Linux/Mac) or hello.exe (Windows)\n\n#include <stdio.h>\n\nint main() {\n    printf("GCC is working!\\n");\n    // Compilation stages:\n    // 1. Preprocessor: processes #include, #define\n    // 2. Compiler: converts .c to .s (assembly)\n    // 3. Assembler: converts .s to .o (object)\n    // 4. Linker: combines .o files into executable\n    return 0;\n}`,
+    output: `GCC is working!`,
+    note: 'Use gcc -Wall -o output input.c to enable all warnings. Warnings often indicate bugs.',
+    warning: 'On Windows, ensure MinGW (GCC for Windows) bin path is added to the system PATH variable.',
+    tip: 'Use gcc -g flag to include debug information and debug with GDB debugger.',
+    interviewTip: '"Explain the compilation process in C." — Four stages: Preprocessing, Compilation, Assembly, Linking.',
+    mistakes: ['Not adding compiler to PATH', 'Using wrong file extension (.C vs .c)', 'Not reading compiler warnings'],
+    summary: 'Setting up GCC and an IDE is the first step. Understanding compilation stages helps you debug errors effectively.'
+  },
+  { id: 3, title: 'Program Structure', diff: 'beginner', time: '25 min', phase: 'beginner',
+    prereq: 'Compiler & IDE Setup',
+    desc: 'Anatomy of a C program: preprocessor directives, main function, statements, and return types.',
+    theory: `A C program consists of: preprocessor directives, global declarations, the main() function, and other functions.\n\nPreprocessor directives start with # and are processed before compilation. #include includes library headers. #define creates macros.\n\nThe main() function is the entry point. It returns an int: 0 for success, non-zero for failure.`,
+    code: `// Preprocessor directives\n#include <stdio.h>\n#include <stdlib.h>\n#define MAX 100\n#define PI 3.14159\n\n// Global variable\nint globalCount = 0;\n\n// Function declaration (prototype)\nvoid greet(char *name);\n\n// Main function - entry point\nint main() {\n    printf("MAX = %d\\n", MAX);\n    printf("PI = %.2f\\n", PI);\n    greet("Alice");\n    globalCount++;\n    printf("Count: %d\\n", globalCount);\n    return 0;  // 0 = success\n}\n\n// Function definition\nvoid greet(char *name) {\n    printf("Hello, %s!\\n", name);\n}`,
+    output: `MAX = 100\nPI = 3.14\nHello, Alice!\nCount: 1`,
+    note: 'C is case-sensitive. main, Main, and MAIN are all different identifiers.',
+    warning: 'Global variables persist throughout program execution — use them sparingly to avoid unintended side effects.',
+    tip: 'Always declare function prototypes before main() to avoid implicit function declaration warnings.',
+    interviewTip: '"What is the difference between declaration and definition?" — Declaration announces existence (prototype), definition provides the actual implementation.',
+    mistakes: ['Using undeclared variables', 'Forgetting semicolons', 'Defining functions after main without prototypes'],
+    summary: 'Understanding C program structure is fundamental. Always include headers, declare prototypes, and return 0 from main.'
+  },
+  { id: 4, title: 'Variables & Data Types', diff: 'beginner', time: '30 min', phase: 'beginner',
+    prereq: 'Program Structure',
+    desc: 'int, float, double, char, void. sizeof operator, type ranges, and type conversions.',
+    theory: `C has several fundamental data types: int (integers), float (single-precision decimal), double (double-precision decimal), char (single character), and void (no value).\n\nAll variables must be declared before use. C is statically typed — the type is fixed at compile time.\n\nModifiers: short, long, signed, unsigned extend the basic types.`,
+    code: `#include <stdio.h>\n#include <limits.h>  // for INT_MAX, INT_MIN\n#include <float.h>   // for FLT_MAX\n\nint main() {\n    // Integer types\n    int age = 21;\n    short year = 2024;\n    long population = 1400000000L;\n    unsigned int count = 100U;\n\n    // Floating point types\n    float gpa = 8.75f;\n    double pi = 3.141592653589793;\n\n    // Character type\n    char grade = 'A';\n    char letter = 65;  // ASCII value of 'A'\n\n    printf("int: %d, size: %lu bytes\\n", age, sizeof(int));\n    printf("float: %.2f, size: %lu bytes\\n", gpa, sizeof(float));\n    printf("double: %.15f\\n", pi);\n    printf("char: %c (ASCII: %d)\\n", grade, grade);\n    printf("INT_MAX = %d\\n", INT_MAX);\n    printf("INT_MIN = %d\\n", INT_MIN);\n\n    return 0;\n}`,
+    output: `int: 21, size: 4 bytes\nfloat: 8.75, size: 4 bytes\ndouble: 3.141592653589793\nchar: A (ASCII: 65)\nINT_MAX = 2147483647\nINT_MIN = -2147483648`,
+    note: 'Use sizeof() to get the exact size of a type on your system — sizes can vary by platform and compiler.',
+    warning: 'Integer overflow is undefined behavior in C. A signed int exceeding INT_MAX wraps around unpredictably.',
+    tip: 'Use double instead of float for scientific calculations — double has 15-17 significant digits vs float\'s 6-7.',
+    interviewTip: '"What is the size of int in C?" — It depends on the compiler and platform (usually 4 bytes on 32/64-bit systems). Use sizeof(int) to verify.',
+    mistakes: ['Using float where double precision is needed', 'Not using L suffix for long literals', 'Ignoring signed/unsigned mismatch warnings'],
+    summary: 'C\'s data types are fundamental to memory management. Master sizes, ranges, and type modifiers for bug-free programs.'
+  },
+  { id: 5, title: 'Operators & Expressions', diff: 'beginner', time: '30 min', phase: 'beginner',
+    prereq: 'Variables & Data Types',
+    desc: 'Arithmetic, relational, logical, bitwise, assignment, and ternary operators. Operator precedence.',
+    theory: `C has a rich set of operators: Arithmetic (+,-,*,/,%), Relational (==,!=,<,>,<=,>=), Logical (&&,||,!), Bitwise (&,|,^,~,<<,>>), Assignment (=,+=,-=,*=,/=,%=), and the Ternary operator (?:).\n\nOperator precedence determines evaluation order. Use parentheses to make intent clear.`,
+    code: `#include <stdio.h>\n\nint main() {\n    int a = 10, b = 3;\n\n    // Arithmetic\n    printf("a + b = %d\\n", a + b);  // 13\n    printf("a / b = %d\\n", a / b);  // 3 (integer division)\n    printf("a %% b = %d\\n", a % b); // 1 (modulo)\n    printf("a ** b (manual) = %d\\n", a * a * a); // not ** in C\n\n    // Relational\n    printf("a > b: %d\\n", a > b);   // 1 (true)\n    printf("a == b: %d\\n", a == b); // 0 (false)\n\n    // Logical\n    printf("(a>5) && (b<5): %d\\n", (a>5) && (b<5)); // 1\n    printf("(a<5) || (b<5): %d\\n", (a<5) || (b<5)); // 1\n\n    // Bitwise\n    printf("a & b = %d\\n", a & b);  // 2\n    printf("a | b = %d\\n", a | b);  // 11\n    printf("a << 1 = %d\\n", a << 1); // 20 (multiply by 2)\n    printf("a >> 1 = %d\\n", a >> 1); // 5 (divide by 2)\n\n    // Ternary\n    int max = (a > b) ? a : b;\n    printf("max = %d\\n", max);  // 10\n\n    return 0;\n}`,
+    output: `a + b = 13\na / b = 3\na % b = 1\na ** b (manual) = 1000\na > b: 1\na == b: 0\n(a>5) && (b<5): 1\n(a<5) || (b<5): 1\na & b = 2\na | b = 11\na << 1 = 20\na >> 1 = 5\nmax = 10`,
+    note: 'In C, there is no boolean type by default (before C99). 0 is false, any non-zero value is true.',
+    warning: 'Integer division truncates towards zero: 7/2 = 3, not 3.5. Use (float)7/2 for float division.',
+    tip: 'Include <stdbool.h> (C99+) to use bool, true, and false keywords for better readability.',
+    interviewTip: '"What is the difference between & and && in C?" — & is bitwise AND (operates on bits), && is logical AND (operates on boolean conditions with short-circuit evaluation).',
+    mistakes: ['Using = instead of == in conditions', 'Integer division when float was intended', 'Forgetting operator precedence'],
+    summary: 'C operators are powerful, especially bitwise operators for low-level programming. Master precedence to write correct expressions.'
+  },
+  { id: 6, title: 'Input / Output (printf & scanf)', diff: 'beginner', time: '25 min', phase: 'beginner',
+    prereq: 'Operators & Expressions',
+    desc: 'printf format specifiers, scanf for user input, getchar, putchar, and proper input handling.',
+    theory: `printf() writes formatted output to stdout. scanf() reads formatted input from stdin. Both use format specifiers: %d (int), %f (float), %c (char), %s (string), %ld (long), %lf (double).\n\nScanning always requires the address-of operator & (except for strings/arrays which are already pointers).`,
+    code: `#include <stdio.h>\n\nint main() {\n    int age;\n    float gpa;\n    char name[50];\n    char gender;\n\n    // printf with format specifiers\n    printf("%-10s %5s %8s\\n", "Name", "Age", "GPA");  // aligned\n    printf("Enter your name: ");\n    scanf("%49s", name);  // limit to 49 chars to prevent overflow\n\n    printf("Enter age and GPA: ");\n    scanf("%d %f", &age, &gpa);  // & required for non-array variables\n\n    printf("Enter gender (M/F): ");\n    scanf(" %c", &gender);  // space before %c skips whitespace\n\n    printf("\\n=== Summary ===\\n");\n    printf("Name   : %s\\n", name);\n    printf("Age    : %d\\n", age);\n    printf("GPA    : %.2f\\n", gpa);     // 2 decimal places\n    printf("Gender : %c\\n", gender);\n    printf("Pass?  : %s\\n", gpa >= 5.0 ? "Yes" : "No");\n\n    return 0;\n}`,
+    output: `Enter your name: Alice\nEnter age and GPA: 21 8.75\nEnter gender (M/F): F\n\n=== Summary ===\nName   : Alice\nAge    : 21\nGPA    : 8.75\nGender : F\nPass?  : Yes`,
+    note: 'printf does not add a newline automatically — always use \\n explicitly.',
+    warning: 'Buffer overflow: scanf("%s", name) does not limit input length. Use scanf("%49s", name) with bounds.',
+    tip: 'Use fflush(stdin) or the " %c" trick (space before %c) to handle leftover newlines when reading characters.',
+    interviewTip: '"How to read a full line with spaces in C?" — Use fgets(buffer, sizeof(buffer), stdin) instead of scanf("%s").',
+    mistakes: ['Forgetting & in scanf for non-pointer variables', 'Buffer overflow with %s', 'Not consuming trailing newline character'],
+    summary: 'printf and scanf are C\'s core I/O functions. Always handle buffer sizes and address-of operators correctly.'
+  }
+];
+
+export const C_QUIZ_DATA = {
+  beginner: [
+    { q: 'Who created the C programming language?', options: ['Bjarne Stroustrup', 'Dennis Ritchie', 'Guido van Rossum', 'James Gosling'], answer: 1, explanation: 'Dennis Ritchie created C at Bell Labs in 1972.' },
+    { q: 'Which header file is needed for printf() and scanf()?', options: ['stdlib.h', 'math.h', 'stdio.h', 'string.h'], answer: 2, explanation: 'stdio.h provides standard input/output functions like printf and scanf.' },
+    { q: 'What is the size of int on most 32/64-bit systems?', options: ['2 bytes', '4 bytes', '8 bytes', 'Depends on compiler'], answer: 3, explanation: 'The size of int is platform-dependent. Use sizeof(int) to verify. Typically 4 bytes on 32/64-bit systems.' },
+    { q: 'Which operator is used to get the address of a variable?', options: ['*', '&', '->', '#'], answer: 1, explanation: '& (address-of operator) returns the memory address of a variable.' },
+    { q: 'What does printf("\\n") output?', options: ['The letter n', 'A tab', 'A newline character', 'Nothing'], answer: 2, explanation: '\\n is the escape sequence for newline (moves cursor to next line).' },
+    { q: 'Which loop is guaranteed to execute at least once?', options: ['for', 'while', 'do-while', 'foreach'], answer: 2, explanation: 'do-while checks the condition after the loop body executes, so it always runs at least once.' },
+    { q: 'What is the correct format specifier for float in printf?', options: ['%d', '%c', '%f', '%s'], answer: 2, explanation: '%f is used for float and double in printf. scanf uses %f for float and %lf for double.' },
+    { q: 'What value does main() return to indicate successful execution?', options: ['-1', '1', '0', 'void'], answer: 2, explanation: 'return 0; indicates successful program termination. Non-zero values indicate errors.' },
+    { q: 'Which keyword is used to define a structure in C?', options: ['class', 'struct', 'record', 'type'], answer: 1, explanation: 'struct is used to group variables of different types under one name in C.' },
+    { q: 'What does the modulo operator % do?', options: ['Multiply', 'Divide', 'Return remainder', 'Return quotient'], answer: 2, explanation: '% returns the remainder of integer division. 10 % 3 = 1.' },
+  ],
+  intermediate: [
+    { q: 'What is a dangling pointer?', options: ['NULL pointer', 'A pointer to freed memory', 'A double pointer', 'A void pointer'], answer: 1, explanation: 'A dangling pointer points to memory that has been freed or deallocated. Dereferencing it is undefined behavior.' },
+    { q: 'What does malloc() return on failure?', options: ['0', '-1', 'NULL', 'EOF'], answer: 2, explanation: 'malloc() returns NULL if memory allocation fails. Always check the return value.' },
+    { q: 'What is the output of: int a=5; printf("%d", a++);?', options: ['5', '6', 'Error', '4'], answer: 0, explanation: 'Post-increment (a++): the current value (5) is used in the expression, then a becomes 6.' },
+    { q: 'Which function is used to close a file in C?', options: ['fclose()', 'close()', 'fend()', 'fileclose()'], answer: 0, explanation: 'fclose(FILE *fp) closes the file and flushes the buffer. Always close files when done.' },
+    { q: 'What is a static variable in C?', options: ['A constant', 'A variable that retains its value between function calls', 'A global variable', 'A pointer'], answer: 1, explanation: 'A static local variable retains its value between function calls, initialized only once.' },
+    { q: 'What does sizeof(char) always return in C?', options: ['1', '2', '4', 'Depends on platform'], answer: 0, explanation: 'sizeof(char) is always 1 byte by definition in the C standard.' },
+    { q: 'Which of these is correct pointer arithmetic?', options: ['ptr + 0.5', 'ptr * 2', 'ptr + 3', 'ptr ^ 1'], answer: 2, explanation: 'You can add/subtract integers from pointers. ptr + 3 moves the pointer by 3 elements.' },
+    { q: 'What does calloc() do differently from malloc()?', options: ['Faster allocation', 'Zero-initializes allocated memory', 'Allocates on stack', 'Returns double pointer'], answer: 1, explanation: 'calloc(n, size) allocates n*size bytes and initializes all bytes to zero. malloc leaves memory uninitialized.' },
+    { q: 'What is the purpose of the -> operator?', options: ['Pointer arithmetic', 'Access struct member via pointer', 'Decrement', 'Bitwise right shift'], answer: 1, explanation: 'ptr->member is shorthand for (*ptr).member — accessing a struct member through a pointer.' },
+    { q: 'Which storage class restricts a variable to file scope?', options: ['auto', 'extern', 'static', 'register'], answer: 2, explanation: 'A global variable declared with static has internal linkage — visible only within its translation unit.' },
+  ],
+  advanced: [
+    { q: 'What is undefined behavior in C?', options: ['Compile error', 'Runtime crash only', 'Behavior not specified by standard, anything can happen', 'Always produces 0'], answer: 2, explanation: 'UB means the C standard imposes no requirements — the program can crash, produce wrong output, or even appear to work correctly.' },
+    { q: 'What is a memory leak?', options: ['Null pointer', 'Not freeing dynamically allocated memory', 'Stack overflow', 'Buffer overflow'], answer: 1, explanation: 'Memory leak occurs when dynamically allocated memory is not freed, causing available memory to decrease over time.' },
+    { q: 'What does volatile keyword mean in C?', options: ['Variable cannot change', 'Variable can be changed externally (do not optimize)', 'Variable is read-only', 'Variable is thread-safe'], answer: 1, explanation: 'volatile tells the compiler not to optimize accesses to the variable — it may be changed by hardware, OS, or another thread.' },
+    { q: 'What is the difference between #include <file> and #include "file"?', options: ['No difference', '<> searches system directories; "" searches current directory first', '"" is for C++', '<> only for user files'], answer: 1, explanation: '<file> searches compiler\'s include path (system headers). "file" searches current directory first, then system path.' },
+    { q: 'What is a function pointer?', options: ['Pointer to function return value', 'Pointer holding address of a function', 'Recursive function', 'Inline function'], answer: 1, explanation: 'Function pointers store the address of a function. Used for callbacks, dispatch tables, and implementing polymorphism in C.' },
+    { q: 'What does the restrict keyword indicate?', options: ['Read-only pointer', 'Pointer alias — no other pointer accesses same memory', 'Thread-local pointer', 'Const pointer'], answer: 1, explanation: 'restrict tells the compiler that the pointer is the only reference to the memory it points to, enabling optimizations.' },
+    { q: 'What is a segmentation fault?', options: ['Syntax error', 'Division by zero', 'Accessing memory your program does not own', 'Stack overflow only'], answer: 2, explanation: 'Segfault occurs when a program tries to access memory it is not allowed to access (NULL deref, buffer overflow, use-after-free, etc.).' },
+    { q: 'What does the C standard guarantee about struct padding?', options: ['No padding exists', 'Padding may be inserted for alignment but not at the beginning', 'Padding is always 4 bytes', 'Struct size equals sum of members'], answer: 1, explanation: 'The C standard allows compilers to add padding between or after members for alignment, but never before the first member.' },
+    { q: 'What is the purpose of extern in a declaration?', options: ['Define a variable', 'Declare a variable defined in another translation unit', 'Make variable global', 'Prevent modification'], answer: 1, explanation: 'extern declares that the variable is defined elsewhere (another .c file). It does not allocate storage.' },
+    { q: 'What is the time complexity of accessing an element in a C array?', options: ['O(n)', 'O(log n)', 'O(1)', 'O(n²)'], answer: 2, explanation: 'Array access is O(1) — direct memory calculation: base_address + index * sizeof(element).' },
+  ],
+};
+
+export const C_INTERVIEW_QUESTIONS = {
+  'Basic': [
+    { q: 'What is C language and who created it?', a: 'C is a general-purpose, procedural programming language created by Dennis Ritchie at Bell Labs in 1972. It was designed for system programming and is the basis for the UNIX operating system. C is statically typed, compiled, and provides direct memory access through pointers.', tip: 'Mention: Dennis Ritchie, Bell Labs, 1972, system programming, UNIX.', freq: true },
+    { q: 'What is the difference between C and C++?', a: 'C is procedural; C++ supports both procedural and object-oriented programming. C++ adds classes, objects, inheritance, polymorphism, templates, and STL. C has no function overloading, no references, no new/delete. C++ is a superset of C (with some exceptions).', tip: 'Key differences: OOP support, references vs pointers, new/delete vs malloc/free.', freq: true },
+    { q: 'What are the basic data types in C?', a: 'C basic types: int (integer), float (single-precision), double (double-precision), char (character), void (no type). Modified by: short, long, signed, unsigned. Sizes vary by platform — use sizeof() to verify.', tip: 'Know sizes: char=1, short=2, int=4, long=4/8, float=4, double=8 bytes (typical).', freq: true },
+    { q: 'What is a pointer in C?', a: 'A pointer is a variable that stores the memory address of another variable. Declared as: int *ptr = &x. Use & to get address, * to dereference. Pointers enable dynamic memory allocation, call-by-reference, and efficient array operations.', tip: 'Draw a memory diagram. Explain & and * operators clearly.', freq: true },
+    { q: 'What is the difference between local and global variables?', a: 'Local variables are declared inside a function, stored on the stack, have function scope, and are automatically destroyed when the function returns. Global variables are declared outside functions, exist for the program lifetime, and have file/program scope.', tip: 'Discuss default values: global variables are zero-initialized; local variables have garbage values.', freq: false },
+  ],
+  'Intermediate': [
+    { q: 'What is a memory leak and how to prevent it?', a: 'A memory leak occurs when dynamically allocated memory is not freed, causing the program to use increasing amounts of RAM. Prevention: always pair malloc/calloc with free(), set pointer to NULL after free, use tools like Valgrind to detect leaks.', tip: 'Show a simple malloc without free as example. Mention valgrind.', freq: true },
+    { q: 'Explain the difference between stack and heap memory.', a: 'Stack: automatically managed, LIFO, fast, limited size (~1-8MB), used for local variables and function calls. Heap: manually managed (malloc/free), large, slower, used for dynamic allocation. Stack overflow occurs with deep recursion; heap fragmentation with many alloc/free cycles.', tip: 'Draw a process memory layout: code | data | BSS | heap (grows up) | stack (grows down).', freq: true },
+    { q: 'What is the use of const keyword?', a: 'const prevents modification of a variable after initialization. const int x = 5 — x cannot be changed. const int *ptr — cannot modify value through ptr. int * const ptr — ptr itself cannot change (address). const int * const ptr — both constant.', tip: 'Know all three const-pointer combinations and what each protects.', freq: false },
+    { q: 'What is the difference between ++i and i++ (pre vs post increment)?', a: 'Pre-increment (++i): increments first, then uses the value in expression. Post-increment (i++): uses the value first, then increments. Both increment i, but the expression value differs: int x = 5; printf("%d", x++) prints 5; printf("%d", ++x) would print 7.', tip: 'Always trace with concrete numbers in the interview.', freq: true },
+    { q: 'Explain call by value vs call by reference in C.', a: 'Call by value: a copy of the argument is passed. Modifying the parameter does not affect the original. Call by reference: the address of the argument is passed (pointer). Modifying *ptr inside the function changes the original. C only has call by value — "call by reference" is simulated via pointers.', tip: 'Write a swap() function to demonstrate: needs swap(int *a, int *b) not swap(int a, int b).', freq: true },
+  ],
+  'Advanced': [
+    { q: 'What is undefined behavior in C? Give examples.', a: 'Undefined behavior (UB) means the C standard does not specify what happens — the program can crash, produce wrong output, or appear to work. Examples: dereferencing NULL/dangling pointer, integer overflow (signed), buffer overflow, reading uninitialized variables, data races.', tip: 'Mention tools: AddressSanitizer, UBSanitizer for catching UB at runtime.', freq: true },
+    { q: 'What is the volatile keyword?', a: 'volatile tells the compiler that a variable\'s value may change unexpectedly (by hardware, OS, or another thread) and should not be optimized. Used for: hardware registers, memory-mapped I/O, signal handlers, shared memory in embedded systems.', tip: 'volatile does NOT provide thread safety — use mutexes/atomics for that.', freq: false },
+    { q: 'Explain function pointers and their uses.', a: 'A function pointer stores the address of a function. Syntax: int (*fp)(int, int) = &add; Call: fp(3, 4). Uses: callbacks (like qsort comparator), implementing polymorphism in C, state machines, dispatch tables/vtables.', tip: 'Show qsort() as a practical example: qsort(arr, n, sizeof(int), compare);', freq: true },
+    { q: 'What is the difference between deep copy and shallow copy?', a: 'Shallow copy: copies the pointer value (both point to the same memory). Deep copy: allocates new memory and copies the actual data. In C structs with pointer members, struct assignment (s1=s2) creates a shallow copy. Deep copy requires manual malloc and memcpy/strcpy for each pointer member.', tip: 'Draw memory diagrams to illustrate both cases.', freq: false },
+    { q: 'What is struct padding and how to minimize it?', a: 'The compiler inserts padding bytes between struct members to align each member on its natural alignment boundary (typically its size). This wastes memory. To minimize: order members from largest to smallest. Use __attribute__((packed)) to eliminate padding (at the cost of performance).', tip: 'Example: struct with char, int, char may be 12 bytes not 6. Use offsetof() to inspect.', freq: false },
+  ],
+  'HR Questions': [
+    { q: 'Why do you want to learn C programming?', a: 'C is the foundation of system software, embedded systems, operating systems, and most modern languages. Learning C builds strong fundamentals in memory management, pointers, and algorithm implementation that transfer to any language. Understanding C makes you a better programmer at every level.', tip: 'Connect to your career goals — embedded systems, OS development, competitive programming, etc.', freq: false },
+    { q: 'How do you debug a C program?', a: 'Debugging approaches: 1) Printf debugging — add print statements to trace values. 2) GDB debugger — set breakpoints, inspect variables, step through code. 3) AddressSanitizer — detect memory errors. 4) Valgrind — detect memory leaks and invalid access. 5) Static analysis — compiler warnings (-Wall -Wextra), cppcheck.', tip: 'Show familiarity with GDB: run, break, next, step, print, backtrace commands.', freq: true },
+    { q: 'What C project have you built?', a: 'Describe a specific project: what problem it solved, data structures used, challenges faced (memory management, segfaults), what you learned. Examples: student management system, library system, simple shell, text editor, bank management system.', tip: 'Prepare a 2-minute project pitch. Have code ready to share on GitHub.', freq: true },
+  ],
+};
+
+export const C_DOWNLOADS = [
+  { title: 'C Complete Notes', icon: '📘', type: 'PDF', size: '5.1 MB', updated: 'Jun 2024', desc: 'Comprehensive notes covering all C topics from basics to advanced, with examples and diagrams.', color: '#A8B9CC' },
+  { title: 'C Cheat Sheet', icon: '⚡', type: 'PDF', size: '920 KB', updated: 'Jul 2024', desc: 'Quick reference for C syntax, operators, format specifiers, standard library functions, and common patterns.', color: '#FFD43B' },
+  { title: 'C Handbook', icon: '📗', type: 'PDF', size: '7.2 MB', updated: 'May 2024', desc: 'Complete reference: K&R style guide, standard library reference, ANSI C and C99/C11 features.', color: '#4ade80' },
+  { title: 'Practice Programs Pack', icon: '💻', type: 'ZIP', size: '2.8 MB', updated: 'Jul 2024', desc: '120+ solved C programs with explanations: algorithms, data structures, file handling, and more.', color: '#a855f7' },
+  { title: 'Mini Projects Bundle', icon: '🚀', type: 'ZIP', size: '4.3 MB', updated: 'Jun 2024', desc: '10 mini projects with full source code: student system, bank management, inventory, and more.', color: '#ec4899' },
+  { title: 'Previous Year Papers', icon: '📝', type: 'PDF', size: '2.1 MB', updated: 'Apr 2024', desc: 'Curated exam questions with detailed solutions, marking schemes, and model answers.', color: '#fb923c' },
+  { title: 'Interview Prep Notes', icon: '🎯', type: 'PDF', size: '3.4 MB', updated: 'Jul 2024', desc: 'Top 100 C interview questions with detailed answers, code examples, and tips for freshers.', color: '#60a5fa' },
+  { title: 'C PDF Guide', icon: '📕', type: 'PDF', size: '6.8 MB', updated: 'Jul 2024', desc: 'Complete visual PDF guide with diagrams, memory models, pointer illustrations, and concept maps.', color: '#f87171' },
+  { title: 'Lab Manual', icon: '🔬', type: 'PDF', size: '3.6 MB', updated: 'Jun 2024', desc: 'Complete BCA lab manual with 30+ experiments, expected output, viva questions, and assessment rubric.', color: '#34d399' },
+];
+
+export const C_PROJECTS = [
+  { title: 'Student Management System', emoji: '🎓', diff: 'Beginner', time: '6-8 hrs', tags: ['Struct', 'File I/O', 'Arrays'], desc: 'Add, display, search, update, and delete student records with file persistence.', features: ['Add/delete students', 'Search by ID or name', 'Display all records', 'File-based storage', 'Average GPA report'] },
+  { title: 'Library Management', emoji: '📚', diff: 'Beginner', time: '8-10 hrs', tags: ['Struct', 'File I/O', 'Functions'], desc: 'Manage library books: add, issue, return, search, and fine calculation.', features: ['Book inventory', 'Issue/return system', 'Fine calculation', 'Search by title/author', 'File persistence'] },
+  { title: 'Bank Management System', emoji: '🏦', diff: 'Intermediate', time: '10-15 hrs', tags: ['Struct', 'File I/O', 'Math'], desc: 'Account creation, deposit, withdrawal, balance inquiry, and transaction history.', features: ['Account creation', 'Deposit/withdrawal', 'Balance inquiry', 'Transaction history', 'Interest calculation'] },
+  { title: 'Employee Payroll System', emoji: '💼', diff: 'Intermediate', time: '8-12 hrs', tags: ['Struct', 'File I/O', 'Math'], desc: 'Manage employee records, calculate salary with deductions, and generate payslips.', features: ['Employee records', 'Salary calculation', 'Tax deduction', 'Payslip generation', 'Department reports'] },
+  { title: 'Hospital Management', emoji: '🏥', diff: 'Intermediate', time: '12-16 hrs', tags: ['Struct', 'Linked List', 'File I/O'], desc: 'Patient registration, doctor appointment, billing, and medical records management.', features: ['Patient registration', 'Doctor scheduling', 'Billing system', 'Medical history', 'Appointment tracking'] },
+  { title: 'Inventory System', emoji: '📦', diff: 'Intermediate', time: '8-12 hrs', tags: ['Struct', 'File I/O', 'Sorting'], desc: 'Track products, stock levels, purchases, sales, and generate inventory reports.', features: ['Product catalog', 'Stock tracking', 'Purchase/sale records', 'Low stock alerts', 'Inventory report'] },
+  { title: 'Text Editor (CLI)', emoji: '📝', diff: 'Advanced', time: '20-25 hrs', tags: ['File I/O', 'Pointers', 'String'], desc: 'A command-line text editor with open, edit, save, search/replace, and line navigation.', features: ['Open/save files', 'Insert/delete text', 'Find & replace', 'Line numbers', 'Undo basic ops'] },
+  { title: 'Mini Shell', emoji: '⚡', diff: 'Advanced', time: '25-30 hrs', tags: ['Process', 'System Calls', 'Pipes'], desc: 'Implement a basic shell with command parsing, piping, redirection, and built-in commands.', features: ['Command parsing', 'Process creation (fork/exec)', 'I/O redirection', 'Pipe support', 'Built-in commands'] },
+  { title: 'Address Book', emoji: '📒', diff: 'Beginner', time: '5-7 hrs', tags: ['Struct', 'File I/O', 'Search'], desc: 'Store and manage contacts with name, phone, email, and address with search functionality.', features: ['Add/delete contacts', 'Search by name', 'Edit contact', 'File persistence', 'List all contacts'] },
+];
+
+export const C_PRACTICE_PROBLEMS = [
+  { id: 1, title: 'Reverse Array', difficulty: 'Easy', tags: ['Array', 'Two Pointer'], desc: 'Write a function to reverse an array in-place without using an extra array.', examples: [{ input: 'arr = [1, 2, 3, 4, 5]', output: '[5, 4, 3, 2, 1]' }, { input: 'arr = [10, 20]', output: '[20, 10]' }], constraints: ['1 ≤ n ≤ 10⁵', '-10⁹ ≤ arr[i] ≤ 10⁹'], hint: 'Use two pointers: left starting from 0, right from n-1. Swap and move toward the middle.' },
+  { id: 2, title: 'Count Digits', difficulty: 'Easy', tags: ['Math', 'Loop'], desc: 'Count the number of digits in a given integer without converting to a string.', examples: [{ input: 'n = 12345', output: '5' }, { input: 'n = 9', output: '1' }], constraints: ['0 ≤ n ≤ 10¹⁸'], hint: 'Divide by 10 in a loop and count iterations. Handle n=0 as a special case.' },
+  { id: 3, title: 'Linked List Length', difficulty: 'Medium', tags: ['Linked List', 'Pointer'], desc: 'Find the length (number of nodes) of a singly linked list.', examples: [{ input: 'head: 1 -> 2 -> 3 -> 4 -> NULL', output: '4' }], constraints: ['0 ≤ nodes ≤ 10⁴'], hint: 'Traverse from head to NULL, counting each node.' },
+];
+
+export const C_STARTER_CODE = {
+  1: `#include <stdio.h>\n\nvoid reverseArray(int arr[], int n) {\n    // Write your solution here\n}\n\nint main() {\n    int arr[] = {1, 2, 3, 4, 5};\n    int n = 5;\n    reverseArray(arr, n);\n    for(int i = 0; i < n; i++) printf("%d ", arr[i]);\n    printf("\\n");\n    return 0;\n}`,
+  2: `#include <stdio.h>\n\nint countDigits(long long n) {\n    // Write your solution here\n    return 0;\n}\n\nint main() {\n    printf("%d\\n", countDigits(12345));\n    printf("%d\\n", countDigits(0));\n    return 0;\n}`,
+  3: `#include <stdio.h>\n#include <stdlib.h>\n\ntypedef struct Node {\n    int data;\n    struct Node *next;\n} Node;\n\nint listLength(Node *head) {\n    // Write your solution here\n    return 0;\n}\n\nint main() {\n    // Build test list: 1 -> 2 -> 3 -> 4 -> NULL\n    // Test listLength()\n    return 0;\n}`,
+};
