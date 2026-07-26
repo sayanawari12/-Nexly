@@ -135,8 +135,8 @@ const AuthNavbar = ({
           )}
         </div>
 
-        {/* Profile Dropdown */}
-        <div style={{ position: 'relative' }} ref={profileRef}>
+        {/* Profile Dropdown (Desktop & Tablet only) */}
+        <div style={{ position: 'relative' }} ref={profileRef} className="nav-profile-wrapper">
           <div 
             className="nav-profile-trigger"
             onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}

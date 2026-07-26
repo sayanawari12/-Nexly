@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   Menu, X, Code2, ArrowLeft, Search, BookOpen, 
-  LayoutDashboard, Map, Info, User, LogOut, LogIn, ChevronDown
+  LayoutDashboard, Map, Info, User, LogOut, LogIn, ChevronDown, Settings, BarChart3
 } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 import GuestNavbar from './navigation/GuestNavbar';
@@ -276,6 +276,22 @@ const Navbar = () => {
             </div>
 
             <div className="drawer-content">
+              {user && (
+                <div className="drawer-user-header">
+                  <div className="drawer-user-avatar" style={userRole === 'admin' ? { background: 'linear-gradient(135deg, #ef4444, #f87171)' } : {}}>
+                    {getInitials(profile?.displayName || user?.displayName || (userRole === 'admin' ? 'Admin' : 'Student'))}
+                  </div>
+                  <div className="drawer-user-info">
+                    <div className="drawer-user-name">
+                      {profile?.displayName || user?.displayName || (userRole === 'admin' ? 'Admin User' : 'Student')}
+                    </div>
+                    <div className="drawer-user-email">
+                      {profile?.username ? `@${profile.username}` : getUsername(user)}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="drawer-nav-list">
                 <a
                   href="/"
@@ -333,7 +349,21 @@ const Navbar = () => {
                       onClick={() => { navigate('/profile'); setMobileMenuOpen(false); }}
                     >
                       <User size={18} className="drawer-item-icon" />
-                      <span>My Profile</span>
+                      <span>Profile</span>
+                    </button>
+                    <button 
+                      className="drawer-action-btn"
+                      onClick={() => { navigate('/profile'); setMobileMenuOpen(false); }}
+                    >
+                      <Settings size={18} className="drawer-item-icon" />
+                      <span>Account Settings</span>
+                    </button>
+                    <button 
+                      className="drawer-action-btn"
+                      onClick={() => { navigate('/dashboard'); setMobileMenuOpen(false); }}
+                    >
+                      <BarChart3 size={18} className="drawer-item-icon" />
+                      <span>My Progress</span>
                     </button>
                     <button 
                       className="drawer-action-btn logout-btn"
