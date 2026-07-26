@@ -12,7 +12,6 @@ import Projects from '../components/sections/Projects';
 import Placement from '../components/sections/Placement';
 import Gallery from '../components/sections/Gallery';
 import Resources from '../components/sections/Resources';
-import Testimonials from '../components/sections/Testimonials';
 import FAQ from '../components/sections/FAQ';
 import Contact from '../components/sections/Contact';
 import Footer from '../components/sections/Footer';
@@ -75,9 +74,6 @@ const Home = () => {
       
       {/* 12. Resources Portal */}
       <Resources />
-      
-      {/* 13. Testimonials */}
-      <Testimonials />
       
       {/* 14. FAQ Accordions */}
       <FAQ />
