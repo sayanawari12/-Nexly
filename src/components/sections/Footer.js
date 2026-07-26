@@ -135,10 +135,15 @@ const Footer = () => {
           ))}
         </nav>
 
-        {/* ── 5. Gradient Divider ── */}
+        {/* ── 5. Community Message ── */}
+        <p className="footer-community-message">
+          Let's Connect and Grow Together.
+        </p>
+
+        {/* ── 6. Gradient Divider ── */}
         <div className="footer-divider-line" aria-hidden="true" />
 
-        {/* ── 6. Copyright ── */}
+        {/* ── 7. Copyright ── */}
         <p className="footer-copyright-text">
           &copy; {new Date().getFullYear()} BCA Department Website. All Rights Reserved.
         </p>
