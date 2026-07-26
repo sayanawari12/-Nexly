@@ -167,16 +167,13 @@ const Dashboard = () => {
           {/* 1. SECTION: Welcome Section */}
           <header className="greeting-section slide-up-in">
             <div className="greeting-content-box">
-              <div className="greeting-badge-row">
-                <span className="greeting-sem-badge">
-                  <Sparkles size={13} style={{ color: '#c084fc' }} /> BCA Semester 4 • Batch 2024–2027
-                </span>
-                {streakCount > 0 && (
+              {streakCount > 0 && (
+                <div className="greeting-badge-row">
                   <span className="greeting-streak-badge">
                     <Flame size={13} fill="#ef4444" color="#ef4444" /> {streakCount} Day Streak
                   </span>
-                )}
-              </div>
+                </div>
+              )}
               <h1 className="greeting-title">
                 {greeting}, {profileData?.displayName || user?.displayName || 'Student'}!
               </h1>
