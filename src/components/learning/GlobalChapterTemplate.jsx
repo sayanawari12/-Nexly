@@ -50,29 +50,101 @@ const CodeEditorBlock = ({ code = '', language = 'C', filename = 'main.c' }) => 
   const [copied, setCopied] = useState(false);
   const safeCode = code || '// No code sample available for this chapter.';
 
+  // Copy raw source code — never HTML markup
   const handleCopy = () => {
     navigator.clipboard.writeText(safeCode);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const highlight = (line) => {
-    if (!line) return '';
-    const keywords = /\b(int|float|double|char|void|return|if|else|for|while|do|switch|case|break|continue|default|struct|typedef|union|enum|const|sizeof|NULL|include|define|ifdef|ifndef|endif|printf|scanf|main|static|extern|class|public|private|protected|import|package|def|lambda|async|await|let|var|function)\b/g;
-    const strings = /(\"[^\"]*\"|\'[^\']*\')/g;
-    const comments = /(\/\/.*$|#.*$)/;
-    const numbers = /\b(\d+\.?\d*)\b/g;
-    const preproc = /^(#\w+|import .*|from .* import .*)/;
-
-    return line
+  // ── Segment-based tokenizer ───────────────────────────────────────────────
+  // Instead of chaining .replace() calls on already-HTML strings (which
+  // causes the regex to match inside injected <span class="..."> attributes),
+  // we tokenize the raw source line into segments first, then emit HTML once.
+  const escapeHtml = (str) =>
+    str
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(preproc, '<span class="gct-kw-preproc">$1</span>')
-      .replace(comments, '<span class="gct-kw-comment">$1</span>')
-      .replace(strings, '<span class="gct-kw-string">$1</span>')
-      .replace(keywords, '<span class="gct-kw-keyword">$1</span>')
-      .replace(numbers, '<span class="gct-kw-number">$1</span>');
+      .replace(/>/g, '&gt;');
+
+  const highlight = (line) => {
+    if (!line) return '';
+
+    // Token patterns — order matters: strings & comments come first so they
+    // capture their inner content before keyword/number rules can match inside them.
+    const TOKEN_PATTERNS = [
+      // Single-line comment  (// ...  or  # ...)
+      { type: 'comment',  rx: /(\/\/[^\n]*|#[^\n]*)/ },
+      // Double-quoted string
+      { type: 'string',   rx: /("[^"\\]*(?:\\.[^"\\]*)*")/ },
+      // Single-quoted string / char literal
+      { type: 'string',   rx: /('[^'\\]*(?:\\.[^'\\]*)*')/ },
+      // Preprocessor directive at start of trimmed line (handled via keyword rule below)
+      // Keywords
+      { type: 'keyword',  rx: /\b(int|float|double|char|void|return|if|else|for|while|do|switch|case|break|continue|default|struct|typedef|union|enum|const|sizeof|NULL|include|define|ifdef|ifndef|endif|printf|scanf|main|static|extern|class|public|private|protected|import|package|def|lambda|async|await|let|var|function)\b/ },
+      // Numbers
+      { type: 'number',   rx: /\b(\d+\.?\d*)\b/ },
+    ];
+
+    const TYPE_CLASS = {
+      comment: 'gct-kw-comment',
+      string:  'gct-kw-string',
+      keyword: 'gct-kw-keyword',
+      number:  'gct-kw-number',
+      preproc: 'gct-kw-preproc',
+    };
+
+    // Build a combined regex that captures all token types in order
+    const combined = new RegExp(
+      TOKEN_PATTERNS.map(p => p.rx.source).join('|'),
+      'g'
+    );
+
+    // Tokenize: alternate between plain-text segments and matched tokens
+    const parts = [];
+    let lastIndex = 0;
+    let m;
+    combined.lastIndex = 0;
+
+    while ((m = combined.exec(line)) !== null) {
+      // Plain text before this match
+      if (m.index > lastIndex) {
+        parts.push({ type: 'text', value: line.slice(lastIndex, m.index) });
+      }
+      // Determine which pattern matched
+      let matchedType = 'text';
+      for (const pat of TOKEN_PATTERNS) {
+        if (pat.rx.test(m[0])) { matchedType = pat.type; break; }
+      }
+      parts.push({ type: matchedType, value: m[0] });
+      lastIndex = m.index + m[0].length;
+
+      // If this was a comment, stop tokenizing the rest of the line
+      if (matchedType === 'comment') break;
+    }
+
+    // Remaining plain text after last match
+    if (lastIndex < line.length) {
+      parts.push({ type: 'text', value: line.slice(lastIndex) });
+    }
+
+    // Emit HTML — escape plain text, wrap tokens in <span>
+    // Check if line starts with a preprocessor directive (#include, #define, etc.)
+    const trimmed = line.trimStart();
+    const isPreprocLine = /^#\w+/.test(trimmed);
+
+    if (isPreprocLine && parts.length > 0 && parts[0].type === 'text') {
+      // Wrap the whole line as preproc
+      return `<span class="gct-kw-preproc">${escapeHtml(line)}</span>`;
+    }
+
+    return parts
+      .map(({ type, value }) =>
+        type === 'text'
+          ? escapeHtml(value)
+          : `<span class="${TYPE_CLASS[type] || ''}">${escapeHtml(value)}</span>`
+      )
+      .join('');
   };
 
   return (
@@ -555,44 +627,48 @@ export const GlobalChapterTemplate = ({
 
             </div>
 
-            {/* ── SECTION 8: STICKY BOTTOM NAVIGATION ── */}
-            <div className="gct-sticky-bottom-nav">
+            {/* ── SECTION 8: CHAPTER BOTTOM NAVIGATION ── */}
+            <div className={`gct-sticky-bottom-nav${!prevChapter ? ' gct-nav-first-chapter' : ''}`}>
+
+              {/* Previous button — hidden on first chapter */}
               {prevChapter ? (
                 <button 
                   className="gct-nav-btn prev"
                   onClick={() => onNavigateChapter && onNavigateChapter(prevChapter.slug)}
+                  aria-label={`Go to previous chapter: ${prevChapter.title}`}
                 >
-                  <ChevronLeft size={16} />
+                  <ChevronLeft size={16} className="gct-nav-icon" />
                   <div className="nav-meta">
                     <span className="nav-sub">Previous</span>
                     <span className="nav-title">{prevChapter.title}</span>
                   </div>
                 </button>
-              ) : (
-                <div className="nav-placeholder" />
-              )}
+              ) : null}
 
+              {/* Center — All Chapters */}
               <button 
                 className="gct-nav-btn home"
                 onClick={() => navigate(subjectPath)}
+                aria-label="View all chapters"
               >
                 All Chapters
               </button>
 
+              {/* Next button — hidden on last chapter */}
               {nextChapter ? (
                 <button 
                   className="gct-nav-btn next"
                   onClick={() => onNavigateChapter && onNavigateChapter(nextChapter.slug)}
+                  aria-label={`Go to next chapter: ${nextChapter.title}`}
                 >
                   <div className="nav-meta text-right">
                     <span className="nav-sub">Next</span>
                     <span className="nav-title">{nextChapter.title}</span>
                   </div>
-                  <ChevronRight size={16} />
+                  <ChevronRight size={16} className="gct-nav-icon" />
                 </button>
-              ) : (
-                <div className="nav-placeholder" />
-              )}
+              ) : null}
+
             </div>
 
           </div>
