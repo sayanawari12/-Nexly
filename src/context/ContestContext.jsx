@@ -236,7 +236,7 @@ export const ContestProvider = ({ children }) => {
     };
   }, [activeContest]);
 
-  const value = React.useMemo(() => ({
+  const value = {
     contests,
     activeContest,
     contestProblems,
@@ -252,17 +252,7 @@ export const ContestProvider = ({ children }) => {
     fetchSubmissionHistory,
     submitCode,
     askClarification,
-  }), [
-    contests,
-    activeContest,
-    contestProblems,
-    submissions,
-    leaderboard,
-    clarifications,
-    announcements,
-    loading,
-    registered
-  ]);
+  };
 
   return (
     <ContestContext.Provider value={value}>

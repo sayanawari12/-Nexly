@@ -19,10 +19,12 @@ export const ThemeProvider = ({ children }) => {
     }
   }, [theme]);
 
-  const value = React.useMemo(() => ({ theme, toggleTheme }), [theme]);
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   return (
-    <ThemeContext.Provider value={value}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
