@@ -826,109 +826,340 @@
   border-radius: 100px;
 }
 
-/* Placement Section */
-.placement-container {
-  display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  gap: 60px;
-  max-width: 1200px;
-  margin: 0 auto;
-  align-items: center;
+/* Career Opportunities Section */
+.career-section-wrapper {
+  position: relative;
+  width: 100%;
 }
 
-.placement-stats {
+.career-subtitle {
+  max-width: 780px;
+  margin: 0 auto 10px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.career-subtitle-secondary {
+  max-width: 720px;
+  margin: 0 auto 40px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.purple-gradient-text {
+  background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.career-main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* 1. Career Range Cards Grid */
+.career-ranges-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-.placement-stat-card {
-  padding: 24px;
-  text-align: center;
+@media (max-width: 1023px) {
+  .career-ranges-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
 }
 
-.placement-stat-number {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 2.5rem;
+@media (max-width: 600px) {
+  .career-ranges-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+.career-range-card {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.career-range-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(168, 85, 247, 0.4);
+  background: rgba(168, 85, 247, 0.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(168, 85, 247, 0.2);
+}
+
+.career-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.career-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  color: #c084fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.career-badge {
+  font-size: 0.7rem;
   font-weight: 700;
-  color: var(--accent-glow);
-  margin-bottom: 6px;
-}
-
-.placement-stat-label {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  padding: 3px 10px;
+  border-radius: 100px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.placement-companies {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+.career-range-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.career-range-lbl {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 500;
+}
+
+/* 2. Companies Section Box */
+.companies-section-box {
+  padding: 32px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.companies-box-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.companies-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.companies-disclaimer {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.5;
 }
 
 .companies-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 16px;
 }
 
+@media (max-width: 1023px) {
+  .companies-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .companies-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
 .company-logo-card {
-  height: 80px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--card-bg);
-  border: 1px solid var(--border-primary);
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
   overflow: hidden;
   position: relative;
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .company-logo-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(139, 92, 246, 0.35);
+  transform: translateY(-3px);
+  border-color: rgba(168, 85, 247, 0.35);
   background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4),
-              0 0 20px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(168, 85, 247, 0.2);
 }
 
 .company-logo-card svg {
   width: auto;
-  max-width: 85px;
+  max-width: 80px;
   height: auto;
-  max-height: 35px;
+  max-height: 32px;
   display: block;
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s ease;
 }
 
 .company-logo-card:hover svg {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
-.success-highlight {
-  padding: 24px;
-  background: rgba(139, 92, 246, 0.02);
-  border-left: 3px solid var(--primary-purple);
+/* 3. Learning Journey Pipeline */
+.learning-journey-container {
+  padding: 36px 32px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.success-quote {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  font-style: italic;
-  margin-bottom: 12px;
+.journey-header {
+  text-align: center;
+  margin-bottom: 32px;
 }
 
-.success-author {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-primary);
+.journey-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #c084fc;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.journey-main-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.journey-pipeline {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+@media (max-width: 1023px) {
+  .journey-pipeline {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.journey-step-card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.journey-step-card:hover {
+  background: rgba(168, 85, 247, 0.04);
+  border-color: rgba(168, 85, 247, 0.3);
+  transform: translateY(-3px);
+}
+
+.step-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.step-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.step-icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(168, 85, 247, 0.1);
+  color: #c084fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+}
+
+.step-desc {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.journey-arrow-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(168, 85, 247, 0.5);
+  flex-shrink: 0;
+}
+
+.desktop-arrow { display: block; }
+.mobile-arrow { display: none; }
+
+@media (max-width: 1023px) {
+  .desktop-arrow { display: none; }
+  .mobile-arrow { display: block; transform: rotate(90deg); margin: 4px 0; }
+}
+
+@media (max-width: 767px) {
+  .companies-section-box,
+  .learning-journey-container {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+
+  .career-range-card {
+    padding: 20px 16px;
+  }
+
+  .career-range-val {
+    font-size: 1.5rem;
+  }
 }
 
 /* Gallery Section */
