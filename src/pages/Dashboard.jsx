@@ -9,6 +9,7 @@ import useAuth from '../hooks/useAuth';
 import { useProgress } from '../context/ProgressContext';
 import { useLearning } from '../context/LearningContext';
 import StudentLayout from '../layouts/StudentLayout';
+import QuickActions from '../components/dashboard/QuickActions';
 import { C_LESSONS } from './CLearningHub';
 import '../styles/Dashboard.css';
 
@@ -198,6 +199,9 @@ const Dashboard = () => {
               </div>
             </div>
           </header>
+
+          {/* 1.5. BONUS SECTION: Quick Actions 1-Tap Access Grid */}
+          <QuickActions />
 
           {/* 2. SECTION: Overall Learning Progress Summary */}
           <section className="progress-summary-banner">
