@@ -11,6 +11,8 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
   box-sizing: border-box;
   width: 100%;
+  /* Prevent ANY horizontal overflow from children */
+  overflow-x: hidden;
 }
 
 .dashboard-container {
@@ -19,6 +21,8 @@
   padding: 0 24px;
   box-sizing: border-box;
   width: 100%;
+  /* Ensure no child can escape horizontally */
+  overflow-x: hidden;
 }
 
 /* 1. Welcome Greeting Section */
@@ -102,6 +106,9 @@
   -webkit-text-fill-color: transparent;
   line-height: 1.15;
   letter-spacing: -0.5px;
+  /* Prevent long names from overflowing */
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .greeting-message {
@@ -109,6 +116,8 @@
   font-size: 1.02rem;
   line-height: 1.55;
   margin: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* User Avatar Card inside Greeting Section */
@@ -316,6 +325,9 @@
   font-weight: 700;
   margin: 0 0 10px 0;
   color: #ffffff;
+  /* Prevent long lesson titles from overflowing on mobile */
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .continue-desc {
@@ -323,6 +335,8 @@
   font-size: 0.88rem;
   line-height: 1.5;
   margin-bottom: 14px;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .continue-progress-wrapper {
@@ -379,6 +393,9 @@
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
+  /* Ensure button never overflows its container */
+  max-width: 100%;
+  white-space: nowrap;
 }
 
 .continue-btn-action:hover {
@@ -734,6 +751,8 @@
   font-weight: 700;
   margin-bottom: 8px;
   color: #ffffff;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .recommend-desc {
@@ -741,6 +760,8 @@
   font-size: 0.88rem;
   line-height: 1.5;
   margin-bottom: 16px;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .recommend-footer {
@@ -813,34 +834,56 @@
   .dashboard-wrapper {
     padding-top: 80px;
     padding-bottom: 40px;
+    overflow-x: hidden;
   }
 
   .dashboard-container {
     padding: 0 16px;
+    /* Constrain absolutely to viewport */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
+  /* Greeting Section — vertical stack, no overflow */
   .greeting-section {
     flex-direction: column;
     align-items: flex-start;
-    padding: 22px 18px;
+    padding: 20px 16px;
     margin-bottom: 20px;
     border-radius: 16px;
+    /* Ensure it doesn't exceed container */
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .greeting-content-box {
+    width: 100%;
+    max-width: 100%;
   }
 
   .greeting-title {
-    font-size: 1.65rem;
+    font-size: 1.6rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 
   .greeting-message {
-    font-size: 0.92rem;
+    font-size: 0.9rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 
   .greeting-user-avatar-card {
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
     margin-top: 12px;
   }
 
+  /* Stats Banner */
   .progress-summary-banner {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -848,6 +891,8 @@
     padding: 16px;
     margin-bottom: 24px;
     border-radius: 14px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .banner-divider {
@@ -865,45 +910,105 @@
   }
 
   .banner-val {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    word-break: break-word;
   }
 
   .banner-lbl {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
+    word-break: break-word;
   }
 
+  /* Workspace becomes single column */
   .dashboard-workspace-grid {
     grid-template-columns: 1fr;
     gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .quick-access-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
+  .workspace-left,
+  .workspace-right {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
+  /* All section cards — fully contained */
   .section-card {
-    padding: 20px 16px;
+    padding: 18px 16px;
     border-radius: 14px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .section-title {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     margin-bottom: 16px;
   }
 
+  /* Continue Learning card — stack vertically */
   .continue-card-content {
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
+    width: 100%;
   }
 
+  .continue-info {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .continue-title {
+    font-size: 1.1rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .continue-tag {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .continue-desc {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* Continue button — full width, never clips */
   .continue-btn-action {
     width: 100%;
-    min-height: 48px;
+    max-width: 100%;
+    min-height: 52px;
     justify-content: center;
+    flex-shrink: unset;
+    white-space: nowrap;
+    box-sizing: border-box;
   }
 
+  /* Quick Access Hub — single column */
+  .quick-access-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .quick-access-card {
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  .qa-details h4,
+  .qa-details p {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* Recommended card footer */
   .recommend-footer {
     flex-direction: column;
     align-items: stretch;
@@ -912,8 +1017,27 @@
 
   .recommend-footer button {
     width: 100%;
-    min-height: 48px;
+    max-width: 100%;
+    min-height: 52px;
     justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* Card header — allow wrapping */
+  .card-header-flex {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Announcement items */
+  .announcement-title {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .announce-item {
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
@@ -921,18 +1045,36 @@
 @media (max-width: 360px) {
   .dashboard-container {
     padding: 0 12px;
+    overflow-x: hidden;
   }
 
   .progress-summary-banner {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .greeting-title {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
   }
 
   .greeting-section {
-    padding: 18px 14px;
+    padding: 16px 12px;
+  }
+
+  .section-card {
+    padding: 16px 12px;
+  }
+
+  .continue-btn-action {
+    padding: 12px 16px;
+    font-size: 0.88rem;
+  }
+
+  .banner-val {
+    font-size: 1rem;
+  }
+
+  .banner-lbl {
+    font-size: 0.68rem;
   }
 }
