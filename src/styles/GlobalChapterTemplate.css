@@ -778,6 +778,12 @@
   box-sizing: border-box;
 }
 
+/* When on the first chapter (no prev button): center All Chapters */
+.gct-sticky-bottom-nav.gct-nav-first-chapter {
+  justify-content: center;
+  gap: 16px;
+}
+
 .gct-nav-btn {
   display: flex;
   align-items: center;
@@ -793,11 +799,14 @@
   cursor: pointer;
   transition: all 0.2s ease;
   -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  white-space: nowrap;
 }
 
 .gct-nav-btn:hover {
-  background: #a855f7;
+  background: rgba(168, 85, 247, 0.85);
   border-color: #a855f7;
+  box-shadow: 0 4px 18px rgba(168, 85, 247, 0.4);
 }
 
 .gct-nav-btn.home {
@@ -933,5 +942,102 @@
     line-height: 1.75;
   }
 
-  .nav-title { display: none; }
+  /* ── MOBILE BOTTOM NAVIGATION ─────────────────────────────────── */
+  .gct-sticky-bottom-nav {
+    /* Switch to inline flex so buttons are compact but centered */
+    position: sticky;
+    bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 20px;          /* Pill becomes rounded rectangle on mobile */
+    margin-top: 32px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* When first chapter: only 2 buttons (All Chapters + Next), still centered */
+  .gct-sticky-bottom-nav.gct-nav-first-chapter {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .gct-nav-btn {
+    /* Equal-height, minimum 52px touch target */
+    min-height: 52px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-size: 0.82rem;
+    gap: 6px;
+    /* Allow buttons to share space equally */
+    flex: 1;
+    justify-content: center;
+    max-width: none;
+    box-sizing: border-box;
+  }
+
+  /* Prev/Next buttons: slightly transparent, not overpowering */
+  .gct-nav-btn.prev,
+  .gct-nav-btn.next {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+    flex: 0 0 auto;
+    min-width: 52px;
+    max-width: 96px;
+    padding: 10px 12px;
+  }
+
+  /* All Chapters: prominent center button */
+  .gct-nav-btn.home {
+    flex: 1;
+    background: rgba(168, 85, 247, 0.15);
+    border-color: rgba(168, 85, 247, 0.4);
+    color: #c084fc;
+    font-size: 0.85rem;
+  }
+
+  /* Hide nav title text on mobile — show only sub label + icon */
+  .nav-title {
+    display: none;
+  }
+
+  /* Stack sub-label vertically with icon */
+  .nav-meta {
+    align-items: center;
+    gap: 2px;
+  }
+
+  .nav-sub {
+    font-size: 0.6rem;
+    letter-spacing: 0.3px;
+  }
+
+  .gct-nav-icon {
+    flex-shrink: 0;
+  }
+}
+
+/* Extra small (320px – 360px) */
+@media (max-width: 360px) {
+  .gct-sticky-bottom-nav {
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  .gct-nav-btn {
+    min-height: 48px;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+
+  .gct-nav-btn.prev,
+  .gct-nav-btn.next {
+    min-width: 44px;
+    max-width: 80px;
+    padding: 8px 10px;
+  }
 }
