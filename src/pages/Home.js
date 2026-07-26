@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import HeroBackup from '../components/HeroBackup';
 import HeroWow from '../components/HeroWow';
 import About from '../components/sections/About';
-import Stats from '../components/sections/Stats';
 import WhyChoose from '../components/sections/WhyChoose';
 import Roadmap from '../components/sections/Roadmap';
 import Technologies from '../components/sections/Technologies';
@@ -47,9 +46,6 @@ const Home = () => {
       
       {/* 2. About Department */}
       <About />
-      
-      {/* 3. Stats Section */}
-      <Stats />
       
       {/* 4. Why Choose BCA */}
       <WhyChoose />
