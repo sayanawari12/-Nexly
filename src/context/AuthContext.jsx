@@ -249,17 +249,19 @@ export const AuthProvider = ({ children }) => {
     return 'student';
   };
 
-  const value = {
+  const userRole = getRole(user, profile);
+
+  const value = React.useMemo(() => ({
     user,
     profile,
-    userRole: getRole(user, profile),
+    userRole,
     loading,
     login,
     signup,
     logout,
     resetPassword,
     loginGoogle,
-  };
+  }), [user, profile, userRole, loading]);
 
   return (
     <AuthContext.Provider value={value}>
