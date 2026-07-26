@@ -1919,9 +1919,9 @@
 /* 4. Social Links Container */
 .footer-social-links-wrapper {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   margin-bottom: 36px;
   flex-wrap: wrap;
 }
@@ -1929,37 +1929,54 @@
 .footer-social-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  /* Equal-width: each button is at least 130px wide */
+  padding: 11px 22px;
   min-height: 48px;
-  min-width: 48px;
+  min-width: 130px;
   border-radius: 100px;
-  font-size: 0.9rem;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.88rem;
   font-weight: 600;
+  letter-spacing: 0.2px;
   text-decoration: none;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background 0.28s ease,
+              border-color 0.28s ease,
+              box-shadow 0.28s ease,
+              color 0.28s ease;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
 }
 
+/* Official brand icons are already filled — show them in white */
 .social-btn-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c084fc;
-  transition: color 0.3s ease;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.28s ease;
+}
+
+.social-btn-text {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: inherit;
 }
 
 .footer-social-btn:hover {
-  background: rgba(168, 85, 247, 0.2);
-  border-color: rgba(168, 85, 247, 0.6);
+  background: rgba(168, 85, 247, 0.18);
+  border-color: rgba(168, 85, 247, 0.55);
   color: #ffffff;
-  box-shadow: 0 0 24px rgba(168, 85, 247, 0.45);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.4),
+              inset 0 0 12px rgba(168, 85, 247, 0.06);
 }
 
 .footer-social-btn:hover .social-btn-icon {
