@@ -299,7 +299,7 @@ export const ProgressProvider = ({ children }) => {
     }
   };
 
-  const value = React.useMemo(() => ({
+  const value = {
     completedLessons,
     inProgressLessons,
     progressList,
@@ -331,32 +331,7 @@ export const ProgressProvider = ({ children }) => {
     learningInsights,
     studyHistory: progressList,
     dashboardMetrics
-  }), [
-    completedLessons,
-    inProgressLessons,
-    progressList,
-    profileData,
-    loadingProgress,
-    stats,
-    lastOpenedLesson,
-    bookmarks,
-    notes,
-    bookmarkCount,
-    latestNotes,
-    isSaving,
-    learningState,
-    semesterProgress,
-    subjectProgress,
-    overallProgress,
-    completedSubjects,
-    completedUnits,
-    remainingLessons,
-    studyAnalytics,
-    weeklyAnalytics,
-    subjectAnalytics,
-    learningInsights,
-    dashboardMetrics
-  ]);
+  };
 
   return (
     <ProgressContext.Provider value={value}>

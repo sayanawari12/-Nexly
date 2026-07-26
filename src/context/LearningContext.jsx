@@ -98,7 +98,7 @@ export const LearningProvider = ({ children }) => {
     return getPrevAndNextLesson(activeLessonId, lessons);
   }, [activeLessonId, lessons]);
 
-  const value = React.useMemo(() => ({
+  const value = {
     semesters,
     subjects,
     units,
@@ -116,21 +116,7 @@ export const LearningProvider = ({ children }) => {
     nextLesson,
     loadingLearning,
     error
-  }), [
-    semesters,
-    subjects,
-    units,
-    lessons,
-    activeSemesterId,
-    activeSubjectId,
-    activeUnitId,
-    activeLessonId,
-    activeLesson,
-    prevLesson,
-    nextLesson,
-    loadingLearning,
-    error
-  ]);
+  };
 
   return (
     <LearningContext.Provider value={value}>
