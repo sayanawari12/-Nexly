@@ -1784,255 +1784,199 @@
 }
 
 /* ============================================================
-   PREMIUM SAAS FOOTER SECTION (APPLE / VERCEL / STRIPE QUALITY)
+   PREMIUM REDESIGNED FOOTER (BLACK + PURPLE BRANDING SECTION)
    ============================================================ */
 
-.footer {
+.footer-branding-section {
   background-color: #050505;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  padding: 64px 24px 40px;
+  overflow: hidden;
 }
 
-/* Outer Section Padding */
-@media (min-width: 1024px) {
-  .footer {
-    padding: 80px 32px 40px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .footer {
-    padding: 60px 24px 36px;
-  }
-}
-
-@media (max-width: 767px) {
-  .footer {
-    padding: 48px 20px 32px;
-  }
-}
-
-.footer-content {
-  display: grid;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 50px;
-  box-sizing: border-box;
-}
-
-/* Desktop Grid (≥1024px): 4 columns (1.5fr + 3 x 1fr) */
-@media (min-width: 1024px) {
-  .footer-content {
-    grid-template-columns: 1.5fr repeat(3, 1fr);
-    gap: 48px;
-  }
-}
-
-/* Tablet Grid (768px – 1023px): 2 columns */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .footer-content {
-    grid-template-columns: 1fr 1fr;
-    gap: 36px;
-  }
-}
-
-/* Mobile Grid (<768px): Single-column stacked layout */
-@media (max-width: 767px) {
-  .footer-content {
-    grid-template-columns: 1fr;
-    gap: 36px;
-    text-align: center;
-  }
-}
-
-/* Brand Column Styling */
-.footer-brand {
+.footer-container {
+  max-width: 900px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-}
-
-@media (max-width: 767px) {
-  .footer-brand {
-    align-items: center;
-  }
-}
-
-.footer-logo-wrapper {
-  display: flex;
   align-items: center;
-  gap: 10px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Background Soft Radial Purple Glow */
+.footer-glow-effect {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(40px);
+}
+
+/* 1. Website Logo */
+.footer-logo-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 16px;
 }
 
-.footer-logo-title {
-  font-family: 'Space Grotesk', -apple-system, sans-serif;
-  font-size: 1.6rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer-dept-badge {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #c084fc;
+.footer-logo-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
   background: rgba(168, 85, 247, 0.1);
-  border: 1px solid rgba(168, 85, 247, 0.25);
-  padding: 3px 8px;
-  border-radius: 6px;
-  letter-spacing: 1px;
-}
-
-.footer-brand-desc {
-  font-family: 'Inter', sans-serif;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.92rem;
-  line-height: 1.6;
-  max-width: 320px;
-  margin: 0 0 24px 0;
-}
-
-@media (max-width: 767px) {
-  .footer-brand-desc {
-    max-width: 100%;
-  }
-}
-
-/* Social Icons Container & Touch Targets */
-.footer-socials {
-  display: flex;
-  gap: 14px;
-}
-
-@media (max-width: 767px) {
-  .footer-socials {
-    justify-content: center;
-  }
-}
-
-.footer-social-icon {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
+  border: 1px solid rgba(168, 85, 247, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #c084fc;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+}
+
+.footer-code-icon {
+  color: #c084fc;
+}
+
+.footer-brand-name {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-brand-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* 2. Tagline */
+.footer-tagline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.5px;
+  margin: 0 0 20px 0;
+  background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 3. Developer Credit */
+.footer-developer-credit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 28px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 10px 24px;
+  border-radius: 100px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.credit-label {
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.developer-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+}
+
+/* 4. Social Links Container */
+.footer-social-links-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.footer-social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 10px 20px;
+  min-height: 48px;
+  min-width: 48px;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
 
-.footer-social-icon:hover {
-  background: #a855f7;
-  color: #ffffff;
-  border-color: #a855f7;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
-  transform: translateY(-3px);
-}
-
-.footer-social-icon:active {
-  transform: scale(0.92);
-}
-
-/* Column Headings */
-.footer-col h4 {
-  font-family: 'Space Grotesk', -apple-system, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  margin: 0 0 20px 0;
-  color: #ffffff;
-}
-
-/* Footer Links List */
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-@media (max-width: 767px) {
-  .footer-links {
-    align-items: center;
-  }
-}
-
-.footer-links li {
-  width: 100%;
-}
-
-/* 48px Minimum Touch Height on Mobile */
-.footer-links a {
+.social-btn-icon {
   display: flex;
   align-items: center;
-  min-height: 48px;
-  color: rgba(255, 255, 255, 0.65);
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: all 0.25s ease;
-  box-sizing: border-box;
-  padding: 4px 0;
-  -webkit-tap-highlight-color: transparent;
-}
-
-@media (max-width: 767px) {
-  .footer-links a {
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-  }
-}
-
-.footer-links a:hover {
+  justify-content: center;
   color: #c084fc;
-  padding-left: 6px;
+  transition: color 0.3s ease;
 }
 
-@media (max-width: 767px) {
-  .footer-links a:hover {
-    padding-left: 0;
-  }
+.footer-social-btn:hover {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: rgba(168, 85, 247, 0.6);
+  color: #ffffff;
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.45);
 }
 
-.footer-links a:active {
-  opacity: 0.7;
+.footer-social-btn:hover .social-btn-icon {
+  color: #ffffff;
 }
 
-/* Footer Bottom Bar */
-.footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding-top: 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  flex-wrap: wrap;
-  gap: 16px;
+/* 5. Divider Line */
+.footer-divider-line {
+  width: 100%;
+  max-width: 600px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+  margin-bottom: 24px;
 }
 
-@media (max-width: 767px) {
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    gap: 16px;
-  }
-}
-
-.footer-bottom p {
+/* 6. Copyright */
+.footer-copyright-text {
   font-family: 'Inter', sans-serif;
   color: rgba(255, 255, 255, 0.45);
   font-size: 0.85rem;
@@ -2040,32 +1984,50 @@
   line-height: 1.5;
 }
 
-.footer-bottom-links {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
+/* Responsive Media Queries */
 @media (max-width: 767px) {
-  .footer-bottom-links {
-    justify-content: center;
+  .footer-branding-section {
+    padding: 48px 16px 32px;
+  }
+
+  .footer-brand-name {
+    font-size: 1.3rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.98rem;
+  }
+
+  .footer-social-links-wrapper {
+    gap: 12px;
+    width: 100%;
+  }
+
+  .footer-social-btn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    min-height: 48px;
+  }
+
+  .footer-developer-credit {
+    padding: 8px 20px;
+  }
+
+  .developer-name {
+    font-size: 0.98rem;
   }
 }
 
-.footer-bottom-links a {
-  font-family: 'Inter', sans-serif;
-  color: rgba(255, 255, 255, 0.5);
-  text-decoration: none;
-  font-size: 0.85rem;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  transition: color 0.25s ease;
-  -webkit-tap-highlight-color: transparent;
-}
+@media (max-width: 360px) {
+  .footer-social-links-wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
 
-.footer-bottom-links a:hover {
-  color: #ffffff;
+  .footer-social-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* Syllabus Documentation Page Styles */
