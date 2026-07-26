@@ -1,17 +1,51 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, Building2, Users, CheckCircle2 } from 'lucide-react';
+import {
+  TrendingUp,
+  Award,
+  Sparkles,
+  Briefcase,
+  BookOpen,
+  Code2,
+  Brain,
+  UserCheck,
+  CheckCircle,
+  ChevronRight,
+  ArrowRight
+} from 'lucide-react';
 import { COMPANY_LOGOS } from './CompanyLogos';
 import '../../styles/sections.css';
 
 const Placement = () => {
-  const stats = [
-    { number: '18 LPA', label: 'Highest Package', icon: <TrendingUp size={20} /> },
-    { number: '6.5 LPA', label: 'Average Package', icon: <Building2 size={20} /> },
-    { number: '98.2%', label: 'Placement Rate', icon: <CheckCircle2 size={20} /> },
-    { number: '45+', label: 'Hiring Partners', icon: <Users size={20} /> }
+  /* ── 1. Realistic Career Ranges ── */
+  const careerRanges = [
+    {
+      range: '₹3–6 LPA',
+      label: 'Typical Entry-Level Range',
+      icon: <Briefcase size={22} />,
+      badge: 'Foundation'
+    },
+    {
+      range: '₹6–12 LPA',
+      label: 'Strong Skill Profile',
+      icon: <TrendingUp size={22} />,
+      badge: 'Intermediate'
+    },
+    {
+      range: '₹12–20+ LPA',
+      label: 'Top Product Companies',
+      icon: <Award size={22} />,
+      badge: 'Advanced'
+    },
+    {
+      range: 'Internships',
+      label: 'Paid Opportunities',
+      icon: <Sparkles size={22} />,
+      badge: 'Early Career'
+    }
   ];
 
+  /* ── 2. Company Logos Array ── */
   const companies = [
     { id: 'microsoft', name: 'Microsoft' },
     { id: 'google', name: 'Google' },
@@ -27,73 +61,148 @@ const Placement = () => {
     { id: 'intel', name: 'Intel' }
   ];
 
-  const successStory = {
-    quote: "The academic rigor, hands-on lab projects, and mock placement drills at the BCA department prepared me perfectly. I signed my software engineering offer with IBM even before writing my final semester exams!",
-    author: "Amit Roy — Systems Engineer, IBM (Batch of 2025)",
-    package: "IBM Cloud Platforms // 11 LPA Offer"
-  };
+  /* ── 3. Learning Journey Steps ── */
+  const journeySteps = [
+    {
+      num: '01',
+      title: 'Learn',
+      desc: 'Master fundamentals, C/C++, Java & Python concepts',
+      icon: <BookOpen size={20} />
+    },
+    {
+      num: '02',
+      title: 'Build Projects',
+      desc: 'Develop real-world web apps & software solutions',
+      icon: <Code2 size={20} />
+    },
+    {
+      num: '03',
+      title: 'Practice Coding',
+      desc: 'Solve DSA challenges & optimize algorithms',
+      icon: <Brain size={20} />
+    },
+    {
+      num: '04',
+      title: 'Prepare for Interviews',
+      desc: 'Practice mock technical & system design drills',
+      icon: <UserCheck size={20} />
+    },
+    {
+      num: '05',
+      title: 'Apply with Confidence',
+      desc: 'Target paid internships & software engineering roles',
+      icon: <CheckCircle size={20} />
+    }
+  ];
 
   return (
-    <section id="placements">
+    <section id="placements" className="career-section-wrapper">
+      
+      {/* ── Section Header ── */}
       <div className="section-header">
-        <span className="section-tag">Career Portal</span>
-        <h2 className="section-title">Launch Into Tier-1 Tech</h2>
-        <p className="section-subtitle">
-          We maintain direct ties with global software companies, providing a fast-track pipeline for internships and full-time engineering offers.
+        <span className="section-tag">Career Opportunities</span>
+        <h2 className="section-title">
+          Build Real Skills.<br />
+          <span className="purple-gradient-text">Unlock Career Opportunities.</span>
+        </h2>
+        <p className="section-subtitle career-subtitle">
+          Master programming, build real-world projects, strengthen your problem-solving skills, and prepare yourself for internships and entry-level software engineering opportunities.
+        </p>
+        <p className="career-subtitle-secondary">
+          Your dedication, projects, coding skills, and interview preparation can help you stand out during the hiring process.
         </p>
       </div>
 
-      <div className="placement-container">
-        {/* Placement statistics */}
+      <div className="career-main-container">
+
+        {/* ── 1. Realistic Career Range Cards ── */}
         <motion.div 
-          className="placement-stats"
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          className="career-ranges-grid"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6 }}
         >
-          {stats.map((stat, idx) => (
-            <div key={idx} className="glass-card placement-stat-card">
-              <div style={{ display: 'inline-flex', background: 'rgba(139,92,246,0.1)', padding: '10px', borderRadius: '50%', color: 'var(--accent-glow)', marginBottom: '12px' }}>
-                {stat.icon}
+          {careerRanges.map((item, idx) => (
+            <div key={idx} className="glass-card career-range-card">
+              <div className="career-card-header">
+                <div className="career-icon-box">
+                  {item.icon}
+                </div>
+                <span className="career-badge">{item.badge}</span>
               </div>
-              <div className="placement-stat-number">{stat.number}</div>
-              <div className="placement-stat-label">{stat.label}</div>
+              <div className="career-range-val">{item.range}</div>
+              <div className="career-range-lbl">{item.label}</div>
             </div>
           ))}
         </motion.div>
 
-        {/* Company logos and success story */}
+        {/* ── 2. Companies Where Skills Are Valued ── */}
         <motion.div 
-          className="placement-companies"
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          className="companies-section-box glass-card"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
         >
-          {/* Companies Grid */}
+          <div className="companies-box-header">
+            <h3 className="companies-title">Companies Where These Skills Are Valued</h3>
+            <p className="companies-disclaimer">
+              These logos represent tech companies where software engineering, data structures, and system skills are commonly valued during recruiting.
+            </p>
+          </div>
+
           <div className="companies-grid">
             {companies.map((comp) => (
               <div 
                 key={comp.id} 
-                className="glass-card company-logo-card"
+                className="company-logo-card"
                 title={comp.name}
                 dangerouslySetInnerHTML={{ __html: COMPANY_LOGOS[comp.id] }}
               />
             ))}
           </div>
+        </motion.div>
 
-          {/* Success highlight */}
-          <div className="glass-card success-highlight">
-            <p className="success-quote">"{successStory.quote}"</p>
-            <div className="success-author">{successStory.author}</div>
-            <div style={{ fontSize: '11px', color: 'var(--accent-glow)', marginTop: '4px', fontWeight: 'bold' }}>{successStory.package}</div>
+        {/* ── 3. Learning Journey Pipeline ── */}
+        <motion.div 
+          className="learning-journey-container glass-card"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <div className="journey-header">
+            <span className="journey-tag">Roadmap To Success</span>
+            <h3 className="journey-main-title">Your 5-Step Career Preparation Journey</h3>
+          </div>
+
+          <div className="journey-pipeline">
+            {journeySteps.map((step, idx) => (
+              <React.Fragment key={idx}>
+                <div className="journey-step-card">
+                  <div className="step-top-row">
+                    <span className="step-num">{step.num}</span>
+                    <div className="step-icon-circle">{step.icon}</div>
+                  </div>
+                  <h4 className="step-title">{step.title}</h4>
+                  <p className="step-desc">{step.desc}</p>
+                </div>
+
+                {idx < journeySteps.length - 1 && (
+                  <div className="journey-arrow-divider" aria-hidden="true">
+                    <ChevronRight size={22} className="desktop-arrow" />
+                    <ArrowRight size={18} className="mobile-arrow" />
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
           </div>
         </motion.div>
+
       </div>
     </section>
   );
 };
 
 export default Placement;
-
