@@ -9,7 +9,6 @@ import Technologies from '../components/sections/Technologies';
 import Labs from '../components/sections/Labs';
 import Projects from '../components/sections/Projects';
 import Placement from '../components/sections/Placement';
-import Gallery from '../components/sections/Gallery';
 import Resources from '../components/sections/Resources';
 import FAQ from '../components/sections/FAQ';
 import Contact from '../components/sections/Contact';
@@ -64,9 +63,6 @@ const Home = () => {
       
       {/* 10. Placements Launchpad */}
       <Placement />
-      
-      {/* 11. Campus Gallery */}
-      <Gallery />
       
       {/* 12. Resources Portal */}
       <Resources />
