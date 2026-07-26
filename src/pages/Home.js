@@ -6,8 +6,6 @@ import About from '../components/sections/About';
 import WhyChoose from '../components/sections/WhyChoose';
 import Roadmap from '../components/sections/Roadmap';
 import Technologies from '../components/sections/Technologies';
-import Labs from '../components/sections/Labs';
-import Projects from '../components/sections/Projects';
 import Placement from '../components/sections/Placement';
 import Resources from '../components/sections/Resources';
 import FAQ from '../components/sections/FAQ';
@@ -55,13 +53,7 @@ const Home = () => {
       {/* 6. Technologies Stack */}
       <Technologies />
       
-      {/* 7. Specialized Labs */}
-      <Labs />
-      
-      {/* 9. Student Projects */}
-      <Projects />
-      
-      {/* 10. Placements Launchpad */}
+      {/* 10. Placements Launchpad / Career Opportunities */}
       <Placement />
       
       {/* 12. Resources Portal */}
