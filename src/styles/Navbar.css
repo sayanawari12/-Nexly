@@ -284,6 +284,14 @@
   flex-direction: column;
 }
 
+.nav-notif-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
 .nav-notif-item {
   display: flex;
   align-items: flex-start;

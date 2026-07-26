@@ -89,47 +89,14 @@ const AuthNavbar = ({
             onClick={() => setNotifDropdownOpen(!notifDropdownOpen)}
             aria-label="Notifications"
           >
-            <Bell size={20} className="bell-ring-active" />
-            <span className="nav-badge">{isAdmin ? '1' : '3'}</span>
+            <Bell size={20} />
           </button>
 
           {notifDropdownOpen && (
             <div className="nav-notif-dropdown">
               <div className="nav-notif-header">Notifications</div>
               <div className="nav-notif-list">
-                {isAdmin ? (
-                  <div className="nav-notif-item">
-                    <User className="nav-notif-item-icon" size={16} style={{ color: '#ef4444' }} />
-                    <div className="nav-notif-item-text">
-                      Pending Student Registrations
-                      <span>10 mins ago</span>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="nav-notif-item">
-                      <Award className="nav-notif-item-icon" size={16} />
-                      <div className="nav-notif-item-text">
-                        🏆 New Achievement Unlocked
-                        <span>2 mins ago</span>
-                      </div>
-                    </div>
-                    <div className="nav-notif-item">
-                      <BookOpen className="nav-notif-item-icon" size={16} />
-                      <div className="nav-notif-item-text">
-                        📚 Continue C Programming
-                        <span>1 hour ago</span>
-                      </div>
-                    </div>
-                    <div className="nav-notif-item">
-                      <CheckCircle className="nav-notif-item-icon" size={16} />
-                      <div className="nav-notif-item-text">
-                        ✅ Quiz Result Available
-                        <span>5 hours ago</span>
-                      </div>
-                    </div>
-                  </>
-                )}
+                <div className="nav-notif-empty">No new notifications</div>
               </div>
             </div>
           )}

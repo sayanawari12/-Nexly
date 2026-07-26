@@ -59,23 +59,15 @@ const AdminNavbar = ({
             onClick={() => setNotifDropdownOpen(!notifDropdownOpen)}
             aria-label="Notifications"
           >
-            <Bell size={20} className="bell-ring-active" />
-            <span className="nav-badge">1</span>
+            <Bell size={20} />
           </button>
 
           {notifDropdownOpen && (
             <div className="nav-notif-dropdown">
               <div className="nav-notif-header">Notifications</div>
               <div className="nav-notif-list">
-                <div className="nav-notif-item">
-                  <Users className="nav-notif-item-icon" size={16} style={{ color: '#ef4444' }} />
-                  <div className="nav-notif-item-text">
-                    ⚠️ 5 Pending Student Registrations
-                    <span>10 mins ago</span>
-                  </div>
-                </div>
+                <div className="nav-notif-empty">No new notifications</div>
               </div>
-              <span className="nav-notif-footer">See All Notifications →</span>
             </div>
           )}
         </div>
