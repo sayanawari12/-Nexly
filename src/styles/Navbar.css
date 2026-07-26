@@ -641,6 +641,61 @@
   border-color: rgba(239, 68, 68, 0.25);
 }
 
+/* Drawer User Header (Mobile) */
+.drawer-user-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.drawer-user-avatar {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-purple), #c084fc);
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.35);
+}
+
+.drawer-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.drawer-user-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawer-user-email {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ============================================================
    RESPONSIVE MEDIA QUERIES
    ============================================================ */
@@ -664,8 +719,8 @@
   }
 }
 
-/* Mobile (<640px) */
-@media (max-width: 639px) {
+/* Mobile (320px – 767px) - Hide profile section completely in header */
+@media (max-width: 767px) {
   .navbar {
     padding: 14px 4%;
   }
@@ -684,14 +739,12 @@
     padding: 1px 5px;
   }
 
-  .nav-profile-name, .nav-chevron {
+  /* Completely hide User Profile trigger, Avatar, "Hi Sayan" & Dropdown in Mobile Header */
+  .nav-profile-wrapper,
+  .nav-profile-trigger,
+  .nav-profile-name, 
+  .nav-chevron {
     display: none !important;
-  }
-
-  .nav-profile-trigger {
-    padding: 2px;
-    background: none;
-    border: none;
   }
 
   .nav-auth-group {
@@ -703,11 +756,6 @@
     left: 10px;
     width: auto;
     max-width: calc(100vw - 20px);
-  }
-
-  .nav-profile-dropdown {
-    right: 5px;
-    width: 220px;
   }
 }
 
@@ -727,11 +775,5 @@
   .nav-icon-btn {
     width: 36px;
     height: 36px;
-  }
-
-  .nav-avatar {
-    width: 28px;
-    height: 28px;
-    font-size: 0.72rem;
   }
 }
