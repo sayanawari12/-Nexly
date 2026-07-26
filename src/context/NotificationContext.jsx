@@ -46,8 +46,15 @@ export const NotificationProvider = ({ children }) => {
     setUnreadCount(0);
   };
 
+  const value = React.useMemo(() => ({
+    notifications,
+    unreadCount,
+    triggerNotification,
+    markAllAsRead
+  }), [notifications, unreadCount]);
+
   return (
-    <NotificationContext.Provider value={{ notifications, unreadCount, triggerNotification, markAllAsRead }}>
+    <NotificationContext.Provider value={value}>
       {children}
     </NotificationContext.Provider>
   );

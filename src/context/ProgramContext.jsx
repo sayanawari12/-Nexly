@@ -147,7 +147,7 @@ export const ProgramProvider = ({ children }) => {
     }
   };
 
-  const value = {
+  const value = React.useMemo(() => ({
     programs,
     filteredPrograms,
     bookmarks: bookmarkedPrograms,
@@ -163,7 +163,19 @@ export const ProgramProvider = ({ children }) => {
     toggleCompletion,
     bookmarkedIds: bookmarkedIdsSet,
     completedIds: completedIdsSet
-  };
+  }), [
+    programs,
+    filteredPrograms,
+    bookmarkedPrograms,
+    completedPrograms,
+    searchResults,
+    currentProgram,
+    recentProgramsList,
+    loading,
+    filters,
+    bookmarkedIdsSet,
+    completedIdsSet
+  ]);
 
   return (
     <ProgramContext.Provider value={value}>

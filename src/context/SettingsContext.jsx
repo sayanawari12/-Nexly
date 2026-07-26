@@ -27,8 +27,10 @@ export const SettingsProvider = ({ children }) => {
     await updateUserProfile(user.uid, { preferences: merged });
   };
 
+  const value = React.useMemo(() => ({ settings, updateSettings }), [settings]);
+
   return (
-    <SettingsContext.Provider value={{ settings, updateSettings }}>
+    <SettingsContext.Provider value={value}>
       {children}
     </SettingsContext.Provider>
   );
