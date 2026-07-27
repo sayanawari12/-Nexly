@@ -4,7 +4,6 @@ import {
   CheckCircle, LayoutDashboard, User, Settings, 
   HelpCircle, LogOut, Users, FileCode, CheckSquare, BarChart3 
 } from 'lucide-react';
-import ProfileDropdown from './ProfileDropdown';
 
 const AdminNavbar = ({
   user,
@@ -73,39 +72,65 @@ const AdminNavbar = ({
           )}
         </div>
 
-        {/* Profile Dropdown Trigger & Floating Panel */}
-        <div style={{ position: 'relative' }} ref={profileRef} className="nav-profile-wrapper">
+        {/* Profile Dropdown */}
+        <div style={{ position: 'relative' }} ref={profileRef}>
           <div 
             className="nav-profile-trigger"
             onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-            aria-expanded={profileDropdownOpen}
-            aria-haspopup="true"
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                setProfileDropdownOpen(!profileDropdownOpen);
-              }
-            }}
           >
             <div className="nav-avatar" style={{ background: 'linear-gradient(135deg, #ef4444, #f87171)' }}>
-              {getInitials(user?.displayName)}
+              {getInitials(user.displayName)}
             </div>
-            <span className="nav-profile-name" style={{ color: '#f87171' }}>Hi, {user?.displayName ? user.displayName.split(' ')[0] : 'Admin'}</span>
+            <span className="nav-profile-name" style={{ color: '#f87171' }}>Hi, {user.displayName ? user.displayName.split(' ')[0] : 'Admin'}</span>
             <ChevronDown size={14} className="nav-chevron" />
           </div>
 
-          <ProfileDropdown
-            isOpen={profileDropdownOpen}
-            onClose={() => setProfileDropdownOpen(false)}
-            user={user}
-            logout={logout}
-            isAdmin={true}
-            getInitials={getInitials}
-            getUsername={getUsername}
-            triggerRef={profileRef}
-          />
+          {profileDropdownOpen && (
+            <div className="nav-profile-dropdown">
+              <div className="nav-profile-dropdown-header">
+                <div className="dropdown-avatar" style={{ background: 'linear-gradient(135deg, #ef4444, #f87171)' }}>
+                  {getInitials(user.displayName)}
+                </div>
+                <h4 className="dropdown-name">{user.displayName || 'Administrator'}</h4>
+                <span className="dropdown-username" style={{ color: '#f87171' }}>{getUsername(user)}</span>
+                <span className="dropdown-joined">Admin Joined July 2026</span>
+              </div>
+
+              <div className="nav-profile-dropdown-list">
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                  <LayoutDashboard size={14} /> Admin Dashboard
+                </div>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                  <Users size={14} /> Manage Students
+                </div>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                  <FileCode size={14} /> Manage Roadmaps
+                </div>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                  <BookOpen size={14} /> Manage Lessons
+                </div>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                  <Bookmark size={14} /> Manage Programs
+                </div>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                  <CheckSquare size={14} /> Manage Quizzes
+                </div>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                  <Award size={14} /> Certificates
+                </div>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                  <BarChart3 size={14} /> Analytics
+                </div>
+                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/'); setProfileDropdownOpen(false); }}>
+                  <Settings size={14} /> Settings
+                </div>
+              </div>
+
+              <div className="nav-profile-dropdown-signout" onClick={() => { logout(); setProfileDropdownOpen(false); }}>
+                <LogOut size={14} /> Sign Out
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
