@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import GlobalChapterTemplate from '../components/learning/GlobalChapterTemplate';
+import ProblemSolvingCChapterTemplate from '../components/learning/ProblemSolvingCChapterTemplate';
 import { C_CHAPTERS } from './SemesterCSubjectPage';
 import { SC_CHAPTER_CONTENT } from '../data/sc_chapter_content';
 
@@ -42,7 +42,7 @@ const SemesterCChapterPage = () => {
 
   if (!activeChapter || !content) {
     return (
-      <GlobalChapterTemplate
+      <ProblemSolvingCChapterTemplate
         isError={true}
         errorMessage={`Chapter "${chapterSlug}" could not be located in the C Programming curriculum.`}
         subjectTitle="Problem Solving Using C"
@@ -53,21 +53,17 @@ const SemesterCChapterPage = () => {
   }
 
   return (
-    <GlobalChapterTemplate
+    <ProblemSolvingCChapterTemplate
       chapterId={activeChapter.id}
       chapterTitle={activeChapter.title}
       chapterDesc={activeChapter.desc}
       difficulty={activeChapter.difficulty}
-      readTime={activeChapter.duration || '10 min read'}
-      category="Programming Fundamentals"
+      readTime={activeChapter.duration || '12 min read'}
       subjectTitle="Problem Solving Using C"
       subjectCode="BCA-101"
       subjectPath="/curriculum/semester-1/problem-solving-using-c"
       progressPercent={35}
-      language="C"
-      filename="main.c"
       theory={content.theory || ''}
-      takeaway="C is called the Mother of Programming Languages because many modern languages like C++, Java, Python, and JavaScript borrow its syntax and core memory concepts."
       code={content.code || ''}
       output={content.output || ''}
       explanation={content.explanation || []}
