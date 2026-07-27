@@ -138,6 +138,10 @@ const ProblemSolvingCChapterTemplate = ({
 
   return (
     <div className="c-chapter-page-root">
+      {/* Home-inspired ambient glow & grid pattern */}
+      <div className="c-ambient-glow" />
+      <div className="c-grid-pattern" />
+
       {/* Scroll Reading Progress Top Line */}
       <div 
         className="c-scroll-progress-line"
