@@ -4,6 +4,7 @@ import {
   CheckCircle, Flame, LayoutDashboard, User, Bookmark, 
   Download, Settings, HelpCircle, LogOut, FileCode, CheckSquare, BarChart3
 } from 'lucide-react';
+import ProfileDropdown from './ProfileDropdown';
 
 const AuthNavbar = ({
   user,
@@ -102,11 +103,21 @@ const AuthNavbar = ({
           )}
         </div>
 
-        {/* Profile Dropdown (Desktop & Tablet only) */}
+        {/* Profile Dropdown Trigger & Floating Panel */}
         <div style={{ position: 'relative' }} ref={profileRef} className="nav-profile-wrapper">
           <div 
             className="nav-profile-trigger"
             onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+            aria-expanded={profileDropdownOpen}
+            aria-haspopup="true"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setProfileDropdownOpen(!profileDropdownOpen);
+              }
+            }}
           >
             <div className="nav-avatar" style={isAdmin ? { background: 'linear-gradient(135deg, #ef4444, #f87171)' } : {}}>
               {getInitials(profile?.displayName || user?.displayName || (isAdmin ? 'Admin' : 'Student'))}
@@ -117,32 +128,17 @@ const AuthNavbar = ({
             <ChevronDown size={14} className="nav-chevron" />
           </div>
 
-          {profileDropdownOpen && (
-            <div className="nav-profile-dropdown">
-              <div className="nav-profile-dropdown-header">
-                <div className="dropdown-avatar" style={isAdmin ? { background: 'linear-gradient(135deg, #ef4444, #f87171)' } : {}}>
-                  {getInitials(profile?.displayName || user?.displayName || (isAdmin ? 'Admin' : 'Student'))}
-                </div>
-                <h4 className="dropdown-name">{profile?.displayName || user?.displayName || (isAdmin ? 'Admin User' : 'Student')}</h4>
-                <span className="dropdown-username" style={isAdmin ? { color: '#f87171' } : {}}>
-                  {profile?.username ? `@${profile.username}` : getUsername(user)}
-                </span>
-                <span className="dropdown-joined">{isAdmin ? 'Admin joined' : 'Joined'} July 2026</span>
-              </div>
-
-              <div className="nav-profile-dropdown-list">
-                {menuItems.map((item, idx) => (
-                  <div key={idx} className="nav-profile-dropdown-item" onClick={() => { navigate(item.path); setProfileDropdownOpen(false); }}>
-                    {item.icon} {item.label}
-                  </div>
-                ))}
-              </div>
-
-              <div className="nav-profile-dropdown-signout" onClick={() => { logout(); setProfileDropdownOpen(false); }}>
-                <LogOut size={14} /> Sign Out
-              </div>
-            </div>
-          )}
+          <ProfileDropdown
+            isOpen={profileDropdownOpen}
+            onClose={() => setProfileDropdownOpen(false)}
+            user={user}
+            profile={profile}
+            logout={logout}
+            isAdmin={isAdmin}
+            getInitials={getInitials}
+            getUsername={getUsername}
+            triggerRef={profileRef}
+          />
         </div>
       </div>
     </div>
