@@ -1,26 +1,57 @@
 /* ============================================================
    ProblemSolvingCChapter.css
-   Dedicated Styling for Problem Solving Using C Chapter Template
-   Black + Purple Glassmorphic Premium Vibe (Apple / Linear Inspired)
+   Dedicated Styling for "Problem Solving Using C" Chapter Template
+   Matched EXACTLY to Home Page Black + Purple Obsidian Glow Vibe
    ============================================================ */
 
 .c-chapter-page-root {
   min-height: 100vh;
-  background: #050509;
+  background-color: #030303;
   color: #f8fafc;
-  padding: 85px 24px 80px;
+  padding: 95px 24px 80px;
   position: relative;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
-/* Scroll progress indicator line at top */
+/* Home-inspired ambient purple radial glow */
+.c-ambient-glow {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85vw;
+  height: 85vw;
+  max-width: 1000px;
+  max-height: 1000px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(139, 92, 246, 0.03) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(60px);
+}
+
+/* Home-inspired grid background pattern */
+.c-grid-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Reading Progress Bar at top line of viewport */
 .c-scroll-progress-line {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #a855f7 0%, #6366f1 50%, #38bdf8 100%);
+  background: linear-gradient(90deg, #a855f7 0%, #7c3aed 50%, #38bdf8 100%);
   transform-origin: 0%;
   z-index: 9999;
   box-shadow: 0 0 12px rgba(168, 85, 247, 0.7);
@@ -32,7 +63,9 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
+  position: relative;
+  z-index: 10;
 }
 
 /* ─── TOP CONTROL BAR ─── */
@@ -49,10 +82,10 @@
   gap: 8px;
   padding: 8px 16px;
   min-height: 40px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
   font-size: 0.84rem;
   font-weight: 600;
   cursor: pointer;
@@ -61,9 +94,10 @@
 }
 
 .c-back-btn:hover {
-  background: rgba(168, 85, 247, 0.12);
+  background: rgba(168, 85, 247, 0.15);
   border-color: rgba(168, 85, 247, 0.4);
   color: #ffffff;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
   transform: translateX(-2px);
 }
 
@@ -74,12 +108,12 @@
 }
 
 .c-action-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.8);
   width: 40px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,9 +123,10 @@
 
 .c-action-btn:hover,
 .c-action-btn.active {
-  background: rgba(168, 85, 247, 0.15);
-  border-color: rgba(168, 85, 247, 0.4);
+  background: rgba(168, 85, 247, 0.18);
+  border-color: rgba(168, 85, 247, 0.45);
   color: #c084fc;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.3);
 }
 
 /* ─── BREADCRUMB ─── */
@@ -102,7 +137,7 @@
   font-size: 0.78rem;
   color: rgba(255, 255, 255, 0.45);
   flex-wrap: wrap;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .c-crumb-link {
@@ -123,15 +158,18 @@
   font-weight: 600;
 }
 
-/* ─── COMPACT HERO CARD (35% REDUCED HEIGHT) ─── */
+/* ─── COMPACT HERO CARD (MATCHED TO HOME HERO) ─── */
 .c-compact-hero-card {
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(15, 13, 30, 0.95));
-  border: 1px solid rgba(168, 85, 247, 0.22);
-  border-radius: 18px;
-  padding: 20px 24px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.1);
+  background: rgba(10, 9, 20, 0.88);
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  border-radius: 22px;
+  padding: 22px 26px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 
+    0 24px 50px -12px rgba(0, 0, 0, 0.8), 
+    0 0 35px rgba(168, 85, 247, 0.18), 
+    inset 0 1px 1px rgba(255, 255, 255, 0.12);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -149,54 +187,57 @@
 .c-badge-pill {
   font-size: 0.7rem;
   font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 20px;
+  padding: 5px 12px;
+  border-radius: 100px;
   display: inline-flex;
   align-items: center;
   gap: 5px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .c-badge-purple {
-  background: rgba(168, 85, 247, 0.18);
+  background: rgba(168, 85, 247, 0.12);
   color: #c084fc;
-  border: 1px solid rgba(168, 85, 247, 0.35);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
 }
 
 .c-badge-code {
-  background: rgba(99, 102, 241, 0.18);
+  background: rgba(99, 102, 241, 0.12);
   color: #a5b4fc;
-  border: 1px solid rgba(99, 102, 241, 0.35);
+  border: 1px solid rgba(99, 102, 241, 0.3);
 }
 
 .c-badge-diff {
-  background: rgba(34, 197, 94, 0.15);
+  background: rgba(34, 197, 94, 0.12);
   color: #4ade80;
   border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 .c-badge-time {
   background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .c-hero-title {
-  font-size: 1.65rem;
+  font-size: 1.8rem;
   font-weight: 800;
-  color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 30%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin: 0;
   letter-spacing: -0.02em;
   line-height: 1.25;
 }
 
 .c-hero-desc {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.72);
   margin: 0;
-  line-height: 1.5;
-  max-width: 900px;
+  line-height: 1.6;
+  max-width: 950px;
 }
 
 .c-hero-progress-row {
@@ -204,20 +245,20 @@
   align-items: center;
   gap: 16px;
   margin-top: 4px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .c-progress-info {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   flex-shrink: 0;
 }
 
 .c-progress-lbl {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .c-progress-val {
@@ -231,7 +272,7 @@
   background: rgba(255, 255, 255, 0.08);
   border-radius: 4px;
   overflow: hidden;
-  max-width: 300px;
+  max-width: 320px;
 }
 
 .c-progress-fill {
@@ -241,10 +282,10 @@
   transition: width 0.4s ease;
 }
 
-/* ─── SECTION GRID & CARDS ─── */
+/* ─── SECTION GRID & GLASS CARDS ─── */
 .c-section-grid {
   display: grid;
-  gap: 20px;
+  gap: 22px;
 }
 
 .c-theory-grid {
@@ -256,13 +297,13 @@
 }
 
 .c-glass-card {
-  background: rgba(12, 10, 24, 0.85);
-  border: 1px solid rgba(168, 85, 247, 0.18);
-  border-radius: 18px;
+  background: rgba(10, 9, 20, 0.82);
+  border: 1px solid rgba(168, 85, 247, 0.22);
+  border-radius: 20px;
   padding: 24px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(168, 85, 247, 0.1);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -273,37 +314,41 @@
   align-items: center;
   gap: 12px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .c-header-icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
   background: rgba(168, 85, 247, 0.15);
   color: #c084fc;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
 }
 
 .insight-icon-box {
   background: rgba(234, 179, 8, 0.15);
   color: #facc15;
-  border-color: rgba(234, 179, 8, 0.3);
+  border-color: rgba(234, 179, 8, 0.35);
+  box-shadow: 0 0 15px rgba(234, 179, 8, 0.25);
 }
 
 .breakdown-icon-box {
   background: rgba(56, 189, 248, 0.15);
   color: #38bdf8;
-  border-color: rgba(56, 189, 248, 0.3);
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
 }
 
 .summary-icon-box {
   background: rgba(34, 197, 94, 0.15);
   color: #4ade80;
-  border-color: rgba(34, 197, 94, 0.3);
+  border-color: rgba(34, 197, 94, 0.35);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
 }
 
 .c-card-title {
@@ -335,17 +380,17 @@
 }
 
 .c-theory-paragraph {
-  font-size: 0.94rem;
-  line-height: 1.7;
+  font-size: 0.95rem;
+  line-height: 1.75;
   color: rgba(255, 255, 255, 0.85);
   margin: 0;
 }
 
 .c-inline-keyword {
-  background: rgba(168, 85, 247, 0.18);
-  color: #e9d5ff;
+  background: rgba(168, 85, 247, 0.16);
+  color: #c084fc;
   border: 1px solid rgba(168, 85, 247, 0.3);
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 6px;
   font-family: 'Fira Code', 'Consolas', monospace;
   font-size: 0.85em;
@@ -359,8 +404,8 @@
   flex-direction: column;
   gap: 8px;
   color: rgba(255, 255, 255, 0.85);
-  font-size: 0.94rem;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.65;
 }
 
 /* ─── KEY INSIGHT CARD ─── */
@@ -375,9 +420,9 @@
 }
 
 .c-insight-highlight-box {
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(99, 102, 241, 0.08));
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(124, 58, 237, 0.05));
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 14px;
   padding: 14px;
 }
 
@@ -416,8 +461,8 @@
 .c-kw-tag {
   font-size: 0.74rem;
   font-family: 'Fira Code', monospace;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.25);
   color: #c084fc;
   padding: 3px 8px;
   border-radius: 6px;
@@ -441,19 +486,19 @@
   margin: 0;
 }
 
-/* ─── CODE EDITOR (VS CODE INSPIRED) ─── */
+/* ─── CODE EDITOR (VS CODE DARK INSPIRED) ─── */
 .c-code-editor-card {
-  background: #0b0a16;
-  border: 1px solid rgba(168, 85, 247, 0.25);
-  border-radius: 18px;
+  background: #080712;
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.85), 0 0 30px rgba(168, 85, 247, 0.15);
   display: flex;
   flex-direction: column;
 }
 
 .c-editor-top-bar {
-  background: rgba(18, 15, 36, 0.9);
+  background: rgba(18, 15, 36, 0.95);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 10px 16px;
   display: flex;
@@ -480,7 +525,7 @@
 .c-tab-filename {
   font-size: 0.78rem;
   font-family: 'Fira Code', monospace;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.75);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -513,7 +558,7 @@
 .c-copy-btn {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   padding: 5px 12px;
   border-radius: 8px;
   font-size: 0.76rem;
@@ -564,19 +609,19 @@
 
 /* ─── TERMINAL OUTPUT CARD ─── */
 .c-terminal-card {
-  background: #07070e;
-  border: 1px solid rgba(74, 222, 128, 0.25);
-  border-radius: 18px;
+  background: #05040a;
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.85), 0 0 30px rgba(168, 85, 247, 0.12);
   display: flex;
   flex-direction: column;
   height: fit-content;
 }
 
 .c-terminal-header {
-  background: rgba(15, 23, 18, 0.9);
-  border-bottom: 1px solid rgba(74, 222, 128, 0.15);
+  background: rgba(15, 12, 30, 0.9);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
   padding: 10px 16px;
   display: flex;
   align-items: center;
@@ -588,13 +633,14 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #4ade80;
+  color: #a78bfa;
   font-family: monospace;
 }
 
 .c-terminal-status {
-  color: rgba(255, 255, 255, 0.4);
+  color: #4ade80;
   font-size: 0.7rem;
+  font-weight: 600;
 }
 
 .c-terminal-body {
@@ -602,7 +648,7 @@
   font-family: 'Fira Code', monospace;
   font-size: 0.86rem;
   line-height: 1.6;
-  background: #05050a;
+  background: #030307;
 }
 
 .c-terminal-output-text {
@@ -628,7 +674,7 @@
 
 .c-accordion-item.open {
   border-color: rgba(168, 85, 247, 0.35);
-  background: rgba(168, 85, 247, 0.04);
+  background: rgba(168, 85, 247, 0.06);
 }
 
 .c-accordion-trigger {
@@ -646,14 +692,14 @@
 }
 
 .c-accordion-trigger:hover {
-  background: rgba(168, 85, 247, 0.08);
+  background: rgba(168, 85, 247, 0.1);
 }
 
 .item-snippet {
   font-family: 'Fira Code', monospace;
   font-size: 0.84rem;
   color: #c084fc;
-  background: rgba(168, 85, 247, 0.12);
+  background: rgba(168, 85, 247, 0.14);
   padding: 3px 8px;
   border-radius: 6px;
 }
@@ -679,15 +725,15 @@
 .c-summary-box {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 14px;
+  border-radius: 14px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
 .c-summary-box h4 {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0;
@@ -695,29 +741,30 @@
 
 .c-summary-box p {
   font-size: 0.82rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
 }
 
 .next-box {
-  border-color: rgba(168, 85, 247, 0.3);
-  background: rgba(168, 85, 247, 0.08);
+  border-color: rgba(168, 85, 247, 0.35);
+  background: rgba(168, 85, 247, 0.09);
 }
 
-/* ─── COMPACT INLINE BOTTOM NAVIGATION ─── */
+/* ─── COMPACT INLINE BOTTOM NAVIGATION (MATCHED TO BUTTON STYLES) ─── */
 .c-bottom-nav-strip {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(13, 11, 26, 0.88);
-  border: 1px solid rgba(168, 85, 247, 0.22);
-  border-radius: 16px;
-  padding: 12px 18px;
+  background: rgba(10, 9, 20, 0.88);
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  border-radius: 18px;
+  padding: 14px 20px;
   margin-top: 16px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   gap: 12px;
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7);
 }
 
 .c-nav-btn {
@@ -726,9 +773,9 @@
   gap: 10px;
   padding: 10px 18px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -740,18 +787,19 @@
   background: rgba(168, 85, 247, 0.15);
   border-color: rgba(168, 85, 247, 0.4);
   color: #ffffff;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
 }
 
 .c-nav-next {
-  background: linear-gradient(135deg, #a855f7, #6366f1);
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
   border: none;
   color: #ffffff;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.45);
 }
 
 .c-nav-next:hover {
-  box-shadow: 0 0 28px rgba(168, 85, 247, 0.5);
-  transform: translateY(-1px);
+  box-shadow: 0 0 35px rgba(168, 85, 247, 0.65);
+  transform: translateY(-2px);
 }
 
 .c-nav-btn.disabled {
@@ -793,15 +841,15 @@
 
 @media (max-width: 767px) {
   .c-chapter-page-root {
-    padding: 75px 14px 60px;
+    padding: 80px 14px 60px;
   }
 
   .c-compact-hero-card {
-    padding: 16px;
+    padding: 18px;
   }
 
   .c-hero-title {
-    font-size: 1.35rem;
+    font-size: 1.4rem;
   }
 
   .c-hero-progress-row {
