@@ -34,12 +34,6 @@ export const SubjectHeroCard = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      {/* Background Watermark Logo (Subtle 6-8% Opacity) */}
-      <div 
-        className="subject-hero-watermark"
-        dangerouslySetInnerHTML={{ __html: logoSvg }}
-        aria-hidden="true"
-      />
 
       {/* Floating App-Icon Logo Badge (Top Right) */}
       <motion.div 
