@@ -4,6 +4,7 @@ import {
   CheckCircle, Flame, LayoutDashboard, User, Bookmark, 
   Download, Settings, HelpCircle, LogOut 
 } from 'lucide-react';
+import ProfileDropdown from './ProfileDropdown';
 
 const StudentNavbar = ({
   user,
@@ -67,62 +68,39 @@ const StudentNavbar = ({
           )}
         </div>
 
-        {/* Profile Dropdown */}
-        <div style={{ position: 'relative' }} ref={profileRef}>
+        {/* Profile Dropdown Trigger & Floating Panel */}
+        <div style={{ position: 'relative' }} ref={profileRef} className="nav-profile-wrapper">
           <div 
             className="nav-profile-trigger"
             onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+            aria-expanded={profileDropdownOpen}
+            aria-haspopup="true"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setProfileDropdownOpen(!profileDropdownOpen);
+              }
+            }}
           >
             <div className="nav-avatar">
-              {getInitials(user.displayName)}
+              {getInitials(user?.displayName)}
             </div>
-            <span className="nav-profile-name">Hi, {user.displayName ? user.displayName.split(' ')[0] : 'Student'}</span>
+            <span className="nav-profile-name">Hi, {user?.displayName ? user.displayName.split(' ')[0] : 'Student'}</span>
             <ChevronDown size={14} className="nav-chevron" />
           </div>
 
-          {profileDropdownOpen && (
-            <div className="nav-profile-dropdown">
-              <div className="nav-profile-dropdown-header">
-                <div className="dropdown-avatar">
-                  {getInitials(user.displayName)}
-                </div>
-                <h4 className="dropdown-name">{user.displayName || 'Student'}</h4>
-                <span className="dropdown-username">{getUsername(user)}</span>
-                <span className="dropdown-joined">Joined July 2026</span>
-              </div>
-
-              <div className="nav-profile-dropdown-list">
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/dashboard'); setProfileDropdownOpen(false); }}>
-                  <LayoutDashboard size={14} /> Dashboard
-                </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
-                  <User size={14} /> My Profile
-                </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/technologies/c'); setProfileDropdownOpen(false); }}>
-                  <BookOpen size={14} /> Continue Learning
-                </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
-                  <Bookmark size={14} /> Bookmarks
-                </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
-                  <Award size={14} /> Certificates
-                </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
-                  <Download size={14} /> Downloads
-                </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
-                  <Settings size={14} /> Settings
-                </div>
-                <div className="nav-profile-dropdown-item" onClick={() => { navigate('/profile'); setProfileDropdownOpen(false); }}>
-                  <HelpCircle size={14} /> Help & Support
-                </div>
-              </div>
-
-              <div className="nav-profile-dropdown-signout" onClick={() => { logout(); setProfileDropdownOpen(false); }}>
-                <LogOut size={14} /> Sign Out
-              </div>
-            </div>
-          )}
+          <ProfileDropdown
+            isOpen={profileDropdownOpen}
+            onClose={() => setProfileDropdownOpen(false)}
+            user={user}
+            logout={logout}
+            isAdmin={false}
+            getInitials={getInitials}
+            getUsername={getUsername}
+            triggerRef={profileRef}
+          />
         </div>
       </div>
     </div>
