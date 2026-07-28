@@ -22,6 +22,8 @@ import ProgrammingHub from './pages/ProgrammingHub';
 import ProgramViewerPage from './pages/ProgramViewerPage';
 import SemesterCSubjectPage from './pages/SemesterCSubjectPage';
 import SemesterCChapterPage from './pages/SemesterCChapterPage';
+import GeneralEnglishSubjectPage from './pages/GeneralEnglishSubjectPage';
+import GeneralEnglishChapterPage from './pages/GeneralEnglishChapterPage';
 import { AuthProvider } from './context/AuthContext';
 import { ContestProvider } from './context/ContestContext';
 import ContestList from './pages/ContestList';
@@ -91,6 +93,21 @@ function App() {
                       <Route path="/curriculum/semester-1/problem-solving-using-c/chapter/:chapterSlug" element={
                         <ProtectedRoute>
                           <SemesterCChapterPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/curriculum/semester-1/general-english" element={
+                        <ProtectedRoute>
+                          <GeneralEnglishSubjectPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/curriculum/semester-1/general-english/chapter/:chapterSlug" element={
+                        <ProtectedRoute>
+                          <GeneralEnglishChapterPage />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/curriculum/semester-2/general-english" element={
+                        <ProtectedRoute>
+                          <GeneralEnglishSubjectPage />
                         </ProtectedRoute>
                       } />
                       <Route path="/curriculum/semester-2/:subjectId" element={
