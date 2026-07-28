@@ -1,11 +1,11 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=000000&height=180&section=header&text=bca-web&fontSize=52&fontAlignY=36&fontColor=ffffff" width="100%" alt="bca-web Header"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=9333EA,06B6D4&height=200&section=header&text=bca-web&fontSize=52&fontAlignY=36&fontColor=ffffff" width="100%" alt="bca-web Header Banner"/>
 
 <br/>
 
 <a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Inter&size=18&duration=3000&pause=1000&color=A0A0A0&center=true&vCenter=true&width=700&height=40&lines=Full-Stack+BCA+Department+Learning+Platform;React+18+%2B+Framer+Motion+%2B+React+Router+v7;TypeScript+%2B+Express+5+%2B+Prisma+ORM+%2B+PostgreSQL;Real-Time+Socket.io+%2B+Redis+Adapter+%2B+BullMQ+Queues" alt="Typing SVG Animation" />
+  <img src="https://readme-typing-svg.demolab.com?font=Inter&size=18&duration=3000&pause=1000&color=06B6D4&center=true&vCenter=true&width=700&height=40&lines=Full-Stack+BCA+Department+Learning+Platform;React+18+%2B+Framer+Motion+%2B+React+Router+v7;TypeScript+%2B+Express+5+%2B+Prisma+ORM+%2B+PostgreSQL;Real-Time+Socket.io+%2B+Redis+Adapter+%2B+BullMQ+Queues" alt="Typing SVG Animation" />
 </a>
 
 <br/>
@@ -14,15 +14,15 @@
 
 <br/>
 
-[![Version](https://img.shields.io/badge/version-1.0.0-000000?style=for-the-badge&logo=git&logoColor=white)](package.json)
-[![License](https://img.shields.io/badge/license-MIT-000000?style=for-the-badge)](LICENSE)
-[![Status](https://img.shields.io/badge/status-active_development-000000?style=for-the-badge)]()
-[![React](https://img.shields.io/badge/React-18-000000?style=for-the-badge&logo=react)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-000000?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
-[![Express](https://img.shields.io/badge/Express-5-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com)
-[![Prisma](https://img.shields.io/badge/Prisma-7-000000?style=for-the-badge&logo=prisma)](https://www.prisma.io)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-000000?style=for-the-badge&logo=postgresql)](https://www.postgresql.org)
-[![Redis](https://img.shields.io/badge/Redis-ioredis-000000?style=for-the-badge&logo=redis)](https://redis.io)
+[![Version](https://img.shields.io/badge/version-1.0.0-9333EA?style=for-the-badge&logo=git&logoColor=white)](package.json)
+[![License](https://img.shields.io/badge/license-MIT-06B6D4?style=for-the-badge)](LICENSE)
+[![Status](https://img.shields.io/badge/status-active_development-10B981?style=for-the-badge)]()
+[![React](https://img.shields.io/badge/React-18-06B6D4?style=for-the-badge&logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-9333EA?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
+[![Express](https://img.shields.io/badge/Express-5-06B6D4?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com)
+[![Prisma](https://img.shields.io/badge/Prisma-7-9333EA?style=for-the-badge&logo=prisma)](https://www.prisma.io)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-06B6D4?style=for-the-badge&logo=postgresql)](https://www.postgresql.org)
+[![Redis](https://img.shields.io/badge/Redis-ioredis-10B981?style=for-the-badge&logo=redis)](https://redis.io)
 
 <br/>
 
@@ -80,6 +80,7 @@
 ## 🏗️ Architecture
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'background': '#050816', 'primaryColor': '#111827', 'primaryTextColor': '#FFFFFF', 'primaryBorderColor': '#9333EA', 'lineColor': '#06B6D4', 'tertiaryColor': '#1F2937' }}}%%
 graph TD
     subgraph Client ["Frontend Layer (React 18 + Framer Motion)"]
         UI[React UI Components] --> Router[React Router v7]
@@ -139,7 +140,7 @@ graph TD
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/sayanawari12/bca-web.git
+git clone https://github.com/sayanawari12/bca-department-website.git
 cd bca-web
 
 # 2. Install frontend and backend dependencies
@@ -273,7 +274,7 @@ I enjoy learning by building real projects instead of only following tutorials. 
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=000000&height=100&section=footer" width="100%" alt="Footer Banner"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=9333EA,06B6D4&height=100&section=footer" width="100%" alt="Footer Banner"/>
 
 *Designed with care · Built with React, TypeScript, Express, PostgreSQL & Redis*
 
