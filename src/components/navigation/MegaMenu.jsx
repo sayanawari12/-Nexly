@@ -18,7 +18,7 @@ export const SUBJECTS_MEGA_DATA = [
       { code: 'BCA-101', name: 'Problem Solving Using C', path: '/curriculum/semester-1/problem-solving-using-c', active: true },
       { code: 'BCA-102', name: 'Computer Architecture', path: '/curriculum/semester-2/computer-architecture', active: true },
       { code: 'BCA-103', name: 'Mathematics Foundation', path: '/curriculum/semester-2/mathematics-foundation', active: true },
-      { code: 'BCA-104', name: 'General English', path: '/curriculum/semester-2/general-english', active: true },
+      { code: 'BCA-104', name: 'General English', path: '/curriculum/semester-1/general-english', active: true },
       { code: 'BCA-105', name: 'Indian Knowledge System', path: '/curriculum/semester-2/indian-knowledge-system', active: true },
       { code: 'BCA-106', name: 'Environmental Science', path: '/curriculum/semester-2/environmental-science', active: true }
     ]
