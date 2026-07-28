@@ -35,7 +35,7 @@ const GeneralEnglishSubjectPage = () => {
 
   return (
     <StudentLayout>
-      <div className="sc-page-wrapper">
+      <div className="sc-page-wrapper eng-subject-wrapper">
         
         {/* Top Control Navigation Bar */}
         <div className="sc-top-control-bar">
@@ -167,7 +167,7 @@ const GeneralEnglishSubjectPage = () => {
             <motion.div
               key={chapter.id}
               variants={itemVariants}
-              className={`sc-chapter-card ${hoveredId === chapter.id ? 'hovered' : ''}`}
+              className={`sc-chapter-card eng-chapter-card ${hoveredId === chapter.id ? 'hovered' : ''}`}
               onMouseEnter={() => setHoveredId(chapter.id)}
               onMouseLeave={() => setHoveredId(null)}
               onClick={() => handleChapterClick(chapter)}
