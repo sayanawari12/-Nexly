@@ -1,9 +1,32 @@
-/**
- * GLOBAL INTELLIGENT SEARCH ENGINE SERVICE
- * Comprehensive Indexed Search Database across Technologies, Subjects, Chapters, Programs, PDFs & Navigation
- */
+import { DS_FULL_QUESTIONS, DS_UNITS } from '../data/ds_full_curriculum';
 
 export const SEARCH_INDEX_DATABASE = [
+  // ── 📊 DATA STRUCTURES (SEMESTER 2 • BCA-202) ──
+  { id: 'subj-ds-sem2', title: 'Data Structures (BCA-202)', desc: 'Complete digital notebook reconstructed from handwritten notes covering 9 Units and 56 questions.', category: '📚 Subjects', type: 'subject', path: '/curriculum/semester-2/data-structures', keywords: ['bca-202', 'ds', 'data structures', 'semester 2', 'units', 'handwritten notes'] },
+  ...DS_UNITS.map(u => ({
+    id: `ds-unit-${u.id}`,
+    title: `${u.title} (Data Structures)`,
+    desc: u.desc,
+    category: '📖 Units',
+    type: 'chapter',
+    path: `/curriculum/semester-2/data-structures/unit-${u.id}`,
+    keywords: ['unit', `unit ${u.id}`, 'data structures', 'ds', u.title.toLowerCase()]
+  })),
+  ...DS_FULL_QUESTIONS.map(q => ({
+    id: `ds-q-${q.id}`,
+    title: `${q.questionNumber}: ${q.title}`,
+    desc: q.theory.slice(0, 150),
+    category: '📖 Data Structures Qs',
+    type: 'chapter',
+    path: `/curriculum/semester-2/data-structures/unit-${q.unitId}/question/${q.slug}`,
+    keywords: [
+      q.questionNumber.toLowerCase(),
+      `q${q.id}`,
+      `unit ${q.unitId}`,
+      ...q.title.toLowerCase().split(/\s+/),
+      ...(q.keyPoints || []).flatMap(kp => kp.toLowerCase().split(/\s+/))
+    ]
+  })),
   // ── 🏠 PLATFORM NAVIGATION ──
   { id: 'nav-home', title: 'Home Overview', desc: 'Return to BCA Department platform main landing page.', category: '🏠 Navigation', type: 'navigation', path: '/', keywords: ['home', 'landing', 'main', 'bca', 'department'] },
   { id: 'nav-dashboard', title: 'Student Dashboard', desc: 'View overall study metrics, progress trackers, and recent activity.', category: '🏠 Navigation', type: 'navigation', path: '/dashboard', keywords: ['dashboard', 'stats', 'progress', 'tracker', 'metrics', 'analytics'] },
