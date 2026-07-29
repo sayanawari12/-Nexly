@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -181,14 +181,16 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  const login = (email, password) => {
+  // Stable function references — never recreated on re-render
+  const login = useCallback((email, password) => {
     return loginWithEmail(email, password);
-  };
+  }, []);
 
-  const signup = (email, password) => {
+  const signup = useCallback((email, password) => {
     return signupWithEmail(email, password);
-  };
-  const logout = async () => {
+  }, []);
+
+  const logout = useCallback(async () => {
     try {
       const devRefreshToken = localStorage.getItem('apex_refresh_token');
       const token = localStorage.getItem('apex_token');
@@ -220,17 +222,17 @@ export const AuthProvider = ({ children }) => {
     disconnectSocket();
 
     return logoutUser();
-  };
+  }, []);
 
-  const resetPassword = (email) => {
+  const resetPassword = useCallback((email) => {
     return resetPasswordEmail(email);
-  };
+  }, []);
 
-  const loginGoogle = () => {
+  const loginGoogle = useCallback(() => {
     return loginWithGoogle();
-  };
+  }, []);
 
-  const getRole = (currentUser, currentProfile) => {
+  const getRole = useCallback((currentUser, currentProfile) => {
     if (currentProfile && currentProfile.role) {
       return currentProfile.role;
     }
@@ -247,9 +249,11 @@ export const AuthProvider = ({ children }) => {
     }
 
     return 'student';
-  };
+  }, []);
 
-  const value = {
+  // Memoize the context value — children only re-render when user, profile,
+  // or loading actually changes, not on every parent render.
+  const value = useMemo(() => ({
     user,
     profile,
     userRole: getRole(user, profile),
@@ -259,7 +263,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     resetPassword,
     loginGoogle,
-  };
+  }), [user, profile, loading, getRole, login, signup, logout, resetPassword, loginGoogle]);
 
   return (
     <AuthContext.Provider value={value}>
