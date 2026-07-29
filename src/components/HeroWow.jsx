@@ -42,7 +42,10 @@ const HeroWow = () => {
   return (
     <section className="hero-simple-section" id="hero" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
 
-      {/* Cinematic Video Background */}
+      {/* Cinematic Video Background
+          preload="none"  → browser won't download video bytes until playback starts.
+          This prevents the 12 MB video from blocking first load.
+          A CSS-animated gradient poster is shown while the video waits. */}
       <video
         className="hero-video-bg"
         src="/videos/hero-background.mp4"
@@ -50,6 +53,7 @@ const HeroWow = () => {
         muted
         loop
         playsInline
+        preload="none"
         aria-hidden="true"
       />
       <div className="hero-video-overlay" aria-hidden="true" />
@@ -127,7 +131,10 @@ const HeroWow = () => {
           )}
         </div>
 
-        {/* Right side laptop image wrapper */}
+        {/* Right side laptop image wrapper
+            fetchpriority="high"  → browser prioritises this as the LCP resource.
+            decoding="async"      → image decode off main thread.
+            width/height          → prevents cumulative layout shift (CLS). */}
         <div className="hero-image-side">
           <div 
             className="hero-image-wrapper"
@@ -136,11 +143,24 @@ const HeroWow = () => {
               transition: 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease'
             }}
           >
-            <img 
-              src={laptopMockupImg} 
-              alt="BCA Developer Laptop Mockup" 
-              className="hero-laptop-img"
-            />
+            <picture>
+              {/* WebP source — served to browsers that support it (~95% coverage).
+                  The .webp file is created by the build-time conversion step. */}
+              <source
+                srcSet={laptopMockupImg.replace(/\.jpg$/i, '.webp')}
+                type="image/webp"
+              />
+              {/* JPEG fallback for older browsers */}
+              <img 
+                src={laptopMockupImg} 
+                alt="BCA Developer Laptop Mockup" 
+                className="hero-laptop-img"
+                width="640"
+                height="427"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </picture>
             <div className="hero-image-overlay-glow" />
           </div>
         </div>

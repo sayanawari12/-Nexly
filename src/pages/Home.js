@@ -1,16 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import HeroBackup from '../components/HeroBackup';
 import HeroWow from '../components/HeroWow';
-import About from '../components/sections/About';
-import WhyChoose from '../components/sections/WhyChoose';
-import Roadmap from '../components/sections/Roadmap';
-import Technologies from '../components/sections/Technologies';
-import Placement from '../components/sections/Placement';
-import Resources from '../components/sections/Resources';
-import FAQ from '../components/sections/FAQ';
-import Contact from '../components/sections/Contact';
-import Footer from '../components/sections/Footer';
+
+// Below-the-fold sections loaded lazily as the user scrolls / after hero renders.
+// HeroBackup is kept as a synchronous import only when needed (flag is false here).
+const About       = lazy(() => import('../components/sections/About'));
+const WhyChoose   = lazy(() => import('../components/sections/WhyChoose'));
+const Roadmap     = lazy(() => import('../components/sections/Roadmap'));
+const Technologies = lazy(() => import('../components/sections/Technologies'));
+const Placement   = lazy(() => import('../components/sections/Placement'));
+const Resources   = lazy(() => import('../components/sections/Resources'));
+const FAQ         = lazy(() => import('../components/sections/FAQ'));
+const Contact     = lazy(() => import('../components/sections/Contact'));
+const Footer      = lazy(() => import('../components/sections/Footer'));
+
+// Minimal inline fallback — avoids importing PageLoader into the home chunk
+const SectionFallback = () => (
+  <div style={{ minHeight: '200px', background: 'transparent' }} aria-hidden="true" />
+);
 
 const Home = () => {
   const location = useLocation();
@@ -34,39 +41,57 @@ const Home = () => {
     }
   }, [location]);
 
-  const USE_WOW_HERO = true;
-
   return (
     <div className="home-wrapper">
-      {/* 1. Cinematic Hero Section */}
-      {USE_WOW_HERO ? <HeroWow /> : <HeroBackup />}
-      
-      {/* 2. About Department */}
-      <About />
-      
-      {/* 4. Why Choose BCA */}
-      <WhyChoose />
-      
-      {/* 5. Semester Roadmap */}
-      <Roadmap />
-      
-      {/* 6. Technologies Stack */}
-      <Technologies />
-      
-      {/* 10. Placements Launchpad / Career Opportunities */}
-      <Placement />
-      
-      {/* 12. Resources Portal */}
-      <Resources />
-      
-      {/* 14. FAQ Accordions */}
-      <FAQ />
-      
-      {/* 15. Contact Gateway */}
-      <Contact />
-      
-      {/* 16. Luxury Footer */}
-      <Footer />
+      {/* 1. Hero — eagerly rendered (LCP element) */}
+      <HeroWow />
+
+      {/* All sections below are lazy-loaded; each has its own Suspense boundary
+          so they degrade gracefully and don't block each other */}
+      <Suspense fallback={<SectionFallback />}>
+        {/* 2. About Department */}
+        <About />
+      </Suspense>
+
+      <Suspense fallback={<SectionFallback />}>
+        {/* 3. Why Choose BCA */}
+        <WhyChoose />
+      </Suspense>
+
+      <Suspense fallback={<SectionFallback />}>
+        {/* 4. Semester Roadmap */}
+        <Roadmap />
+      </Suspense>
+
+      <Suspense fallback={<SectionFallback />}>
+        {/* 5. Technologies Stack */}
+        <Technologies />
+      </Suspense>
+
+      <Suspense fallback={<SectionFallback />}>
+        {/* 6. Placements Launchpad */}
+        <Placement />
+      </Suspense>
+
+      <Suspense fallback={<SectionFallback />}>
+        {/* 7. Resources Portal */}
+        <Resources />
+      </Suspense>
+
+      <Suspense fallback={<SectionFallback />}>
+        {/* 8. FAQ Accordions */}
+        <FAQ />
+      </Suspense>
+
+      <Suspense fallback={<SectionFallback />}>
+        {/* 9. Contact Gateway */}
+        <Contact />
+      </Suspense>
+
+      <Suspense fallback={<SectionFallback />}>
+        {/* 10. Luxury Footer */}
+        <Footer />
+      </Suspense>
     </div>
   );
 };
