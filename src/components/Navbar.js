@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   Menu, X, Code2, ArrowLeft, Search, BookOpen, 
@@ -51,7 +51,7 @@ const Navbar = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -85,15 +85,16 @@ const Navbar = () => {
     };
   }, [mobileMenuOpen]);
 
-  const navItems = [
+  // Memoized static nav items array — never recreated
+  const navItems = useMemo(() => [
     { label: 'Home', href: '/', isRoute: true },
     { label: 'Dashboard', href: '/dashboard', isRoute: true },
     { label: 'Roadmap', href: '/roadmap', isRoute: true },
     { label: 'Resources', href: '#resources', isRoute: false },
     { label: 'About', href: '#about', isRoute: false }
-  ];
+  ], []);
 
-  const handleNavClick = (e, item) => {
+  const handleNavClick = useCallback((e, item) => {
     if (e && e.preventDefault) e.preventDefault();
     setMobileMenuOpen(false);
     
@@ -121,18 +122,19 @@ const Navbar = () => {
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }
-  };
+  }, [location.pathname, navigate]);
 
-  const handleLogoClick = () => {
+  const handleLogoClick = useCallback(() => {
     if (location.pathname !== '/') {
       navigate('/');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
+  }, [location.pathname, navigate]);
 
-  const commonNavbarProps = {
+  // Memoize the props object passed to sub-navbars to prevent their re-render
+  const commonNavbarProps = useMemo(() => ({
     user,
     profile,
     logout,
@@ -153,7 +155,13 @@ const Navbar = () => {
     mobileMenuOpen,
     setMobileMenuOpen,
     userRole
-  };
+  }), [
+    user, profile, logout, navigate,
+    notifDropdownOpen, profileDropdownOpen,
+    navItems, handleNavClick,
+    searchOpen, searchQuery,
+    mobileMenuOpen, userRole
+  ]);
 
   return (
     <>
@@ -398,4 +406,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default memo(Navbar);

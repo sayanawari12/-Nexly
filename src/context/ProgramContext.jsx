@@ -1,8 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import useAuth from '../hooks/useAuth';
 import { 
-  loadPrograms, 
-  filterPrograms, 
+  filterPrograms,
   toggleProgramBookmark, 
   toggleProgramCompletion 
 } from '../services/program/programService';
@@ -34,16 +33,26 @@ export const ProgramProvider = ({ children }) => {
     sortBy: 'Alphabetical'
   });
 
-  // Load programs on mount
+  // Load programs on mount using dynamic import — keeps programs_data.json (69 KB)
+  // OUT of the initial bundle and only fetches it when this provider first mounts.
   useEffect(() => {
     const fetchPrograms = async () => {
       setLoading(true);
       try {
-        const data = await loadPrograms();
+        // Dynamic import: programs_data.json is split into its own chunk
+        const { default: data } = await import('../pages/programs_data.json');
         setPrograms(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error('Failed to load programs in context:', err);
-        setPrograms([]);
+        // Fallback: try the service layer
+        try {
+          const { loadPrograms } = await import('../services/program/programService');
+          const fallback = await loadPrograms();
+          setPrograms(Array.isArray(fallback) ? fallback : []);
+        } catch (fallbackErr) {
+          console.error('Fallback program load also failed:', fallbackErr);
+          setPrograms([]);
+        }
       } finally {
         setLoading(false);
       }
@@ -106,7 +115,7 @@ export const ProgramProvider = ({ children }) => {
   }, [programs, completedIdsSet]);
 
   // Select program helper and update recent queue
-  const selectProgram = (programId) => {
+  const selectProgram = useCallback((programId) => {
     const prog = programs.find(p => p.id === programId);
     if (prog) {
       setCurrentProgram(prog);
@@ -117,7 +126,7 @@ export const ProgramProvider = ({ children }) => {
         return [programId, ...filtered].slice(0, 5);
       });
     }
-  };
+  }, [programs]);
 
   // Map recent program IDs back to full program objects
   const recentProgramsList = useMemo(() => {
@@ -126,8 +135,8 @@ export const ProgramProvider = ({ children }) => {
       .filter(Boolean);
   }, [recentProgramIds, programs]);
 
-  // Action wrappers
-  const toggleBookmark = async (programId) => {
+  // Action wrappers with stable references
+  const toggleBookmark = useCallback(async (programId) => {
     if (!user) return;
     const isCurrentlyBookmarked = bookmarkedIdsSet.has(programId);
     try {
@@ -135,9 +144,9 @@ export const ProgramProvider = ({ children }) => {
     } catch (err) {
       console.error('Failed to toggle bookmark:', err);
     }
-  };
+  }, [user, bookmarkedIdsSet]);
 
-  const toggleCompletion = async (programId) => {
+  const toggleCompletion = useCallback(async (programId) => {
     if (!user) return;
     const isCurrentlyCompleted = completedIdsSet.has(programId);
     try {
@@ -145,9 +154,9 @@ export const ProgramProvider = ({ children }) => {
     } catch (err) {
       console.error('Failed to toggle completion:', err);
     }
-  };
+  }, [user, completedIdsSet]);
 
-  const value = {
+  const value = useMemo(() => ({
     programs,
     filteredPrograms,
     bookmarks: bookmarkedPrograms,
@@ -163,7 +172,12 @@ export const ProgramProvider = ({ children }) => {
     toggleCompletion,
     bookmarkedIds: bookmarkedIdsSet,
     completedIds: completedIdsSet
-  };
+  }), [
+    programs, filteredPrograms, bookmarkedPrograms, completedPrograms,
+    searchResults, currentProgram, recentProgramsList, loading,
+    filters, selectProgram, toggleBookmark, toggleCompletion,
+    bookmarkedIdsSet, completedIdsSet
+  ]);
 
   return (
     <ProgramContext.Provider value={value}>

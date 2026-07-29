@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../config/api.config';
+import { getCached, setCached } from '../utils/apiCache';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -32,9 +33,22 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-// Response Interceptor: Manage 401 token rotations
+// Response Interceptor: Manage 401 token rotations + GET response caching
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Cache successful GET responses automatically
+    if (
+      response.config.method?.toLowerCase() === 'get' &&
+      response.config.url &&
+      response.status === 200
+    ) {
+      const cacheKey = `api:${response.config.url}${
+        response.config.params ? JSON.stringify(response.config.params) : ''
+      }`;
+      setCached(cacheKey, response.data);
+    }
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
 
@@ -98,5 +112,20 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+/**
+ * Cached GET helper — returns cached data if available, otherwise fires a real request.
+ * @param {string} url
+ * @param {object} [config] - Axios config (params, headers etc.)
+ * @param {number} [ttlMs] - Cache TTL override
+ */
+export async function cachedGet(url, config = {}, ttlMs) {
+  const cacheKey = `api:${url}${config.params ? JSON.stringify(config.params) : ''}`;
+  const cached = getCached(cacheKey);
+  if (cached !== null) return { data: cached, fromCache: true };
+
+  const response = await api.get(url, config);
+  return response;
+}
 
 export default api;
