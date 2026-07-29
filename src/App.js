@@ -44,6 +44,8 @@ const SemesterCSubjectPage     = lazy(() => import('./pages/SemesterCSubjectPage
 const SemesterCChapterPage     = lazy(() => import('./pages/SemesterCChapterPage'));
 const GeneralEnglishSubjectPage = lazy(() => import('./pages/GeneralEnglishSubjectPage'));
 const GeneralEnglishChapterPage = lazy(() => import('./pages/GeneralEnglishChapterPage'));
+const DataStructureUnit1Page   = lazy(() => import('./pages/DataStructureUnit1Page'));
+const DataStructureQuestionPage = lazy(() => import('./pages/DataStructureQuestionPage'));
 
 // Contest pages
 const ContestList              = lazy(() => import('./pages/ContestList'));
@@ -119,6 +121,17 @@ function App() {
                         } />
                         <Route path="/curriculum/semester-2/general-english" element={
                           <ProtectedRoute><GeneralEnglishSubjectPage /></ProtectedRoute>
+                        } />
+
+                        {/* ── Curriculum: Data Structures (Semester 2 Unit 1) ── */}
+                        <Route path="/curriculum/semester-2/data-structures" element={
+                          <ProtectedRoute><DataStructureUnit1Page /></ProtectedRoute>
+                        } />
+                        <Route path="/curriculum/semester-2/data-structures/unit-1" element={
+                          <ProtectedRoute><DataStructureUnit1Page /></ProtectedRoute>
+                        } />
+                        <Route path="/curriculum/semester-2/data-structures/unit-1/question/:questionSlug" element={
+                          <ProtectedRoute><DataStructureQuestionPage /></ProtectedRoute>
                         } />
 
                         {/* ── Curriculum: Semester 2 ── */}
