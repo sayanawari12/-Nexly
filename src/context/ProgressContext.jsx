@@ -299,7 +299,10 @@ export const ProgressProvider = ({ children }) => {
     }
   };
 
-  const value = {
+  // Memoize the entire context value to prevent cascading re-renders.
+  // Consumers (Dashboard, Roadmap, Analytics etc.) only re-render when
+  // one of these values actually changes.
+  const value = useMemo(() => ({
     completedLessons,
     inProgressLessons,
     progressList,
@@ -331,7 +334,17 @@ export const ProgressProvider = ({ children }) => {
     learningInsights,
     studyHistory: progressList,
     dashboardMetrics
-  };
+  }), [
+    completedLessons, inProgressLessons, progressList, profileData,
+    loadingProgress, stats, lastOpenedLesson,
+    getSubjectPercentage, markLessonInProgress, toggleLessonComplete,
+    bookmarks, notes, bookmarkCount, latestNotes,
+    isSaving, learningState, resumeLearning,
+    semesterProgress, subjectProgress, overallProgress,
+    completedSubjects, completedUnits, remainingLessons,
+    studyAnalytics, weeklyAnalytics, subjectAnalytics, learningInsights,
+    dashboardMetrics
+  ]);
 
   return (
     <ProgressContext.Provider value={value}>
