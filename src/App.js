@@ -47,6 +47,8 @@ const GeneralEnglishChapterPage = lazy(() => import('./pages/GeneralEnglishChapt
 const DataStructureUnit1Page   = lazy(() => import('./pages/DataStructureUnit1Page'));
 const DataStructureQuestionPage = lazy(() => import('./pages/DataStructureQuestionPage'));
 const DSNotesPage               = lazy(() => import('./pages/curriculum/DSNotesPage'));
+const DSQuestionsListPage       = lazy(() => import('./pages/curriculum/DSQuestionsListPage'));
+const DSQuestionViewerPage      = lazy(() => import('./pages/curriculum/DSQuestionViewerPage'));
 
 // Contest pages
 const ContestList              = lazy(() => import('./pages/ContestList'));
@@ -127,6 +129,12 @@ function App() {
                         {/* ── Curriculum: Data Structures (Semester 2) ── */}
                         <Route path="/curriculum/semester-2/data-structures/notes" element={
                           <ProtectedRoute><DSNotesPage /></ProtectedRoute>
+                        } />
+                        <Route path="/curriculum/semester-2/data-structures/questions" element={
+                          <ProtectedRoute><DSQuestionsListPage /></ProtectedRoute>
+                        } />
+                        <Route path="/curriculum/semester-2/data-structures/questions/:questionNumber" element={
+                          <ProtectedRoute><DSQuestionViewerPage /></ProtectedRoute>
                         } />
                         <Route path="/curriculum/semester-2/data-structures" element={
                           <ProtectedRoute><DataStructureUnit1Page /></ProtectedRoute>
