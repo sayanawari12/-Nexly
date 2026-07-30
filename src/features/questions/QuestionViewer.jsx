@@ -10,9 +10,10 @@ import StudentLayout from '../../layouts/StudentLayout';
 import { formatQuestionLabel } from './utils/questionsConfig';
 import './styles/QuestionsPage.css';
 
-/* Reuse worker already copied to /public */
+/* Configure PDF.js worker */
 if (!pdfjs.GlobalWorkerOptions.workerSrc) {
-  pdfjs.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
+  pdfjs.GlobalWorkerOptions.workerSrc =
+    window.location.origin + `${process.env.PUBLIC_URL || ''}/pdf.worker.min.js`;
 }
 
 const MIN_SCALE = 0.5;
