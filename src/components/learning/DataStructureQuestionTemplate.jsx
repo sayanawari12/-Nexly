@@ -6,6 +6,7 @@ import {
   Award, Sparkles, CheckCircle2, AlertTriangle, Lightbulb, 
   Layers, Bookmark, Share2, FileText, Code2, Table
 } from 'lucide-react';
+import StudentLayout from '../../layouts/StudentLayout';
 import '../../styles/SemesterCPages.css';
 import '../../styles/ProblemSolvingCChapter.css';
 
@@ -98,20 +99,23 @@ const DataStructureQuestionTemplate = ({
 
   if (isError) {
     return (
-      <div className="c-chapter-page-root">
-        <div className="c-chapter-container" style={{ textAlign: 'center', paddingTop: '100px' }}>
-          <h2>Question Not Found</h2>
-          <p style={{ color: 'rgba(255,255,255,0.7)', margin: '16px 0' }}>{errorMessage || 'The requested question could not be located.'}</p>
-          <button className="c-back-btn" onClick={() => navigate(subjectPath)} style={{ margin: '0 auto' }}>
-            <ArrowLeft size={16} /> Return to Data Structures
-          </button>
+      <StudentLayout>
+        <div className="c-chapter-page-root">
+          <div className="c-chapter-container" style={{ textAlign: 'center', paddingTop: '100px' }}>
+            <h2>Question Not Found</h2>
+            <p style={{ color: 'rgba(255,255,255,0.7)', margin: '16px 0' }}>{errorMessage || 'The requested question could not be located.'}</p>
+            <button className="c-back-btn" onClick={() => navigate(subjectPath)} style={{ margin: '0 auto' }}>
+              <ArrowLeft size={16} /> Return to Data Structures
+            </button>
+          </div>
         </div>
-      </div>
+      </StudentLayout>
     );
   }
 
   return (
-    <div className="c-chapter-page-root">
+    <StudentLayout>
+      <div className="c-chapter-page-root">
       <div className="c-ambient-glow" />
       <div className="c-grid-pattern" />
 
@@ -384,6 +388,7 @@ const DataStructureQuestionTemplate = ({
 
       </div>
     </div>
+  </StudentLayout>
   );
 };
 
