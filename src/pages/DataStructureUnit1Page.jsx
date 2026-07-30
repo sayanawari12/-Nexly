@@ -117,22 +117,40 @@ const DataStructureUnit1Page = () => {
             <ArrowRight size={16} />
           </motion.button>
 
-          {/* DS Notes Viewer CTA */}
-          <motion.button
-            onClick={() => navigate('/curriculum/semester-2/data-structures/notes')}
-            whileTap={{ scale: 0.97 }}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '8px',
-              padding: '10px 20px', borderRadius: '10px', cursor: 'pointer',
-              background: 'rgba(168, 85, 247, 0.1)',
-              border: '1px solid rgba(168, 85, 247, 0.3)',
-              color: '#c084fc', fontSize: '0.88rem', fontWeight: 600,
-              marginTop: '10px', width: 'fit-content', transition: 'all 0.2s ease',
-            }}
-          >
-            <span>📄</span>
-            <span>Open DS Notes (PDF Viewer)</span>
-          </motion.button>
+          {/* Secondary CTAs — Notes & Questions */}
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '10px' }}>
+            <motion.button
+              onClick={() => navigate('/curriculum/semester-2/data-structures/notes')}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '8px',
+                padding: '10px 18px', borderRadius: '10px', cursor: 'pointer',
+                background: 'rgba(168, 85, 247, 0.1)',
+                border: '1px solid rgba(168, 85, 247, 0.3)',
+                color: '#c084fc', fontSize: '0.88rem', fontWeight: 600,
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <span>📄</span>
+              <span>DS Notes</span>
+            </motion.button>
+
+            <motion.button
+              onClick={() => navigate('/curriculum/semester-2/data-structures/questions')}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '8px',
+                padding: '10px 18px', borderRadius: '10px', cursor: 'pointer',
+                background: 'rgba(168, 85, 247, 0.1)',
+                border: '1px solid rgba(168, 85, 247, 0.3)',
+                color: '#c084fc', fontSize: '0.88rem', fontWeight: 600,
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <span>📋</span>
+              <span>Questions (55)</span>
+            </motion.button>
+          </div>
 
           {/* Quick Stats 2x2 Grid */}
           <div className="subject-stats-2x2-grid">
