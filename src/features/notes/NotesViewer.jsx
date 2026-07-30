@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Document, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-import 'react-pdf/dist/Page/TextLayer.css';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 import StudentLayout from '../../layouts/StudentLayout';
 import NotesToolbar from './NotesToolbar';
@@ -9,8 +9,9 @@ import PageRenderer from './PageRenderer';
 import usePdfViewer from './hooks/usePdfViewer';
 import './styles/NotesViewer.css';
 
-/* ── Configure PDF.js worker (local copy in /public for reliable offline CRA builds) ── */
-pdfjs.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
+/* ── Configure PDF.js worker (supports local /public asset with CDN fallback) ── */
+pdfjs.GlobalWorkerOptions.workerSrc =
+  window.location.origin + `${process.env.PUBLIC_URL || ''}/pdf.worker.min.js`;
 
 /**
  * NotesViewer — Reusable, production-ready PDF reader component.
