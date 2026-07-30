@@ -44,7 +44,7 @@ const SemesterCSubjectPage     = lazy(() => import('./pages/SemesterCSubjectPage
 const SemesterCChapterPage     = lazy(() => import('./pages/SemesterCChapterPage'));
 const GeneralEnglishSubjectPage = lazy(() => import('./pages/GeneralEnglishSubjectPage'));
 const GeneralEnglishChapterPage = lazy(() => import('./pages/GeneralEnglishChapterPage'));
-const DataStructureSubjectPage = lazy(() => import('./pages/DataStructureSubjectPage'));
+const DataStructureUnit1Page   = lazy(() => import('./pages/DataStructureUnit1Page'));
 const DataStructureQuestionPage = lazy(() => import('./pages/DataStructureQuestionPage'));
 
 // Contest pages
@@ -123,17 +123,14 @@ function App() {
                           <ProtectedRoute><GeneralEnglishSubjectPage /></ProtectedRoute>
                         } />
 
-                        {/* ── Curriculum: Data Structures (Semester 2 • BCA-202) ── */}
+                        {/* ── Curriculum: Data Structures (Semester 2 Unit 1) ── */}
                         <Route path="/curriculum/semester-2/data-structures" element={
-                          <ProtectedRoute><DataStructureSubjectPage /></ProtectedRoute>
+                          <ProtectedRoute><DataStructureUnit1Page /></ProtectedRoute>
                         } />
-                        <Route path="/curriculum/semester-2/data-structures/unit-:unitId" element={
-                          <ProtectedRoute><DataStructureSubjectPage /></ProtectedRoute>
+                        <Route path="/curriculum/semester-2/data-structures/unit-1" element={
+                          <ProtectedRoute><DataStructureUnit1Page /></ProtectedRoute>
                         } />
-                        <Route path="/curriculum/semester-2/data-structures/unit-:unitId/question/:questionSlug" element={
-                          <ProtectedRoute><DataStructureQuestionPage /></ProtectedRoute>
-                        } />
-                        <Route path="/curriculum/semester-2/data-structures/question/:questionSlug" element={
+                        <Route path="/curriculum/semester-2/data-structures/unit-1/question/:questionSlug" element={
                           <ProtectedRoute><DataStructureQuestionPage /></ProtectedRoute>
                         } />
 
