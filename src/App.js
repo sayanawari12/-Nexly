@@ -127,14 +127,8 @@ function App() {
                         <Route path="/curriculum/semester-2/data-structures" element={
                           <ProtectedRoute><DataStructureSubjectPage /></ProtectedRoute>
                         } />
-                        <Route path="/curriculum/semester-2/data-structures/unit/:unitId" element={
-                          <ProtectedRoute><DataStructureSubjectPage /></ProtectedRoute>
-                        } />
                         <Route path="/curriculum/semester-2/data-structures/unit-:unitId" element={
                           <ProtectedRoute><DataStructureSubjectPage /></ProtectedRoute>
-                        } />
-                        <Route path="/curriculum/semester-2/data-structures/unit/:unitId/question/:questionSlug" element={
-                          <ProtectedRoute><DataStructureQuestionPage /></ProtectedRoute>
                         } />
                         <Route path="/curriculum/semester-2/data-structures/unit-:unitId/question/:questionSlug" element={
                           <ProtectedRoute><DataStructureQuestionPage /></ProtectedRoute>

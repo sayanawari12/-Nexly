@@ -3,8 +3,7 @@ import { Play, LayoutDashboard, Flame } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useProgress } from '../context/ProgressContext';
-import laptopMockupJpg from '../assets/images/laptop_mockup.jpg';
-import laptopMockupWebp from '../assets/images/laptop_mockup.webp';
+import laptopMockupImg from '../assets/images/laptop_mockup.jpg';
 import '../styles/HeroWow.css';
 
 const HeroWow = () => {
@@ -145,14 +144,15 @@ const HeroWow = () => {
             }}
           >
             <picture>
-              {/* WebP source — served to browsers that support it */}
+              {/* WebP source — served to browsers that support it (~95% coverage).
+                  The .webp file is created by the build-time conversion step. */}
               <source
-                srcSet={laptopMockupWebp}
+                srcSet={laptopMockupImg.replace(/\.jpg$/i, '.webp')}
                 type="image/webp"
               />
               {/* JPEG fallback for older browsers */}
               <img 
-                src={laptopMockupJpg} 
+                src={laptopMockupImg} 
                 alt="BCA Developer Laptop Mockup" 
                 className="hero-laptop-img"
                 width="640"
