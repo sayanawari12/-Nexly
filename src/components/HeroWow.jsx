@@ -143,24 +143,15 @@ const HeroWow = () => {
               transition: 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease'
             }}
           >
-            <picture>
-              {/* WebP source — served to browsers that support it (~95% coverage).
-                  The .webp file is created by the build-time conversion step. */}
-              <source
-                srcSet={laptopMockupImg.replace(/\.jpg$/i, '.webp')}
-                type="image/webp"
-              />
-              {/* JPEG fallback for older browsers */}
-              <img 
-                src={laptopMockupImg} 
-                alt="BCA Developer Laptop Mockup" 
-                className="hero-laptop-img"
-                width="640"
-                height="427"
-                fetchpriority="high"
-                decoding="async"
-              />
-            </picture>
+            <img 
+              src={laptopMockupImg} 
+              alt="BCA Developer Laptop Mockup" 
+              className="hero-laptop-img"
+              width="640"
+              height="427"
+              fetchpriority="high"
+              decoding="async"
+            />
             <div className="hero-image-overlay-glow" />
           </div>
         </div>
