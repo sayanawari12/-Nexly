@@ -2,9 +2,10 @@ import React, { memo } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import useLazyVisible from './hooks/useLazyVisible';
 
-/* Reuse same worker config set in NotesViewer.jsx */
+/* Configure PDF.js worker */
 if (!pdfjs.GlobalWorkerOptions.workerSrc) {
-  pdfjs.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
+  pdfjs.GlobalWorkerOptions.workerSrc =
+    window.location.origin + `${process.env.PUBLIC_URL || ''}/pdf.worker.min.js`;
 }
 
 /**
