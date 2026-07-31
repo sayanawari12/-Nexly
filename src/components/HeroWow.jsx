@@ -3,7 +3,7 @@ import { Play, LayoutDashboard, Flame } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useProgress } from '../context/ProgressContext';
-import Laptop3DCanvas from './ui/Laptop3DCanvas';
+import HeroLaptop3D from './ui/HeroLaptop3D';
 import '../styles/HeroWow.css';
 
 const HeroWow = () => {
@@ -131,18 +131,9 @@ const HeroWow = () => {
           )}
         </div>
 
-        {/* Right side 3D WebGL Laptop Canvas */}
+        {/* Right side Premium 3D Laptop Hero (R3F + Drei) */}
         <div className="hero-image-side">
-          <div 
-            className="hero-image-wrapper"
-            style={{
-              transform: `perspective(1000px) rotateX(${tilt.y * 0.5}deg) rotateY(${tilt.x * 0.5}deg)`,
-              transition: 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)'
-            }}
-          >
-            <Laptop3DCanvas />
-            <div className="hero-image-overlay-glow" />
-          </div>
+          <HeroLaptop3D />
         </div>
 
       </div>

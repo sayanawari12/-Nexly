@@ -50,11 +50,11 @@
 /* Split-screen layout */
 .hero-grid-split {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 0.9fr 1.1fr;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
   align-items: center;
-  gap: 48px;
+  gap: 32px;
   position: relative;
   z-index: 10;
 }
