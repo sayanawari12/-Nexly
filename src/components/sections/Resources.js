@@ -2,8 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FileText, Download, BookOpen, Binary, FileQuestion, Search, 
-  Video, Eye, Filter, ArrowUpRight, FolderSearch, X, Check, Tag
+  Video, Eye, Filter, ArrowUpRight, FolderSearch, X, Check, Tag, ArrowLeft
 } from 'lucide-react';
+import { SEMESTER_SUBJECTS_DATA, GENERATE_SUBJECT_PYQS } from '../../data/curriculumData';
 import '../../styles/sections.css';
 
 const ALL_RESOURCES = [
@@ -54,78 +55,6 @@ const ALL_RESOURCES = [
     size: '1.8 MB',
     downloads: 2150,
     icon: <Binary size={20} />
-  },
-  {
-    id: 5,
-    name: 'C Programming End-Sem Exam PYQs & Solutions (2020–2025)',
-    desc: 'Collection of previous 5 years end-semester examination papers for C Programming with detailed code solutions.',
-    category: 'Past Papers (PYQs)',
-    subject: 'Problem Solving Using C',
-    semester: 'Sem 1',
-    ext: 'ZIP',
-    size: '3.8 MB',
-    downloads: 2450,
-    icon: <FileQuestion size={20} />
-  },
-  {
-    id: 6,
-    name: 'Computer Architecture Mid-Sem & End-Sem PYQs',
-    desc: 'Boolean algebra, digital logic gates, CPU architecture, and assembly language solved exam questions.',
-    category: 'Past Papers (PYQs)',
-    subject: 'Computer Architecture',
-    semester: 'Sem 1',
-    ext: 'PDF',
-    size: '2.1 MB',
-    downloads: 1820,
-    icon: <FileQuestion size={20} />
-  },
-  {
-    id: 7,
-    name: 'Mathematics Foundation University PYQ Papers',
-    desc: 'Matrices, set theory, graph theory, and discrete mathematics previous year question paper archive.',
-    category: 'Past Papers (PYQs)',
-    subject: 'Mathematics Foundation',
-    semester: 'Sem 1',
-    ext: 'PDF',
-    size: '4.2 MB',
-    downloads: 1680,
-    icon: <FileQuestion size={20} />
-  },
-  {
-    id: 8,
-    name: 'Data Structures End-Sem Exam Papers (2021–2025)',
-    desc: 'Trees, graphs, stacks, queues, hashing, and sorting algorithms exam papers with solution guides.',
-    category: 'Past Papers (PYQs)',
-    subject: 'Data Structures',
-    semester: 'Sem 2',
-    ext: 'ZIP',
-    size: '4.5 MB',
-    downloads: 3120,
-    icon: <FileQuestion size={20} />
-  },
-  {
-    id: 9,
-    name: 'OOP using C++ Mid-Sem & End-Sem PYQs',
-    desc: 'Classes, objects, inheritance, polymorphism, templates, and exception handling past exam papers.',
-    category: 'Past Papers (PYQs)',
-    subject: 'OOP using C++',
-    semester: 'Sem 2',
-    ext: 'PDF',
-    size: '3.2 MB',
-    downloads: 2290,
-    icon: <FileQuestion size={20} />
-  },
-  {
-    id: 10,
-    name: 'Operating Systems University Examination Solved PYQs',
-    desc: 'Process synchronization, deadlock prevention, CPU scheduling, and virtual memory exam questions.',
-    category: 'Past Papers (PYQs)',
-    subject: 'Operating Systems',
-    semester: 'Sem 2',
-    ext: 'PDF',
-    size: '2.9 MB',
-    downloads: 1940,
-    icon: <FileQuestion size={20} />
   },
   {
     id: 11,
@@ -195,32 +124,63 @@ const Resources = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All Resources');
   const [activeSemester, setActiveSemester] = useState('Semester 1');
+  const [selectedSubject, setSelectedSubject] = useState(null);
   const [downloadNotification, setDownloadNotification] = useState(null);
 
-  // Filter resources based on category tab, secondary semester filter & search query
+  // Active semester subject list from centralized data source
+  const currentSemesterData = useMemo(() => {
+    return SEMESTER_SUBJECTS_DATA.find(s => s.semester === activeSemester) || SEMESTER_SUBJECTS_DATA[0];
+  }, [activeSemester]);
+
+  // Filtered Subjects for the active semester
+  const currentSemesterSubjects = useMemo(() => {
+    if (!currentSemesterData) return [];
+    if (!searchQuery) return currentSemesterData.subjects;
+    
+    return currentSemesterData.subjects.filter(sub => 
+      sub.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      sub.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      sub.desc.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [currentSemesterData, searchQuery]);
+
+  // Generated PYQ Papers for selected Subject (2025 onwards)
+  const currentSubjectPYQs = useMemo(() => {
+    if (!selectedSubject) return [];
+    const papers = GENERATE_SUBJECT_PYQS(selectedSubject.code, selectedSubject.name, activeSemester);
+    if (!searchQuery) return papers;
+
+    return papers.filter(p =>
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.examType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.examYear.toString().includes(searchQuery)
+    );
+  }, [selectedSubject, activeSemester, searchQuery]);
+
+  // Filter standard resources for non-PYQ categories
   const filteredResources = useMemo(() => {
     return ALL_RESOURCES.filter(item => {
       const matchesCategory = activeCategory === 'All Resources' || item.category === activeCategory;
-      
-      // Secondary Semester Filter logic specifically for Past Papers (PYQs)
-      let matchesSemester = true;
-      if (activeCategory === 'Past Papers (PYQs)') {
-        if (activeSemester === 'Semester 1') {
-          matchesSemester = item.semester === 'Sem 1' || item.semester === 'Semester 1';
-        } else if (activeSemester === 'Semester 2') {
-          matchesSemester = item.semester === 'Sem 2' || item.semester === 'Semester 2';
-        }
-      }
-
       const matchesSearch = 
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.semester.toLowerCase().includes(searchQuery.toLowerCase());
 
-      return matchesCategory && matchesSemester && matchesSearch;
+      return matchesCategory && matchesSearch;
     });
-  }, [activeCategory, activeSemester, searchQuery]);
+  }, [activeCategory, searchQuery]);
+
+  const handleCategoryChange = (cat) => {
+    setActiveCategory(cat);
+    setSelectedSubject(null);
+  };
+
+  const handleSemesterChange = (semId) => {
+    setActiveSemester(semId);
+    setSelectedSubject(null);
+  };
 
   const handleDownload = (resourceName) => {
     setDownloadNotification(resourceName);
@@ -256,7 +216,7 @@ const Resources = () => {
         </p>
       </div>
 
-      {/* Interactive Search & Filter Controls */}
+      {/* Interactive Search & Filter Controls Panel */}
       <div className="resources-control-panel">
         
         {/* Full-width Search Input */}
@@ -281,13 +241,13 @@ const Resources = () => {
           )}
         </div>
 
-        {/* Category Tabs (Horizontally scrollable on mobile) */}
+        {/* Category Tabs */}
         <div className="resources-category-tabs" role="tablist">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               className={`category-tab-btn ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => handleCategoryChange(cat)}
               role="tab"
               aria-selected={activeCategory === cat}
             >
@@ -311,7 +271,7 @@ const Resources = () => {
                   <button
                     key={sem.id}
                     className={`category-tab-btn ${activeSemester === sem.id ? 'active' : ''}`}
-                    onClick={() => setActiveSemester(sem.id)}
+                    onClick={() => handleSemesterChange(sem.id)}
                     role="tab"
                     aria-selected={activeSemester === sem.id}
                   >
@@ -325,84 +285,238 @@ const Resources = () => {
 
       </div>
 
-      {/* Resources Digital Grid */}
-      <AnimatePresence mode="wait">
-        {filteredResources.length > 0 ? (
-          <motion.div 
-            key={`${activeCategory}-${activeSemester}-${searchQuery}`}
-            className="resources-grid"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3 }}
-          >
-            {filteredResources.map((item, idx) => (
-              <motion.div
-                key={item.id}
-                className="glass-card resource-card"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: idx * 0.04 }}
-                whileHover={{ y: -5 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="resource-card-top">
-                  <div className="resource-icon-wrapper">
-                    {item.icon}
-                  </div>
-                  <div className="resource-card-badges">
-                    <span className="res-badge res-sem-badge">{item.semester}</span>
-                    <span className="res-badge res-ext-badge">{item.ext}</span>
-                  </div>
+      {/* Dynamic Content Display Area */}
+      {activeCategory === 'Past Papers (PYQs)' ? (
+        /* ── PAST PAPERS (PYQs) CATEGORY FLOW ── */
+        <AnimatePresence mode="wait">
+          {selectedSubject ? (
+            /* FLOW STEP 3: Past Papers List for Selected Subject */
+            <motion.div
+              key={`pyq-papers-${selectedSubject.code}-${activeSemester}`}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="pyq-subject-detail-header">
+                <button 
+                  className="pyq-back-btn" 
+                  onClick={() => setSelectedSubject(null)}
+                >
+                  <ArrowLeft size={16} />
+                  <span>Back to {activeSemester} Subjects</span>
+                </button>
+                <div className="pyq-selected-subject-info">
+                  <span className="res-badge res-sem-badge">{selectedSubject.code}</span>
+                  <h3>{selectedSubject.name} — Past Examination Papers</h3>
                 </div>
+              </div>
 
-                <div className="resource-card-content">
-                  <span className="resource-subject-tag">
-                    <Tag size={11} style={{ marginRight: '4px' }} /> {item.subject}
-                  </span>
-                  <h3 className="resource-title">{item.name}</h3>
-                  <p className="resource-desc">{item.desc}</p>
+              {currentSubjectPYQs.length > 0 ? (
+                <div className="resources-grid">
+                  {currentSubjectPYQs.map((paper, idx) => (
+                    <motion.div
+                      key={paper.id}
+                      className="glass-card resource-card"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: idx * 0.05 }}
+                      whileHover={{ y: -5 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className="resource-card-top">
+                        <div className="resource-icon-wrapper">
+                          <FileQuestion size={20} />
+                        </div>
+                        <div className="resource-card-badges">
+                          <span className="res-badge res-sem-badge">{paper.examYear}</span>
+                          <span className="res-badge res-ext-badge">{paper.ext}</span>
+                        </div>
+                      </div>
+
+                      <div className="resource-card-content">
+                        <span className="resource-subject-tag">
+                          <Tag size={11} style={{ marginRight: '4px' }} /> {paper.examType}
+                        </span>
+                        <h3 className="resource-title">{paper.name}</h3>
+                        <p className="resource-desc">{paper.desc}</p>
+                      </div>
+
+                      <div className="resource-card-bottom">
+                        <span className="resource-file-meta">
+                          📁 {paper.size} • ⬇️ {paper.downloads} downloads
+                        </span>
+                        <button 
+                          className="resource-action-btn"
+                          onClick={() => handleDownload(paper.name)}
+                          aria-label={`Download ${paper.name}`}
+                        >
+                          <Download size={15} />
+                          <span>Download</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
+              ) : (
+                <div className="resources-empty-state">
+                  <div className="empty-icon-box">
+                    <FolderSearch size={36} color="#c084fc" />
+                  </div>
+                  <h3>No PYQs found</h3>
+                  <p>No past papers matched your search query "{searchQuery}".</p>
+                </div>
+              )}
+            </motion.div>
+          ) : (
+            /* FLOW STEP 2: Semester Subject Cards List */
+            <motion.div
+              key={`pyq-subjects-${activeSemester}-${searchQuery}`}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+            >
+              {currentSemesterSubjects.length > 0 ? (
+                <div className="resources-grid">
+                  {currentSemesterSubjects.map((sub, idx) => (
+                    <motion.div
+                      key={sub.code}
+                      className="glass-card resource-card pyq-subject-card"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: idx * 0.04 }}
+                      whileHover={{ y: -5 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setSelectedSubject(sub)}
+                    >
+                      <div className="resource-card-top">
+                        <div className="resource-icon-wrapper">
+                          <BookOpen size={20} />
+                        </div>
+                        <div className="resource-card-badges">
+                          <span className="res-badge res-sem-badge">{sub.code}</span>
+                          <span className="res-badge res-ext-badge">4 PYQs</span>
+                        </div>
+                      </div>
 
-                <div className="resource-card-bottom">
-                  <span className="resource-file-meta">
-                    📁 {item.size} • ⬇️ {item.downloads} downloads
-                  </span>
+                      <div className="resource-card-content">
+                        <span className="resource-subject-tag">
+                          <Tag size={11} style={{ marginRight: '4px' }} /> {sub.category}
+                        </span>
+                        <h3 className="resource-title">{sub.name}</h3>
+                        <p className="resource-desc">{sub.desc}</p>
+                      </div>
+
+                      <div className="resource-card-bottom">
+                        <span className="resource-file-meta">
+                          📚 Mid & End Sem (2025–2026)
+                        </span>
+                        <button className="resource-action-btn pyq-view-btn">
+                          <span>View Papers</span>
+                          <ArrowUpRight size={15} />
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="resources-empty-state">
+                  <div className="empty-icon-box">
+                    <FolderSearch size={36} color="#c084fc" />
+                  </div>
+                  <h3>No subjects match your filter</h3>
+                  <p>We couldn't find any subject for "{searchQuery}". Try searching for another subject code or name.</p>
                   <button 
-                    className="resource-action-btn"
-                    onClick={() => handleDownload(item.name)}
-                    aria-label={`Download ${item.name}`}
+                    className="btn-reset-filters"
+                    onClick={() => setSearchQuery('')}
                   >
-                    <Download size={15} />
-                    <span>Download</span>
+                    Reset Search
                   </button>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        ) : (
-          /* Empty State */
-          <motion.div 
-            key="empty-state"
-            className="resources-empty-state"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-          >
-            <div className="empty-icon-box">
-              <FolderSearch size={36} color="#c084fc" />
-            </div>
-            <h3>No resources match your filter</h3>
-            <p>We couldn't find any study material for "{searchQuery || activeSemester || activeCategory}". Try searching for another topic or resetting filters.</p>
-            <button 
-              className="btn-reset-filters"
-              onClick={() => { setSearchQuery(''); setActiveCategory('All Resources'); setActiveSemester('Semester 1'); }}
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      ) : (
+        /* ── STANDARD OTHER CATEGORIES FLOW ── */
+        <AnimatePresence mode="wait">
+          {filteredResources.length > 0 ? (
+            <motion.div 
+              key={`std-res-${activeCategory}-${searchQuery}`}
+              className="resources-grid"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.3 }}
             >
-              Reset Filters
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              {filteredResources.map((item, idx) => (
+                <motion.div
+                  key={item.id}
+                  className="glass-card resource-card"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: idx * 0.04 }}
+                  whileHover={{ y: -5 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="resource-card-top">
+                    <div className="resource-icon-wrapper">
+                      {item.icon}
+                    </div>
+                    <div className="resource-card-badges">
+                      <span className="res-badge res-sem-badge">{item.semester}</span>
+                      <span className="res-badge res-ext-badge">{item.ext}</span>
+                    </div>
+                  </div>
+
+                  <div className="resource-card-content">
+                    <span className="resource-subject-tag">
+                      <Tag size={11} style={{ marginRight: '4px' }} /> {item.subject}
+                    </span>
+                    <h3 className="resource-title">{item.name}</h3>
+                    <p className="resource-desc">{item.desc}</p>
+                  </div>
+
+                  <div className="resource-card-bottom">
+                    <span className="resource-file-meta">
+                      📁 {item.size} • ⬇️ {item.downloads} downloads
+                    </span>
+                    <button 
+                      className="resource-action-btn"
+                      onClick={() => handleDownload(item.name)}
+                      aria-label={`Download ${item.name}`}
+                    >
+                      <Download size={15} />
+                      <span>Download</span>
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="empty-state-std"
+              className="resources-empty-state"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+            >
+              <div className="empty-icon-box">
+                <FolderSearch size={36} color="#c084fc" />
+              </div>
+              <h3>No resources match your filter</h3>
+              <p>We couldn't find any study material for "{searchQuery || activeCategory}". Try searching for another topic or resetting filters.</p>
+              <button 
+                className="btn-reset-filters"
+                onClick={() => { setSearchQuery(''); setActiveCategory('All Resources'); }}
+              >
+                Reset Filters
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
 
     </section>
   );

@@ -1507,6 +1507,67 @@
   display: none;
 }
 
+/* PYQ Subject Selection Header & Back Button */
+.pyq-subject-detail-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto 24px;
+  width: 100%;
+}
+
+.pyq-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+.pyq-back-btn:hover {
+  background: rgba(168, 85, 247, 0.15);
+  color: #ffffff;
+  border-color: #a855f7;
+}
+
+.pyq-selected-subject-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pyq-selected-subject-info h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.pyq-subject-card {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pyq-view-btn {
+  background: rgba(168, 85, 247, 0.15) !important;
+  color: #c084fc !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+}
+
+.pyq-subject-card:hover .pyq-view-btn {
+  background: #a855f7 !important;
+  color: #ffffff !important;
+}
+
 /* Resources Grid */
 .resources-grid {
   display: grid;
