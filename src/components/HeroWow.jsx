@@ -3,7 +3,7 @@ import { Play, LayoutDashboard, Flame } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useProgress } from '../context/ProgressContext';
-import HeroLaptop3D from './ui/HeroLaptop3D';
+import laptopMockupImg from '../assets/images/laptop_mockup.jpg';
 import '../styles/HeroWow.css';
 
 const HeroWow = () => {
@@ -131,9 +131,29 @@ const HeroWow = () => {
           )}
         </div>
 
-        {/* Right side Premium 3D Laptop Hero (R3F + Drei) */}
+        {/* Right side laptop image wrapper
+            fetchpriority="high"  → browser prioritises this as the LCP resource.
+            decoding="async"      → image decode off main thread.
+            width/height          → prevents cumulative layout shift (CLS). */}
         <div className="hero-image-side">
-          <HeroLaptop3D />
+          <div 
+            className="hero-image-wrapper"
+            style={{
+              transform: `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) translate3d(0, -6px, 15px)`,
+              transition: 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease'
+            }}
+          >
+            <img 
+              src={laptopMockupImg} 
+              alt="BCA Developer Laptop Mockup" 
+              className="hero-laptop-img"
+              width="640"
+              height="427"
+              fetchpriority="high"
+              decoding="async"
+            />
+            <div className="hero-image-overlay-glow" />
+          </div>
         </div>
 
       </div>
