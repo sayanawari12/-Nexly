@@ -1507,14 +1507,22 @@
   display: none;
 }
 
-/* PYQ Subject Selection Header & Back Button */
-.pyq-subject-detail-header {
+/* PYQ Clean List Navigation Styling */
+.pyq-list-container {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-width: 1200px;
-  margin: 0 auto 24px;
+  max-width: 1000px;
+  margin: 0 auto;
   width: 100%;
+  box-sizing: border-box;
+}
+
+.pyq-list-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .pyq-back-btn {
@@ -1531,6 +1539,7 @@
   cursor: pointer;
   width: fit-content;
   transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .pyq-back-btn:hover {
@@ -1539,33 +1548,120 @@
   border-color: #a855f7;
 }
 
-.pyq-selected-subject-info {
+.pyq-list-header-info {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
-.pyq-selected-subject-info h3 {
-  font-size: 1.2rem;
+.pyq-list-header-info h3 {
+  font-size: 1.25rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0;
 }
 
-.pyq-subject-card {
+.pyq-vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.pyq-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.pyq-view-btn {
-  background: rgba(168, 85, 247, 0.15) !important;
-  color: #c084fc !important;
-  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+.pyq-list-item:hover {
+  background: rgba(168, 85, 247, 0.08);
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.15);
 }
 
-.pyq-subject-card:hover .pyq-view-btn {
-  background: #a855f7 !important;
-  color: #ffffff !important;
+.pyq-list-item-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pyq-list-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(168, 85, 247, 0.12);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  flex-shrink: 0;
+}
+
+.pyq-list-item-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pyq-list-item-code {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.pyq-list-item-right {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.25s ease;
+}
+
+.pyq-list-item:hover .pyq-list-item-right {
+  color: #a855f7;
+}
+
+/* PYQ PDF Viewer Integration Container */
+.pyq-pdf-viewer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pyq-pdf-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pyq-pdf-reader-wrapper {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 /* Resources Grid */
