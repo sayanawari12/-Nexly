@@ -1480,6 +1480,33 @@
   box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
 }
 
+/* Secondary Semester Filter Bar for Past Papers (PYQs) */
+.pyq-semester-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pyq-semester-tabs {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  overflow-x: auto;
+  padding: 4px 2px;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.pyq-semester-tabs::-webkit-scrollbar {
+  display: none;
+}
+
 /* Resources Grid */
 .resources-grid {
   display: grid;
