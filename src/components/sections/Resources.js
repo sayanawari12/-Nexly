@@ -108,13 +108,14 @@ const ALL_RESOURCES = [
   }
 ];
 
+// Active Category Tabs (Commented items can be easily re-enabled in the future)
 const CATEGORIES = [
   'All Resources',
   'Notes & Guides',
   'Past Papers (PYQs)',
-  'Lab Manuals',
-  'Syllabus & Standard',
-  'Video Tutorials'
+  'Syllabus & Standard'
+  // 'Lab Manuals',
+  // 'Video Tutorials'
 ];
 
 const SEMESTER_OPTIONS = [
