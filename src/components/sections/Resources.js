@@ -5,7 +5,7 @@ import {
   Video, Eye, Filter, ArrowUpRight, FolderSearch, X, Check, Tag, 
   ArrowLeft, ChevronRight, Calendar
 } from 'lucide-react';
-import { SEMESTER_SUBJECTS_DATA, EXAM_TYPES, EXAM_YEARS } from '../../data/curriculumData';
+import { SEMESTER_SUBJECTS_DATA, EXAM_TYPES, EXAM_YEARS, getPyqPdfPath } from '../../data/curriculumData';
 import NotesViewer from '../../features/notes/NotesViewer';
 import '../../styles/sections.css';
 
@@ -321,7 +321,7 @@ const Resources = () => {
 
               <div className="pyq-pdf-reader-wrapper">
                 <NotesViewer 
-                  pdfUrl="/notes/semester2/DS_Notes.pdf"
+                  pdfUrl={activePdfPaper.pdfUrl}
                   subjectTitle={`${activePdfPaper.subjectName} ${activePdfPaper.examName} ${activePdfPaper.year}`}
                   subjectCode={activePdfPaper.subjectCode}
                 />
@@ -365,7 +365,8 @@ const Resources = () => {
                       subjectCode: selectedSubject.code,
                       subjectName: selectedSubject.name,
                       examName: selectedExamType.name,
-                      year: year
+                      year: year,
+                      pdfUrl: getPyqPdfPath(selectedSubject.code, selectedExamType.id, year)
                     })}
                   >
                     <div className="pyq-list-item-left">
