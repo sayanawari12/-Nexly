@@ -3,7 +3,7 @@ import { Play, LayoutDashboard, Flame } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useProgress } from '../context/ProgressContext';
-import laptopMockupImg from '../assets/images/laptop_mockup.jpg';
+import Laptop3DCanvas from './ui/Laptop3DCanvas';
 import '../styles/HeroWow.css';
 
 const HeroWow = () => {
@@ -131,27 +131,16 @@ const HeroWow = () => {
           )}
         </div>
 
-        {/* Right side laptop image wrapper
-            fetchpriority="high"  → browser prioritises this as the LCP resource.
-            decoding="async"      → image decode off main thread.
-            width/height          → prevents cumulative layout shift (CLS). */}
+        {/* Right side 3D WebGL Laptop Canvas */}
         <div className="hero-image-side">
           <div 
             className="hero-image-wrapper"
             style={{
-              transform: `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg) translate3d(0, -6px, 15px)`,
-              transition: 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease'
+              transform: `perspective(1000px) rotateX(${tilt.y * 0.5}deg) rotateY(${tilt.x * 0.5}deg)`,
+              transition: 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)'
             }}
           >
-            <img 
-              src={laptopMockupImg} 
-              alt="BCA Developer Laptop Mockup" 
-              className="hero-laptop-img"
-              width="640"
-              height="427"
-              fetchpriority="high"
-              decoding="async"
-            />
+            <Laptop3DCanvas />
             <div className="hero-image-overlay-glow" />
           </div>
         </div>
