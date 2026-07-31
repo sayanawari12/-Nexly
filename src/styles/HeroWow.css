@@ -50,11 +50,11 @@
 /* Split-screen layout */
 .hero-grid-split {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 1.1fr 0.9fr;
   width: 100%;
-  max-width: 1300px;
+  max-width: 1200px;
   align-items: center;
-  gap: 32px;
+  gap: 48px;
   position: relative;
   z-index: 10;
 }
@@ -210,28 +210,29 @@
 .hero-image-wrapper {
   position: relative;
   width: 100%;
-  max-width: 580px;
-  border-radius: 20px;
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  background: transparent;
+  max-width: 520px;
+  border-radius: 18px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: rgba(11, 11, 18, 0.6);
   box-shadow: 
-    0 30px 80px rgba(0, 0, 0, 0.6),
-    0 0 60px rgba(139, 92, 246, 0.25);
-  overflow: visible;
+    0 30px 80px rgba(0, 0, 0, 0.8),
+    0 0 50px rgba(139, 92, 246, 0.18);
+  overflow: hidden;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-.hero-3d-laptop-canvas {
+.hero-laptop-img {
   width: 100%;
-  height: 480px;
+  height: auto;
   display: block;
+  transition: transform 0.5s ease;
 }
 
 .hero-image-overlay-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 40%, rgba(168, 85, 247, 0.15) 0%, transparent 60%);
   pointer-events: none;
 }
 
