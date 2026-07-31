@@ -2,9 +2,11 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FileText, Download, BookOpen, Binary, FileQuestion, Search, 
-  Video, Eye, Filter, ArrowUpRight, FolderSearch, X, Check, Tag, ArrowLeft
+  Video, Eye, Filter, ArrowUpRight, FolderSearch, X, Check, Tag, 
+  ArrowLeft, ChevronRight, Calendar
 } from 'lucide-react';
-import { SEMESTER_SUBJECTS_DATA, GENERATE_SUBJECT_PYQS } from '../../data/curriculumData';
+import { SEMESTER_SUBJECTS_DATA, EXAM_TYPES, EXAM_YEARS } from '../../data/curriculumData';
+import NotesViewer from '../../features/notes/NotesViewer';
 import '../../styles/sections.css';
 
 const ALL_RESOURCES = [
@@ -124,7 +126,12 @@ const Resources = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All Resources');
   const [activeSemester, setActiveSemester] = useState('Semester 1');
+  
+  // List-based Navigation Drill-Down State for Past Papers
   const [selectedSubject, setSelectedSubject] = useState(null);
+  const [selectedExamType, setSelectedExamType] = useState(null);
+  const [activePdfPaper, setActivePdfPaper] = useState(null);
+
   const [downloadNotification, setDownloadNotification] = useState(null);
 
   // Active semester subject list from centralized data source
@@ -139,24 +146,9 @@ const Resources = () => {
     
     return currentSemesterData.subjects.filter(sub => 
       sub.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      sub.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      sub.desc.toLowerCase().includes(searchQuery.toLowerCase())
+      sub.code.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [currentSemesterData, searchQuery]);
-
-  // Generated PYQ Papers for selected Subject (2025 onwards)
-  const currentSubjectPYQs = useMemo(() => {
-    if (!selectedSubject) return [];
-    const papers = GENERATE_SUBJECT_PYQS(selectedSubject.code, selectedSubject.name, activeSemester);
-    if (!searchQuery) return papers;
-
-    return papers.filter(p =>
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.examType.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.examYear.toString().includes(searchQuery)
-    );
-  }, [selectedSubject, activeSemester, searchQuery]);
 
   // Filter standard resources for non-PYQ categories
   const filteredResources = useMemo(() => {
@@ -175,11 +167,15 @@ const Resources = () => {
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat);
     setSelectedSubject(null);
+    setSelectedExamType(null);
+    setActivePdfPaper(null);
   };
 
   const handleSemesterChange = (semId) => {
     setActiveSemester(semId);
     setSelectedSubject(null);
+    setSelectedExamType(null);
+    setActivePdfPaper(null);
   };
 
   const handleDownload = (resourceName) => {
@@ -287,135 +283,195 @@ const Resources = () => {
 
       {/* Dynamic Content Display Area */}
       {activeCategory === 'Past Papers (PYQs)' ? (
-        /* ── PAST PAPERS (PYQs) CATEGORY FLOW ── */
+        /* ── PAST PAPERS (PYQs) DRILL-DOWN LIST NAVIGATION FLOW ── */
         <AnimatePresence mode="wait">
-          {selectedSubject ? (
-            /* FLOW STEP 3: Past Papers List for Selected Subject */
+          {activePdfPaper ? (
+            /* STEP 4: PDF Viewer View */
             <motion.div
-              key={`pyq-papers-${selectedSubject.code}-${activeSemester}`}
+              key={`pyq-pdf-view-${activePdfPaper.subjectCode}-${activePdfPaper.year}`}
+              className="pyq-pdf-viewer-container"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="pyq-subject-detail-header">
+              <div className="pyq-list-header">
+                <button 
+                  className="pyq-back-btn" 
+                  onClick={() => setActivePdfPaper(null)}
+                >
+                  <ArrowLeft size={15} />
+                  <span>Back to {selectedExamType?.name} Years</span>
+                </button>
+                <div className="pyq-pdf-header-row">
+                  <div className="pyq-list-header-info">
+                    <span className="pyq-list-item-code">{activePdfPaper.subjectCode}</span>
+                    <h3>{activePdfPaper.subjectName} — {activePdfPaper.examName} ({activePdfPaper.year})</h3>
+                  </div>
+                  <button 
+                    className="resource-action-btn"
+                    onClick={() => handleDownload(`${activePdfPaper.subjectName}_${activePdfPaper.examName}_${activePdfPaper.year}.pdf`)}
+                  >
+                    <Download size={15} />
+                    <span>Download PDF</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="pyq-pdf-reader-wrapper">
+                <NotesViewer 
+                  pdfUrl="/notes/semester2/DS_Notes.pdf"
+                  subjectTitle={`${activePdfPaper.subjectName} ${activePdfPaper.examName} ${activePdfPaper.year}`}
+                  subjectCode={activePdfPaper.subjectCode}
+                />
+              </div>
+            </motion.div>
+          ) : selectedExamType ? (
+            /* STEP 3: Year List (Summer 2025, Summer 2026, etc. - 2025 onwards) */
+            <motion.div
+              key={`pyq-years-${selectedSubject.code}-${selectedExamType.id}`}
+              className="pyq-list-container"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="pyq-list-header">
+                <button 
+                  className="pyq-back-btn" 
+                  onClick={() => setSelectedExamType(null)}
+                >
+                  <ArrowLeft size={15} />
+                  <span>Back to Examination Types</span>
+                </button>
+                <div className="pyq-list-header-info">
+                  <span className="pyq-list-item-code">{selectedSubject.code}</span>
+                  <h3>{selectedSubject.name} — {selectedExamType.name}</h3>
+                </div>
+              </div>
+
+              <div className="pyq-vertical-list">
+                {EXAM_YEARS.map((year, idx) => (
+                  <motion.div
+                    key={year}
+                    className="pyq-list-item"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, delay: idx * 0.04 }}
+                    whileHover={{ x: 4 }}
+                    whileTap={{ scale: 0.99 }}
+                    onClick={() => setActivePdfPaper({
+                      subjectCode: selectedSubject.code,
+                      subjectName: selectedSubject.name,
+                      examName: selectedExamType.name,
+                      year: year
+                    })}
+                  >
+                    <div className="pyq-list-item-left">
+                      <div className="pyq-list-item-icon">
+                        <Calendar size={18} />
+                      </div>
+                      <span className="pyq-list-item-title">
+                        {selectedExamType.name.split(' ')[0]} {year}
+                      </span>
+                    </div>
+                    <div className="pyq-list-item-right">
+                      <ChevronRight size={18} />
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          ) : selectedSubject ? (
+            /* STEP 2: Examination Type List (Summer Examination / Winter Examination) */
+            <motion.div
+              key={`pyq-exam-types-${selectedSubject.code}`}
+              className="pyq-list-container"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="pyq-list-header">
                 <button 
                   className="pyq-back-btn" 
                   onClick={() => setSelectedSubject(null)}
                 >
-                  <ArrowLeft size={16} />
+                  <ArrowLeft size={15} />
                   <span>Back to {activeSemester} Subjects</span>
                 </button>
-                <div className="pyq-selected-subject-info">
-                  <span className="res-badge res-sem-badge">{selectedSubject.code}</span>
-                  <h3>{selectedSubject.name} — Past Examination Papers</h3>
+                <div className="pyq-list-header-info">
+                  <span className="pyq-list-item-code">{selectedSubject.code}</span>
+                  <h3>{selectedSubject.name}</h3>
                 </div>
               </div>
 
-              {currentSubjectPYQs.length > 0 ? (
-                <div className="resources-grid">
-                  {currentSubjectPYQs.map((paper, idx) => (
-                    <motion.div
-                      key={paper.id}
-                      className="glass-card resource-card"
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: idx * 0.05 }}
-                      whileHover={{ y: -5 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <div className="resource-card-top">
-                        <div className="resource-icon-wrapper">
-                          <FileQuestion size={20} />
-                        </div>
-                        <div className="resource-card-badges">
-                          <span className="res-badge res-sem-badge">{paper.examYear}</span>
-                          <span className="res-badge res-ext-badge">{paper.ext}</span>
-                        </div>
+              <div className="pyq-vertical-list">
+                {EXAM_TYPES.map((exam, idx) => (
+                  <motion.div
+                    key={exam.id}
+                    className="pyq-list-item"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, delay: idx * 0.04 }}
+                    whileHover={{ x: 4 }}
+                    whileTap={{ scale: 0.99 }}
+                    onClick={() => setSelectedExamType(exam)}
+                  >
+                    <div className="pyq-list-item-left">
+                      <div className="pyq-list-item-icon">
+                        <FileQuestion size={18} />
                       </div>
-
-                      <div className="resource-card-content">
-                        <span className="resource-subject-tag">
-                          <Tag size={11} style={{ marginRight: '4px' }} /> {paper.examType}
-                        </span>
-                        <h3 className="resource-title">{paper.name}</h3>
-                        <p className="resource-desc">{paper.desc}</p>
-                      </div>
-
-                      <div className="resource-card-bottom">
-                        <span className="resource-file-meta">
-                          📁 {paper.size} • ⬇️ {paper.downloads} downloads
-                        </span>
-                        <button 
-                          className="resource-action-btn"
-                          onClick={() => handleDownload(paper.name)}
-                          aria-label={`Download ${paper.name}`}
-                        >
-                          <Download size={15} />
-                          <span>Download</span>
-                        </button>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              ) : (
-                <div className="resources-empty-state">
-                  <div className="empty-icon-box">
-                    <FolderSearch size={36} color="#c084fc" />
-                  </div>
-                  <h3>No PYQs found</h3>
-                  <p>No past papers matched your search query "{searchQuery}".</p>
-                </div>
-              )}
+                      <span className="pyq-list-item-title">{exam.name}</span>
+                    </div>
+                    <div className="pyq-list-item-right">
+                      <ChevronRight size={18} />
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           ) : (
-            /* FLOW STEP 2: Semester Subject Cards List */
+            /* STEP 1: Clean Vertical Subject List */
             <motion.div
-              key={`pyq-subjects-${activeSemester}-${searchQuery}`}
+              key={`pyq-subjects-list-${activeSemester}-${searchQuery}`}
+              className="pyq-list-container"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
             >
+              <div className="pyq-list-header">
+                <div className="pyq-list-header-info">
+                  <span className="section-tag" style={{ margin: 0 }}>{activeSemester}</span>
+                  <h3>Curriculum Subject List</h3>
+                </div>
+              </div>
+
               {currentSemesterSubjects.length > 0 ? (
-                <div className="resources-grid">
+                <div className="pyq-vertical-list">
                   {currentSemesterSubjects.map((sub, idx) => (
                     <motion.div
                       key={sub.code}
-                      className="glass-card resource-card pyq-subject-card"
-                      initial={{ opacity: 0, y: 15 }}
+                      className="pyq-list-item"
+                      initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: idx * 0.04 }}
-                      whileHover={{ y: -5 }}
-                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.2, delay: idx * 0.03 }}
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.99 }}
                       onClick={() => setSelectedSubject(sub)}
                     >
-                      <div className="resource-card-top">
-                        <div className="resource-icon-wrapper">
-                          <BookOpen size={20} />
+                      <div className="pyq-list-item-left">
+                        <div className="pyq-list-item-icon">
+                          <BookOpen size={18} />
                         </div>
-                        <div className="resource-card-badges">
-                          <span className="res-badge res-sem-badge">{sub.code}</span>
-                          <span className="res-badge res-ext-badge">4 PYQs</span>
+                        <div className="pyq-list-item-title">
+                          <span className="pyq-list-item-code">{sub.code}</span>
+                          <span>{sub.name}</span>
                         </div>
                       </div>
-
-                      <div className="resource-card-content">
-                        <span className="resource-subject-tag">
-                          <Tag size={11} style={{ marginRight: '4px' }} /> {sub.category}
-                        </span>
-                        <h3 className="resource-title">{sub.name}</h3>
-                        <p className="resource-desc">{sub.desc}</p>
-                      </div>
-
-                      <div className="resource-card-bottom">
-                        <span className="resource-file-meta">
-                          📚 Mid & End Sem (2025–2026)
-                        </span>
-                        <button className="resource-action-btn pyq-view-btn">
-                          <span>View Papers</span>
-                          <ArrowUpRight size={15} />
-                        </button>
+                      <div className="pyq-list-item-right">
+                        <ChevronRight size={18} />
                       </div>
                     </motion.div>
                   ))}
