@@ -50,11 +50,11 @@
 /* Split-screen layout */
 .hero-grid-split {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 0.85fr 1.15fr;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1380px;
   align-items: center;
-  gap: 48px;
+  gap: 40px;
   position: relative;
   z-index: 10;
 }
@@ -63,7 +63,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 580px;
+  max-width: 560px;
   animation: heroTextReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -199,25 +199,24 @@
   box-shadow: 0 8px 30px rgba(255, 255, 255, 0.05);
 }
 
-/* Right Side Centerpiece: Laptop Mockup */
+/* Right Side Centerpiece: Large Floating Laptop Mockup */
 .hero-image-side {
   display: flex;
   justify-content: center;
   align-items: center;
   perspective: 1000px;
+  width: 100%;
 }
 
 .hero-image-wrapper {
   position: relative;
   width: 100%;
-  max-width: 520px;
-  border-radius: 18px;
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  background: rgba(11, 11, 18, 0.6);
-  box-shadow: 
-    0 30px 80px rgba(0, 0, 0, 0.8),
-    0 0 50px rgba(139, 92, 246, 0.18);
-  overflow: hidden;
+  max-width: 780px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
   transform-style: preserve-3d;
   will-change: transform;
 }
@@ -226,14 +225,16 @@
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.5s ease;
+  filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 50px rgba(168, 85, 247, 0.35));
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
 }
 
 .hero-image-overlay-glow {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 40%, rgba(168, 85, 247, 0.15) 0%, transparent 60%);
+  inset: -10%;
+  background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.28) 0%, rgba(147, 51, 234, 0.1) 50%, transparent 75%);
   pointer-events: none;
+  z-index: -1;
 }
 
 /* Scroll indicator */
