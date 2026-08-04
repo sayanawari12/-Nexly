@@ -1,15 +1,12 @@
 /**
- * LiveCodeEditor.jsx
- * Premium interactive code editor hero element.
- * Hooks are written to be fully exhaustive-deps compliant (CI-safe).
+ * LiveCodeEditor.jsx  — Premium animated IDE hero element
+ * CI-safe hooks, direct emoji chars (no \u escapes in JSX text)
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/LiveCodeEditor.css';
 
-/* ─────────────────────────────────────────────
-   CONSTANTS  (module-level — not reactive)
-   ───────────────────────────────────────────── */
+/* ─── module-level constants (non-reactive) ─── */
 const TECH_NAMES = [
   'Java',
   'Python',
@@ -37,286 +34,229 @@ const CONSOLE_STEPS = [
   { text: '  Loading Courses...', accent: false },
   { text: '  Loading Notes...', accent: false },
   { text: '  Loading Quiz...', accent: false },
-  { text: '  \u2713 Ready.', accent: true },
+  { text: '  ✓ Ready.', accent: true },
 ];
 
-/* ─────────────────────────────────────────────
-   SYNTAX HIGHLIGHTING
-   ───────────────────────────────────────────── */
-const JAVA_KEYWORDS = new Set([
-  'package', 'public', 'class', 'static', 'void', 'new', 'import',
-  'private', 'protected', 'return', 'if', 'else', 'for', 'while',
-  'true', 'false', 'null', 'this', 'super', 'extends', 'implements',
-]);
+const STEP_DELAYS = [0, 900, 1700, 2500, 3200];
+const CYCLE_MS = 5800;
 
-const JAVA_TYPES = new Set([
-  'String', 'int', 'double', 'float', 'boolean', 'char', 'long',
-  'BCAPlatform', 'Main',
+/* ─── syntax highlighter ─── */
+const KW = new Set([
+  'package','public','class','static','void','new','import',
+  'private','protected','return','if','else','for','while',
+  'true','false','null','this','super','extends','implements',
 ]);
-
-const PATTERNS = [
-  { regex: /^(\/\/.*)/, type: 'comment' },
-  { regex: /^("(?:[^"\\]|\\.)*")/, type: 'string' },
-  { regex: /^('(?:[^'\\]|\\.)?')/, type: 'string' },
-  { regex: /^(\d+(?:\.\d+)?[Lf]?)/, type: 'number' },
-  { regex: /^([A-Za-z_$][A-Za-z0-9_$]*)/, type: 'word' },
-  { regex: /^([^A-Za-z0-9_$"'\s]+)/, type: 'punctuation' },
-  { regex: /^(\s+)/, type: 'whitespace' },
+const TYPES = new Set([
+  'String','int','double','float','boolean','char','long',
+  'BCAPlatform','Main',
+]);
+const PATS = [
+  { re: /^(\/\/.*)/, t: 'comment' },
+  { re: /^("(?:[^"\\]|\\.)*")/, t: 'string' },
+  { re: /^('(?:[^'\\]|\\.)?')/, t: 'string' },
+  { re: /^(\d+(?:\.\d+)?[Lf]?)/, t: 'number' },
+  { re: /^([A-Za-z_$][A-Za-z0-9_$]*)/, t: 'word' },
+  { re: /^([^A-Za-z0-9_$"'\s]+)/, t: 'punctuation' },
+  { re: /^(\s+)/, t: 'ws' },
 ];
 
-function tokeniseLine(line) {
-  if (!line || line.trim() === '') return [{ type: 'blank', text: '\u00A0' }];
-  const tokens = [];
-  let remaining = line;
-  while (remaining.length > 0) {
-    let matched = false;
-    for (const { regex, type } of PATTERNS) {
-      const m = remaining.match(regex);
+function tokenise(line) {
+  if (!line || !line.trim()) return [{ t: 'blank', v: '\u00A0' }];
+  const out = [];
+  let rem = line;
+  while (rem.length) {
+    let hit = false;
+    for (const { re, t } of PATS) {
+      const m = rem.match(re);
       if (m) {
-        let tokenType = type;
-        if (type === 'word') {
-          if (JAVA_KEYWORDS.has(m[1])) tokenType = 'keyword';
-          else if (JAVA_TYPES.has(m[1])) tokenType = 'type';
-          else if (/^[A-Z]/.test(m[1])) tokenType = 'class-name';
-          else tokenType = 'identifier';
+        let type = t;
+        if (t === 'word') {
+          if (KW.has(m[1]))    type = 'kw';
+          else if (TYPES.has(m[1])) type = 'type';
+          else if (/^[A-Z]/.test(m[1])) type = 'cls';
+          else type = 'id';
         }
-        tokens.push({ type: tokenType, text: m[1] });
-        remaining = remaining.slice(m[1].length);
-        matched = true;
+        out.push({ t: type, v: m[1] });
+        rem = rem.slice(m[1].length);
+        hit = true;
         break;
       }
     }
-    if (!matched) {
-      tokens.push({ type: 'plain', text: remaining[0] });
-      remaining = remaining.slice(1);
-    }
+    if (!hit) { out.push({ t: 'plain', v: rem[0] }); rem = rem.slice(1); }
   }
-  return tokens;
+  return out;
 }
 
-/* ─────────────────────────────────────────────
-   HIGHLIGHTED LINE
-   ───────────────────────────────────────────── */
-function HighlightedLine({ text, lineNumber }) {
-  const tokens = tokeniseLine(text);
+function HLine({ text, ln }) {
+  const toks = tokenise(text);
   return (
     <div className="lce-line">
-      <span className="lce-line-num">{lineNumber}</span>
-      <span className="lce-line-content">
-        {tokens.map((tok, i) => (
-          <span key={i} className={`lce-tok lce-tok-${tok.type}`}>{tok.text}</span>
+      <span className="lce-ln">{ln}</span>
+      <span className="lce-lc">
+        {toks.map((tk, i) => (
+          <span key={i} className={`lce-t lce-t-${tk.t}`}>{tk.v}</span>
         ))}
       </span>
     </div>
   );
 }
 
-/* ─────────────────────────────────────────────
-   MAIN COMPONENT
-   ───────────────────────────────────────────── */
-const LiveCodeEditor = () => {
-  const [typedLines, setTypedLines] = useState([]);
-  const [prefixDone, setPrefixDone] = useState(false);
-  const [dynamicText, setDynamicText] = useState('');
-  const [techIdx, setTechIdx] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [buildStatus, setBuildStatus] = useState('success');
-  const [consoleLines, setConsoleLines] = useState([]);
-  const [consoleKey, setConsoleKey] = useState(0);
-  const codeBodyRef = useRef(null);
+/* ─── main component ─── */
+export default function LiveCodeEditor() {
+  const [typedLines, setTypedLines]   = useState([]);
+  const [prefixDone, setPrefixDone]   = useState(false);
+  const [dynText,    setDynText]      = useState('');
+  const [techIdx,    setTechIdx]      = useState(0);
+  const [deleting,   setDeleting]     = useState(false);
+  const [buildOk,    setBuildOk]      = useState(true);
+  const [conLines,   setConLines]     = useState([]);
+  const [conKey,     setConKey]       = useState(0);
+  const bodyRef = useRef(null);
 
-  /* ── Scroll to bottom ── */
+  /* scroll to bottom */
   useEffect(() => {
-    if (codeBodyRef.current) {
-      codeBodyRef.current.scrollTop = codeBodyRef.current.scrollHeight;
-    }
-  }, [typedLines, dynamicText]);
+    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+  }, [typedLines, dynText]);
 
-  /* ── Type prefix lines once on mount ── */
+  /* type prefix once */
   useEffect(() => {
-    let lineIdx = 0;
-    let charIdx = 0;
-    let cancelled = false;
-    let timerId;
-
+    let li = 0, ci = 0, dead = false, tid;
     function tick() {
-      if (cancelled) return;
-      if (lineIdx >= PREFIX_LINES.length) {
-        setPrefixDone(true);
+      if (dead) return;
+      if (li >= PREFIX_LINES.length) { setPrefixDone(true); return; }
+      const ln = PREFIX_LINES[li];
+      if (ln === '') {
+        setTypedLines(p => { const n=[...p]; n[li]=''; return n; });
+        li++; ci = 0;
+        tid = setTimeout(tick, 80);
         return;
       }
-      const line = PREFIX_LINES[lineIdx];
-      if (line === '') {
-        setTypedLines(prev => {
-          const next = [...prev];
-          next[lineIdx] = '';
-          return next;
-        });
-        lineIdx++;
-        charIdx = 0;
-        timerId = setTimeout(tick, 80);
-        return;
-      }
-      if (charIdx < line.length) {
-        const partial = line.slice(0, charIdx + 1);
-        setTypedLines(prev => {
-          const next = [...prev];
-          next[lineIdx] = partial;
-          return next;
-        });
-        charIdx++;
-        timerId = setTimeout(tick, 28 + Math.random() * 27);
-      } else {
-        lineIdx++;
-        charIdx = 0;
-        timerId = setTimeout(tick, 110);
-      }
+      if (ci < ln.length) {
+        const s = ln.slice(0, ci + 1);
+        setTypedLines(p => { const n=[...p]; n[li]=s; return n; });
+        ci++;
+        tid = setTimeout(tick, 25 + Math.random() * 30);
+      } else { li++; ci=0; tid = setTimeout(tick, 110); }
     }
-
-    timerId = setTimeout(tick, 600);
-    return () => {
-      cancelled = true;
-      clearTimeout(timerId);
-    };
-  }, []); // runs once — PREFIX_LINES is a module-level constant
-
-  /* ── Dynamic tech-name typing loop ── */
-  useEffect(() => {
-    if (!prefixDone) return;
-
-    let cancelled = false;
-    let timerId;
-    const tech = TECH_NAMES[techIdx];
-
-    if (!isDeleting) {
-      // Type character by character
-      let pos = dynamicText.length;
-      function typeNext() {
-        if (cancelled) return;
-        if (pos < tech.length) {
-          pos++;
-          setDynamicText(tech.slice(0, pos));
-          timerId = setTimeout(typeNext, 55 + Math.random() * 40);
-        } else {
-          // Fully typed — wait then start deleting
-          timerId = setTimeout(() => {
-            if (!cancelled) setIsDeleting(true);
-          }, 1600);
-        }
-      }
-      timerId = setTimeout(typeNext, 200);
-    } else {
-      // Delete character by character
-      let remaining = dynamicText;
-      function deleteNext() {
-        if (cancelled) return;
-        if (remaining.length > 0) {
-          remaining = remaining.slice(0, -1);
-          setDynamicText(remaining);
-          timerId = setTimeout(deleteNext, 38 + Math.random() * 22);
-        } else {
-          // Move to next tech
-          const next = (techIdx + 1) % TECH_NAMES.length;
-          setTechIdx(next);
-          setIsDeleting(false);
-        }
-      }
-      timerId = setTimeout(deleteNext, 300);
-    }
-
-    return () => {
-      cancelled = true;
-      clearTimeout(timerId);
-    };
-  }, [prefixDone, techIdx, isDeleting, dynamicText]);
-
-  /* ── Build-status cycle ── */
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBuildStatus('compiling');
-      const t = setTimeout(() => setBuildStatus('success'), 1800);
-      return () => clearTimeout(t);
-    }, 7000);
-    return () => clearInterval(interval);
+    tid = setTimeout(tick, 500);
+    return () => { dead=true; clearTimeout(tid); };
   }, []);
 
-  /* ── Console animation loop ── */
+  /* tech-name typing loop */
   useEffect(() => {
-    const stepDelays = [0, 900, 1700, 2500, 3200];
-    const cycleMs = 5600; // 3200 + 2200 wait after last step
-    const pendingTimers = [];
+    if (!prefixDone) return;
+    let dead=false, tid;
+    const tech = TECH_NAMES[techIdx];
 
-    function runCycle() {
-      setConsoleLines([]);
-      setConsoleKey(k => k + 1);
-      CONSOLE_STEPS.forEach((step, i) => {
-        const t = setTimeout(() => {
-          setConsoleLines(prev => [...prev, step]);
-        }, stepDelays[i]);
-        pendingTimers.push(t);
+    if (!deleting) {
+      let pos = dynText.length;
+      function typeNext() {
+        if (dead) return;
+        if (pos < tech.length) {
+          pos++;
+          setDynText(tech.slice(0, pos));
+          tid = setTimeout(typeNext, 50 + Math.random() * 45);
+        } else {
+          tid = setTimeout(() => { if (!dead) setDeleting(true); }, 1800);
+        }
+      }
+      tid = setTimeout(typeNext, 180);
+    } else {
+      let rem = dynText;
+      function delNext() {
+        if (dead) return;
+        if (rem.length > 0) {
+          rem = rem.slice(0, -1);
+          setDynText(rem);
+          tid = setTimeout(delNext, 35 + Math.random() * 20);
+        } else {
+          setTechIdx((techIdx + 1) % TECH_NAMES.length);
+          setDeleting(false);
+        }
+      }
+      tid = setTimeout(delNext, 280);
+    }
+    return () => { dead=true; clearTimeout(tid); };
+  }, [prefixDone, techIdx, deleting, dynText]);
+
+  /* build status pulse */
+  useEffect(() => {
+    const iv = setInterval(() => {
+      setBuildOk(false);
+      const t = setTimeout(() => setBuildOk(true), 1800);
+      return () => clearTimeout(t);
+    }, 8000);
+    return () => clearInterval(iv);
+  }, []);
+
+  /* console loop */
+  useEffect(() => {
+    const timers = [];
+    function cycle() {
+      setConLines([]);
+      setConKey(k => k + 1);
+      CONSOLE_STEPS.forEach((s, i) => {
+        const t = setTimeout(() => setConLines(p => [...p, s]), STEP_DELAYS[i]);
+        timers.push(t);
       });
     }
+    const t0 = setTimeout(cycle, 1000);
+    const iv = setInterval(cycle, CYCLE_MS);
+    return () => { clearTimeout(t0); clearInterval(iv); timers.forEach(clearTimeout); };
+  }, []);
 
-    const startDelay = setTimeout(runCycle, 1200);
-    const interval = setInterval(runCycle, cycleMs);
+  const lineCount = typedLines.length + (prefixDone ? 1 : 0);
 
-    return () => {
-      clearTimeout(startDelay);
-      clearInterval(interval);
-      pendingTimers.forEach(clearTimeout);
-    };
-  }, []); // CONSOLE_STEPS and stepDelays are module-level constants
-
-  /* ── Render ── */
   return (
     <div className="lce-outer">
       <div className="lce-editor">
 
-        {/* TITLE BAR */}
+        {/* ── TITLE BAR ── */}
         <div className="lce-titlebar">
           <div className="lce-dots">
-            <span className="lce-dot lce-dot-red" />
-            <span className="lce-dot lce-dot-yellow" />
-            <span className="lce-dot lce-dot-green" />
+            <span className="lce-dot lce-dot-r" />
+            <span className="lce-dot lce-dot-y" />
+            <span className="lce-dot lce-dot-g" />
           </div>
+
           <div className="lce-tabs">
-            <div className="lce-tab lce-tab-active">
-              <span className="lce-tab-icon">\u2615</span>
+            <div className="lce-tab lce-tab-on">
+              <span className="lce-ticon">☕</span>
               <span>Main.java</span>
+              <span className="lce-tab-dot" />
             </div>
             <div className="lce-tab">
-              <span className="lce-tab-icon lce-tab-icon-dim">\uD83D\uDCC4</span>
-              <span>BCAPlatform.java</span>
+              <span className="lce-ticon lce-ticon-dim">📄</span>
+              <span className="lce-tab-label">BCAPlatform.java</span>
             </div>
           </div>
-          <div className="lce-toolbar">
-            <span className="lce-badge lce-badge-java">Java 21</span>
-            <button className="lce-run-btn">
-              <span className="lce-run-icon">\u25B6</span> Run
-            </button>
-            <span className="lce-toolbar-icon" title="Git">\u2387</span>
-            <span className="lce-toolbar-icon" title="Settings">\u2699</span>
+
+          <div className="lce-tools">
+            <span className="lce-badge">Java 21</span>
+            <button className="lce-run">▶&nbsp;Run</button>
+            <span className="lce-icon" title="Git">⎇</span>
+            <span className="lce-icon" title="Settings">⚙</span>
           </div>
         </div>
 
-        {/* CODE BODY */}
-        <div className="lce-body" ref={codeBodyRef}>
-          <div className="lce-code-area">
-            {typedLines.map((line, i) => (
-              <HighlightedLine key={i} text={line} lineNumber={i + 1} />
+        {/* ── CODE BODY ── */}
+        <div className="lce-body" ref={bodyRef}>
+          <div className="lce-code">
+            {typedLines.map((ln, i) => (
+              <HLine key={i} text={ln} ln={i + 1} />
             ))}
 
             {prefixDone && (
-              <div className="lce-line">
-                <span className="lce-line-num">{typedLines.length + 1}</span>
-                <span className="lce-line-content">
-                  {tokeniseLine(DYNAMIC_PREFIX).map((tok, i) => (
-                    <span key={i} className={`lce-tok lce-tok-${tok.type}`}>{tok.text}</span>
+              <div className="lce-line lce-line-active">
+                <span className="lce-ln">{typedLines.length + 1}</span>
+                <span className="lce-lc">
+                  {tokenise(DYNAMIC_PREFIX).map((tk, i) => (
+                    <span key={i} className={`lce-t lce-t-${tk.t}`}>{tk.v}</span>
                   ))}
-                  <span className="lce-tok lce-tok-string">{dynamicText}</span>
+                  <span className="lce-t lce-t-string">{dynText}</span>
                   <span className="lce-cursor" />
-                  {dynamicText.length > 0 && (
-                    <span className="lce-tok lce-tok-string">");</span>
+                  {dynText.length > 0 && (
+                    <span className="lce-t lce-t-string">");</span>
                   )}
                 </span>
               </div>
@@ -324,18 +264,23 @@ const LiveCodeEditor = () => {
           </div>
         </div>
 
-        {/* CONSOLE */}
+        {/* ── TERMINAL ── */}
         <div className="lce-console">
-          <div className="lce-console-bar">
-            <span className="lce-console-title">TERMINAL</span>
-            <span className="lce-console-close">\u00D7</span>
+          <div className="lce-con-bar">
+            <div className="lce-con-tabs">
+              <span className="lce-con-tab lce-con-tab-on">TERMINAL</span>
+              <span className="lce-con-tab">PROBLEMS</span>
+              <span className="lce-con-tab">OUTPUT</span>
+            </div>
+            <span className="lce-con-x">✕</span>
           </div>
-          <div className="lce-console-body" key={consoleKey}>
-            {consoleLines.map((cl, i) => (
+          <div className="lce-con-body" key={conKey}>
+            <span className="lce-con-prompt">~/bca-platform $&nbsp;</span>
+            {conLines.map((cl, i) => (
               <div
                 key={i}
-                className={`lce-console-line${cl.accent ? ' lce-console-accent' : ''}`}
-                style={{ animationDelay: `${i * 0.06}s` }}
+                className={`lce-con-line${cl.accent ? ' lce-con-accent' : ''}`}
+                style={{ animationDelay: `${i * 0.07}s` }}
               >
                 {cl.text}
               </div>
@@ -343,30 +288,28 @@ const LiveCodeEditor = () => {
           </div>
         </div>
 
-        {/* STATUS BAR */}
-        <div className="lce-statusbar">
-          <div className="lce-status-left">
-            <span className={`lce-status-indicator ${buildStatus === 'compiling' ? 'lce-status-compiling' : 'lce-status-success'}`}>
-              {buildStatus === 'compiling'
-                ? <><span className="lce-spinner" /> Compiling...</>
-                : <>\u2713 Build Successful</>
+        {/* ── STATUS BAR ── */}
+        <div className="lce-status">
+          <div className="lce-st-l">
+            <span className="lce-branch">⎇&nbsp;main</span>
+            <span className={`lce-build ${buildOk ? 'lce-build-ok' : 'lce-build-run'}`}>
+              {buildOk
+                ? <>✓&nbsp;Build Successful</>
+                : <><span className="lce-spin" />&nbsp;Compiling...</>
               }
             </span>
           </div>
-          <div className="lce-status-center">
-            <span className="lce-status-item">Java 21</span>
-          </div>
-          <div className="lce-status-right">
-            <span className="lce-status-item">UTF-8</span>
-            <span className="lce-status-item">Ln {typedLines.length + (prefixDone ? 1 : 0)}</span>
+          <div className="lce-st-r">
+            <span className="lce-st-item">Java 21</span>
+            <span className="lce-st-item lce-st-sep">UTF-8</span>
+            <span className="lce-st-item">Ln&nbsp;{lineCount}</span>
           </div>
         </div>
 
       </div>
 
-      <div className="lce-glow-blob" aria-hidden="true" />
+      {/* ambient glow */}
+      <div className="lce-blob" aria-hidden="true" />
     </div>
   );
-};
-
-export default LiveCodeEditor;
+}
