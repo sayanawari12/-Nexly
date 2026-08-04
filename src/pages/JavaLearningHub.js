@@ -7,907 +7,591 @@ import {
   ChevronUp, Clock, CheckCircle, Play, Copy, Bookmark, BarChart2,
   Zap, Star, Users, Lightbulb, Target, Layers, Globe, Database,
   Award, AlertTriangle, Info, TrendingUp, FileText, FolderOpen,
-  RotateCcw, ArrowRight, Check, X, Eye, EyeOff, Search,
-  Compass, Braces, GitFork, MousePointer, ChevronsRight, Box, Component, HardDrive,
-  RefreshCw, Cpu, Sliders, Hash, Link2, Rocket, Monitor, Activity, Calculator, Repeat, Type
+  RotateCcw, ArrowRight, Check, X, Eye, EyeOff, Search
 } from 'lucide-react';
 import { TECH_LOGOS } from '../components/sections/TechLogos';
 import TechnologyLogo from '../components/ui/TechnologyLogo';
-import { useProgress } from '../context/ProgressContext';
-import useAuth from '../hooks/useAuth';
 import '../styles/JavaLearningHub.css';
 
 /* ============================================================
-   JAVA LOGO SVG COMPONENT
+   DATA LAYER
    ============================================================ */
-const JavaLogo = () => (
-  <svg width="60" height="60" viewBox="0 0 128 128" fill="none">
-    <path d="M47.8 88.5c0 0-7.7 1.8-16.2 1.8-14.8 0-16.2-7.8-16.2-7.8s1.4 3.7 10.4 3.7c10.4 0 22-1.9 22-1.9s0 .1 0 4.2z" fill="#E76F00"/>
-    <path d="M44.4 75.8c0 0-6.8 1.4-14.3 1.4-13.1 0-14.3-6.9-14.3-6.9s1.2 3.3 9.2 3.3c9.2 0 19.4-1.7 19.4-1.7s0 .2 0 3.9z" fill="#E76F00"/>
-    <path d="M60.1 63.8c-7.3-8.4-19-15.6-19-15.6s4.4 2.8 9.5 7.4c5.1 4.6 6.8 9.1 2.3 13.9-3.7 4-13 11-13 11s8.4-4 13.9-9.1c5.5-5.1 13.6-0.3 6.3-7.6z" fill="#5382A1"/>
-    <path d="M83.4 97.4c0 0 5.4 1.2 8.8 1.2 8.4 0 11.8-4.2 11.8-4.2s-2.1 2.1-7.8 2.1c-5.7 0-12.8-1.5-12.8-1.5s0 .3 0 2.4z" fill="#E76F00"/>
-    <path d="M37.8 108.6c15.2 3.6 42.1 4.4 61.2-1 0 0-4.7 3.3-21.7 4.7-18.7 1.5-44.5 0-51.5-3.7 0 0 3.3 0 12-0.0z" fill="#E76F00"/>
-    <path d="M48.2 31.5c0 0-6.5 6.6-0.3 14.8 7.4 9.8 11.8 15.6 1.8 23.3 0 0 13.6-7.1 9.5-16.7-4.1-9.6-13-11.7-11-21.4z" fill="#5382A1"/>
-    <path d="M82 72.8c10.4-5.2 14.2-12.6 14.2-12.6s-1.8 3.6-9.1 7.2c-8.9 4.4-21.2 7.7-33 7.9 0 0 14.7-1.1 27.9-2.5z" fill="#5382A1"/>
-  </svg>
-);
 
-/* ============================================================
-   DATA LAYER — 40 FULL JAVA LESSONS
-   ============================================================ */
-export const JAVA_LESSONS = [
-  { id: 1, title: 'Introduction to Java', diff: 'Easy', time: '20 min', phase: 'beginner', prereq: 'None',
-    desc: 'History of Java, Write Once Run Anywhere (WORA) philosophy, and JVM architecture.',
-    theory: `Java is a high-level, class-based, object-oriented programming language developed by James Gosling at Sun Microsystems in 1995 (later acquired by Oracle).\n\nJava is world-famous for its "Write Once, Run Anywhere" (WORA) philosophy. When you compile Java code, it turns into bytecode (.class file) rather than machine code. This bytecode is executed by the Java Virtual Machine (JVM), making Java completely platform-independent.\n\nKey Highlights:\n- Object-Oriented: Everything in Java revolves around Classes & Objects.\n- Robust & Secure: Automatic Garbage Collection, no explicit pointers, strong memory management.\n- Multithreaded: Built-in support for concurrent execution.`,
+const JAVA_LESSONS = [
+  { id: 1, title: 'Introduction', diff: 'Easy', time: '20 min', phase: 'beginner', prereq: 'None',
+    desc: 'History of Java, features (platform independence, OOP), and JVM architecture.',
+    theory: `Java is a high-level, class-based, object-oriented programming language developed by James Gosling at Sun Microsystems in 1995. It was designed to have as few implementation dependencies as possible.\n\nJava is famous for its "Write Once, Run Anywhere" (WORA) philosophy. This is achieved by compiling Java source code into bytecode, which runs on any platform equipped with a Java Virtual Machine (JVM).\n\nKey features: object-oriented, platform-independent, secure, robust, multithreaded, architecture-neutral, and automatic garbage collection.`,
     code: `public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n        System.out.println("Welcome to Java Programming!");\n    }\n}`,
     output: `Hello, World!\nWelcome to Java Programming!`,
-    note: 'Every Java program must contain a main() method inside a class. Execution always starts from this entry point.',
-    warning: 'The public class name must match the filename exactly (e.g., class HelloWorld must be saved in HelloWorld.java).',
-    tip: 'Use System.out.println() to print with a newline, or System.out.print() to print on the same line.',
-    interviewTip: '"Why is Java platform independent?" — Explain that Java source code compiles to intermediate bytecode (.class) which runs on any OS with a JVM.',
-    mistakes: ['Filename not matching class name', 'Missing public static void main method signature', 'Case sensitivity in keywords like Class vs class'],
-    summary: 'Java is a robust, secure, platform-independent language that compiles source code to bytecode executed on the JVM.'
+    note: 'Every Java application must have a main method inside a class. Execution always starts from this main method.',
+    warning: 'The public class name must match the filename exactly (e.g. HelloWorld class must be in HelloWorld.java).',
+    tip: 'Use System.out.println() to print text followed by a newline, or System.out.print() to print without a newline.',
+    interviewTip: '"Why is Java platform independent?" — Explain that Java source code compiles to intermediate bytecode (.class files) which is executed by the JVM on any OS.',
+    mistakes: ['Mismatched class name and filename', 'Missing public static void main method signature', 'Forgetting public keyword on main method'],
+    summary: 'Java is a secure, platform-independent object-oriented language that compiles source code to bytecode which is executed on the JVM.'
   },
-  { id: 2, title: 'History of Java', diff: 'Easy', time: '20 min', phase: 'beginner', prereq: 'Introduction to Java',
-    desc: 'Origin of Oak language, Sun Microsystems, Java release timeline up to Java 21 LTS.',
-    theory: `Java was originally initiated in June 1991 by James Gosling, Mike Sheridan, and Patrick Naughton (The Green Team).\n\nInitially named "Oak" after an oak tree outside Gosling's office, it was later renamed "Java" from Java coffee. Sun Microsystems released Java 1.0 in 1996.\n\nKey Release Milestones:\n- 1995: Java is officially announced.\n- 2004: Java 5 (Generics, Annotations, Enums, For-Each loop).\n- 2014: Java 8 (Lambda Expressions, Stream API, Optional, Default Methods).\n- 2017: Java 9 (Java Platform Module System - JPMS).\n- 2021: Java 17 LTS (Sealed classes, Pattern matching).\n- 2023: Java 21 LTS (Virtual Threads, Record Patterns, Sequenced Collections).`,
-    code: `public class JavaHistory {\n    public static void main(String[] args) {\n        String creator = "James Gosling";\n        int releaseYear = 1995;\n        System.out.println("Created by: " + creator);\n        System.out.println("Initial Release: " + releaseYear);\n        System.out.println("Current LTS: Java 21");\n    }\n}`,
-    output: `Created by: James Gosling\nInitial Release: 1995\nCurrent LTS: Java 21`,
-    note: 'Oracle releases a new Java version every 6 months, with Long-Term Support (LTS) versions released every 2 years.',
-    warning: 'Legacy Java 8 code is still widespread in industry, but modern codebases leverage Java 17/21 features.',
-    tip: 'Focus heavily on Java 8 (Streams & Lambdas) and Java 17/21 (Records & Virtual Threads) for interviews.',
-    interviewTip: '"Which Java versions are LTS?" — Java 8, Java 11, Java 17, and Java 21 are the major LTS versions.',
-    mistakes: ['Confusing Java with JavaScript (they are completely different languages)', 'Not knowing which LTS version your project targets'],
-    summary: 'Java evolved from Oak in 1991 to modern LTS versions (Java 17/21) powering enterprise backends worldwide.'
+  { id: 2, title: 'JDK Installation', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'Introduction',
+    desc: 'Setting up JDK, configuring JAVA_HOME environment variable, compile and run instructions.',
+    theory: `The Java Development Kit (JDK) contains tools for developing and running Java programs. It includes the Java Runtime Environment (JRE) and tools like the compiler (javac) and launcher (java).\n\nTo develop Java apps, download and install JDK (e.g. OpenJDK or Oracle JDK), and add the bin directory path to the system path environment variable. Set JAVA_HOME pointing to the JDK root.`,
+    code: `// Compile program in terminal:\n// javac HelloWorld.java\n\n// Run program in terminal:\n// java HelloWorld\n\npublic class JDKCheck {\n    public static void main(String[] args) {\n        System.out.println("JDK is working successfully!");\n        System.out.println("Java Version: " + System.getProperty("java.version"));\n    }\n}`,
+    output: `JDK is working successfully!\nJava Version: 17.0.2`,
+    note: 'The command "javac" runs the compiler, converting Java source code into JVM bytecode.',
+    warning: 'Always compile first (javac filename.java) before executing the binary (java classname).',
+    tip: 'Use newer JDK versions (11+) to run a single-file Java source program directly with: java HelloWorld.java (skipping javac step).',
+    interviewTip: '"What is the difference between JDK, JRE, and JVM?" — JDK is development kit (JRE + tools), JRE is runtime environment (JVM + libraries), JVM is the engine executing bytecode.',
+    mistakes: ['Not setting the PATH environment variable', 'Running "java classname.class" instead of "java classname"', 'Compiler not found error'],
+    summary: 'Installing the JDK and setting up environment variables is required to compile and run Java programs locally.'
   },
-  { id: 3, title: 'Features of Java', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'History of Java',
-    desc: 'The 12 Buzzwords of Java: Simple, OOP, Distributed, Multithreaded, Secure, Dynamic.',
-    theory: `The Java language specification defines 12 fundamental features (buzzwords):\n1. Simple: Easy to learn, clean syntax derived from C/C++, no pointers or operator overloading.\n2. Object-Oriented: Everything is an Object (except primitive types).\n3. Platform Independent: WORA via Bytecode and JVM.\n4. Robust: Strong memory management, automatic garbage collection, exception handling.\n5. Secure: No explicit pointers, sandbox execution model, bytecode verifier.\n6. Architecture-Neutral: Primitive type sizes are fixed regardless of 32-bit or 64-bit OS.\n7. Portable: Bytecode can be carried to any hardware platform.\n8. High Performance: Just-In-Time (JIT) compiler speeds up bytecode execution to near native speeds.\n9. Distributed: RMI, Networking APIs allow network application development.\n10. Dynamic: Dynamic class loading at runtime.\n11. Multithreaded: Native support for multi-core concurrent task execution.\n12. Interpreted & Compiled: Hybrid execution model.`,
-    code: `public class JavaFeatures {\n    public static void main(String[] args) {\n        String[] features = {"Simple", "OOP", "Platform-Independent", "Robust", "Secure", "Multithreaded"};\n        System.out.println("Key Java Buzzwords:");\n        for (String f : features) {\n            System.out.println("- " + f);\n        }\n    }\n}`,
-    output: `Key Java Buzzwords:\n- Simple\n- OOP\n- Platform-Independent\n- Robust\n- Secure\n- Multithreaded`,
-    note: 'High performance is achieved because JIT compiles hot bytecode paths into native machine instructions at runtime.',
-    warning: 'Java is not 100% pure Object-Oriented because primitive types (int, char, boolean) exist for performance.',
-    tip: 'To make Java 100% OOP, wrapper classes (Integer, Character, Boolean) are provided.',
-    interviewTip: '"Is Java 100% Object-Oriented?" — No, because primitive types (int, float, char, etc.) are supported directly for efficiency.',
-    mistakes: ['Claiming Java is fully interpreted', 'Thinking pointers exist explicitly in Java code'],
-    summary: 'Java buzzwords highlight its security, portability, multithreading capability, and high performance.'
+  { id: 3, title: 'Variables', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'JDK Installation',
+    desc: 'Declaring variables, local vs. instance vs. static variables, type casting in Java.',
+    theory: `A variable is a container that holds data. Java is statically typed, meaning all variables must be declared before use.\n\nJava variables are categorized into:\n1. Local: Declared inside a method, block, or constructor. No default values.\n2. Instance (Non-Static): Declared inside a class but outside methods. Initialized to default values.\n3. Static: Shared across all instances of a class.\n\nType casting is converting one data type to another: widening (automatic) vs narrowing (explicit).`,
+    code: `public class VariablesDemo {\n    static int staticVar = 100; // Static variable\n    int instanceVar = 50;       // Instance variable\n\n    public static void main(String[] args) {\n        int localVar = 10;      // Local variable\n        System.out.println("Local: " + localVar);\n        System.out.println("Static: " + staticVar);\n\n        // Narrowing Type Casting (Double to Int)\n        double myDouble = 9.78;\n        int myInt = (int) myDouble;\n        System.out.println("Double: " + myDouble + " -> Int: " + myInt);\n    }\n}`,
+    output: `Local: 10\nStatic: 100\nDouble: 9.78 -> Int: 9`,
+    note: 'Static variables are loaded into memory once at class load time, instance variables are allocated whenever objects are instantiated.',
+    warning: 'Local variables do not have default values. Using uninitialized local variables triggers compilation errors.',
+    tip: 'Use camelCase naming conventions for Java variables, starting with a lowercase letter.',
+    interviewTip: '"Can we declare a static variable inside a method?" — No, static variables are class-level entities and cannot be declared inside a method.',
+    mistakes: ['Using local variables without initialization', 'Losing precision during narrowing cast without explicit cast syntax'],
+    summary: 'Variables represent named memory slots. Java variables can be local, instance, or static, and type casting enables type conversion.'
   },
-  { id: 4, title: 'JDK, JRE and JVM', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'Features of Java',
-    desc: 'Deep dive into JDK vs JRE vs JVM architecture, Classloader, Heap, Stack, and JIT Compiler.',
-    theory: `Understanding the Java execution trio:\n\n1. JVM (Java Virtual Machine):\nAn abstract virtual machine that executes bytecode. It manages memory (Heap, Stack, Method Area, Program Counter, Native Stack) and contains the Execution Engine (Interpreter + JIT Compiler + Garbage Collector).\n\n2. JRE (Java Runtime Environment):\nJRE = JVM + Core Class Libraries (rt.jar / java.base module). It provides the runtime environment to run Java apps.\n\n3. JDK (Java Development Kit):\nJDK = JRE + Development Tools (javac compiler, javap disassembler, javadoc, jdb debugger, jar packager).\n\nJVM Memory Components:\n- Method Area: Stores class structures, constant pool, static variables.\n- Heap Area: Stores all created Objects and instance variables.\n- Stack Area: Stores method calls, local variables, and frame data.\n- PC Register: Tracks next JVM instruction address.\n- Native Method Stack: Contains C/C++ native method calls.`,
-    code: `public class MemoryDemo {\n    static int globalCount = 100; // Stored in Method Area\n\n    public static void main(String[] args) {\n        int x = 10; // Stored in Stack\n        String msg = new String("Hello"); // Object in Heap, reference 'msg' in Stack\n        System.out.println("x: " + x + ", msg: " + msg + ", static: " + globalCount);\n    }\n}`,
-    output: `x: 10, msg: Hello, static: 100`,
-    note: 'Heap memory is shared across all threads, whereas Stack memory is private to each thread.',
-    warning: 'Exhausting Heap space results in OutOfMemoryError; exhausting Stack space results in StackOverflowError.',
-    tip: 'Use JVM arguments like -Xms (initial heap) and -Xmx (max heap) to tune application memory.',
-    interviewTip: '"Explain JVM architecture." — Mention Classloader, Memory Data Areas (Heap, Stack, Method Area), Execution Engine (JIT + GC), and Native Interfaces.',
-    mistakes: ['Confusing JRE with JDK', 'Thinking stack memory holds object data'],
-    summary: 'JDK is for developers, JRE is for running, and JVM is the execution engine allocating Heap & Stack memory.'
+  { id: 4, title: 'Data Types', diff: 'Easy', time: '30 min', phase: 'beginner', prereq: 'Variables',
+    desc: 'Primitive types vs. Reference types. Type bounds, sizes, and wrappers.',
+    theory: `Java data types are split into Primitive and Reference types.\n\nPrimitives (Predefined & Fixed Size):\n- Integer types: byte (1B), short (2B), int (4B), long (8B).\n- Floating points: float (4B), double (8B).\n- Character: char (2B, UTF-16).\n- Boolean: boolean (1-bit logical).\n\nReference types point to objects (instances of classes, interfaces, or arrays) and default to null. Wrapper classes (Integer, Double, etc.) represent primitives as objects.`,
+    code: `public class DataTypes {\n    public static void main(String[] args) {\n        // Primitive assignments\n        int count = 50000;\n        float price = 19.99f;\n        char grade = 'A';\n        boolean isJavaFun = true;\n\n        // Reference types\n        String message = "Java is fun!";\n        \n        System.out.println("Int size bounds: " + Integer.MIN_VALUE + " to " + Integer.MAX_VALUE);\n        System.out.println("Boolean flag: " + isJavaFun);\n        System.out.println("Reference String: " + message);\n    }\n}`,
+    output: `Int size bounds: -2147483648 to 2147483647\nBoolean flag: true\nReference String: Java is fun!`,
+    note: 'Java char uses 2 bytes because it supports Unicode characters, allowing representation of international symbols.',
+    warning: 'Forgetting the "f" suffix for float literals (e.g. 3.14) causes a double-to-float compilation error.',
+    tip: 'Use Wrapper classes when working with Collection frameworks (e.g., ArrayList<Integer>, not ArrayList<int>).',
+    interviewTip: '"Is String a primitive data type in Java?" — No, String is a class (Reference type) in the java.lang package.',
+    mistakes: ['Assigning decimal value to float without f suffix', 'Forgetting that Reference types default to null, causing NullPointerException'],
+    summary: 'Primitives hold simple value states directly. Reference types point to objects. Wrappers bridge the gap.'
   },
-  { id: 5, title: 'Installation & Setup', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'JDK, JRE and JVM',
-    desc: 'Installing JDK 17/21, setting JAVA_HOME environment variable, configuring VS Code and IntelliJ IDEA.',
-    theory: `To start developing Java applications, follow these setup steps:\n\n1. Download OpenJDK or Oracle JDK 17/21 LTS.\n2. Install the JDK on your system (Windows, macOS, or Linux).\n3. Environment Variables Configuration:\n   - Set JAVA_HOME pointing to JDK installation directory (e.g. C:\\Program Files\\Java\\jdk-21).\n   - Add %JAVA_HOME%\\bin to System PATH variable.\n4. Verification:\n   Run in Terminal: javac -version and java -version.\n5. IDE Setup:\n   - VS Code: Install "Extension Pack for Java".\n   - IntelliJ IDEA: Download Community Edition (Best for Java development).`,
-    code: `// Verify setup in command prompt / terminal:\n// javac -version\n// java -version\n\npublic class SetupCheck {\n    public static void main(String[] args) {\n        System.out.println("Java Vendor: " + System.getProperty("java.vendor"));\n        System.out.println("Java Version: " + System.getProperty("java.version"));\n        System.out.println("Java Home: " + System.getProperty("java.home"));\n    }\n}`,
-    output: `Java Vendor: Oracle Corporation\nJava Version: 21.0.1\nJava Home: C:\\Program Files\\Java\\jdk-21`,
-    note: 'In modern Java (Java 11+), single-file source code can be run directly using "java SetupCheck.java" without running "javac" manually.',
-    warning: 'If "javac is not recognized" error occurs, check if JAVA_HOME\\bin is added to system PATH.',
-    tip: 'IntelliJ IDEA provides built-in JDK downloading during project creation.',
-    interviewTip: '"How do you set JAVA_HOME?" — Point JAVA_HOME to the root JDK folder and append %JAVA_HOME%\\bin to system PATH.',
-    mistakes: ['Pointing PATH to root folder instead of bin folder', 'Not restarting terminal after environment variable changes'],
-    summary: 'Download JDK, set JAVA_HOME and PATH variables, and test installation using java/javac terminal commands.'
+  { id: 5, title: 'Operators', diff: 'Easy', time: '30 min', phase: 'beginner', prereq: 'Data Types',
+    desc: 'Arithmetic, relational, logical, assignment, bitwise, shift, and ternary operators.',
+    theory: `Operators perform calculations on variables and values. Java provides:\n- Arithmetic: +, -, *, /, %\n- Relational: ==, !=, <, >, <=, >=\n- Logical: &&, ||, !\n- Assignment: =, +=, -=, *=, /=, %=\n- Bitwise: &, |, ^, ~\n- Shift: <<, >>, >>>\n- Ternary: condition ? valueIfTrue : valueIfFalse`,
+    code: `public class OperatorsDemo {\n    public static void main(String[] args) {\n        int x = 10, y = 3;\n        \n        // Modulo operator\n        System.out.println("x % y = " + (x % y)); // 1\n        \n        // Logical operator short-circuit\n        boolean check = (x > 5) && (y++ > 2);\n        System.out.println("check: " + check + ", y: " + y);\n        \n        // Ternary operator\n        int result = (x > y) ? x : y;\n        System.out.println("Greater value: " + result);\n    }\n}`,
+    output: `x % y = 1\ncheck: true, y: 4\nGreater value: 10`,
+    note: 'Java logical operators && and || support short-circuit evaluation, skipping right-hand operand evaluation when outcome is certain.',
+    warning: 'Be careful with assignment operator = inside print statements, use relational == for comparison checks.',
+    tip: 'Use shift operators (<< or >>) for fast division or multiplication by powers of 2.',
+    interviewTip: '"Explain the difference between >> and >>> operators." — >> is signed right shift (preserves the sign bit), while >>> is unsigned right shift (fills left vacancies with zeros).',
+    mistakes: ['Using single logical operators & or | when short-circuit && or || was intended', 'Precision loss during division of ints (e.g. 5/2 = 2)'],
+    summary: 'Operators process variables. Understanding precedence, short-circuit logic, and types of operators ensures accurate arithmetic and logic.'
   },
-  { id: 6, title: 'First Java Program', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'Installation & Setup',
-    desc: 'Line-by-line breakdown of a standard Java class, main method parameters, and execution lifecycle.',
-    theory: `Let us break down a standard Java program line by line:\n\n\`\`\`java\npublic class FirstProgram {\n    public static void main(String[] args) {\n        System.out.println("Hello, Java!");\n    }\n}\n\`\`\`\n\n- \`public\`: Access modifier making class visible everywhere.\n- \`class\`: Keyword used to declare a class.\n- \`FirstProgram\`: Class identifier (must match filename FirstProgram.java).\n- \`static\`: Method belongs to class; JVM can invoke main() without creating an instance.\n- \`void\`: Return type indicating main() returns no value.\n- \`main\`: Required entry point method name recognized by JVM.\n- \`String[] args\`: Array of command-line arguments passed to the program.\n- \`System.out.println()\`: System is a class, out is a static PrintStream field, println() prints output with newline.`,
-    code: `public class FirstProgram {\n    public static void main(String[] args) {\n        System.out.println("1. Compiling: javac FirstProgram.java");\n        System.out.println("2. Bytecode Generated: FirstProgram.class");\n        System.out.println("3. Executing: java FirstProgram");\n    }\n}`,
-    output: `1. Compiling: javac FirstProgram.java\n2. Bytecode Generated: FirstProgram.class\n3. Executing: java FirstProgram`,
-    note: 'Command line arguments can be passed when running: java FirstProgram arg1 arg2',
-    warning: 'Changing signature of main method (e.g. removing static or String[] args) causes NoSuchMethodError at runtime.',
-    tip: 'In IDEs like IntelliJ or Eclipse, type "psvm" + Tab to generate public static void main, and "sout" + Tab for System.out.println.',
-    interviewTip: '"Why is main static in Java?" — Because JVM calls main() before any class object exists in memory.',
-    mistakes: ['Writing main without static keyword', 'Misspelling System with lowercase s'],
-    summary: 'Every Java app starts from public static void main(String[] args) declared inside a public matching class file.'
+  { id: 6, title: 'Control Statements', diff: 'Easy', time: '30 min', phase: 'beginner', prereq: 'Operators',
+    desc: 'Decision making using if, if-else, else-if ladders, and switch-case statements.',
+    theory: `Control statements govern execution flow. Java offers:\n- \`if\`: Executes a block if conditional statement is true.\n- \`if-else\`: Selects between two options.\n- \`else-if\`: Handles multiple branching statements.\n- \`switch-case\`: Evaluates expressions against constant values. Java switch supports primitive integers, characters, strings, and enums.`,
+    code: `public class ControlStatements {\n    public static void main(String[] args) {\n        int score = 85;\n        String grade;\n        \n        if (score >= 90) {\n            grade = "A";\n        } else if (score >= 80) {\n            grade = "B";\n        } else {\n            grade = "C";\n        }\n        System.out.println("Grade: " + grade);\n        \n        // Switch statement\n        String day = "MON";\n        switch (day) {\n            case "MON":\n                System.out.println("Start of work week!");\n                break;\n            case "FRI":\n                System.out.println("Weekend is near!");\n                break;\n            default:\n                System.out.println("Midweek hustle!");\n        }\n    }\n}`,
+    output: `Grade: B\nStart of work week!`,
+    note: 'Java switch statement executes all statements from matching case downwards until break is reached (fall-through).',
+    warning: 'Forgetting the break keyword in switch blocks triggers fall-through execution to next case statements.',
+    tip: 'From Java 12 onwards, switch expressions are supported with arrow (->) syntax which does not require breaks.',
+    interviewTip: '"What data types can be used inside a switch expression?" — byte, short, char, int, wrapper classes, String, and Enum types.',
+    mistakes: ['Forgetting break in switch cases', 'Passing boolean conditions inside switch statement directly'],
+    summary: 'Control statements alter sequential flow. if-else scales logic branch, while switch simplifies multi-value evaluation.'
   },
-  { id: 7, title: 'Java Syntax', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'First Java Program',
-    desc: 'Java identifiers, keywords, naming conventions, comments, and code block formatting.',
-    theory: `Java Syntax Rules:\n\n1. Case Sensitivity: \`myVariable\` and \`MyVariable\` are different.\n2. Class Names: PascalCase (e.g., \`StudentManager\`, \`BankAccount\`).\n3. Method & Variable Names: camelCase (e.g., \`calculateSalary()\`, \`totalCount\`).\n4. Constants: ALL_CAPS_WITH_UNDERSCORES (e.g., \`MAX_VALUE\`, \`PI\`).\n5. Identifiers: Can start with letters, \`$\`, or \`_\`. Cannot start with numbers or be a reserved keyword.\n6. Semicolons: Every statement ends with a semicolon \`;\`.\n7. Comments:\n   - Single-line: \`// comment\`\n   - Multi-line: \`/* comment */\`\n   - Javadoc: \`/** documentation */\``,
-    code: `public class SyntaxRules {\n    // Constant definition\n    public static final double PI_VALUE = 3.14159;\n\n    /**\n     * Javadoc comment for main method\n     */\n    public static void main(String[] args) {\n        int studentAge = 20; // camelCase variable\n        boolean $isValid = true;\n        \n        System.out.println("Student Age: " + studentAge);\n        System.out.println("Constant PI: " + PI_VALUE);\n        System.out.println("Valid Identifier: " + $isValid);\n    }\n}`,
-    output: `Student Age: 20\nConstant PI: 3.14159\nValid Identifier: true`,
-    note: 'Javadoc comments (/** */) can be extracted automatically into HTML documentation using the javadoc tool.',
-    warning: 'Do not use Java reserved keywords (e.g., class, int, static, void, public) as variable names.',
-    tip: 'Follow standard Java style guidelines to make your code clean and readable across engineering teams.',
-    interviewTip: '"What are valid characters for Java identifiers?" — Letters (A-Z, a-z), digits (0-9, but not at start), currency symbol ($), and underscore (_).',
-    mistakes: ['Starting variable names with numbers (e.g. 1stName)', 'Using hyphen in variable names (e.g. student-name)'],
-    summary: 'Follow PascalCase for classes, camelCase for methods/variables, ALL_CAPS for constants, and end statements with semicolons.'
+  { id: 7, title: 'Loops', diff: 'Easy', time: '35 min', phase: 'beginner', prereq: 'Control Statements',
+    desc: 'Iterating using for, while, do-while, and enhanced-for loops. loop control.',
+    theory: `Loops repeat blocks of statements based on conditions. Java has four loops:\n1. \`for\`: Best when iterations count is known.\n2. \`while\`: Condition checked before loop executes.\n3. \`do-while\`: Guaranteed to execute at least once.\n4. \`enhanced-for\` (for-each): Traverses arrays/collections easily.\n\nUse \`break\` to exit loop, \`continue\` to skip current iteration.`,
+    code: `public class LoopsDemo {\n    public static void main(String[] args) {\n        // standard for loop\n        System.out.print("For loop: ");\n        for (int i = 1; i <= 3; i++) {\n            System.out.print(i + " ");\n        }\n        System.out.println();\n\n        // enhanced for loop\n        int[] numbers = {10, 20, 30};\n        System.out.print("Enhanced For: ");\n        for (int num : numbers) {\n            System.out.print(num + " ");\n        }\n        System.out.println();\n    }\n}`,
+    output: `For loop: 1 2 3 \nEnhanced For: 10 20 30 `,
+    note: 'The enhanced for-each loop is read-only. Modifying iteration variable does not modify original collection data elements.',
+    warning: 'Ensure while loop conditions eventually evaluate to false to prevent runtime freeze due to infinite loops.',
+    tip: 'Use break with label to exit out of nested loop structures directly.',
+    interviewTip: '"How does do-while loop differ from while loop?" — do-while evaluates condition after body execution, executing code at least once.',
+    mistakes: ['Off-by-one errors in loop boundaries', 'Accidentally placing semicolon at end of loop declaration (e.g. for(...);)'],
+    summary: 'Loops iterate actions. for loop is structured, while and do-while handle conditional repeats, for-each simplifies collection reads.'
   },
-  { id: 8, title: 'Variables', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'Java Syntax',
-    desc: 'Local vs Instance vs Static variables, scope, default values, and variable lifecycles.',
-    theory: `Variables in Java are containers that hold data values during execution.\n\nThree Types of Variables:\n\n1. Local Variables:\n- Declared inside methods, constructors, or blocks.\n- Created when method is called, destroyed when method exits.\n- NO default values — MUST be initialized before reading.\n- Stored in Stack memory.\n\n2. Instance Variables:\n- Declared inside a class but outside any method.\n- Belongs to an object instance.\n- Initialized to default values (0, 0.0, false, null).\n- Stored in Heap memory.\n\n3. Static Variables:\n- Declared with \`static\` keyword inside a class.\n- Shared across ALL instances of the class.\n- Created when class is loaded into memory.\n- Stored in Method Area / Metaspace.`,
-    code: `public class VariableTypes {\n    static String department = "Computer Science"; // Static Variable\n    int studentId; // Instance Variable (default: 0)\n\n    public void display() {\n        int score = 95; // Local Variable\n        System.out.println("ID: " + studentId + ", Score: " + score + ", Dept: " + department);\n    }\n\n    public static void main(String[] args) {\n        VariableTypes obj = new VariableTypes();\n        obj.studentId = 101;\n        obj.display();\n    }\n}`,
-    output: `ID: 101, Score: 95, Dept: Computer Science`,
-    note: 'Static variables can be accessed directly using ClassName.variableName without creating an object.',
-    warning: 'Attempting to use an uninitialized local variable results in a compilation error: "variable might not have been initialized".',
-    tip: 'Use instance variables for object-specific state and static variables for shared configurations.',
-    interviewTip: '"Difference between static and instance variables?" — Static variable is shared by all objects (class level), instance variable is unique per object.',
-    mistakes: ['Reading uninitialized local variable', 'Modifying static variable expecting change to affect only one object'],
-    summary: 'Local variables exist in stack within methods. Instance variables live in heap per object. Static variables exist per class.'
+  { id: 8, title: 'Methods', diff: 'Easy', time: '40 min', phase: 'beginner', prereq: 'Loops',
+    desc: 'Declaring methods, arguments, return types, and method overloading rules.',
+    theory: `A method is a collection of statements grouped to perform an operation. Java methods have parameters and return types.\n\nJava parameters are always passed by value (copies of references/primitives are passed, original reference variable pointer stays original).\n\nMethod Overloading allows multiple methods in the same class to share a name but differ in parameters (number, type, or order).`,
+    code: `public class MethodsDemo {\n    public static void main(String[] args) {\n        System.out.println("Sum of 2 ints: " + add(5, 10));\n        System.out.println("Sum of 3 ints: " + add(5, 10, 15));\n    }\n\n    // Overloaded methods\n    public static int add(int a, int b) {\n        return a + b;\n    }\n    \n    public static int add(int a, int b, int c) {\n        return a + b + c;\n    }\n}`,
+    output: `Sum of 2 ints: 15\nSum of 3 ints: 30`,
+    note: 'Method overloading is static polymorphism resolved by compiler at compile time based on method signatures.',
+    warning: 'Methods overloading cannot be done by changing ONLY the return type of the methods. Signature parameters must differ.',
+    tip: 'Use static modifier for helper methods that do not need to read instance variables of the class.',
+    interviewTip: '"Does Java pass arguments by value or reference?" — Java is strictly call-by-value. For objects, the copy of reference handles modification, but reference reassignment fails.',
+    mistakes: ['Expecting parameter reassignment to change original variable reference in caller scope', 'Overloading methods with same parameters but differing return types'],
+    summary: 'Methods define actions. Method overloading allows the same method name to process different parameter lists.'
   },
-  { id: 9, title: 'Data Types', diff: 'Easy', time: '30 min', phase: 'beginner', prereq: 'Variables',
-    desc: 'Primitive data types (byte, short, int, long, float, double, char, boolean) vs Reference types.',
-    theory: `Java data types are split into Primitive and Reference types:\n\n1. Primitive Data Types (8 Built-in Types):\n- \`byte\`: 1 byte (-128 to 127)\n- \`short\`: 2 bytes (-32,768 to 32,767)\n- \`int\`: 4 bytes (-2^31 to 2^31-1)\n- \`long\`: 8 bytes (-2^63 to 2^63-1) [Requires 'L' suffix]\n- \`float\`: 4 bytes (6-7 decimal digits) [Requires 'f' suffix]\n- \`double\`: 8 bytes (15-16 decimal digits) [Default decimal type]\n- \`char\`: 2 bytes (0 to 65,535, UTF-16 Unicode character)\n- \`boolean\`: 1 bit (true or false)\n\n2. Reference / Non-Primitive Data Types:\n- Classes, Interfaces, Arrays, Enums, Strings.\n- Store references (memory addresses) pointing to Objects in Heap memory.\n- Default value is \`null\`.`,
-    code: `public class DataTypesDemo {\n    public static void main(String[] args) {\n        // Primitives\n        byte b = 100;\n        short s = 25000;\n        int i = 100000;\n        long l = 9876543210L;\n        float f = 5.75f;\n        double d = 19.99;\n        char ch = 'J';\n        boolean isPass = true;\n\n        // Reference type\n        String tech = "Java";\n\n        System.out.println("Primitives: " + b + ", " + s + ", " + i + ", " + l);\n        System.out.println("Floats: " + f + ", " + d);\n        System.out.println("Char: " + ch + " (Unicode: " + (int)ch + ")");\n        System.out.println("Reference String: " + tech);\n    }\n}`,
-    output: `Primitives: 100, 25000, 100000, 9876543210\nFloats: 5.75, 19.99\nChar: J (Unicode: 74)\nReference String: Java`,
-    note: 'In Java, char uses 2 bytes (16 bits) because it uses UTF-16 encoding to support international characters.',
-    warning: 'Forgetting L suffix for long literals exceeding Integer bounds causes compiler error.',
-    tip: 'Use double for floating point calculations unless memory optimization is critical.',
-    interviewTip: '"Why is char 2 bytes in Java?" — Because Java supports Unicode character encoding (UTF-16) covering global languages.',
-    mistakes: ['Assigning double value to float variable without f suffix', 'Assuming boolean size is fixed to 1 byte (size depends on JVM spec)'],
-    summary: 'Java has 8 primitive data types for storing raw values, and reference types for pointing to heap objects.'
+  { id: 9, title: 'Arrays', diff: 'Easy', time: '35 min', phase: 'beginner', prereq: 'Methods',
+    desc: '1D and 2D arrays, bounds check, utility class Arrays, instantiation.',
+    theory: `An array is a container object holding fixed number of values of single data type. Array elements are accessed via 0-based indices.\n\nJava arrays are dynamically created object structures in heap memory. \`java.util.Arrays\` provides helpers (sort, search, fill).`,
+    code: `import java.util.Arrays;\n\npublic class ArraysDemo {\n    public static void main(String[] args) {\n        int[] numbers = {40, 10, 30, 20};\n        Arrays.sort(numbers);\n        System.out.println("Sorted array: " + Arrays.toString(numbers));\n        \n        // 2D Array Matrix\n        int[][] matrix = {{1, 2}, {3, 4}};\n        System.out.println("Matrix [1][0]: " + matrix[1][0]);\n    }\n}`,
+    output: `Sorted array: [10, 20, 30, 40]\nMatrix [1][0]: 3`,
+    note: 'Attempting to access indices beyond array size triggers ArrayIndexOutOfBoundsException, which is runtime runtime check.',
+    warning: 'Arrays in Java are fixed size objects. Once instantiated, their size cannot be expanded.',
+    tip: 'Use Arrays.copyOf() to copy or resize arrays, or migrate to ArrayList for dynamic resizing structures.',
+    interviewTip: '"How are arrays stored in memory in Java?" — Array variable resides in stack, array elements/object values are created in Heap.',
+    mistakes: ['Accessing index length instead of length-1', 'Treating array instance as dynamically resizeable container'],
+    summary: 'Arrays store contiguous fixed-type collections. Memory checks prevent index overflows, java.util.Arrays utility optimizes sorting.'
   },
-  { id: 10, title: 'Type Casting', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'Data Types',
-    desc: 'Widening (implicit) casting vs Narrowing (explicit) casting, type promotion in arithmetic expressions.',
-    theory: `Type casting is assigning a value of one primitive data type to another type.\n\n1. Widening Casting (Implicit / Automatic):\n- Converts smaller type to larger type.\n- \`byte\` → \`short\` → \`char\` → \`int\` → \`long\` → \`float\` → \`double\`\n- Safe! No data loss.\n\n2. Narrowing Casting (Explicit / Manual):\n- Converts larger type to smaller type.\n- Must be done manually using parentheses \`(datatype)\`.\n- Risk of data truncation or precision loss.\n\n3. Type Promotion in Expressions:\n- \`byte\`, \`short\`, and \`char\` operands are automatically promoted to \`int\` when performing arithmetic calculations.`,
-    code: `public class TypeCastingDemo {\n    public static void main(String[] args) {\n        // Widening Casting (int to double)\n        int num = 100;\n        double dNum = num; // Automatic\n        System.out.println("Int: " + num + " -> Double: " + dNum);\n\n        // Narrowing Casting (double to int)\n        double pi = 3.14159;\n        int intPi = (int) pi; // Explicit\n        System.out.println("Double: " + pi + " -> Int: " + intPi);\n\n        // Type Promotion\n        byte a = 40;\n        byte b = 50;\n        int result = a * b; // a and b promoted to int\n        System.out.println("Byte multiplication result: " + result);\n    }\n}`,
-    output: `Int: 100 -> Double: 100.0\nDouble: 3.14159 -> Int: 3\nByte multiplication result: 2000`,
-    note: 'When narrowing a double to an int, decimal values are truncated (cut off), not rounded.',
-    warning: 'Explicit narrowing cast can cause integer overflow if target type capacity is exceeded.',
-    tip: 'Use Math.round() before narrowing if you need rounded values instead of truncated decimals.',
-    interviewTip: '"What is automatic type promotion in Java?" — In arithmetic expressions, byte/short/char are promoted to int, long if one operand is long, float if float, double if double.',
-    mistakes: ['Trying to store (byte * byte) result back into a byte without explicit cast', 'Expecting (int)3.99 to equal 4'],
-    summary: 'Widening occurs automatically safely; narrowing requires explicit (type) syntax and truncates precision.'
+  { id: 10, title: 'Strings', diff: 'Easy', time: '35 min', phase: 'beginner', prereq: 'Arrays',
+    desc: 'String immutability, Constant Pool, StringBuilder and StringBuffer details.',
+    theory: `String class is immutable in Java — value cannot be altered after creation. Unused literals reside in String Constant Pool (SCP) to conserve heap memory.\n\nUse StringBuilder (non-synchronized, faster) or StringBuffer (synchronized, thread-safe) for frequent string modification loops.`,
+    code: `public class StringsDemo {\n    public static void main(String[] args) {\n        String s1 = "Hello"; // Constant Pool\n        String s2 = "Hello"; \n        System.out.println("s1 == s2: " + (s1 == s2)); // true\n        \n        // StringBuilder for modifications\n        StringBuilder sb = new StringBuilder("Java");\n        sb.append(" Programming");\n        System.out.println("StringBuilder: " + sb);\n    }\n}`,
+    output: `s1 == s2: true\nStringBuilder: Java Programming`,
+    note: 'Use equals() for content comparison and == for reference comparison of String variables.',
+    warning: 'Modifying standard String objects inside loop structures creates redundant garbage strings in the pool.',
+    tip: 'Always use StringBuilder for concat operations inside iterative loop constructs.',
+    interviewTip: '"Why are Strings immutable in Java?" — Security, Thread-safety, and Memory caching in the String Constant Pool.',
+    mistakes: ['Using == to check if strings have equal text content', 'Performing heavy String concats with + inside loop blocks'],
+    summary: 'Strings hold text. SCP optimizes duplicate storage. Immutability secures keys. StringBuilder optimizes fast concats.'
   },
-  { id: 11, title: 'Operators', diff: 'Easy', time: '30 min', phase: 'beginner', prereq: 'Type Casting',
-    desc: 'Arithmetic, Relational, Logical, Bitwise, Shift, Assignment, and Ternary operators.',
-    theory: `Operators are special symbols used to perform operations on variables and values.\n\nCategories of Operators:\n1. Arithmetic: \`+\`, \`-\`, \`*\`, \`/\`, \`%\` (Modulo / Remainder)\n2. Relational: \`==\`, \`!=\`, \`>\`, \`<\`, \`>=\`, \`<=\` (Returns boolean)\n3. Logical: \`&&\` (Short-circuit AND), \`||\` (Short-circuit OR), \`!\` (NOT)\n4. Bitwise: \`&\` (AND), \`|\` (OR), \`^\` (XOR), \`~\` (Complement)\n5. Shift Operators: \`<<\` (Left shift), \`>>\` (Signed right shift), \`>>>\` (Unsigned right shift)\n6. Assignment: \`=\`, \`+=\`, \`-=\`, \`*=\`, \`/=\`, \`%=\` \n7. Ternary Operator: \`variable = (condition) ? expression1 : expression2;\``,
-    code: `public class OperatorsDemo {\n    public static void main(String[] args) {\n        int a = 15, b = 4;\n        \n        // Arithmetic & Modulo\n        System.out.println("15 / 4 = " + (a / b)); // Integer division = 3\n        System.out.println("15 % 4 = " + (a % b)); // Remainder = 3\n\n        // Short-circuit Logical\n        boolean check = (a > 10) || (++b > 10);\n        System.out.println("Check: " + check + ", b: " + b); // b remains 4 due to short-circuit\n\n        // Ternary Operator\n        int max = (a > b) ? a : b;\n        System.out.println("Max value: " + max);\n\n        // Unsigned Right Shift\n        int neg = -8;\n        System.out.println("-8 >> 1: " + (neg >> 1));  // -4\n        System.out.println("-8 >>> 1: " + (neg >>> 1)); // 2147483644\n    }\n}`,
-    output: `15 / 4 = 3\n15 % 4 = 3\nCheck: true, b: 4\nMax value: 15\n-8 >> 1: -4\n-8 >>> 1: 2147483644`,
-    note: 'In logical OR (||), if the first operand is true, the second operand is never evaluated.',
-    warning: 'Do not confuse single assignment = with double relational equality operator ==.',
-    tip: 'Use ternary operators for concise conditional variable initialization.',
-    interviewTip: '"Difference between >> and >>> in Java?" — >> preserves sign bit (signed shift), while >>> fills empty left positions with 0 (unsigned shift).',
-    mistakes: ['Using = instead of == in conditional checks', 'Division of integers expecting double output (use 15.0 / 4)'],
-    summary: 'Operators manipulate data values. Master arithmetic, relational, short-circuit logical, and bitwise shift operators.'
+  { id: 11, title: 'OOP', diff: 'Easy', time: '40 min', phase: 'beginner', prereq: 'Strings',
+    desc: 'Classes, object instantiations, constructor overloading, and the static keyword.',
+    theory: `Object-Oriented Programming (OOP) uses objects representing fields and methods. Java is multi-paradigm OOP.\n\nClasses serve as blueprint blueprints. Constructors initialize objects. static members belong to class itself rather than instances.`,
+    code: `public class Student {\n    String name;\n    static String college = "BCA Dept";\n\n    // Constructor overloading\n    public Student(String name) {\n        this.name = name;\n    }\n\n    public static void main(String[] args) {\n        Student s = new Student("Alice");\n        System.out.println("Student: " + s.name + ", College: " + college);\n    }\n}`,
+    output: `Student: Alice, College: BCA Dept`,
+    note: 'this keyword references current active object instance. static variables can be shared globally.',
+    warning: 'static methods cannot reference non-static variables/methods directly without creating object references.',
+    tip: 'Use private fields and public getters/setters to implement Encapsulation design patterns.',
+    interviewTip: '"What is constructor overloading?" — Defining multiple constructors in a class with different parameter lists.',
+    mistakes: ['Referencing instance variables inside static blocks', 'Assuming constructor has return types'],
+    summary: 'OOP organizes logic around classes and objects. Constructors instantiate fields, static keyword defines shared scopes.'
   },
-  { id: 12, title: 'User Input (Scanner)', diff: 'Easy', time: '25 min', phase: 'beginner', prereq: 'Operators',
-    desc: 'Reading keyboard input using Scanner class, BufferedReader, and handling scanner line traps.',
-    theory: `To accept input from users in Java, use the \`Scanner\` class from \`java.util\` package.\n\nKey Scanner Methods:\n- \`nextInt()\`: Reads an integer\n- \`nextDouble()\`: Reads a double decimal\n- \`next()\`: Reads a single word (delimited by space)\n- \`nextLine()\`: Reads an entire line of text\n\nScanner Trap (Leftover Newline):\nCalling \`nextLine()\` immediately after \`nextInt()\` or \`nextDouble()\` consumes the leftover newline character (\\n) in buffer. Solution: Call an extra \`scanner.nextLine()\` to consume the residual newline.`,
-    code: `import java.util.Scanner;\n\npublic class UserInputDemo {\n    public static void main(String[] args) {\n        // Create Scanner object reading from System.in\n        Scanner scanner = new Scanner(System.in);\n\n        System.out.print("Enter your name: ");\n        String name = scanner.nextLine();\n\n        System.out.print("Enter your age: ");\n        int age = scanner.nextInt();\n        scanner.nextLine(); // Clear buffer trap!\n\n        System.out.print("Enter your department: ");\n        String dept = scanner.nextLine();\n\n        System.out.println("\\n--- Student Profile ---");\n        System.out.println("Name: " + name);\n        System.out.println("Age: " + age);\n        System.out.println("Department: " + dept);\n\n        scanner.close(); // Close resource\n    }\n}`,
-    output: `Enter your name: Sayan\nEnter your age: 21\nEnter your department: BCA Computer Science\n\n--- Student Profile ---\nName: Sayan\nAge: 21\nDepartment: BCA Computer Science`,
-    note: 'Always close your Scanner object using scanner.close() when finished to prevent resource leaks.',
-    warning: 'Passing non-integer input to nextInt() throws InputMismatchException.',
-    tip: 'Use scanner.hasNextInt() to check if valid integer input is available before reading.',
-    interviewTip: '"How do Scanner and BufferedReader compare?" — BufferedReader is synchronized, faster (large buffer 8KB), reads strings only. Scanner parses tokens with regex but is slower.',
-    mistakes: ['Skipping scanner.nextLine() buffer clear after nextInt()', 'Forgetting to import java.util.Scanner'],
-    summary: 'Scanner class reads user input from System.in. Clear newline buffer after reading primitive numbers.'
+  { id: 12, title: 'Inheritance', diff: 'Medium', time: '45 min', phase: 'intermediate', prereq: 'OOP',
+    desc: 'Single, multilevel, and hierarchical inheritance, super keyword, constructor calls.',
+    theory: `Inheritance allows one class to acquire properties (fields & methods) of another. Extends keyword establishes IS-A relation.\n\nJava supports Single, Multilevel, and Hierarchical inheritance, but does NOT support Multiple inheritance with classes to avoid ambiguity. super keyword references parent variables/constructors.`,
+    code: `class Parent {\n    Parent() { System.out.println("Parent Constructor"); }\n}\n\nclass Child extends Parent {\n    Child() {\n        super(); // Call parent constructor\n        System.out.println("Child Constructor");\n    }\n\n    public static void main(String[] args) {\n        new Child();\n    }\n}`,
+    output: `Parent Constructor\nChild Constructor`,
+    note: 'If super() is not explicitly called in a subclass constructor, the compiler automatically inserts super() as the first statement.',
+    warning: 'Private members of superclasses are not inherited directly. Access them using public getters and setters.',
+    tip: 'Inheritance should only be used when an IS-A relationship exists between child and parent.',
+    interviewTip: '"Why does Java not support multiple inheritance with classes?" — To prevent the Diamond Problem, where subclass inherits duplicate properties from multiple parents.',
+    mistakes: ['Declaring extends on final classes (causes compile error)', 'Forgetting super() rules'],
+    summary: 'Inheritance enables reuse. Extends links subclass to superclass. Multiple inheritance is banned for classes, super keyword accesses parent.'
   },
-  { id: 13, title: 'Conditional Statements', diff: 'Easy', time: '30 min', phase: 'beginner', prereq: 'User Input (Scanner)',
-    desc: 'Decision making with if, if-else, else-if ladders, nested conditions, and Java 14+ Switch Expressions.',
-    theory: `Conditional statements allow Java programs to execute different code paths based on boolean conditions.\n\n1. \`if-else\` Ladder:\nEvaluates sequential conditions from top to bottom.\n\n2. \`switch\` Statement:\nEvaluates an expression against constant \`case\` values. Supports \`byte\`, \`short\`, \`char\`, \`int\`, \`String\`, and \`Enum\`.\n\n3. Java 14+ Switch Expressions (Arrow Syntax):\nReturns values directly without needing \`break\` or fall-through risk.`,
-    code: `public class ConditionalsDemo {\n    public static void main(String[] args) {\n        int marks = 85;\n\n        // if-else ladder\n        if (marks >= 90) {\n            System.out.println("Grade: A+");\n        } else if (marks >= 80) {\n            System.out.println("Grade: A");\n        } else {\n            System.out.println("Grade: B");\n        }\n\n        // Modern Switch Expression (Java 14+)\n        int dayNum = 3;\n        String dayName = switch (dayNum) {\n            case 1 -> "Monday";\n            case 2 -> "Tuesday";\n            case 3 -> "Wednesday";\n            case 4 -> "Thursday";\n            case 5 -> "Friday";\n            default -> "Weekend";\n        };\n        System.out.println("Day 3 is: " + dayName);\n    }\n}`,
-    output: `Grade: A\nDay 3 is: Wednesday`,
-    note: 'Standard switch statements fall through to next case unless a break statement is explicitly written.',
-    warning: 'Switch statements do not support float, double, or boolean data types.',
-    tip: 'Use arrow syntax (->) in modern Java switch statements to avoid writing break statements.',
-    interviewTip: '"Which types are valid in a Java switch statement?" — byte, short, char, int, Integer wrappers, String, and Enums.',
-    mistakes: ['Forgetting break in legacy switch statements causing unexpected fall-through', 'Using float expressions inside switch'],
-    summary: 'if-else tests boolean ranges; switch matches discrete constant values or strings efficiently.'
+  { id: 13, title: 'Polymorphism', diff: 'Medium', time: '40 min', phase: 'intermediate', prereq: 'Inheritance',
+    desc: 'Runtime overriding vs compile-time overloading, final keyword rules.',
+    theory: `Polymorphism allows objects to take multiple forms. Compile-time (Method Overloading) is resolved by signatures. Runtime (Method Overriding) is resolved at runtime based on dynamic object type.\n\nfinal keyword prevents inheritance (final classes), overriding (final methods), or value changes (final variables).`,
+    code: `class Animal {\n    void sound() { System.out.println("Animal sound"); }\n}\n\nclass Dog extends Animal {\n    @Override\n    void sound() { System.out.println("Bark"); } // Overridden method\n\n    public static void main(String[] args) {\n        Animal myDog = new Dog(); // Dynamic Method Dispatch\n        myDog.sound();\n    }\n}`,
+    output: `Bark`,
+    note: 'Dynamic Method Dispatch allows parent references to point to child objects, selecting subclass methods at execution time.',
+    warning: 'Overriding methods cannot lower the visibility modifier of the parent method (e.g. public to protected).',
+    tip: 'Always use @Override annotation to catch signature errors during compile time.',
+    interviewTip: '"Can we override a static method?" — No, static methods are bound to classes and are hidden, not overridden (Method Hiding).',
+    mistakes: ['Lowering accessibility of overridden method', 'Attempting to override final or static methods'],
+    summary: 'Polymorphism executes dynamic behaviors. Overriding provides specific subclass actions, dynamic dispatch runs runtime selections.'
   },
-  { id: 14, title: 'Loops', diff: 'Easy', time: '35 min', phase: 'beginner', prereq: 'Conditional Statements',
-    desc: 'Iterating using for, while, do-while, enhanced for-each loop, break, continue, and labeled loops.',
-    theory: `Loops execute a block of code repeatedly until a termination condition is met.\n\n1. \`for\` Loop: Ideal when total iteration count is known in advance.\n2. \`while\` Loop: Entry-controlled loop; checks condition before executing body.\n3. \`do-while\` Loop: Exit-controlled loop; executes body AT LEAST ONCE before checking condition.\n4. \`enhanced for-each\` Loop: Iterates over arrays and Collections cleanly.\n5. Control Keywords:\n   - \`break\`: Exits loop immediately.\n   - \`continue\`: Skips current iteration and moves to next loop cycle.\n   - \`labeled loops\`: Allows breaking/continuing outer loops in nested scenarios.`,
-    code: `public class LoopsDemo {\n    public static void main(String[] args) {\n        // Enhanced For-Each Loop\n        int[] scores = {90, 85, 78, 92};\n        System.out.print("Scores: ");\n        for (int score : scores) {\n            System.out.print(score + " ");\n        }\n        System.out.println();\n\n        // Labeled Loop Example\n        outerLoop:\n        for (int i = 1; i <= 3; i++) {\n            for (int j = 1; j <= 3; j++) {\n                if (i == 2 && j == 2) break outerLoop;\n                System.out.println("i=" + i + ", j=" + j);\n            }\n        }\n    }\n}`,
-    output: `Scores: 90 85 78 92 \ni=1, j=1\ni=1, j=2\ni=1, j=3\ni=2, j=1`,
-    note: 'The enhanced for-each loop is read-only; you cannot modify array elements directly through the loop variable.',
-    warning: 'Ensure while/do-while loop control variables update properly to avoid infinite loops.',
-    tip: 'Prefer enhanced for-each loops when iterating over arrays or collections without requiring indices.',
-    interviewTip: '"Difference between while and do-while?" — while tests condition before execution; do-while executes body once guaranteed before condition check.',
-    mistakes: ['Off-by-one errors in array loop bounds (using <= array.length)', 'Modifying collection inside for-each loop causing ConcurrentModificationException'],
-    summary: 'Loops repeat code logic. Use for/while for conditional iterations and enhanced for-each for traversing collections.'
+  { id: 14, title: 'Abstraction', diff: 'Medium', time: '45 min', phase: 'intermediate', prereq: 'Polymorphism',
+    desc: 'Abstract classes, abstract methods, and implementing design rules.',
+    theory: `Abstraction hides implementation details and exposes essential attributes. Abstract classes cannot be instantiated.\n\nThey can contain abstract methods (signatures only) and concrete methods. Subclasses must implement all abstract methods.`,
+    code: `abstract class Vehicle {\n    abstract void run(); // abstract method\n    void stop() { System.out.println("Vehicle stopped"); }\n}\n\nclass Car extends Vehicle {\n    void run() { System.out.println("Car is running safely"); }\n\n    public static void main(String[] args) {\n        Vehicle myCar = new Car();\n        myCar.run();\n        myCar.stop();\n    }\n}`,
+    output: `Car is running safely\nVehicle stopped`,
+    note: 'Abstract classes serve as incomplete skeletons for subclasses. They can declare constructor blocks.',
+    warning: 'If a subclass fails to implement all abstract methods of its parent, it must also be declared abstract.',
+    tip: 'Use abstract classes when subclasses share a common template and fields.',
+    interviewTip: '"Can an abstract class have final methods?" — Yes, but it cannot have abstract final methods because they must be overridden.',
+    mistakes: ['Attempting to instantiate abstract classes (e.g., new Vehicle())', 'Declaring private abstract methods'],
+    summary: 'Abstraction enforces API specifications. Abstract classes serve as templates combining concrete and abstract methods.'
   },
-  { id: 15, title: 'Arrays', diff: 'Easy', time: '35 min', phase: 'beginner', prereq: 'Loops',
-    desc: 'Declaring 1D and 2D arrays, jagged arrays, memory layout, and java.util.Arrays utility class.',
-    theory: `An array is a fixed-size data structure holding elements of the same type stored in contiguous memory locations.\n\nArray Characteristics:\n- Indices start at 0 and end at \`length - 1\`.\n- Array objects are stored in Heap memory.\n- Accessing invalid index throws \`ArrayIndexOutOfBoundsException\`.\n\nMultidimensional & Jagged Arrays:\n- 2D Array: Array of arrays (e.g. \`int[][] matrix = new int[3][3];\`).\n- Jagged Array: 2D array where sub-arrays have different row lengths.\n\nArrays Utility (\`java.util.Arrays\`):\n- \`Arrays.sort(arr)\`: Sorts array elements.\n- \`Arrays.binarySearch(arr, key)\`: Fast logarithmic search.\n- \`Arrays.toString(arr)\`: Pretty prints array values.`,
-    code: `import java.util.Arrays;\n\npublic class ArraysDemo {\n    public static void main(String[] args) {\n        // 1D Array Declaration & Sorting\n        int[] numbers = {45, 12, 89, 23, 7};\n        Arrays.sort(numbers);\n        System.out.println("Sorted Array: " + Arrays.toString(numbers));\n\n        // Jagged 2D Array\n        int[][] jagged = new int[2][];\n        jagged[0] = new int[]{1, 2, 3};\n        jagged[1] = new int[]{4, 5};\n\n        System.out.println("Jagged Row 0 length: " + jagged[0].length);\n        System.out.println("Jagged Row 1 length: " + jagged[1].length);\n    }\n}`,
-    output: `Sorted Array: [7, 12, 23, 45, 89]\nJagged Row 0 length: 3\nJagged Row 1 length: 2`,
-    note: 'In Java, array size cannot be changed once created. For dynamic resizing, use ArrayList.',
-    warning: 'Arrays.binarySearch() produces undefined results if the array is not sorted beforehand.',
-    tip: 'Use System.arraycopy() or Arrays.copyOf() for fast array cloning and copying operations.',
-    interviewTip: '"Are arrays objects in Java?" — Yes, arrays are objects in Java and inherit directly from java.lang.Object.',
-    mistakes: ['Trying to access arr[arr.length] instead of arr[arr.length - 1]', 'Forgetting that array length is a property (.length) not a method ()'],
-    summary: 'Arrays store fixed-size homogeneous data in contiguous memory. Use Arrays utility class for sorting and searching.'
+  { id: 15, title: 'Interfaces', diff: 'Medium', time: '45 min', phase: 'intermediate', prereq: 'Abstraction',
+    desc: 'Declaring interfaces, multiple interfaces, default and static Java 8 methods.',
+    theory: `An interface is a complete abstract contract containing static constants and abstract methods. Class implements interfaces.\n\nJava supports Multiple inheritance via interfaces. Java 8 introduced default and static methods, and Java 9 added private methods inside interfaces.`,
+    code: `interface Printer {\n    void print();\n    default void show() { System.out.println("Default Show method"); }\n}\n\nclass ConsolePrinter implements Printer {\n    public void print() { System.out.println("Printing to Console"); }\n\n    public static void main(String[] args) {\n        Printer p = new ConsolePrinter();\n        p.print();\n        p.show();\n    }\n}`,
+    output: `Printing to Console\nDefault Show method`,
+    note: 'All variables declared inside interfaces are implicitly public static final constants.',
+    warning: 'All implementing methods must be declared public when defined inside implementation classes.',
+    tip: 'Use functional interfaces (having single abstract method) for lambda expressions integrations.',
+    interviewTip: '"What is the difference between Abstract Class and Interface?" — Interface supports multiple inheritance, variables are constant. Abstract classes support instance variables.',
+    mistakes: ['Forgetting public keyword on implementing methods', 'Declaring static variables as mutable in interface classes'],
+    summary: 'Interfaces represent abstract API contracts. Default methods resolve compatibility, multiple implementations are supported.'
   },
-  { id: 16, title: 'Strings', diff: 'Easy', time: '35 min', phase: 'beginner', prereq: 'Arrays',
-    desc: 'String immutability, String Constant Pool (SCP), StringBuilder vs StringBuffer, and essential String methods.',
-    theory: `In Java, \`String\` is a class (reference type) in \`java.lang\` package representing a sequence of characters.\n\nString Immutability & String Constant Pool (SCP):\n- Strings are IMMUTABLE in Java — once created, string object content cannot be altered.\n- String literals are stored in the String Constant Pool (SCP) in Heap memory to optimize memory via reusability.\n- \`String s1 = "Java";\` uses SCP.\n- \`String s2 = new String("Java");\` creates an object in Heap memory outside SCP.\n\nStringBuilder vs StringBuffer:\n- \`StringBuilder\`: Mutable string builder, NOT thread-safe, fast performance.\n- \`StringBuffer\`: Mutable string builder, THREAD-SAFE (synchronized), slower.\n\nKey Methods: \`length()\`, \`charAt()\`, \`substring()\`, \`indexOf()\`, \`equals()\`, \`equalsIgnoreCase()\`, \`toUpperCase()\`, \`trim()\`, \`split()\`.`,
-    code: `public class StringDemo {\n    public static void main(String[] args) {\n        String str1 = "Java";\n        String str2 = "Java";\n        String str3 = new String("Java");\n\n        System.out.println("str1 == str2 (SCP match): " + (str1 == str2)); // true\n        System.out.println("str1 == str3 (Heap vs SCP): " + (str1 == str3)); // false\n        System.out.println("str1.equals(str3) (Content): " + str1.equals(str3)); // true\n\n        // StringBuilder Mutable concatenation\n        StringBuilder sb = new StringBuilder("BCA");\n        sb.append(" Department");\n        System.out.println("Mutable StringBuilder: " + sb.toString());\n    }\n}`,
-    output: `str1 == str2 (SCP match): true\nstr1 == str3 (Heap vs SCP): false\nstr1.equals(str3) (Content): true\nMutable StringBuilder: BCA Department`,
-    note: 'Always use .equals() to compare String contents, not the == operator which checks reference memory addresses.',
-    warning: 'Repeated string concatenation inside loops using + operator creates thousands of throwaway objects in memory.',
-    tip: 'Use StringBuilder inside loop concatenation logic for maximum execution efficiency.',
-    interviewTip: '"Why are Strings immutable in Java?" — For security (network/DB connections), thread safety, caching hashcodes, and String Pool memory saving.',
-    mistakes: ['Using == to compare string values', 'Concatenating strings inside loops using + instead of StringBuilder'],
-    summary: 'Strings are immutable and cached in String Pool. Use .equals() for content comparison and StringBuilder for dynamic manipulation.'
+  { id: 16, title: 'Packages', diff: 'Medium', time: '35 min', phase: 'intermediate', prereq: 'Interfaces',
+    desc: 'Creating packages, importing classes, and detailed access modifiers.',
+    theory: `Packages organize classes into namespaces, preventing naming collisions. Import statements load classes.\n\nAccess modifiers controls visibility:\n- Private: Class only\n- Default: Package only\n- Protected: Package + subclass\n- Public: Global access`,
+    code: `package com.bca.utils;\n\npublic class Helper {\n    public void message() {\n        System.out.println("Package Helper accessed successfully");\n    }\n    \n    // Access Modifiers Demo\n    private void privateTest() {}\n    protected void protectedTest() {}\n}`,
+    output: `Package Helper accessed successfully`,
+    note: 'The directory structure must match package namespaces (e.g. package com.bca.utils is in com/bca/utils/).',
+    warning: 'If no access modifier is specified, Default access is used (package-private).',
+    tip: 'Use reverse domain names for package names to ensure global uniqueness (e.g., com.google.projectName).',
+    interviewTip: '"What is default access modifier?" — default means accessible within same package namespace only. Subclasses in other packages cannot access it.',
+    mistakes: ['Placing package statement after import statements', 'Accessing package-private members in outside modules'],
+    summary: 'Packages partition namespaces. Access modifiers secure classes, imports bind required APIs from packages.'
   },
-  { id: 17, title: 'Methods', diff: 'Easy', time: '40 min', phase: 'beginner', prereq: 'Strings',
-    desc: 'Declaring methods, parameters, return types, pass-by-value semantics, method overloading, and varargs.',
-    theory: `A method is a collection of statements grouped together to perform a specific task.\n\nSyntax:\n\`accessModifier returnType methodName(parameters) { ... }\`\n\nKey Concepts:\n1. Pass-by-Value:\nJava is STRICTLY pass-by-value. When passing arguments to a method, a copy of the primitive value or reference address is passed.\n\n2. Method Overloading:\nMultiple methods in the same class share the same name but differ in parameter signatures (number, type, or sequence). Overloading is compile-time polymorphism.\n\n3. Varargs (Variable Arguments):\nAllows a method to accept 0 or more arguments of specified type using \`type... name\`.`,
-    code: `public class MethodsDemo {\n    // Method Overloading\n    public static int add(int a, int b) {\n        return a + b;\n    }\n\n    public static double add(double a, double b) {\n        return a + b;\n    }\n\n    // Varargs Method\n    public static int sumAll(int... numbers) {\n        int total = 0;\n        for (int n : numbers) total += n;\n        return total;\n    }\n\n    public static void main(String[] args) {\n        System.out.println("int sum: " + add(5, 10));\n        System.out.println("double sum: " + add(5.5, 4.5));\n        System.out.println("Varargs sum: " + sumAll(10, 20, 30, 40));\n    }\n}`,
-    output: `int sum: 15\ndouble sum: 10.0\nVarargs sum: 100`,
-    note: 'Varargs parameter must always be the LAST parameter in a method signature.',
-    warning: 'Overloading methods by changing ONLY the return type is invalid and causes a compilation error.',
-    tip: 'Use descriptive method names starting with a verb (e.g. calculateTotal, getUserName).',
-    interviewTip: '"Is Java pass-by-value or pass-by-reference?" — Java is strictly pass-by-value. For objects, it passes the value of the reference.',
-    mistakes: ['Trying to overload methods changing only return type', 'Placing varargs parameter before other parameters'],
-    summary: 'Methods modularize logic. Method overloading enables multiple signatures, and Java passes all arguments strictly by value.'
+  { id: 17, title: 'Exception Handling', diff: 'Medium', time: '40 min', phase: 'intermediate', prereq: 'Packages',
+    desc: 'Try-catch-finally, checked vs unchecked exceptions, throw/throws keywords, custom exceptions.',
+    theory: `Exception handling preserves runtime flow during failures. Java exceptions inherit from Throwable:\n- Checked: Inspected at compile time (IOException).\n- Unchecked: Checked at runtime (NullPointerException).\n\ntry block hosts code, catch catches failures, finally always executes. Throws declares errors, throw raises errors.`,
+    code: `public class ExceptionDemo {\n    public static void main(String[] args) {\n        try {\n            int val = 10 / 0;\n        } catch (ArithmeticException e) {\n            System.out.println("Arithmetic Error: " + e.getMessage());\n        } finally {\n            System.out.println("Finally block executes");\n        }\n    }\n}`,
+    output: `Arithmetic Error: / by zero\nFinally block executes`,
+    note: 'Finally block executes even if try block returns value or throws uncaught exception.',
+    warning: 'Never declare checked exceptions in throws if method does not throw them.',
+    tip: 'Use try-with-resources (Java 7+) to automatically close connection resources.',
+    interviewTip: '"What is the difference between checked and unchecked exceptions?" — Checked are checked at compile-time (forced try-catch), unchecked occur at runtime.',
+    mistakes: ['Catching Exception superclass before subclass catches', 'Leaving resources open in catch blocks without finally'],
+    summary: 'Exceptions protect execution. try-catch handles errors, finally closes resources, checked rules compile checks.'
   },
-  { id: 18, title: 'Constructors', diff: 'Easy', time: '35 min', phase: 'beginner', prereq: 'Methods',
-    desc: 'Default vs Parameterized vs Copy constructors, constructor overloading, and this() chaining.',
-    theory: `A constructor is a special block of code called automatically when an object of a class is instantiated using the \`new\` keyword.\n\nKey Rules:\n- Constructor name MUST match the class name exactly.\n- Constructor has NO return type (not even \`void\`).\n- Default Constructor: If no constructor is written, Java compiler automatically provides a no-arg default constructor.\n- Parameterized Constructor: Initializes object instance attributes with provided parameters.\n- Constructor Chaining (\`this()\`) Calling another constructor of the same class from within a constructor using \`this()\`.`,
-    code: `public class Student {\n    String name;\n    int age;\n\n    // Default Constructor\n    public Student() {\n        this("Unknown", 18); // Constructor Chaining!\n    }\n\n    // Parameterized Constructor\n    public Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    public void display() {\n        System.out.println("Student: " + name + ", Age: " + age);\n    }\n\n    public static void main(String[] args) {\n        Student s1 = new Student();\n        Student s2 = new Student("Sayan", 21);\n        s1.display();\n        s2.display();\n    }\n}`,
-    output: `Student: Unknown, Age: 18\nStudent: Sayan, Age: 21`,
-    note: 'this() constructor call MUST be the very first statement inside a constructor block.',
-    warning: 'If you write ANY custom constructor, Java compiler DOES NOT generate the default no-arg constructor automatically.',
-    tip: 'Provide a no-arg constructor in your domain classes to support frameworks like Hibernate or Jackson.',
-    interviewTip: '"Can a constructor be final, static, or abstract?" — No, constructors cannot be marked static, final, or abstract.',
-    mistakes: ['Putting a return type like void on a constructor (turns it into a normal method!)', 'Placing code before this() call in constructor'],
-    summary: 'Constructors initialize object state upon instantiation. Use this() for constructor chaining to avoid duplicated setup code.'
+  { id: 18, title: 'Collections Framework', diff: 'Medium', time: '45 min', phase: 'intermediate', prereq: 'Exception Handling',
+    desc: 'List, Set, Map collections, ArrayList, HashSet, HashMap implementations.',
+    theory: `The Collection framework provides architectures to store and manipulate groups of objects. Core interfaces:\n- List: Ordered collection, duplicate values allowed (ArrayList, LinkedList).\n- Set: Unordered, no duplicates allowed (HashSet, LinkedHashSet).\n- Map: Key-Value pairs, unique keys (HashMap, TreeMap).`,
+    code: `import java.util.*;\n\npublic class CollectionDemo {\n    public static void main(String[] args) {\n        // List Demo\n        List<String> list = new ArrayList<>();\n        list.add("BCA");\n        \n        // Map Demo\n        Map<Integer, String> map = new HashMap<>();\n        map.put(1, "Java");\n        \n        System.out.println("List: " + list);\n        System.out.println("Map Value: " + map.get(1));\n    }\n}`,
+    output: `List: [BCA]\nMap Value: Java`,
+    note: 'HashSet uses HashMap internally to store elements, mapping values to dummy keys.',
+    warning: 'Collection classes store objects. Primitives must be wrapped using autoboxing.',
+    tip: 'Use HashSet for fast membership checks, HashMap for indexing/lookup maps.',
+    interviewTip: '"How does HashMap work internally?" — Uses buckets, hashcode mapping, and linked list/binary trees for collision resolutions.',
+    mistakes: ['Using raw collections without specifying generics (e.g. List instead of List<String>)', 'Modifying collection inside foreach iteration'],
+    summary: 'Collections organize heap memory. Lists preserve indexes, Sets enforce uniqueness, Maps map records using hashes.'
   },
-  { id: 19, title: 'Objects', diff: 'Easy', time: '35 min', phase: 'beginner', prereq: 'Constructors',
-    desc: 'State and behavior of objects, heap memory allocation, new keyword, reference variables, and garbage collection.',
-    theory: `An Object is an instance of a Class representing a real-world entity with State (attributes/fields) and Behavior (methods).\n\nObject Lifecycle:\n1. Declaration: \`Student s;\` (Creates reference variable in Stack).\n2. Instantiation: \`new\` keyword allocates memory in Heap.\n3. Initialization: \`Student("Alice", 22)\` calls constructor to populate fields.\n\nGarbage Collection (GC):\nObjects residing in Heap memory with no active references pointing to them become eligible for automatic Garbage Collection by the JVM.`,
-    code: `public class Car {\n    String model;\n    int speed;\n\n    public Car(String model, int speed) {\n        this.model = model;\n        this.speed = speed;\n    }\n\n    public void accelerate() {\n        speed += 20;\n        System.out.println(model + " accelerating. New Speed: " + speed + " km/h");\n    }\n\n    public static void main(String[] args) {\n        Car car1 = new Car("Tesla Model 3", 100);\n        car1.accelerate();\n\n        // Unreferencing object for GC\n        Car car2 = new Car("BMW M4", 120);\n        car2 = null; // Eligible for Garbage Collection!\n        System.out.println("car2 reference set to null.");\n    }\n}`,
-    output: `Tesla Model 3 accelerating. New Speed: 120 km/h\ncar2 reference set to null.`,
-    note: 'System.gc() requests JVM to run Garbage Collection, but execution is not guaranteed immediately.',
-    warning: 'Dereferencing a null object reference variable triggers a NullPointerException at runtime.',
-    tip: 'Override toString(), equals(), and hashCode() methods inherited from java.lang.Object for custom classes.',
-    interviewTip: '"How do objects become eligible for Garbage Collection?" — When an object reference is set to null, reassigned to another object, or created inside a method that completes execution.',
-    mistakes: ['Accessing fields or calling methods on a null reference variable', 'Confusing reference variables with the actual Heap object'],
-    summary: 'Objects combine state and behavior in Heap memory. JVM automatically garbage collects unreferenced heap objects.'
+  { id: 19, title: 'Generics', diff: 'Medium', time: '30 min', phase: 'intermediate', prereq: 'Collections Framework',
+    desc: 'Type-safe generics, generic methods, bounded wildcards, type erasure.',
+    theory: `Generics enable type parameterization, forcing compile-time checks and removing typecast needs. Wildcards represent bounds:\n- Upper bounded: <? extends T> (Reads)\n- Lower bounded: <? super T> (Writes)\n\nType Erasure removes type parameters during compiler stages.`,
+    code: `public class GenericBox<T> {\n    private T value;\n    public void set(T value) { this.value = value; }\n    public T get() { return value; }\n\n    public static void main(String[] args) {\n        GenericBox<Integer> box = new GenericBox<>();\n        box.set(100);\n        System.out.println("Box Value: " + box.get());\n    }\n}`,
+    output: `Box Value: 100`,
+    note: 'Generics exist only for compile checks. Generated class files do not preserve parameter types.',
+    warning: 'Static fields or static methods cannot declare type parameters of the class.',
+    tip: 'Use List<? extends Number> to receive integer or double lists safely.',
+    interviewTip: '"What is Type Erasure in Java?" — Compiler removes all generic type constraints and replaces them with Object classes.',
+    mistakes: ['Attempting to instantiate generic types directly (e.g. new T())', 'Declaring primitive arguments inside generics'],
+    summary: 'Generics enforce compile-time safety. Wildcards bind interfaces, type erasure replaces parameters with general Objects.'
   },
-  { id: 20, title: 'Classes', diff: 'Easy', time: '35 min', phase: 'beginner', prereq: 'Objects',
-    desc: 'Classes as object blueprints, static vs instance members, static initializer blocks, and inner classes.',
-    theory: `A Class is a user-defined blueprint or template from which individual objects are created.\n\nComponents of a Class:\n- Instance Fields & Methods: Unique to each object instance.\n- Static Fields & Methods: Shared by all instances of the class.\n- Static Blocks: \`static { ... }\` executes ONCE when class is loaded by JVM.\n- Nested / Inner Classes: Classes defined inside another class (Member Inner, Static Nested, Anonymous Inner Class).`,
-    code: `public class University {\n    static String uniName; // Static Field\n    String studentName;    // Instance Field\n\n    // Static Initializer Block\n    static {\n        uniName = "Tech University";\n        System.out.println("Static Block: University Class Loaded!");\n    }\n\n    public University(String name) {\n        this.studentName = name;\n    }\n\n    // Nested Inner Class\n    class IDCard {\n        public void printCard() {\n            System.out.println("Student: " + studentName + " @ " + uniName);\n        }\n    }\n\n    public static void main(String[] args) {\n        University u = new University("Alex");\n        University.IDCard card = u.new IDCard();\n        card.printCard();\n    }\n}`,
-    output: `Static Block: University Class Loaded!\nStudent: Alex @ Tech University`,
-    note: 'Static initializer blocks execute automatically before the main method when the class is first loaded.',
-    warning: 'Static methods cannot access instance variables or instance methods directly without an object reference.',
-    tip: 'Use static nested classes instead of non-static inner classes when no reference to the outer class instance is needed.',
-    interviewTip: '"What is a static block in Java?" — A block of code executed once when the classloader loads the class into memory.',
-    mistakes: ['Trying to access instance variable inside static method without creating object instance', 'Creating multiple non-static inner classes causing memory leaks'],
-    summary: 'Classes blueprint state and behavior. Static members belong to class loading time; inner classes model nested relationships.'
+  { id: 20, title: 'File Handling', diff: 'Medium', time: '40 min', phase: 'intermediate', prereq: 'Generics',
+    desc: 'FileReader, FileWriter, BufferedReader, BufferedWriter, Try-With-Resources.',
+    theory: `File handling reads or writes disk streams. Java uses Character Streams (FileReader/Writer) and Byte Streams (FileInputStream/OutputStream).\n\nBufferedReader buffers data streams for efficient operations. Try-With-Resources automatically closes file handles.`,
+    code: `import java.io.*;\n\npublic class FileDemo {\n    public static void main(String[] args) {\n        File file = new File("test.txt");\n        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {\n            writer.write("Java File Handling");\n            System.out.println("File written successfully");\n        } catch (IOException e) {\n            System.out.println("IO Error: " + e.getMessage());\n        }\n    }\n}`,
+    output: `File written successfully`,
+    note: 'Try-with-resources class must implement AutoCloseable interface to support auto cleanup.',
+    warning: 'Always check if path target exists and permissions are valid to avoid Access Exceptions.',
+    tip: 'Use java.nio.file.Files class for modern, utility-driven file operations.',
+    interviewTip: '"Why should we use BufferedReader instead of FileReader?" — BufferedReader reads chunks of data into memory buffer, reducing disk calls.',
+    mistakes: ['Not closing streams (leaks file handles)', 'Ignoring IOException handling requirements'],
+    summary: 'File handling persists data. Buffered classes optimize throughput, try-with-resources automatically closes file handles.'
   },
-  { id: 21, title: 'Encapsulation', diff: 'Medium', time: '35 min', phase: 'intermediate', prereq: 'Classes',
-    desc: 'Data hiding, access modifiers (public, private, protected, package-private), Getters & Setters, JavaBeans.',
-    theory: `Encapsulation is the OOP principle of wrapping data (variables) and code (methods) together as a single unit, and restricting direct access to object components.\n\nHow to Achieve Encapsulation:\n1. Declare class fields as \`private\` (Data Hiding).\n2. Provide \`public\` Getter and Setter methods to inspect and modify field values safely.\n\nJava Access Modifiers:\n- \`private\`: Accessible ONLY within the same class.\n- \`default\` (no keyword): Accessible within the same package.\n- \`protected\`: Accessible within same package and subclasses in other packages.\n- \`public\`: Accessible from anywhere in the project.`,
-    code: `public class BankAccount {\n    private String accountNumber;\n    private double balance;\n\n    public BankAccount(String accountNumber, double initialBalance) {\n        this.accountNumber = accountNumber;\n        if (initialBalance >= 0) this.balance = initialBalance;\n    }\n\n    // Getter\n    public double getBalance() {\n        return balance;\n    }\n\n    // Setter with validation logic\n    public void deposit(double amount) {\n        if (amount > 0) {\n            balance += amount;\n            System.out.println("Deposited: $" + amount);\n        } else {\n            System.out.println("Invalid deposit amount!");\n        }\n    }\n\n    public static void main(String[] args) {\n        BankAccount acc = new BankAccount("ACC-9876", 500.0);\n        acc.deposit(250.0);\n        System.out.println("Current Balance: $" + acc.getBalance());\n    }\n}`,
-    output: `Deposited: $250.0\nCurrent Balance: $750.0`,
-    note: 'Encapsulation allows validation rules in setter methods to prevent invalid state updates (e.g. negative balances).',
-    warning: 'Making instance variables public bypasses encapsulation and exposes internal state to corruption.',
-    tip: 'Use Lombok annotations like @Getter and @Setter in enterprise apps to reduce boilerplate code.',
-    interviewTip: '"What is Encapsulation and its benefit?" — Bundling data with methods while hiding internal fields using private access, ensuring security and control.',
-    mistakes: ['Leaving fields public or package-default without necessity', 'Returning mutable object references directly from getters without defensive copy'],
-    summary: 'Encapsulation secures fields using private access and exposes control via validated public getters and setters.'
+  { id: 21, title: 'Multithreading', diff: 'Medium', time: '45 min', phase: 'intermediate', prereq: 'File Handling',
+    desc: 'Thread vs Runnable, synchronization blocks, thread lifecycle, lock locks.',
+    theory: `Multithreading runs parallel paths. Thread class and Runnable interface are standard ways to instantiate threads.\n\nSynchronization prevents thread collisions on shared resources. Thread lifecycle states: New, Runnable, Blocked, Waiting, Terminated.`,
+    code: `class Task implements Runnable {\n    public void run() {\n        System.out.println("Thread running: " + Thread.currentThread().getName());\n    }\n\n    public static void main(String[] args) {\n        Thread thread = new Thread(new Task());\n        thread.start();\n    }\n}`,
+    output: `Thread running: Thread-0`,
+    note: 'Call start() to launch a new thread, call run() directly executes thread code inside active calling thread context.',
+    warning: 'Shared mutable data must be synchronized, else race conditions will corrupt data values.',
+    tip: 'Use volatile keyword to synchronize variable reads/writes directly in memory cache.',
+    interviewTip: '"Difference between start() and run() method?" — start() allocates system resources and launches new thread. run() performs simple method call.',
+    mistakes: ['Calling run() directly instead of start()', 'Using synchronization blocks excessively (causes deadlocks)'],
+    summary: 'Multithreading accelerates tasks. Threads are configured using interfaces, synchronization locks shared heap structures.'
   },
-  { id: 22, title: 'Inheritance', diff: 'Medium', time: '40 min', phase: 'intermediate', prereq: 'Encapsulation',
-    desc: 'Reusability with extends keyword, single/multilevel/hierarchical inheritance, super keyword, and final keyword.',
-    theory: `Inheritance is an OOP mechanism where a child class (Subclass) acquires properties and behaviors from a parent class (Superclass) using the \`extends\` keyword.\n\nTypes of Inheritance in Java:\n- Single: Class B extends Class A.\n- Multilevel: Class C extends Class B, which extends Class A.\n- Hierarchical: Class B and Class C both extend Class A.\n- Multiple Inheritance (via Classes): NOT supported in Java to prevent Diamond Problem ambiguity!\n\nKey Keywords:\n- \`super\`: Refers to parent class constructor or methods.\n- \`final\`: Prevents method overriding (if on method) or class inheritance (if on class).`,
-    code: `class Animal {\n    String name;\n    public Animal(String name) {\n        this.name = name;\n    }\n    public void makeSound() {\n        System.out.println(name + " makes a generic sound.");\n    }\n}\n\n// Subclass extending Superclass\nclass Dog extends Animal {\n    String breed;\n    public Dog(String name, String breed) {\n        super(name); // Call Parent Constructor\n        this.breed = breed;\n    }\n\n    @Override\n    public void makeSound() {\n        super.makeSound(); // Call Parent method\n        System.out.println(name + " barks: Woof Woof!");\n    }\n}\n\npublic class InheritanceDemo {\n    public static void main(String[] args) {\n        Dog dog = new Dog("Buddy", "Golden Retriever");\n        dog.makeSound();\n    }\n}`,
-    output: `Buddy makes a generic sound.\nBuddy barks: Woof Woof!`,
-    note: 'super() must be the first statement inside a subclass constructor.',
-    warning: 'Java does not support multiple class inheritance (e.g. class C extends A, B is illegal). Use Interfaces for multiple inheritance.',
-    tip: 'Annotate overridden methods with @Override to catch signature mismatches at compile time.',
-    interviewTip: '"Why does Java not support multiple inheritance with classes?" — To avoid Diamond Problem ambiguity when two parent classes contain identical method signatures.',
-    mistakes: ['Forgetting to call super() when parent has no default constructor', 'Trying to extend a final class'],
-    summary: 'Inheritance enables code reusability using extends. Use super to invoke parent constructors/methods.'
+  { id: 22, title: 'Streams', diff: 'Hard', time: '45 min', phase: 'advanced', prereq: 'Multithreading',
+    desc: 'Java 8 Streams API, pipeline operations, lazy loading, filter, map, collect.',
+    theory: `Streams API handles declarative sequence collections processing. Streams are pipelines:\n- Source: List, Set, or Array\n- Intermediate operations: filter, map, sorted (Lazy evaluation)\n- Terminal operations: collect, count, forEach (Executes query)`,
+    code: `import java.util.*;\nimport java.util.stream.*;\n\npublic class StreamsDemo {\n    public static void main(String[] args) {\n        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);\n        List<Integer> evens = list.stream()\n                                  .filter(n -> n % 2 == 0)\n                                  .collect(Collectors.toList());\n        System.out.println("Evens: " + evens);\n    }\n}`,
+    output: `Evens: [2, 4]`,
+    note: 'Streams do not alter original collection memory structures. They consume data once and discard state.',
+    warning: 'Attempting to re-use an already closed/terminated stream triggers IllegalStateException.',
+    tip: 'Use parallelStream() to auto distribute processing loads across multiple CPU cores.',
+    interviewTip: '"What are intermediate vs terminal operations in Streams?" — Intermediate return a stream (lazy). Terminal return non-stream type or void (executes).',
+    mistakes: ['Reusing terminated Stream objects', 'Using stateful logic mapping inside lambda expressions'],
+    summary: 'Streams perform declarative processing. Pipelines structure filtering, lazy execution delays calls until termination.'
   },
-  { id: 23, title: 'Polymorphism', diff: 'Medium', time: '40 min', phase: 'intermediate', prereq: 'Inheritance',
-    desc: 'Compile-time (Method Overloading) vs Runtime (Method Overriding) polymorphism, Dynamic Method Dispatch, instanceof.',
-    theory: `Polymorphism ("many forms") is the ability of an object or method to take on multiple forms.\n\nTwo Types of Polymorphism:\n\n1. Compile-Time Polymorphism (Static Binding / Method Overloading):\n- Resolved at compile time.\n- Multiple methods in same class with same name but different signatures.\n\n2. Runtime Polymorphism (Dynamic Binding / Method Overriding):\n- Resolved at runtime.\n- Subclass provides a specific implementation of a method declared in parent class.\n- Driven by Dynamic Method Dispatch: Reference variable of Parent type can point to Child object instance (\`Parent p = new Child();\`).\n\n\`instanceof\` Operator:\nChecks if an object is an instance of a specific class or interface at runtime.`,
-    code: `class Shape {\n    public void draw() {\n        System.out.println("Drawing a shape...");\n    }\n}\n\nclass Circle extends Shape {\n    @Override\n    public void draw() {\n        System.out.println("Drawing a Circle ⭕");\n    }\n}\n\nclass Rectangle extends Shape {\n    @Override\n    public void draw() {\n        System.out.println("Drawing a Rectangle ▭");\n    }\n}\n\npublic class PolymorphismDemo {\n    public static void main(String[] args) {\n        // Dynamic Method Dispatch\n        Shape s1 = new Circle();\n        Shape s2 = new Rectangle();\n\n        s1.draw(); // Calls Circle's draw()\n        s2.draw(); // Calls Rectangle's draw()\n\n        if (s1 instanceof Circle) {\n            System.out.println("s1 is indeed a Circle instance!");\n        }\n    }\n}`,
-    output: `Drawing a Circle ⭕\nDrawing a Rectangle ▭\ns1 is indeed a Circle instance!`,
-    note: 'Virtual method invocation determines which overridden method executes based on the actual Heap object type, not reference type.',
-    warning: 'Static methods cannot be overridden (they are hidden via Method Hiding).',
-    tip: 'Program to interfaces/parent abstractions rather than concrete implementations for decoupled design.',
-    interviewTip: '"What is Dynamic Method Dispatch?" — Process where a call to an overridden method is resolved at runtime based on the object referenced.',
-    mistakes: ['Thinking static methods participate in runtime polymorphism', 'ClassCastException when downcasting without checking instanceof'],
-    summary: 'Polymorphism allows uniform treatment of objects. Overriding evaluates at runtime via Dynamic Method Dispatch.'
+  { id: 23, title: 'Lambda Expressions', diff: 'Hard', time: '35 min', phase: 'advanced', prereq: 'Streams',
+    desc: 'Functional interfaces, custom lambdas, block expressions, method references.',
+    theory: `Lambda expressions represent functional interfaces anonymously (single abstract method classes). They support passing actions as arguments.\n\nMethod references (ClassName::methodName) serve as shorthand lambdas.`,
+    code: `interface MathOperation {\n    int operate(int a, int b);\n}\n\npublic class Lambdas {\n    public static void main(String[] args) {\n        MathOperation add = (a, b) -> a + b; // Lambda\n        System.out.println("Result: " + add.operate(10, 20));\n    }\n}`,
+    output: `Result: 30`,
+    note: 'Lambdas are implemented in Java using invokedynamic instruction for maximum performance.',
+    warning: 'Local variables referenced inside lambda bodies must be final or effectively final.',
+    tip: 'Use Java built-in functional interfaces (Predicate, Function, Consumer, Supplier).',
+    interviewTip: '"What is a Functional Interface?" — An interface having exactly one abstract method. Can declare any default or static methods.',
+    mistakes: ['Modifying non-final variables inside lambda scopes', 'Declaring type parameters on lambda parameters unnecessarily'],
+    summary: 'Lambdas model functions. Functional interfaces serve as targets, method references wrap parameters.'
   },
-  { id: 24, title: 'Abstraction', diff: 'Medium', time: '40 min', phase: 'intermediate', prereq: 'Polymorphism',
-    desc: 'Abstract classes, abstract methods, partial abstraction vs total abstraction, abstract class constructors.',
-    theory: `Abstraction is the OOP process of hiding implementation details and showing only essential functionality to the user.\n\nAbstract Class (\`abstract\` keyword):\n- A class declared with \`abstract\` keyword.\n- CANNOT be instantiated directly using \`new\`.\n- Can contain both Abstract Methods (no body) and Concrete Methods (with body).\n- Can contain constructors, static methods, and instance variables.\n- Subclasses MUST override all abstract methods unless the subclass itself is also abstract.`,
-    code: `abstract class Payment {\n    double amount;\n\n    public Payment(double amount) {\n        this.amount = amount;\n    }\n\n    // Abstract method (no body)\n    abstract void processPayment();\n\n    // Concrete method\n    public void printReceipt() {\n        System.out.println("Receipt Amount: $" + amount);\n    }\n}\n\nclass CreditCardPayment extends Payment {\n    String cardNumber;\n\n    public CreditCardPayment(double amount, String cardNumber) {\n        super(amount);\n        this.cardNumber = cardNumber;\n    }\n\n    @Override\n    void processPayment() {\n        System.out.println("Processing $" + amount + " via Credit Card ending " + cardNumber.substring(12));\n    }\n}\n\npublic class AbstractionDemo {\n    public static void main(String[] args) {\n        Payment payment = new CreditCardPayment(150.75, "1234567890123456");\n        payment.processPayment();\n        payment.printReceipt();\n    }\n}`,
-    output: `Processing $150.75 via Credit Card ending 3456\nReceipt Amount: $150.75`,
-    note: 'Abstract classes can have constructors which are invoked via super() from concrete subclasses.',
-    warning: 'Trying to instantiate an abstract class directly (new Payment()) results in a compilation error.',
-    tip: 'Use abstract classes when subclasses share common state/code and hierarchical relationship.',
-    interviewTip: '"Can an abstract class have a constructor?" — Yes, abstract classes have constructors invoked by subclass super() calls.',
-    mistakes: ['Declaring abstract methods inside a non-abstract class', 'Attempting to instantiate abstract class directly'],
-    summary: 'Abstract classes define templates with abstract and concrete methods, hiding background details.'
-  },
-  { id: 25, title: 'Interfaces', diff: 'Medium', time: '45 min', phase: 'intermediate', prereq: 'Abstraction',
-    desc: 'Interface contract, default & static methods (Java 8), private methods (Java 9), multiple inheritance.',
-    theory: `An Interface is a blueprint of a class containing abstract methods and constants. It provides 100% total abstraction (prior to Java 8).\n\nKey Rules:\n- Declared using \`interface\` keyword; implemented using \`implements\` keyword.\n- All fields are implicitly \`public static final\` (constants).\n- All abstract methods are implicitly \`public abstract\`.\n- A class can implement MULTIPLE interfaces (achieving Multiple Inheritance).\n\nModern Java Enhancements:\n- Java 8: Added \`default\` methods (with body) and \`static\` methods.\n- Java 9: Added \`private\` methods to share code between default methods.`,
-    code: `interface Printable {\n    void print(); // public abstract\n}\n\ninterface Scannable {\n    void scan();\n\n    // Java 8 Default Method\n    default void logStatus() {\n        System.out.println("Scanner Status: OK");\n    }\n}\n\n// Class implementing multiple interfaces!\nclass MultiFunctionPrinter implements Printable, Scannable {\n    @Override\n    public void print() {\n        System.out.println("Printing document...");\n    }\n\n    @Override\n    public void scan() {\n        System.out.println("Scanning document...");\n    }\n}\n\npublic class InterfaceDemo {\n    public static void main(String[] args) {\n        MultiFunctionPrinter mfp = new MultiFunctionPrinter();\n        mfp.print();\n        mfp.scan();\n        mfp.logStatus();\n    }\n}`,
-    output: `Printing document...\nScanning document...\nScanner Status: OK`,
-    note: 'Default methods allow adding new functionality to existing interfaces without breaking existing implementing classes.',
-    warning: 'When implementing interface methods, you must mark them public explicitly.',
-    tip: 'Prefer interfaces over abstract classes when defining contracts across unrelated classes.',
-    interviewTip: '"Difference between Abstract Class and Interface in Java?" — Abstract class can hold instance fields and non-public methods; Interface supports multiple inheritance and default/static methods.',
-    mistakes: ['Forgetting public modifier when overriding interface methods in implementing class', 'Trying to modify interface fields (they are final constants!)'],
-    summary: 'Interfaces define contracts for classes to implement, supporting multiple inheritance and default methods.'
-  },
-  { id: 26, title: 'Packages', diff: 'Medium', time: '35 min', phase: 'intermediate', prereq: 'Interfaces',
-    desc: 'Built-in vs User-defined packages, import statements, package access control, and JAR creation.',
-    theory: `A Package in Java is a namespace that groups related classes, interfaces, and sub-packages together.\n\nAdvantages of Packages:\n1. Prevents naming conflicts (e.g., \`com.bca.util.Date\` vs \`java.util.Date\`).\n2. Provides access protection (\`default\` package-private access).\n3. Easier code organization and modular maintenance.\n\nPackage Categories:\n- Built-in Packages: \`java.lang\` (automatically imported), \`java.util\`, \`java.io\`, \`java.net\`, \`java.sql\`.\n- User-Defined Packages: Declared at the top of file using \`package com.mycompany.app;\`.\n\nImport Types:\n- Single Import: \`import java.util.ArrayList;\`\n- Wildcard Import: \`import java.util.*;\`\n- Static Import: \`import static java.lang.Math.*;\``,
-    code: `// File: com/bca/model/Student.java\npackage com.bca.model;\n\nimport static java.lang.Math.sqrt;\n\npublic class Student {\n    private String name;\n    \n    public Student(String name) {\n        this.name = name;\n    }\n    \n    public void display() {\n        System.out.println("Student Name: " + name);\n        System.out.println("Static Import Math.sqrt(16): " + sqrt(16));\n    }\n    \n    public static void main(String[] args) {\n        Student s = new Student("Rohit");\n        s.display();\n    }\n}`,
-    output: `Student Name: Rohit\nStatic Import Math.sqrt(16): 4.0`,
-    note: 'The package statement MUST be the first non-comment line in a Java source file.',
-    warning: 'Directory structure on disk must match the package hierarchy (e.g. package com.bca.model requires folder com/bca/model).',
-    tip: 'Use domain reverse convention (com.organization.project) for global unique package naming.',
-    interviewTip: '"What is static import in Java?" — Static import allows accessing static members of a class directly without qualifying with class name.',
-    mistakes: ['Placing import statements before package declaration', 'Class name collisions due to wildcard imports'],
-    summary: 'Packages organize classes into namespaces, prevent naming collisions, and control component accessibility.'
-  },
-  { id: 27, title: 'Exception Handling', diff: 'Medium', time: '40 min', phase: 'intermediate', prereq: 'Packages',
-    desc: 'Try-catch-finally blocks, throw, throws, Checked vs Unchecked exceptions, and Custom Exceptions.',
-    theory: `An Exception is an unwanted event that disrupts the normal flow of program execution.\n\nException Hierarchy:\n\`Throwable\` → \`Exception\` (Application errors) & \`Error\` (JVM hardware/memory failure).\n\nTwo Types of Exceptions:\n1. Checked Exceptions (Compile-time): Checked by compiler. Must be handled or declared (e.g., \`IOException\`, \`SQLException\`, \`ClassNotFoundException\`).\n2. Unchecked Exceptions (Runtime): Inherit from \`RuntimeException\`. Occur at runtime due to logical errors (e.g., \`ArithmeticException\`, \`NullPointerException\`, \`ArrayIndexOutOfBoundsException\`).\n\nKeywords:\n- \`try\`: Encloses risky code.\n- \`catch\`: Handles specific exception.\n- \`finally\`: Always executes (cleanup code like closing files/connections).\n- \`throw\`: Explicitly throws an exception object.\n- \`throws\`: Declares exceptions in method signature.`,
-    code: `// Custom Exception\nclass InvalidAgeException extends Exception {\n    public InvalidAgeException(String msg) {\n        super(msg);\n    }\n}\n\npublic class ExceptionDemo {\n    public static void validateAge(int age) throws InvalidAgeException {\n        if (age < 18) {\n            throw new InvalidAgeException("Age must be 18 or above to vote!");\n        }\n        System.out.println("Voting registration successful!");\n    }\n\n    public static void main(String[] args) {\n        try {\n            validateAge(15);\n        } catch (InvalidAgeException e) {\n            System.out.println("Caught Custom Exception: " + e.getMessage());\n        } finally {\n            System.out.println("Finally block executed: Cleanup complete.");\n        }\n    }\n}`,
-    output: `Caught Custom Exception: Age must be 18 or above to vote!\nFinally block executed: Cleanup complete.`,
-    note: 'The finally block executes regardless of whether an exception is thrown or caught.',
-    warning: 'Catching generic Exception before specific child exceptions causes a compilation error (unreachable code).',
-    tip: 'Use Try-With-Resources (Java 7+) to auto-close AutoCloseable resources cleanly.',
-    interviewTip: '"Difference between final, finally, and finalize?" — final is a modifier for variables/methods/classes; finally is a block for cleanup; finalize() is a deprecated Object method called before GC.',
-    mistakes: ['Catching Exception silently without logging', 'Placing broad catch blocks above specific catch blocks'],
-    summary: 'Exception handling recovers from runtime errors using try-catch-finally, checked vs unchecked types, and custom exceptions.'
-  },
-  { id: 28, title: 'File Handling', diff: 'Medium', time: '40 min', phase: 'intermediate', prereq: 'Exception Handling',
-    desc: 'Java I/O streams, File class, FileReader/FileWriter, BufferedReader/BufferedWriter, and Serialization.',
-    theory: `Java I/O (Input/Output) uses Streams to process data sequences.\n\nTwo Main Stream Types:\n1. Byte Streams: Process 8-bit bytes (\`FileInputStream\`, \`FileOutputStream\`). Used for binary files (images, audio, PDFs).\n2. Character Streams: Process 16-bit Unicode characters (\`FileReader\`, \`FileWriter\`, \`BufferedReader\`, \`BufferedWriter\`). Used for text files.\n\nSerialization:\nConverting an Object state into a byte stream to save to disk or transfer across network. Class must implement \`Serializable\` interface. Use \`transient\` keyword to skip fields during serialization.`,
-    code: `import java.io.*;\n\npublic class FileHandlingDemo {\n    public static void main(String[] args) {\n        File file = new File("sample.txt");\n        \n        // Writing to File using BufferedWriter\n        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {\n            writer.write("Welcome to BCA Java File Handling!");\n            writer.newLine();\n            writer.write("Line 2: Serialization and Streams.");\n            System.out.println("File written successfully!");\n        } catch (IOException e) {\n            System.out.println("Write Error: " + e.getMessage());\n        }\n\n        // Reading from File using BufferedReader\n        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {\n            String line;\n            System.out.println("\\n--- Reading File Content ---");\n            while ((line = reader.readLine()) != null) {\n                System.out.println(line);\n            }\n        } catch (IOException e) {\n            System.out.println("Read Error: " + e.getMessage());\n        }\n    }\n}`,
-    output: `File written successfully!\n\n--- Reading File Content ---\nWelcome to BCA Java File Handling!\nLine 2: Serialization and Streams.`,
-    note: 'Try-with-resources automatically closes readers and writers even if an IOException occurs.',
-    warning: 'Fields marked as transient will not be serialized and will default to null/0 upon deserialization.',
-    tip: 'Use java.nio.file.Files (NIO2) for modern high-performance file operations.',
-    interviewTip: '"What is the transient keyword in Java?" — Prevents a variable from being serialized during Object serialization.',
-    mistakes: ['Forgetting to flush/close file writers causing empty files', 'Using Character streams for binary files like images'],
-    summary: 'File handling uses Character & Byte streams. Try-with-resources manages file streams cleanly, and Serialization persists objects.'
-  },
-  { id: 29, title: 'Collections Framework', diff: 'Medium', time: '45 min', phase: 'intermediate', prereq: 'File Handling',
-    desc: 'Collection Hierarchy: List (ArrayList, LinkedList), Set (HashSet, TreeSet), Map (HashMap, TreeMap), and Iterators.',
-    theory: `The Java Collections Framework (\`java.util\`) provides unified architecture for storing and manipulating groups of objects.\n\nCore Interfaces:\n\n1. List (Ordered, Allows Duplicates):\n- \`ArrayList\`: Resizable dynamic array. Fast random access O(1), slow insertion O(n).\n- \`LinkedList\`: Doubly-linked list. Fast insertion/deletion O(1), slow random access O(n).\n\n2. Set (Unordered, NO Duplicates):\n- \`HashSet\`: Hashing-based set. O(1) operations. Allows 1 null element.\n- \`TreeSet\`: Red-Black tree based. Sorted elements. O(log n) performance.\n\n3. Map (Key-Value Pairs, Unique Keys):\n- \`HashMap\`: Key-Value mapping based on hashing. Fast O(1).\n- \`TreeMap\`: Sorted Map based on keys.`,
-    code: `import java.util.*;\n\npublic class CollectionsDemo {\n    public static void main(String[] args) {\n        // ArrayList Example\n        List<String> list = new ArrayList<>();\n        list.add("Java"); list.add("Python"); list.add("Java"); // Duplicate allowed\n        System.out.println("ArrayList (Duplicates): " + list);\n\n        // HashSet Example\n        Set<String> set = new HashSet<>(list);\n        System.out.println("HashSet (Unique): " + set);\n\n        // HashMap Example\n        Map<Integer, String> map = new HashMap<>();\n        map.put(101, "Alice");\n        map.put(102, "Bob");\n        System.out.println("HashMap Entry 101: " + map.get(101));\n    }\n}`,
-    output: `ArrayList (Duplicates): [Java, Python, Java]\nHashSet (Unique): [Java, Python]\nHashMap Entry 101: Alice`,
-    note: 'ArrayList grows dynamically by 50% capacity when it becomes full.',
-    warning: 'Custom objects used as HashMap keys MUST override both hashCode() and equals() properly.',
-    tip: 'Choose ArrayList for search-heavy apps, LinkedList for insertion-heavy apps, HashMap for key lookups.',
-    interviewTip: '"How does HashMap work internally in Java?" — Uses Array of Nodes (Buckets) + LinkedList/Red-Black Tree. Hashing computes index via hash(key).',
-    mistakes: ['Using primitive types as generic type parameters (e.g. ArrayList<int> is invalid, use ArrayList<Integer>)', 'Forgetting equals/hashCode override for HashSet keys'],
-    summary: 'Collections store groups of objects. List maintains insertion order, Set eliminates duplicates, Map maps unique keys to values.'
-  },
-  { id: 30, title: 'Generics', diff: 'Medium', time: '30 min', phase: 'intermediate', prereq: 'Collections Framework',
-    desc: 'Generic Classes, Generic Methods, Bounded Type Parameters, Wildcards (?, ? extends T, ? super T), and Type Erasure.',
-    theory: `Generics allow types (classes and interfaces) to be parameters when defining classes, interfaces, and methods.\n\nBenefits of Generics:\n1. Compile-Time Type Safety: Catches type mismatches at compile time rather than ClassCastException at runtime.\n2. Elimination of Type Casting: No explicit casting needed when retrieving elements.\n\nWildcards:\n- \`<?>\`: Unbounded wildcard (any type).\n- \`<? extends Number>\`: Upper-bounded wildcard (Number or its subclasses like Integer, Double).\n- \`<? super Integer>\`: Lower-bounded wildcard (Integer or its superclasses).\n\nType Erasure:\nJava compiler erases all generic type parameters at compile time and replaces them with their bounds/Object for backward compatibility with older JVMs.`,
-    code: `// Generic Class\nclass Box<T> {\n    private T item;\n    public void setItem(T item) { this.item = item; }\n    public T getItem() { return item; }\n}\n\npublic class GenericsDemo {\n    // Generic Method\n    public static <E> void printArray(E[] elements) {\n        for (E element : elements) {\n            System.out.print(element + " ");\n        }\n        System.out.println();\n    }\n\n    public static void main(String[] args) {\n        Box<String> stringBox = new Box<>();\n        stringBox.setItem("Generics are Safe!");\n        System.out.println("Box Value: " + stringBox.getItem());\n\n        Integer[] intArr = {1, 2, 3, 4};\n        System.out.print("Generic Print: ");\n        printArray(intArr);\n    }\n}`,
-    output: `Box Value: Generics are Safe!\nGeneric Print: 1 2 3 4 `,
-    note: 'Generics work ONLY with Object Reference types, not primitive types.',
-    warning: 'You cannot instantiate generic arrays directly like new T[10] due to Type Erasure.',
-    tip: 'Remember PECS principle for wildcards: Producer Extends, Consumer Super.',
-    interviewTip: '"What is Type Erasure in Java Generics?" — Process where compiler removes generic types and inserts necessary casts for JVM compatibility.',
-    mistakes: ['Trying to create primitives in generic classes (Box<int>)', 'Creating generic array instances directly (new T[])'],
-    summary: 'Generics enforce compile-time type safety, eliminate manual casts, and support wildcards via Type Erasure.'
-  },
-  { id: 31, title: 'Multithreading', diff: 'Medium', time: '45 min', phase: 'intermediate', prereq: 'Generics',
-    desc: 'Thread creation (Thread class vs Runnable interface), Thread Lifecycle, Synchronization, Locks, and ExecutorService.',
-    theory: `Multithreading is the process of executing two or more threads concurrently to maximize CPU utilization.\n\nThread Creation Methods:\n1. Extending \`Thread\` class: Override \`run()\` method, call \`start()\`.\n2. Implementing \`Runnable\` interface: Pass Runnable object to Thread instance (Preferred approach!).\n\nThread Lifecycle States:\nNew → Runnable → Running → Blocked/Waiting → Terminated.\n\nSynchronization:\nWhen multiple threads access shared resources concurrently, data corruption occurs (Race Condition). Use \`synchronized\` keyword or \`ReentrantLock\` to allow only ONE thread into critical section at a time.\n\nExecutor Framework (\`java.util.concurrent\`):\nProvides thread pool management via \`ExecutorService\` instead of manually managing individual Thread objects.`,
-    code: `class Counter {\n    private int count = 0;\n    // Synchronized method prevents Race Conditions!\n    public synchronized void increment() {\n        count++;\n    }\n    public int getCount() { return count; }\n}\n\npublic class MultithreadingDemo {\n    public static void main(String[] args) throws InterruptedException {\n        Counter counter = new Counter();\n\n        Thread t1 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) counter.increment();\n        });\n\n        Thread t2 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) counter.increment();\n        });\n\n        t1.start(); t2.start();\n        t1.join(); t2.join(); // Wait for threads to finish\n\n        System.out.println("Final Synchronized Count: " + counter.getCount());\n    }\n}`,
-    output: `Final Synchronized Count: 2000`,
-    note: 'Always call thread.start() to spawn a new OS thread. Calling thread.run() executes it synchronously on current thread!',
-    warning: 'Improper nested synchronization can lead to Deadlocks where two threads wait on each other forever.',
-    tip: 'Use ExecutorService thread pools (Executors.newFixedThreadPool()) for production server applications.',
-    interviewTip: '"Difference between start() and run() in Thread?" — start() creates a new thread and calls run() asynchronously; run() executes synchronously on main thread.',
-    mistakes: ['Calling run() directly instead of start()', 'Shared mutable state without synchronization leading to race condition'],
-    summary: 'Multithreading executes tasks concurrently. Use Runnable, synchronization/locks for thread safety, and ExecutorService pools.'
-  },
-  { id: 32, title: 'Lambda Expressions', diff: 'Hard', time: '35 min', phase: 'advanced', prereq: 'Multithreading',
-    desc: 'Functional Interfaces (@FunctionalInterface), Consumer, Supplier, Function, Predicate, and Method References.',
-    theory: `Lambda Expressions (introduced in Java 8) bring Functional Programming capabilities to Java. A Lambda is an anonymous function without name, return type, or access modifier.\n\nSyntax:\n\`(parameters) -> { body }\`\n\nFunctional Interface:\nAn interface containing EXACTLY ONE abstract method. Annotated with \`@FunctionalInterface\`.\n\nBuilt-in Functional Interfaces (\`java.util.function\`):\n1. \`Predicate<T>\`: Accepts \`T\`, returns \`boolean\` (\`test()\`).\n2. \`Function<T, R>\`: Accepts \`T\`, returns \`R\` (\`apply()\`).\n3. \`Consumer<T>\`: Accepts \`T\`, returns \`void\` (\`accept()\`).\n4. \`Supplier<T>\`: Accepts no arguments, returns \`T\` (\`get()\`).\n\nMethod References (\`::\`):\nShorthand syntax for lambdas calling existing methods (e.g. \`System.out::println\`).`,
-    code: `import java.util.function.Predicate;\nimport java.util.function.Function;\n\npublic class LambdaDemo {\n    public static void main(String[] args) {\n        // Predicate Lambda (Check if even)\n        Predicate<Integer> isEven = n -> n % 2 == 0;\n        System.out.println("Is 10 Even? " + isEven.test(10));\n\n        // Function Lambda (String to Length)\n        Function<String, Integer> stringLength = String::length; // Method Reference\n        System.out.println("Length of 'Java': " + stringLength.apply("Java"));\n    }\n}`,
-    output: `Is 10 Even? true\nLength of 'Java': 4`,
-    note: 'Variables captured inside a Lambda expression must be effectively final.',
-    warning: 'Annotating an interface with @FunctionalInterface that has 2 abstract methods throws compiler error.',
-    tip: 'Use Method References (Class::method) whenever a lambda simply forwards its parameters to an existing method.',
-    interviewTip: '"What is a Functional Interface?" — An interface with exactly one abstract method. Examples: Runnable, Comparator, Consumer, Predicate.',
-    mistakes: ['Attempting to modify non-final local variables inside a lambda body', 'Confusing Predicate (returns boolean) with Function (returns value)'],
-    summary: 'Lambda expressions provide concise functional syntax for implementing single-method Functional Interfaces.'
-  },
-  { id: 33, title: 'Stream API', diff: 'Hard', time: '45 min', phase: 'advanced', prereq: 'Lambda Expressions',
-    desc: 'Functional processing with Stream pipelines: filter, map, flatMap, reduce, collect, and Parallel Streams.',
-    theory: `The Stream API (\`java.util.stream\`, Java 8+) processes collections of objects in a functional, declarative manner.\n\nStream Pipeline Architecture:\n\`Source\` → \`Intermediate Operations\` → \`Terminal Operation\`\n\n1. Stream Sources: \`list.stream()\`, \`Arrays.stream()\`, \`Stream.of()\`\n\n2. Intermediate Operations (Lazy Execution):\n- \`filter(Predicate)\`: Filters elements based on condition.\n- \`map(Function)\`: Transforms elements.\n- \`flatMap(Function)\`: Flattens nested streams.\n- \`sorted()\`: Sorts stream elements.\n- \`distinct()\`: Removes duplicate elements.\n\n3. Terminal Operations (Triggers Pipeline Execution):\n- \`collect(Collectors.toList())\`: Collects into a List/Set/Map.\n- \`forEach(Consumer)\`: Iterates over elements.\n- \`reduce()\`: Combines stream elements into single result.\n- \`count()\`: Returns element count.`,
-    code: `import java.util.List;\nimport java.util.Arrays;\nimport java.util.stream.Collectors;\n\npublic class StreamDemo {\n    public static void main(String[] args) {\n        List<String> names = Arrays.asList("Alice", "Bob", "Alexander", "Charlie", "Anna");\n\n        // Filter names starting with 'A', convert to uppercase, collect to list\n        List<String> result = names.stream()\n                .filter(name -> name.startsWith("A"))\n                .map(String::toUpperCase)\n                .sorted()\n                .collect(Collectors.toList());\n\n        System.out.println("Filtered & Mapped Names: " + result);\n\n        // Sum using reduce\n        List<Integer> nums = Arrays.asList(1, 2, 3, 4, 5);\n        int sum = nums.stream().reduce(0, Integer::sum);\n        System.out.println("Sum using Streams: " + sum);\n    }\n}`,
-    output: `Filtered & Mapped Names: [ALEXANDER, ALICE, ANNA]\nSum using Streams: 15`,
-    note: 'Streams are single-use. Once a terminal operation is executed, the stream is closed and cannot be reused.',
-    warning: 'Intermediate operations are lazy — they will never execute unless a Terminal operation is called.',
-    tip: 'Use parallelStream() for massive data sets to leverage multi-core CPU parallel processing.',
-    interviewTip: '"Difference between map() and flatMap() in Java Streams?" — map() transforms 1 element into 1 element; flatMap() transforms 1 element into a Stream of elements and flattens them.',
-    mistakes: ['Attempting to reuse a closed stream', 'Forgetting terminal operation so intermediate logic never runs'],
-    summary: 'Stream API provides functional data pipelines with intermediate lazy operations (filter/map) and terminal triggers (collect/reduce).'
-  },
-  { id: 34, title: 'JDBC', diff: 'Hard', time: '40 min', phase: 'advanced', prereq: 'Stream API',
-    desc: 'Java Database Connectivity architecture, Connection, Statement, PreparedStatement, ResultSet, and Transactions.',
-    theory: `JDBC (Java Database Connectivity) is a standard Java API (\`java.sql\`) to connect Java applications to relational databases (PostgreSQL, MySQL, Oracle).\n\n5 Steps of JDBC Connectivity:\n1. Load Driver Class: \`Class.forName("org.postgresql.Driver")\`\n2. Create Connection: \`DriverManager.getConnection(url, user, pass)\`\n3. Create Statement / PreparedStatement\n4. Execute Query: \`executeQuery()\` for SELECT, \`executeUpdate()\` for INSERT/UPDATE/DELETE.\n5. Process ResultSet & Close Resources.\n\nPreparedStatement Advantage:\nPrecompiled SQL queries with placeholders (\`?\`). Protects against SQL Injection attacks and executes faster for batch updates.`,
-    code: `import java.sql.*;\n\npublic class JdbcDemo {\n    public static void main(String[] args) {\n        String url = "jdbc:h2:mem:testdb"; // In-memory DB\n        String user = "sa", password = "";\n\n        String createTableSQL = "CREATE TABLE Students (id INT PRIMARY KEY, name VARCHAR(50))";\n        String insertSQL = "INSERT INTO Students (id, name) VALUES (?, ?)";\n        String selectSQL = "SELECT * FROM Students";\n\n        try (Connection conn = DriverManager.getConnection(url, user, password);\n             Statement stmt = conn.createStatement();\n             PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {\n\n            stmt.execute(createTableSQL);\n\n            // Parameterized Insertion\n            pstmt.setInt(1, 101);\n            pstmt.setString(2, "Sayan");\n            pstmt.executeUpdate();\n\n            // Query Execution\n            ResultSet rs = stmt.executeQuery(selectSQL);\n            while (rs.next()) {\n                System.out.println("DB Record -> ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));\n            }\n        } catch (SQLException e) {\n            System.out.println("JDBC Exception: " + e.getMessage());\n        }\n    }\n}`,
-    output: `DB Record -> ID: 101, Name: Sayan`,
-    note: 'Use PreparedStatement instead of Statement to prevent SQL Injection attacks.',
-    warning: 'Always close Connection, Statement, and ResultSet objects to prevent database connection leaks.',
-    tip: 'Use Connection Pooling frameworks like HikariCP in web production applications.',
-    interviewTip: '"Why is PreparedStatement faster and safer than Statement?" — It is precompiled on DB server and handles escaping automatically to prevent SQL Injection.',
-    mistakes: ['String concatenation in SQL queries causing SQL Injection vulnerability', 'Not closing DB connections'],
-    summary: 'JDBC connects Java to relational databases. Use PreparedStatement for parameterized secure queries and HikariCP for pooling.'
-  },
-  { id: 35, title: 'Maven & Build Tools', diff: 'Hard', time: '35 min', phase: 'advanced', prereq: 'JDBC',
-    desc: 'Maven build automation, Project Object Model (pom.xml), dependencies, repositories, and build lifecycle.',
-    theory: `Apache Maven is a popular build automation and project management tool for Java projects.\n\nKey Concepts of Maven:\n1. \`pom.xml\` (Project Object Model):\nXML file containing project metadata, dependencies (libraries), and plugin configurations.\n\n2. Dependency Management:\nMaven automatically downloads required JAR files and their transitive dependencies from Central Repository to local repository (\`~/.m2/repository\`).\n\n3. Standard Directory Structure:\n- \`src/main/java\`: Java source code.\n- \`src/main/resources\`: Configuration files.\n- \`src/test/java\`: Unit tests.\n\n4. Build Lifecycle Phases:\n\`clean\` → \`compile\` → \`test\` → \`package\` (generates JAR/WAR) → \`install\`.`,
-    code: `<!-- Sample pom.xml snippet -->\n<project xmlns="http://maven.apache.org/POM/4.0.0">\n  <modelVersion>4.0.0</modelVersion>\n  <groupId>com.bca.app</groupId>\n  <artifactId>bca-java-app</artifactId>\n  <version>1.0.0</version>\n\n  <dependencies>\n    <!-- PostgreSQL JDBC Driver Dependency -->\n    <dependency>\n      <groupId>org.postgresql</groupId>\n      <artifactId>postgresql</artifactId>\n      <version>42.6.0</version>\n    </dependency>\n  </dependencies>\n</project>`,
-    output: `[INFO] --- maven-compiler-plugin:3.11.0:compile (default-compile) @ bca-java-app ---\n[INFO] BUILD SUCCESS`,
-    note: 'Run "mvn clean package" to build a deployable executable JAR file.',
-    warning: 'Dependency conflicts can occur when two libraries require different versions of the same transitive dependency.',
-    tip: 'Use "mvn dependency:tree" in terminal to analyze and resolve dependency tree conflicts.',
-    interviewTip: '"What is the difference between compile and runtime dependency scope in Maven?" — compile is needed at build and runtime; runtime is needed only during execution (e.g. JDBC driver implementations).',
-    mistakes: ['Manually adding JAR files to build path instead of managing via pom.xml', 'Mismatched directory structure'],
-    summary: 'Maven automates dependency management via pom.xml and provides standardized build lifecycles.'
-  },
-  { id: 36, title: 'Java Modules (JPMS)', diff: 'Hard', time: '30 min', phase: 'advanced', prereq: 'Maven & Build Tools',
-    desc: 'Java Platform Module System (Java 9+), module-info.java, requires, exports, and encapsulation.',
-    theory: `Introduced in Java 9 (Project Jigsaw), the Java Platform Module System (JPMS) modularizes the JDK and Java applications.\n\nA Module is a named, self-describing collection of code and data declared via \`module-info.java\` at the root of source tree.\n\nKey Module Directives:\n- \`exports package.name\`: Makes package accessible to other modules.\n- \`requires module.name\`: Specifies dependency on another module.\n- \`provides ... with ...\`: Declares service implementation.\n- \`uses class.name\`: Consumes a service.\n\nBenefits: Strong encapsulation (internal packages remain hidden even if public), smaller runtime footprint via \`jlink\` tool.`,
-    code: `// File: src/module-info.java\nmodule com.bca.studentapp {\n    requires java.sql;       // Requires JDBC module\n    requires java.desktop;   // Requires Swing GUI module\n    \n    exports com.bca.studentapp.model; // Expose model package\n}`,
-    output: `Module com.bca.studentapp compiled cleanly with explicit JPMS encapsulation rules.`,
-    note: 'Reflection cannot access non-exported package internals in modular Java without explicit open directives.',
-    warning: 'Automatic modules occur when legacy non-modular JAR files are placed on the module path.',
-    tip: 'Use jlink tool to create custom lightweight runtime images containing only required Java modules.',
-    interviewTip: '"What is module-info.java?" — The descriptor file at root of source directory that defines module dependencies and exports.',
-    mistakes: ['Forgetting to export packages that other modules need to access', 'Circular module dependencies'],
-    summary: 'JPMS (Java 9+) organizes packages into modules using module-info.java for strong encapsulation and lightweight deployment.'
-  },
-  { id: 37, title: 'Spring Fundamentals', diff: 'Hard', time: '40 min', phase: 'advanced', prereq: 'Java Modules (JPMS)',
-    desc: 'Spring Core Framework, IoC Container, Dependency Injection (@Autowired, @Component), and Spring Boot starters.',
-    theory: `The Spring Framework is the industry standard enterprise Java application framework.\n\nCore Spring Concepts:\n\n1. Inversion of Control (IoC):\nInstead of the developer instantiating objects manually via \`new\`, the Spring IoC Container manages object creation, lifecycle, and wiring.\n\n2. Dependency Injection (DI):\nPattern where dependencies are injected into a class automatically by Spring Container via constructor or field injection.\n\n3. Core Annotations:\n- \`@Component\`: Marks a class as a Spring-managed Bean.\n- \`@Service\`: Specialization for business service logic.\n- \`@Repository\`: Specialization for Database DAO layer.\n- \`@Autowired\`: Tells Spring to inject matching Bean automatically.\n- \`@SpringBootApplication\`: Enables auto-configuration and component scanning.`,
-    code: `// Spring Boot Service Component\ninterface MessageService {\n    String getMessage();\n}\n\n// @Component registers bean with Spring IoC Container\nclass EmailService implements MessageService {\n    public String getMessage() { return "Spring Dependency Injection active!"; }\n}\n\n// Consumer class receiving injected dependency\nclass NotificationController {\n    private final MessageService service;\n\n    // Constructor Injection (Recommended!)\n    public NotificationController(MessageService service) {\n        this.service = service;\n    }\n\n    public void send() {\n        System.out.println(service.getMessage());\n    }\n}\n\npublic class SpringDemo {\n    public static void main(String[] args) {\n        // Simulating Spring IoC Container DI\n        MessageService emailService = new EmailService();\n        NotificationController controller = new NotificationController(emailService);\n        controller.send();\n    }\n}`,
-    output: `Spring Dependency Injection active!`,
-    note: 'Constructor injection is preferred over field injection (@Autowired on fields) because it enables immutability and easier testing.',
-    warning: 'Circular dependencies between Spring Beans cause BeanCurrentlyInCreationException.',
-    tip: 'Use Spring Boot Starters (spring-boot-starter-web, spring-boot-starter-data-jpa) for rapid web backend production setup.',
-    interviewTip: '"What is IoC and Dependency Injection in Spring?" — IoC hands object creation control to Spring Container; DI injects dependencies into objects.',
-    mistakes: ['Using field injection everywhere making unit testing harder', 'Missing component scanning annotations'],
-    summary: 'Spring IoC Container manages component lifecycles, using Dependency Injection to build loosely coupled enterprise systems.'
-  },
-  { id: 38, title: 'Mini Projects Guide', diff: 'Hard', time: '40 min', phase: 'advanced', prereq: 'Spring Fundamentals',
-    desc: 'Architecting Java applications: Layered Architecture (Controller -> Service -> Repository), DAO Pattern, and MVC.',
-    theory: `When building real-world Java applications, structure your codebase using Layered Enterprise Architecture:\n\n1. Presentation Layer (Controller / UI):\nHandles HTTP requests or Console Scanner input and presents responses to users.\n\n2. Business Logic Layer (Service):\nContains core business processing rules, validation, and calculations.\n\n3. Data Access Layer (Repository / DAO):\nHandles database queries (JDBC / JPA / Hibernate) or File I/O operations.\n\n4. Domain Model Layer (Entities / DTOs):\nRepresents core data structures (e.g. Student, Account, Product).`,
-    code: `// Model Layer\nclass Product {\n    int id;\n    String name;\n    double price;\n    public Product(int id, String name, double price) {\n        this.id = id; this.name = name; this.price = price;\n    }\n}\n\n// Service Layer\nclass ProductService {\n    public double calculateDiscount(Product p) {\n        return p.price > 100 ? p.price * 0.9 : p.price;\n    }\n}\n\npublic class ArchitectureDemo {\n    public static void main(String[] args) {\n        Product laptop = new Product(1, "Gaming Laptop", 1200.0);\n        ProductService service = new ProductService();\n        System.out.println("Original: $" + laptop.price + " -> Discounted: $" + service.calculateDiscount(laptop));\n    }\n}`,
-    output: `Original: $1200.0 -> Discounted: $1080.0`,
-    note: 'Decouple layers using interfaces so components can be mocked during unit testing.',
-    warning: 'Do not put database query execution directly inside UI Controller layers.',
-    tip: 'Follow Single Responsibility Principle (SRP) — each class should have only one reason to change.',
-    interviewTip: '"Explain Layered Architecture in Java apps." — Presentation (Controller), Service (Business Logic), Repository (Data Persistence), Model (Data Entities).',
-    mistakes: ['Mixing database queries directly into console UI input loops', 'Tight coupling between components'],
-    summary: 'Structure Java projects cleanly into Model, Repository, Service, and Controller layers for scalability.'
-  },
-  { id: 39, title: 'Interview Questions', diff: 'Hard', time: '40 min', phase: 'advanced', prereq: 'Mini Projects Guide',
-    desc: 'Top technical Java trick questions: equals() vs hashCode(), Garbage Collector tuning, String pool memory, and volatile.',
-    theory: `Key High-Frequency Java Interview Topics:\n\n1. \`equals()\` and \`hashCode()\` Contract:\nIf two objects are equal according to \`equals()\`, they MUST have the same \`hashCode()\`. Overriding one without the other breaks HashMap/HashSet lookups!\n\n2. \`volatile\` Keyword:\nEnsures variable reads/writes go directly to Main Memory rather than thread CPU caches, preventing stale thread state visibility.\n\n3. Deep Copy vs Shallow Copy:\nShallow copy duplicates reference pointers to child objects; Deep copy recursively creates duplicate instances of all nested objects.\n\n4. String Pool Internal Memory:\nLiterals reside in SCP. Calling \`str.intern()\` forces Heap String objects into SCP memory.`,
-    code: `public class InterviewTricks {\n    public static void main(String[] args) {\n        String s1 = new String("Java").intern();\n        String s2 = "Java";\n        System.out.println("Interned match == : " + (s1 == s2)); // true!\n        \n        Integer x = 127, y = 127;\n        System.out.println("Integer Cache 127 == : " + (x == y)); // true (cached -128 to 127)\n        \n        Integer a = 128, b = 128;\n        System.out.println("Integer Cache 128 == : " + (a == b)); // false (exceeds cache!)\n    }\n}`,
-    output: `Interned match == : true\nInteger Cache 127 == : true\nInteger Cache 128 == : false`,
-    note: 'Integer wrapper classes cache values between -128 and 127 for memory reusability.',
-    warning: 'Never use == to compare Integer objects outside -128 to 127 range!',
-    tip: 'Always use .equals() for object comparisons in real enterprise applications.',
-    interviewTip: '"What happens if equals() is overridden without hashCode()?" — HashMap lookups fail because equal objects generate different bucket hashes.',
-    mistakes: ['Using == for Integer objects exceeding 127', 'Violating equals/hashCode contract'],
-    summary: 'Master equals/hashCode contract, volatile visibility, String interning, and Integer caching for technical interviews.'
-  },
-  { id: 40, title: 'Java Best Practices', diff: 'Hard', time: '35 min', phase: 'advanced', prereq: 'Interview Questions',
-    desc: 'Clean Code guidelines, SOLID principles, avoiding NullPointerException, and Effective Java rules.',
-    theory: `Essential Industry Best Practices for Writing Professional Java Code:\n\n1. SOLID Principles:\n- Single Responsibility Principle (SRP)\n- Open/Closed Principle (OCP)\n- Liskov Substitution Principle (LSP)\n- Interface Segregation Principle (ISP)\n- Dependency Inversion Principle (DIP)\n\n2. Avoiding NullPointerException (NPE):\n- Use \`Optional<T>\` for optional return types.\n- Use \`Objects.requireNonNull()\`.    \n- Call \`"LITERAL".equals(variable)\` instead of \`variable.equals("LITERAL")\`.\n\n3. Resource Management:\n- Always use Try-With-Resources for Streams, Readers, DB Connections.\n\n4. Immutability:\n- Make classes \`final\`, fields \`private final\`, and provide no setters for thread-safe DTOs (or use Java Records).`,
-    code: `import java.util.Optional;\nimport java.util.Objects;\n\npublic class BestPracticesDemo {\n    // Returning Optional to avoid NullPointerException\n    public static Optional<String> findUser(int id) {\n        if (id == 101) return Optional.of("Sayan");\n        return Optional.empty();\n    }\n\n    public static void main(String[] args) {\n        // Safe Null Check Constant comparison\n        String input = null;\n        if ("ADMIN".equals(input)) {\n            System.out.println("Admin Access");\n        } else {\n            System.out.println("Safe comparison avoided NullPointerException!");\n        }\n\n        // Optional usage\n        Optional<String> user = findUser(101);\n        user.ifPresent(name -> System.out.println("Found user: " + name));\n    }\n}`,
-    output: `Safe comparison avoided NullPointerException!\nFound user: Sayan`,
-    note: '"CONSTANT".equals(var) is null-safe and never throws NullPointerException.',
-    warning: 'Avoid passing null values as arguments across method boundaries.',
-    tip: 'Use Java 14+ Records (record User(int id, String name) {}) for concise immutable data carrier classes.',
-    interviewTip: '"How do you prevent NullPointerException in Java?" — Use Optional<T>, null-safe literal comparison, Objects.requireNonNull(), and Java Records.',
-    mistakes: ['Calling variable.equals("CONSTANT") when variable could be null', 'Returning null instead of Empty Collection or Optional'],
-    summary: 'Apply SOLID design, use Optional & Records, favor Try-With-Resources, and follow null-safe programming practices.'
+  { id: 24, title: 'JDBC', diff: 'Hard', time: '40 min', phase: 'advanced', prereq: 'Lambda Expressions',
+    desc: 'DriverManager, Connections, Statement/PreparedStatement, executing sql queries.',
+    theory: `Java Database Connectivity (JDBC) handles SQL database access. Execution flow:\n1. Load JDBC driver class\n2. Establish Connection (DriverManager.getConnection)\n3. Create Statements/PreparedStatements\n4. Execute queries & retrieve ResultSets\n5. Clean up connection resources`,
+    code: `import java.sql.*;\n\npublic class JDBCDemo {\n    public static void main(String[] args) {\n        String url = "jdbc:mysql://localhost:3306/db";\n        // Try with resources close connection automatically\n        try (Connection conn = DriverManager.getConnection(url, "user", "pass");\n             Statement stmt = conn.createStatement()) {\n            System.out.println("Database connected successfully!");\n        } catch (SQLException e) {\n            System.out.println("SQL Exception: " + e.getMessage());\n        }\n    }\n}`,
+    output: `Database connected successfully!`,
+    note: 'PreparedStatement compiles SQL plans once, resolving SQL injection vulnerabilities.',
+    warning: 'Always clean up Statement, ResultSet, and Connection handles to prevent connection pooling limits leak.',
+    tip: 'Migrate to Spring JDBC / Hibernate ORM for production-level databases operations.',
+    interviewTip: '"Difference between Statement and PreparedStatement?" — PreparedStatement compiled once (fast execution), uses parameter placeholder (?) preventing injection.',
+    mistakes: ['Not catching SQLException requirement', 'Hardcoding variables in SQL strings instead of placeholders (?)'],
+    summary: 'JDBC binds Java apps to SQL databases. DriverManager allocates connections, PreparedStatements compile plans secure against SQL injection.'
   }
 ];
 
-/* ============================================================
-   PROGRAMS DATA — CATEGORIZED COLLECTION
-   ============================================================ */
-export const JAVA_PROGRAMS = [
+const JAVA_PROGRAMS = [
   { id: 1, title: 'Java Hello World', cat: 'Basic', diff: 'Easy',
-    code: `public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, BCA Java World!");\n    }\n}`
-  },
-  { id: 2, title: 'Simple & Compound Interest Calculator', cat: 'Basic', diff: 'Easy',
-    code: `public class InterestCalculator {\n    public static void main(String[] args) {\n        double p = 10000, r = 7.5, t = 3;\n        double si = (p * r * t) / 100;\n        double ci = p * Math.pow((1 + r / 100), t) - p;\n        System.out.printf("SI: %.2f, CI: %.2f\\n", si, ci);\n    }\n}`
-  },
-  { id: 3, title: 'Palindrome Number Check', cat: 'Basic', diff: 'Easy',
-    code: `public class PalindromeNum {\n    public static void main(String[] args) {\n        int num = 12321, orig = num, rev = 0;\n        while (num > 0) {\n            rev = rev * 10 + (num % 10);\n            num /= 10;\n        }\n        System.out.println(orig + (orig == rev ? " is Palindrome" : " is NOT Palindrome"));\n    }\n}`
-  },
-  { id: 4, title: 'Prime Number Generator', cat: 'Basic', diff: 'Easy',
-    code: `public class PrimeGenerator {\n    public static boolean isPrime(int n) {\n        if (n <= 1) return false;\n        for (int i = 2; i <= Math.sqrt(n); i++) if (n % i == 0) return false;\n        return true;\n    }\n    public static void main(String[] args) {\n        System.out.print("Primes up to 30: ");\n        for (int i = 1; i <= 30; i++) if (isPrime(i)) System.out.print(i + " ");\n    }\n}`
-  },
-  { id: 5, title: 'Factorial (Recursive & Iterative)', cat: 'Basic', diff: 'Easy',
-    code: `public class Factorial {\n    public static long fact(int n) {\n        return (n <= 1) ? 1 : n * fact(n - 1);\n    }\n    public static void main(String[] args) {\n        System.out.println("5! = " + fact(5));\n    }\n}`
-  },
-  { id: 6, title: 'Fibonacci Series', cat: 'Basic', diff: 'Easy',
-    code: `public class Fibonacci {\n    public static void main(String[] args) {\n        int n = 8, a = 0, b = 1;\n        System.out.print("Fibonacci: ");\n        for (int i = 1; i <= n; i++) {\n            System.out.print(a + " ");\n            int next = a + b; a = b; b = next;\n        }\n    }\n}`
-  },
-  { id: 7, title: 'Find Min and Max in Array', cat: 'Arrays', diff: 'Easy',
-    code: `public class ArrayMinMax {\n    public static void main(String[] args) {\n        int[] arr = {34, 7, 89, 12, 56};\n        int min = arr[0], max = arr[0];\n        for (int n : arr) {\n            if (n < min) min = n;\n            if (n > max) max = n;\n        }\n        System.out.println("Min: " + min + ", Max: " + max);\n    }\n}`
-  },
-  { id: 8, title: 'Reverse Array In-Place', cat: 'Arrays', diff: 'Easy',
-    code: `import java.util.Arrays;\npublic class ReverseArray {\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 3, 4, 5};\n        for (int i = 0, j = arr.length - 1; i < j; i++, j--) {\n            int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;\n        }\n        System.out.println("Reversed: " + Arrays.toString(arr));\n    }\n}`
-  },
-  { id: 9, title: 'Matrix Addition', cat: 'Arrays', diff: 'Medium',
-    code: `public class MatrixAdd {\n    public static void main(String[] args) {\n        int[][] a = {{1, 2}, {3, 4}};\n        int[][] b = {{5, 6}, {7, 8}};\n        int[][] sum = new int[2][2];\n        for (int i = 0; i < 2; i++)\n            for (int j = 0; j < 2; j++)\n                sum[i][j] = a[i][j] + b[i][j];\n        System.out.println("Sum [0][0]: " + sum[0][0]);\n    }\n}`
-  },
-  { id: 10, title: 'Anagram Checker', cat: 'Strings', diff: 'Medium',
-    code: `import java.util.Arrays;\npublic class AnagramCheck {\n    public static boolean isAnagram(String s1, String s2) {\n        char[] c1 = s1.replaceAll("\\s", "").toLowerCase().toCharArray();\n        char[] c2 = s2.replaceAll("\\s", "").toLowerCase().toCharArray();\n        Arrays.sort(c1); Arrays.sort(c2);\n        return Arrays.equals(c1, c2);\n    }\n    public static void main(String[] args) {\n        System.out.println("listen & silent: " + isAnagram("listen", "silent"));\n    }\n}`
-  },
-  { id: 11, title: 'Bank Account Encapsulation', cat: 'OOP', diff: 'Easy',
-    code: `class Account {\n    private double balance;\n    public void deposit(double amt) { if (amt > 0) balance += amt; }\n    public double getBalance() { return balance; }\n}\npublic class OOPDemo {\n    public static void main(String[] args) {\n        Account acc = new Account();\n        acc.deposit(500.0);\n        System.out.println("Balance: $" + acc.getBalance());\n    }\n}`
-  },
-  { id: 12, title: 'Inheritance & Polymorphism', cat: 'OOP', diff: 'Medium',
-    code: `abstract class Vehicle { abstract void drive(); }\nclass Car extends Vehicle { void drive() { System.out.println("Car driving..."); } }\npublic class PolymorphismApp {\n    public static void main(String[] args) {\n        Vehicle v = new Car(); v.drive();\n    }\n}`
-  },
-  { id: 13, title: 'Custom Exception Handling', cat: 'Exceptions', diff: 'Medium',
-    code: `class LowBalanceException extends Exception {\n    public LowBalanceException(String m) { super(m); }\n}\npublic class ExceptionTest {\n    public static void withdraw(double bal, double amt) throws LowBalanceException {\n        if (amt > bal) throw new LowBalanceException("Insufficient Funds!");\n    }\n    public static void main(String[] args) {\n        try { withdraw(100, 200); } catch (LowBalanceException e) { System.out.println(e.getMessage()); }\n    }\n}`
-  },
-  { id: 14, title: 'File Reader & Writer', cat: 'File I/O', diff: 'Medium',
-    code: `import java.io.*;\npublic class FileDemo {\n    public static void main(String[] args) throws IOException {\n        FileWriter fw = new FileWriter("test.txt");\n        fw.write("Java File IO"); fw.close();\n        BufferedReader br = new BufferedReader(new FileReader("test.txt"));\n        System.out.println("Read: " + br.readLine()); br.close();\n    }\n}`
-  },
-  { id: 15, title: 'ArrayList Operations', cat: 'Collections', diff: 'Medium',
-    code: `import java.util.*;\npublic class ListDemo {\n    public static void main(String[] args) {\n        List<String> list = new ArrayList<>(Arrays.asList("Java", "C++", "Python"));\n        list.remove("C++");\n        System.out.println("List: " + list);\n    }\n}`
-  },
-  { id: 16, title: 'HashMap Frequency Counter', cat: 'Collections', diff: 'Medium',
-    code: `import java.util.*;\npublic class WordCount {\n    public static void main(String[] args) {\n        String[] words = {"apple", "banana", "apple", "cherry", "banana", "apple"};\n        Map<String, Integer> map = new HashMap<>();\n        for (String w : words) map.put(w, map.getOrDefault(w, 0) + 1);\n        System.out.println("Frequencies: " + map);\n    }\n}`
-  },
-  { id: 17, title: 'Merge Sort Algorithm', cat: 'Sorting', diff: 'Hard',
-    code: `import java.util.Arrays;\npublic class MergeSort {\n    public static void mergeSort(int[] a, int n) {\n        if (n < 2) return;\n        int mid = n / 2;\n        int[] l = new int[mid], r = new int[n - mid];\n        for (int i = 0; i < mid; i++) l[i] = a[i];\n        for (int i = mid; i < n; i++) r[i - mid] = a[i];\n        mergeSort(l, mid); mergeSort(r, n - mid);\n        merge(a, l, r, mid, n - mid);\n    }\n    private static void merge(int[] a, int[] l, int[] r, int left, int right) {\n        int i = 0, j = 0, k = 0;\n        while (i < left && j < right) a[k++] = (l[i] <= r[j]) ? l[i++] : r[j++];\n        while (i < left) a[k++] = l[i++];\n        while (j < right) a[k++] = r[j++];\n    }\n    public static void main(String[] args) {\n        int[] arr = {38, 27, 43, 3, 9, 82, 10};\n        mergeSort(arr, arr.length);\n        System.out.println("Sorted: " + Arrays.toString(arr));\n    }\n}`
-  },
-  { id: 18, title: 'Binary Search (Recursive)', cat: 'Searching', diff: 'Medium',
-    code: `public class BinarySearch {\n    public static int search(int[] arr, int l, int r, int x) {\n        if (r >= l) {\n            int mid = l + (r - l) / 2;\n            if (arr[mid] == x) return mid;\n            if (arr[mid] > x) return search(arr, l, mid - 1, x);\n            return search(arr, mid + 1, r, x);\n        }\n        return -1;\n    }\n    public static void main(String[] args) {\n        int[] arr = {2, 3, 4, 10, 40};\n        System.out.println("Index of 10: " + search(arr, 0, arr.length - 1, 10));\n    }\n}`
-  },
-  { id: 19, title: 'Star Pyramid Pattern', cat: 'Patterns', diff: 'Easy',
-    code: `public class StarPyramid {\n    public static void main(String[] args) {\n        int rows = 5;\n        for (int i = 1; i <= rows; i++) {\n            for (int j = i; j < rows; j++) System.out.print(" ");\n            for (int k = 1; k <= (2 * i - 1); k++) System.out.print("*");\n            System.out.println();\n        }\n    }\n}`
-  },
-  { id: 20, title: 'Stream API Filtering & Mapping', cat: 'Streams', diff: 'Hard',
-    code: `import java.util.*;\nimport java.util.stream.Collectors;\npublic class StreamExample {\n    public static void main(String[] args) {\n        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);\n        List<Integer> evensSquared = list.stream()\n            .filter(n -> n % 2 == 0)\n            .map(n -> n * n)\n            .collect(Collectors.toList());\n        System.out.println("Evens Squared: " + evensSquared);\n    }\n}`
-  }
+    desc: 'Prints Hello World text message on the terminal window console.',
+    code: `public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}`,
+    output: 'Hello, World!',
+    explanation: 'Declares HelloWorld public class, executes entry point main method, calls System.out.println outputs text message.',
+    complexity: 'O(1)', space: 'O(1)' },
+  { id: 2, title: 'Sum of Two Numbers', cat: 'Basic', diff: 'Easy',
+    desc: 'Read variables, calculate arithmetic sum, print result outputs.',
+    code: `public class Sum {\n    public static void main(String[] args) {\n        int a = 10;\n        int b = 20;\n        int total = a + b;\n        System.out.println("Sum: " + total);\n    }\n}`,
+    output: 'Sum: 30',
+    explanation: 'Initializes two integers a and b, calculates arithmetic addition, displays sum total variable value.',
+    complexity: 'O(1)', space: 'O(1)' },
+  { id: 3, title: 'Class Inheritance Demo', cat: 'OOP', diff: 'Easy',
+    desc: 'Shows extends relationship subclass inherits parent variable.',
+    code: `class Parent {\n    void display() { System.out.println("Parent class method"); }\n}\nclass Child extends Parent {\n    public static void main(String[] args) {\n        Child obj = new Child();\n        obj.display(); // Inherited method\n    }\n}`,
+    output: 'Parent class method',
+    explanation: 'Child extends Parent class, inherits display methods. Instantiation triggers parent display execution.',
+    complexity: 'O(1)', space: 'O(1)' },
+  { id: 4, title: 'Interface implementation', cat: 'OOP', diff: 'Medium',
+    desc: 'Shows implements keyword mapping class to interface contract.',
+    code: `interface Walkable {\n    void walk();\n}\nclass Person implements Walkable {\n    public void walk() {\n        System.out.println("Person walking...");\n    }\n    public static void main(String[] args) {\n        Walkable w = new Person();\n        w.walk();\n    }\n}`,
+    output: 'Person walking...',
+    explanation: 'Person overrides and defines walk contract declared inside Walkable interface. Dynamic binding executes walk.',
+    complexity: 'O(1)', space: 'O(1)' },
+  { id: 5, title: 'ArrayList traversal', cat: 'Collections', diff: 'Medium',
+    desc: 'Traverse an Integer ArrayList elements using Iterator.',
+    code: `import java.util.*;\npublic class ListDemo {\n    public static void main(String[] args) {\n        List<Integer> list = ArrayList.asList(1, 2, 3);\n        for (int val : list) {\n            System.out.print(val + " ");\n        }\n    }\n}`,
+    output: '1 2 3 ',
+    explanation: 'ArrayList initializes array wrapper, foreach traversal prints index value sequentially.',
+    complexity: 'O(N)', space: 'O(N)' },
+  { id: 6, title: 'HashMap mapping values', cat: 'Collections', diff: 'Medium',
+    desc: 'Insert key-value records inside HashMap, retrieve value.',
+    code: `import java.util.*;\npublic class MapDemo {\n    public static void main(String[] args) {\n        Map<String, String> map = new HashMap<>();\n        map.put("course", "BCA");\n        System.out.println(map.get("course"));\n    }\n}`,
+    output: 'BCA',
+    explanation: 'Inserts key course with value BCA, retrieves course key matching value BCA from hash registry.',
+    complexity: 'O(1)', space: 'O(N)' },
+  { id: 7, title: 'Multiple Thread Execution', cat: 'Multithreading', diff: 'Hard',
+    desc: 'Execute concurrent paths by extending Thread class.',
+    code: `class MyThread extends Thread {\n    public void run() {\n        System.out.println("Running: " + getName());\n    }\n    public static void main(String[] args) {\n        MyThread t1 = new MyThread();\n        MyThread t2 = new MyThread();\n        t1.start();\n        t2.start();\n    }\n}`,
+    output: 'Running: Thread-0\nRunning: Thread-1',
+    explanation: 'Extends Thread class, overrides run method. Calling start allocates scheduling resources running concurrently.',
+    complexity: 'O(1)', space: 'O(1)' },
+  { id: 8, title: 'JDBC statement check', cat: 'JDBC', diff: 'Hard',
+    desc: 'Connect to database using JDBC DriverManager.',
+    code: `import java.sql.*;\npublic class JDBC {\n    public static void main(String[] args) throws Exception {\n        Connection c = DriverManager.getConnection("jdbc:h2:mem:test", "sa", "");\n        System.out.println("Status: " + !c.isClosed());\n    }\n}`,
+    output: 'Status: true',
+    explanation: 'Initializes in-memory database connection using H2 driver, checks open status returns true.',
+    complexity: 'O(1)', space: 'O(1)' }
 ];
 
-/* ============================================================
-   CODING PRACTICE PROBLEMS
-   ============================================================ */
-export const JAVA_PRACTICE_PROBLEMS = [
+const JAVA_PRACTICE_PROBLEMS = [
   { id: 1, title: 'Factorial of N', difficulty: 'Easy', tags: ['Math', 'Recursion'],
-    desc: 'Write a program to calculate the factorial of a non-negative integer N.',
-    constraints: '0 <= N <= 20', sampleInput: '5', sampleOutput: '120',
-    explanation: '5! = 5 * 4 * 3 * 2 * 1 = 120',
-    solution: `public class Solution {\n    public static long factorial(int n) {\n        if (n <= 1) return 1;\n        return n * factorial(n - 1);\n    }\n}`
-  },
+    desc: 'Write a Java program to calculate the factorial of a given integer N.',
+    examples: [
+      { input: 'N = 5', output: '120', explanation: '5! = 5 * 4 * 3 * 2 * 1 = 120' },
+      { input: 'N = 0', output: '1' }
+    ],
+    constraints: ['0 <= N <= 20'],
+    hint: 'Use a simple for loop iteration or recursion. For N > 20, integer values overflow, so use long type.' },
   { id: 2, title: 'Reverse a String', difficulty: 'Easy', tags: ['Strings'],
-    desc: 'Given a string S, return the string reversed.',
-    constraints: '1 <= S.length() <= 1000', sampleInput: '"Java"', sampleOutput: '"avaJ"',
-    explanation: 'Reversing character by character produces avaJ',
-    solution: `public class Solution {\n    public static String reverseString(String s) {\n        return new StringBuilder(s).reverse().toString();\n    }\n}`
-  },
-  { id: 3, title: 'Find Duplicates in Array', difficulty: 'Medium', tags: ['Arrays', 'HashSet'],
-    desc: 'Given an integer array nums, return true if any value appears at least twice in the array.',
-    constraints: '1 <= nums.length <= 10^5', sampleInput: '[1, 2, 3, 1]', sampleOutput: 'true',
-    explanation: 'Value 1 appears twice.',
-    solution: `import java.util.HashSet;\nimport java.util.Set;\npublic class Solution {\n    public static boolean containsDuplicate(int[] nums) {\n        Set<Integer> set = new HashSet<>();\n        for (int num : nums) {\n            if (!set.add(num)) return true;\n        }\n        return false;\n    }\n}`
-  },
-  { id: 4, title: 'Valid Parentheses Checker', difficulty: 'Medium', tags: ['Stack', 'Strings'],
-    desc: 'Given a string containing brackets (), {}, [], determine if the input string is valid.',
-    constraints: '1 <= s.length <= 10^4', sampleInput: '"({[]})"', sampleOutput: 'true',
-    explanation: 'Every opening bracket is properly closed in correct order.',
-    solution: `import java.util.ArrayDeque;\nimport java.util.Deque;\npublic class Solution {\n    public static boolean isValid(String s) {\n        Deque<Character> stack = new ArrayDeque<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(') stack.push(')');\n            else if (c == '{') stack.push('}');\n            else if (c == '[') stack.push(']');\n            else if (stack.isEmpty() || stack.pop() != c) return false;\n        }\n        return stack.isEmpty();\n    }\n}`
-  },
-  { id: 5, title: 'Two Sum Problem', difficulty: 'Medium', tags: ['HashMap', 'Arrays'],
-    desc: 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.',
-    constraints: '2 <= nums.length <= 10^4', sampleInput: 'nums = [2,7,11,15], target = 9', sampleOutput: '[0, 1]',
-    explanation: 'nums[0] + nums[1] = 2 + 7 = 9.',
-    solution: `import java.util.HashMap;\nimport java.util.Map;\npublic class Solution {\n    public static int[] twoSum(int[] nums, int target) {\n        Map<Integer, Integer> map = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            int complement = target - nums[i];\n            if (map.containsKey(complement)) return new int[]{map.get(complement), i};\n            map.put(nums[i], i);\n        }\n        return new int[]{};\n    }\n}`
-  }
+    desc: 'Write a Java program to reverse a given string without using built-in reverse methods.',
+    examples: [
+      { input: 'str = "hello"', output: '"olleh"' },
+      { input: 'str = "BCA"', output: '"ACB"' }
+    ],
+    constraints: ['String length <= 1000', 'String contains printable ASCII characters'],
+    hint: 'Convert string to char array, swap elements from both ends moving inward.' },
+  { id: 3, title: 'Matrix Transpose', difficulty: 'Medium', tags: ['Arrays', 'Matrix'],
+    desc: 'Transpose a given 2D integer matrix of size N x N in-place.',
+    examples: [
+      { input: 'matrix = [[1, 2], [3, 4]]', output: '[[1, 3], [2, 4]]' }
+    ],
+    constraints: ['1 <= N <= 100'],
+    hint: 'Iterate over index i and j (where j > i), swap elements at matrix[i][j] with matrix[j][i].' }
 ];
 
-export const JAVA_STARTER_CODE = {
-  java: `public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, Java!");\n    }\n}`
+const JAVA_STARTER_CODE = {
+  1: `public class Factorial {\n    public static long factorial(int n) {\n        // Write your Java code here\n        return 1;\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(factorial(5)); // Expected: 120\n    }\n}`,
+  2: `public class StringReverse {\n    public static String reverse(String str) {\n        // Write your Java code here\n        return str;\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(reverse("hello")); // Expected: olleh\n    }\n}`,
+  3: `public class MatrixTranspose {\n    public static void transpose(int[][] matrix) {\n        // Write your Java code here\n    }\n}`
 };
 
-/* ============================================================
-   QUIZ DATA
-   ============================================================ */
-export const JAVA_QUIZ_DATA = {
-  easy: [
-    { q: 'Which keyword is used to create an Object instance in Java?', options: ['class', 'new', 'create', 'alloc'], ans: 1, exp: 'The "new" keyword allocates memory in Heap for a new Object.' },
-    { q: 'What is the size of int primitive data type in Java?', options: ['2 bytes', '4 bytes', '8 bytes', 'Depends on OS'], ans: 1, exp: 'In Java, int is strictly 4 bytes (32-bit) on all platforms.' },
-    { q: 'Which component executes Java Bytecode?', options: ['JDK', 'JRE', 'JVM', 'JDB'], ans: 2, exp: 'The Java Virtual Machine (JVM) executes compiled bytecode (.class files).' },
-    { q: 'Which package is automatically imported in every Java file?', options: ['java.util', 'java.io', 'java.lang', 'java.net'], ans: 2, exp: 'java.lang package is imported by default in all Java files.' },
-    { q: 'What is the default value of an instance boolean variable?', options: ['true', 'false', '0', 'null'], ans: 1, exp: 'Instance boolean variables default to false.' }
-  ],
-  medium: [
-    { q: 'Which mechanism handles multiple inheritance in Java?', options: ['Abstract Classes', 'Interfaces', 'Packages', 'Wrapper Classes'], ans: 1, exp: 'A class can implement multiple interfaces, achieving multiple inheritance of behavior.' },
-    { q: 'Where are string literals stored in Java memory?', options: ['Stack Area', 'String Constant Pool (Heap)', 'Native Stack', 'PC Register'], ans: 1, exp: 'String literals are stored in the String Constant Pool inside Heap memory.' },
-    { q: 'What keyword prevents a method from being overridden in subclasses?', options: ['static', 'abstract', 'final', 'super'], ans: 2, exp: 'Declaring a method as final prevents child classes from overriding it.' },
-    { q: 'Which collection class guarantees insertion order and allows duplicates?', options: ['HashSet', 'ArrayList', 'TreeSet', 'HashMap'], ans: 1, exp: 'ArrayList maintains insertion order and allows duplicate elements.' },
-    { q: 'What happens if static block is present in a Java class?', options: ['Executes every time an object is created', 'Executes once when class is loaded by JVM', 'Executes after main() completes', 'Does not execute automatically'], ans: 1, exp: 'Static block executes once when the classloader loads the class into memory.' }
-  ],
-  hard: [
-    { q: 'What is Type Erasure in Java Generics?', options: ['Removing unused objects by GC', 'Erasing generic types at compile time and replacing with bounds/Object', 'Casting primitives to wrappers', 'Deleting class files'], ans: 1, exp: 'Compiler erases generic types at compile time for backward JVM compatibility.' },
-    { q: 'What is the result of calling thread.run() instead of thread.start()?', options: ['Throws IllegalThreadStateException', 'Executes asynchronously on new OS thread', 'Executes synchronously on current calling thread', 'Terminates process'], ans: 2, exp: 'Calling run() directly executes the method synchronously on the current thread.' },
-    { q: 'Which intermediate operation in Stream API flattens nested streams?', options: ['map()', 'flatMap()', 'filter()', 'reduce()'], ans: 1, exp: 'flatMap() transforms elements into streams and flattens them into a single stream.' },
-    { q: 'What keyword prevents a field from being serialized during Object I/O?', options: ['volatile', 'transient', 'static', 'native'], ans: 1, exp: 'The transient keyword tells JVM to skip serializing the marked field.' },
-    { q: 'What does volatile keyword guarantee in Java multithreading?', options: ['Mutual exclusion', 'Atomicity of operations', 'Main Memory visibility across CPU thread caches', 'Prevents Deadlocks'], ans: 2, exp: 'volatile guarantees reads and writes go straight to Main Memory, ensuring visibility.' }
-  ]
-};
-
-/* ============================================================
-   PROJECTS DATA
-   ============================================================ */
-export const JAVA_PROJECTS = [
-  { title: 'Student Management System', diff: 'Beginner', time: '4-6 hrs', emoji: '📂',
-    desc: 'Console-based CRUD application to add, view, search, update, and delete student records with file persistence.',
-    features: ['Object-Oriented Architecture', 'ArrayList / File I/O Storage', 'Input Validation & Exception Handling']
-  },
-  { title: 'Online Banking Console', diff: 'Intermediate', time: '8-10 hrs', emoji: '💳',
-    desc: 'Simulates bank accounts with deposits, withdrawals, fund transfers, transaction history, and custom exception handling.',
-    features: ['Encapsulation & Security', 'Custom LowBalanceException', 'Transaction Audit Log Export']
-  },
-  { title: 'Library Management System', diff: 'Intermediate', time: '10-12 hrs', emoji: '📚',
-    desc: 'Book issuing, returning, fine calculation, author search, and category mapping using Collections & HashMap.',
-    features: ['HashMap & PriorityQueue Data Structures', 'Date & Time Fine Calculation', 'Modular Layered Design']
-  },
-  { title: 'Hospital Management System', diff: 'Intermediate', time: '12-14 hrs', emoji: '🏥',
-    desc: 'Doctor appointment scheduling, patient records, bill generation, and medical inventory tracking.',
-    features: ['Polymorphic Staff Classes', 'Search & Filter Engine', 'Receipt Exporter']
-  },
-  { title: 'ATM Machine Simulator', diff: 'Intermediate', time: '6-8 hrs', emoji: '🏧',
-    desc: 'Simulates physical ATM terminal with PIN authentication, cash withdrawal logic, balance inquiry, and mini-statement.',
-    features: ['State Machine Design', 'Security Validation', 'Receipt Printing']
-  },
-  { title: 'Expense Tracker Application', diff: 'Advanced', time: '15-20 hrs', emoji: '📊',
-    desc: 'Track monthly income and expenses, filter by categories, calculate totals, and export summary reports.',
-    features: ['Java Stream API Data Processing', 'File Persistence (CSV / JSON)', 'Category Breakdown Analytics']
-  }
-];
-
-/* ============================================================
-   INTERVIEW QUESTIONS DATA
-   ============================================================ */
-export const JAVA_INTERVIEW_QUESTIONS = {
+const JAVA_QUIZ_DATA = {
   beginner: [
-    { q: 'What is Java and why is it platform independent?', a: 'Java is a high-level OOP language. It is platform independent because Java code compiles into bytecode (.class), which is executed by the JVM on any operating system.' },
-    { q: 'What is the difference between JDK, JRE, and JVM?', a: 'JDK is the development kit (compiler + tools + JRE). JRE is runtime environment (JVM + class libraries). JVM is the virtual machine executing bytecode.' },
-    { q: 'Is String a primitive type in Java?', a: 'No. String is a Class (Reference Type) in the java.lang package. String literals are cached in the String Constant Pool.' },
-    { q: 'Why is main() method declared static in Java?', a: 'Because JVM needs to invoke main() before any object instance of the class has been created in memory.' }
+    { q: 'Which of the following is NOT a primitive data type in Java?',
+      options: ['int', 'float', 'boolean', 'String'],
+      answer: 3,
+      explanation: 'String is a class (reference type) in Java, while int, float, and boolean are primitive types.' },
+    { q: 'What is the default value of local variables in Java?',
+      options: ['0', 'null', 'false', 'No default value (Compiler Error)'],
+      answer: 3,
+      explanation: 'Local variables in Java must be initialized before use. They do not have default values.' },
+    { q: 'Which component of Java is responsible for running the bytecode?',
+      options: ['JDK', 'JVM', 'JRE', 'Compiler'],
+      answer: 1,
+      explanation: 'The JVM (Java Virtual Machine) executes compiled Java bytecode (.class files).' }
   ],
   intermediate: [
-    { q: 'Explain equals() vs == in Java.', a: '== checks reference memory address equality (same object in heap). .equals() compares actual object content values.' },
-    { q: 'What is the equals() and hashCode() contract?', a: 'If two objects are equal according to equals(), they MUST return the exact same hashCode(). Violating this breaks HashMap and HashSet functionality.' },
-    { q: 'Difference between ArrayList and LinkedList?', a: 'ArrayList uses resizable dynamic array (fast random lookup O(1)). LinkedList uses doubly linked list (fast insertion/deletion O(1)).' },
-    { q: 'What is the purpose of the super keyword?', a: 'super refers to the immediate parent class object. It is used to call parent constructors super() or parent methods super.method().' }
+    { q: 'Which keyword is used to restrict a class from being inherited?',
+      options: ['static', 'abstract', 'final', 'protected'],
+      answer: 2,
+      explanation: 'Declaring a class "final" prevents it from being extended by any other class.' },
+    { q: 'Can we overload methods by changing only their return type in Java?',
+      options: ['Yes', 'No', 'Depends on JVM version', 'Only for static methods'],
+      answer: 1,
+      explanation: 'Method signature consists of method name and parameter list. Changing only the return type does not constitute overloading.' },
+    { q: 'Which interface allows duplicate elements but preserves insertion order?',
+      options: ['Set', 'Map', 'List', 'SortedSet'],
+      answer: 2,
+      explanation: 'List allows duplicate elements and keeps them ordered based on their insertion sequence.' }
   ],
   advanced: [
-    { q: 'What is Type Erasure in Generics?', a: 'Type erasure is the process where Java compiler erases generic type parameters at compile time and replaces them with bounds or Object for backward compatibility.' },
-    { q: 'What is the volatile keyword in multithreading?', a: 'volatile guarantees that reads/writes to a variable bypass thread CPU caches and go directly to Main Memory, ensuring visibility across threads.' },
-    { q: 'Difference between map() and flatMap() in Streams?', a: 'map() applies 1-to-1 transformation. flatMap() applies 1-to-many transformation and flattens nested Stream of Streams into a single Stream.' },
-    { q: 'How does HashMap handle collisions internally in Java 8+?', a: 'HashMap uses array of buckets containing LinkedList nodes. If bucket size exceeds threshold (TREEIFY_THRESHOLD = 8), it converts to a Red-Black Tree for O(log n) lookups.' }
+    { q: 'How does HashMap handle collision internally in Java 8+?',
+      options: ['Rehashing', 'LinkedList transitioning to Balanced Tree', 'Double Hashing', 'Linear Probing'],
+      answer: 1,
+      explanation: 'In Java 8+, if bucket collision exceeds 8 elements, the LinkedList is converted into a self-balancing red-black tree.' },
+    { q: 'Which method starts thread execution in Java?',
+      options: ['run()', 'execute()', 'start()', 'launch()'],
+      answer: 2,
+      explanation: 'The start() method allocates resources and triggers the threads execution by calling the run() method internally.' },
+    { q: 'What is the purpose of volatile keyword in Java?',
+      options: ['Thread synchronization locks', 'Forces reading variables directly from main memory', 'Prevents garbage collection', 'Optimizes CPU performance'],
+      answer: 1,
+      explanation: 'Volatile forces threads to read and write variables directly to main memory rather than local cache.' }
   ]
 };
 
-/* ============================================================
-   DOWNLOADS DATA
-   ============================================================ */
-export const JAVA_DOWNLOADS = [
-  { title: 'Java Complete Handcrafted Notes', type: 'PDF Document', size: '5.2 MB', updated: 'July 2026', color: '#EF4444', icon: '📄' },
-  { title: 'Java Collections & Streams Cheat Sheet', type: 'PDF Document', size: '1.5 MB', updated: 'June 2026', color: '#3B82F6', icon: '📋' },
-  { title: '100+ Java Standard Programs Pack', type: 'ZIP Archive', size: '3.8 MB', updated: 'July 2026', color: '#10B981', icon: '📦' },
-  { title: 'Top 100 Java Interview Questions & Answers', type: 'PDF Document', size: '2.9 MB', updated: 'July 2026', color: '#8B5CF6', icon: '📄' },
-  { title: 'BCA Java Lab Manual & Practice Solutions', type: 'PDF Document', size: '4.1 MB', updated: 'May 2026', color: '#F59E0B', icon: '📑' }
+const JAVA_PROJECTS = [
+  { title: 'Student Directory System', diff: 'Beginner', time: '4-6 hrs', emoji: '📂',
+    tags: ['CLI', 'OOP', 'Data Structure'],
+    desc: 'Terminal utility managing student details using OOP models.',
+    features: ['Add/Update/Delete student records', 'View student directories', 'Save data into simple files'],
+    starter: 'student_directory_starter.zip' },
+  { title: 'Online Banking Console', diff: 'Intermediate', time: '8-10 hrs', emoji: '💳',
+    tags: ['Exceptions', 'Collections', 'Files'],
+    desc: 'Console banking system handling concurrent transactions and deposits.',
+    features: ['Account creation and validations', 'Exceptions handling for balance bounds', 'Transaction logs in files'],
+    starter: 'online_banking_starter.zip' },
+  { title: 'Local File Encryptor', diff: 'Advanced', time: '15-20 hrs', emoji: '🔒',
+    tags: ['IO Streams', 'Security', 'Threads'],
+    desc: 'Threaded files encryption utility executing AES algorithms.',
+    features: ['Secure byte stream read/writes', 'Multithreading file processing', 'AES key management interface'],
+    starter: 'file_encryptor_starter.zip' }
+];
+
+const JAVA_INTERVIEW_QUESTIONS = {
+  Basic: [
+    { q: 'Why is Java platform independent?',
+      a: 'Java compiler converts source code into intermediate JVM bytecode (.class files). Any OS with JRE/JVM can execute this bytecode, making Java platform independent.',
+      tip: 'Explain compiling vs interpretation and WORA.', freq: true },
+    { q: 'What is the difference between JDK, JRE, and JVM?',
+      a: 'JDK is the development kit (compilers, debuggers + JRE). JRE is the runtime environment (libraries + JVM). JVM is the virtual machine execution engine that runs bytecode.',
+      tip: 'Use a nested diagram explanation during viva.', freq: false }
+  ],
+  Intermediate: [
+    { q: 'Why is String immutable in Java?',
+      a: 'String immutability optimizes memory (String Constant Pool SCP caching), ensures thread-safety, and protects keys inside hash data structures.',
+      tip: 'Discuss the String Constant Pool caching safety.', freq: true },
+    { q: 'Can static methods access non-static members?',
+      a: 'No. Static methods belong to class loading phase, while non-static members require active object instances in memory.',
+      tip: 'Explain static class bindings vs instance loading.', freq: false }
+  ],
+  Advanced: [
+    { q: 'How does HashMap work internally in Java?',
+      a: 'HashMap uses buckets mapping key hashcodes. On collision, elements are stored in linked nodes. Java 8+ converts list into trees if bucket count exceeds 8.',
+      tip: 'Mention hashcode, equals, bucket indexes, and trees.', freq: true },
+    { q: 'What is volatile keyword in Java?',
+      a: 'Volatile indicates variables must be read from/written to primary RAM memory directly rather than cached in CPU cores registers.',
+      tip: 'Explain visibility problem in multithreading caches.', freq: false }
+  ],
+  'HR / Projects': [
+    { q: 'Tell me about a Java project you built.',
+      a: 'Discuss a structured application you built (e.g. Student Directory or Encryptor), detailing OOP design, exception handling, and files usage.',
+      tip: 'Structure your project explanation around: Problem, Solution, Tech used, Challenges.' }
+  ]
+};
+
+const JAVA_DOWNLOADS = [
+  { title: 'Java Core Notes', type: 'PDF Document', size: '4.8 MB', updated: 'June 2026', color: '#EF4444', icon: '📄' },
+  { title: 'Java Collections Cheat Sheet', type: 'PDF Document', size: '1.2 MB', updated: 'May 2026', color: '#3B82F6', icon: '📋' },
+  { title: 'Standard Practice Programs', type: 'ZIP Archive', size: '2.5 MB', updated: 'June 2026', color: '#10B981', icon: '📦' },
+  { title: 'Student Project Starters', type: 'ZIP Archive', size: '5.6 MB', updated: 'April 2026', color: '#F59E0B', icon: '📦' }
 ];
 
 /* ============================================================
-   ROADMAP MILESTONES DATA
+   HELPER BLOCKS
    ============================================================ */
-export const JAVA_MILESTONES = [
-  { phase: 'Phase 1: Basics & Setup', items: ['Java Architecture & JVM', 'JDK Setup', 'Variables & Data Types', 'Operators & Inputs', 'Control Statements & Loops'] },
-  { phase: 'Phase 2: Core Fundamentals', items: ['Arrays & Matrices', 'String & StringBuilder', 'Methods & Overloading', 'Constructors & Class Design'] },
-  { phase: 'Phase 3: Object-Oriented Java', items: ['Encapsulation & Access Modifiers', 'Inheritance & super', 'Polymorphism & Dispatch', 'Abstraction & Interfaces', 'Packages'] },
-  { phase: 'Phase 4: Robust & Advanced Core', items: ['Exception Handling & Custom Exceptions', 'File Handling & I/O Streams', 'Collections Framework', 'Generics & Wildcards', 'Multithreading & Synchronization'] },
-  { phase: 'Phase 5: Modern Java 8+ & Frameworks', items: ['Lambda Expressions', 'Stream API Pipelines', 'JDBC Database Connectivity', 'Maven & Modules', 'Spring Fundamentals'] }
-];
+const JCodeBlock = ({ code }) => {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <div className="j-code-wrapper">
+      <button className="j-copy-code-btn" onClick={handleCopy}>
+        {copied ? <Check size={12} /> : <Copy size={12} />}
+      </button>
+      <pre className="j-code-pre"><code>{code}</code></pre>
+    </div>
+  );
+};
+
+const JOutputBlock = ({ output }) => (
+  <div className="j-output-wrapper">
+    <div className="j-output-header">console</div>
+    <pre className="j-output-pre"><code>{output}</code></pre>
+  </div>
+);
 
 /* ============================================================
-   TAB COMPONENTS
+   TAB: OVERVIEW
    ============================================================ */
-
-// 1. OVERVIEW TAB
-const OverviewTab = ({ setActiveTab }) => (
-  <div className="j-overview-container">
-    <div className="j-overview-grid">
-      <div className="j-card j-about-card">
-        <h3><BookOpen size={18} /> About Java Platform</h3>
-        <p>Java is an object-oriented, class-based, high-level programming language designed for platform independence via the Java Virtual Machine (JVM). With its WORA (Write Once, Run Anywhere) capability, Java powers backends, Android apps, enterprise platforms, and big data systems globally.</p>
-        <div className="j-feature-pills">
-          <span>Object-Oriented</span><span>Platform Independent</span><span>Multithreaded</span><span>Garbage Collected</span><span>Robust & Secure</span>
-        </div>
-      </div>
-
-      <div className="j-card j-highlights-card">
-        <h3><Zap size={18} /> Why Master Java?</h3>
-        <ul>
-          <li><CheckCircle size={14} /> <strong>Enterprise Dominance:</strong> Trusted by 90%+ of Fortune 500 companies for core backend infrastructure.</li>
-          <li><CheckCircle size={14} /> <strong>Spring Boot Ecosystem:</strong> Top choice for building scalable microservices and REST APIs.</li>
-          <li><CheckCircle size={14} /> <strong>Android & Cloud:</strong> Powerhouse language for native mobile apps and cloud applications.</li>
-          <li><CheckCircle size={14} /> <strong>Lucrative Careers:</strong> Massive hiring demand for Java Developers, Software Engineers, and Backend Architects.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div className="j-quick-actions">
-      <h3>Accelerate Your Learning Path</h3>
-      <div className="j-action-buttons">
-        <button className="j-action-btn" onClick={() => setActiveTab('lessons')}><BookOpen size={16} /> Explore 40 Lessons</button>
-        <button className="j-action-btn" onClick={() => setActiveTab('programs')}><Code2 size={16} /> View 20+ Programs</button>
-        <button className="j-action-btn" onClick={() => setActiveTab('quiz')}><HelpCircle size={16} /> Take Java Quiz</button>
-        <button className="j-action-btn" onClick={() => setActiveTab('projects')}><Trophy size={16} /> Build Projects</button>
-      </div>
-    </div>
-  </div>
-);
-
-// 2. ROADMAP TAB
-const RoadmapTab = ({ setActiveTab, setActiveLessonId }) => (
-  <div className="j-roadmap-container">
-    <div className="j-roadmap-header">
-      <h2><Map size={22} /> Java Learning Roadmap</h2>
-      <p>Follow this structured step-by-step milestone path to master Java from scratch to framework ready.</p>
-    </div>
-
-    <div className="j-roadmap-timeline">
-      {JAVA_MILESTONES.map((m, idx) => (
-        <div key={idx} className="j-timeline-node">
-          <div className="j-node-badge">{idx + 1}</div>
-          <div className="j-node-content">
-            <h4>{m.phase}</h4>
-            <ul className="j-node-list">
-              {m.items.map((item, i) => (
-                <li key={i}><CheckCircle size={13} /> {item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-// 3. LESSONS TAB
-const LessonsTab = ({ activeLessonId, setActiveLessonId }) => {
-  const [copied, setCopied] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const currentLesson = JAVA_LESSONS.find(l => l.id === activeLessonId) || JAVA_LESSONS[0];
-
-  const filteredLessons = JAVA_LESSONS.filter(l =>
-    l.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    l.desc.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const copyCode = () => {
-    navigator.clipboard.writeText(currentLesson.code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
+const OverviewTab = ({ setActiveTab }) => {
   return (
-    <div className="j-lessons-layout">
-      {/* Sidebar List */}
-      <div className="j-lessons-sidebar">
-        <div className="j-search-box">
-          <Search size={14} />
-          <input
-            type="text"
-            placeholder="Search 40 Java Lessons..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <div className="j-lesson-list">
-          {filteredLessons.map(lesson => (
-            <button
-              key={lesson.id}
-              className={`j-sidebar-item ${lesson.id === activeLessonId ? 'active' : ''}`}
-              onClick={() => setActiveLessonId(lesson.id)}
-            >
-              <span className="j-lesson-num">{lesson.id}</span>
-              <div className="j-lesson-info">
-                <span className="j-sidebar-title">{lesson.title}</span>
-                <span className="j-sidebar-meta">{lesson.diff} • {lesson.time}</span>
+    <div className="j-tab-content j-overview-grid">
+      <div className="j-overview-left">
+        <motion.div className="j-card-glass j-intro-card" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}>
+          <h3><BookOpen size={18} /> About Java Programming</h3>
+          <p>
+            Java is a secure, class-based, object-oriented language designed for high portability and enterprise performance. Under its "Write Once, Run Anywhere" (WORA) philosophy, Java compiles source code to intermediate bytecode executed by the JVM (Java Virtual Machine).
+          </p>
+          <p>
+            It is the standard back-end foundation for global systems, Android mobile apps, and big data engines.
+          </p>
+          <div className="j-feature-tags">
+            {['JVM Architecture', 'Object Oriented', 'Garbage Collected', 'Multithreaded', 'Type Safe', 'Robust'].map(f => (
+              <span key={f} className="j-feature-tag">{f}</span>
+            ))}
+          </div>
+        </motion.div>
+
+        <div className="j-overview-topics">
+          <h4>📌 Essential Architecture</h4>
+          <div className="j-topics-list">
+            <div className="j-topic-item">
+              <span className="j-topic-num">1</span>
+              <div>
+                <div className="j-topic-title">JVM vs JRE vs JDK</div>
+                <div className="j-topic-desc">JVM runs bytecode. JRE provides runtime files. JDK packages compilation tools for builders.</div>
               </div>
-            </button>
-          ))}
+            </div>
+            <div className="j-topic-item">
+              <span className="j-topic-num">2</span>
+              <div>
+                <div className="j-topic-title">Object Oriented Design</div>
+                <div className="j-topic-desc">Inheritance, Interface Polymorphism, Encapsulation rules, and Class Abstraction.</div>
+              </div>
+            </div>
+            <div className="j-topic-item">
+              <span className="j-topic-num">3</span>
+              <div>
+                <div className="j-topic-title">Collections Framework</div>
+                <div className="j-topic-desc">List index arrays, HashSet hash indices, Map key values, collections sorting algorithms.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Main Content Viewer */}
-      <div className="j-lesson-viewer">
-        <div className="j-viewer-header">
-          <div className="j-header-tags">
-            <span className="j-tag-diff">{currentLesson.diff}</span>
-            <span className="j-tag-time"><Clock size={12} /> {currentLesson.time}</span>
-            <span className="j-tag-phase">{currentLesson.phase}</span>
+      <div className="j-overview-right">
+        <div className="j-card-glass j-popular-topics-card">
+          <h4>💡 Popular Frameworks & Uses</h4>
+          <div className="j-popular-list">
+            {['Spring Boot (Microservices)', 'Hibernate (ORM Databases)', 'Android SDK (Mobile Apps)', 'Apache Spark (Big Data Engine)'].map(topic => (
+              <div key={topic} className="j-popular-item">
+                <span>{topic}</span>
+                <ChevronRight size={14} />
+              </div>
+            ))}
           </div>
-          <h2 className="j-viewer-title">{currentLesson.id}. {currentLesson.title}</h2>
-          <p className="j-viewer-desc">{currentLesson.desc}</p>
         </div>
 
-        <div className="j-section-block">
-          <h3><BookOpen size={16} /> Theory & Concepts</h3>
-          <div className="j-theory-text">{currentLesson.theory}</div>
-        </div>
-
-        <div className="j-section-block">
-          <div className="j-code-header">
-            <span><Code2 size={15} /> Java Source Code</span>
-            <button onClick={copyCode} className="j-copy-btn">
-              {copied ? <><Check size={13} /> Copied</> : <><Copy size={13} /> Copy Code</>}
-            </button>
+        <div className="j-card-glass j-community-card">
+          <h4>👥 Student Learning Forum</h4>
+          <p>Share code examples, query syntax problems, and download Java templates.</p>
+          <div className="j-community-stats">
+            <div className="j-comm-stat"><strong>2.5k+</strong><span>Students</span></div>
+            <div className="j-comm-stat"><strong>800+</strong><span>Submissions</span></div>
           </div>
-          <pre className="j-code-box"><code>{currentLesson.code}</code></pre>
-        </div>
-
-        <div className="j-section-block">
-          <h3><Terminal size={16} /> Program Output</h3>
-          <pre className="j-output-box"><code>{currentLesson.output}</code></pre>
-        </div>
-
-        {/* Tip & Mistake Cards */}
-        <div className="j-tips-grid">
-          {currentLesson.note && (
-            <div className="j-info-card j-card-note">
-              <Info size={16} />
-              <div><strong>Note:</strong> {currentLesson.note}</div>
-            </div>
-          )}
-          {currentLesson.warning && (
-            <div className="j-info-card j-card-warning">
-              <AlertTriangle size={16} />
-              <div><strong>Warning:</strong> {currentLesson.warning}</div>
-            </div>
-          )}
-          {currentLesson.interviewTip && (
-            <div className="j-info-card j-card-interview">
-              <Lightbulb size={16} />
-              <div><strong>Interview Tip:</strong> {currentLesson.interviewTip}</div>
-            </div>
-          )}
-        </div>
-
-        {/* Bottom Navigation */}
-        <div className="j-lesson-nav">
-          <button
-            disabled={currentLesson.id === 1}
-            onClick={() => setActiveLessonId(prev => prev - 1)}
-            className="j-nav-btn"
-          >
-            <ChevronLeft size={16} /> Previous Lesson
-          </button>
-          <button
-            disabled={currentLesson.id === JAVA_LESSONS.length}
-            onClick={() => setActiveLessonId(prev => prev + 1)}
-            className="j-nav-btn j-btn-next"
-          >
-            Next Lesson <ChevronRight size={16} />
+          <button className="j-btn-secondary" style={{ width: '100%' }} onClick={() => setActiveTab('practice')}>
+            <Code2 size={14} /> Start Coding Practice
           </button>
         </div>
       </div>
@@ -915,290 +599,803 @@ const LessonsTab = ({ activeLessonId, setActiveLessonId }) => {
   );
 };
 
-// 4. PROGRAMS TAB
-const ProgramsTab = () => {
-  const [selectedCat, setSelectedCat] = useState('All');
-  const [activeProg, setActiveProg] = useState(JAVA_PROGRAMS[0]);
-  const [copied, setCopied] = useState(false);
+/* ============================================================
+   TAB: ROADMAP (WINDING ROAD JOURNEY)
+   ============================================================ */
+const RoadmapTab = ({ setActiveTab, setActiveLessonId, completed }) => {
+  const roadWrapperRef = useRef(null);
 
-  const categories = ['All', 'Basic', 'Arrays', 'Strings', 'OOP', 'Exceptions', 'File I/O', 'Collections', 'Sorting', 'Searching', 'Patterns', 'Streams'];
+  const JAVA_MILESTONES = [
+    { id: 1, title: 'Introduction', diff: 'Easy', time: '20 min', emoji: '📘', type: 'lesson', desc: 'Basics of Java programming and architecture.' },
+    { id: 2, title: 'JDK Installation', diff: 'Easy', time: '25 min', emoji: '💻', type: 'lesson', desc: 'Setup Java JDK and configure environment.' },
+    { id: 3, title: 'Variables', diff: 'Easy', time: '25 min', emoji: '🔤', type: 'lesson', desc: 'Types of variables and casting in Java.' },
+    { id: 4, title: 'Data Types', diff: 'Easy', time: '30 min', emoji: '📦', type: 'lesson', desc: 'Primitive vs reference data types in Java.' },
+    { id: 5, title: 'Operators', diff: 'Easy', time: '30 min', emoji: '➕', type: 'lesson', desc: 'Arithmetic, logical, relational, and bitwise.' },
+    { id: 6, title: 'Control Statements', diff: 'Easy', time: '30 min', emoji: '🔀', type: 'lesson', desc: 'Decision making with if-else and switch.' },
+    { id: 7, title: 'Loops', diff: 'Easy', time: '35 min', emoji: '🔁', type: 'lesson', desc: 'Iterate using for, while, and do-while.' },
+    { id: 8, title: 'Methods', diff: 'Easy', time: '40 min', emoji: '⚙', type: 'lesson', desc: 'Declaring methods and parameter passing.' },
+    { id: 9, title: 'Arrays', diff: 'Easy', time: '35 min', emoji: '📦', type: 'lesson', desc: '1D and 2D arrays initialization and loops.' },
+    { id: 10, title: 'Strings', diff: 'Easy', time: '35 min', emoji: '📝', type: 'lesson', desc: 'String pool, StringBuilder, and StringBuffer.' },
+    { id: 11, title: 'OOP', diff: 'Easy', time: '40 min', emoji: '🏗', type: 'lesson', desc: 'Classes, objects, reference types, and constructors.' },
+    { id: 12, title: 'Inheritance', diff: 'Medium', time: '45 min', emoji: '🏗', type: 'lesson', desc: 'Extending classes and hierarchical inheritance.' },
+    { id: 13, title: 'Polymorphism', diff: 'Medium', time: '40 min', emoji: '🏗', type: 'lesson', desc: 'Method overloading and overridden methods.' },
+    { id: 14, title: 'Abstraction', diff: 'Medium', time: '45 min', emoji: '🏗', type: 'lesson', desc: 'Declaring abstract classes and methods.' },
+    { id: 15, title: 'Interfaces', diff: 'Medium', time: '45 min', emoji: '🏗', type: 'lesson', desc: 'Multiple inheritance using Java interfaces.' },
+    { id: 16, title: 'Packages', diff: 'Medium', time: '35 min', emoji: '🏗', type: 'lesson', desc: 'Access modifiers and package declarations.' },
+    { id: 17, title: 'Exception Handling', diff: 'Medium', time: '40 min', emoji: '⚠️', type: 'lesson', desc: 'Try-catch blocks and custom exceptions.' },
+    { id: 18, title: 'Collections Framework', diff: 'Medium', time: '45 min', emoji: '📚', type: 'lesson', desc: 'List, Set, Map collections classes.' },
+    { id: 19, title: 'Generics', diff: 'Medium', time: '30 min', emoji: '⚙', type: 'lesson', desc: 'Type-safe classes and methods wildcards.' },
+    { id: 20, title: 'File Handling', diff: 'Medium', time: '40 min', emoji: '📂', type: 'lesson', desc: 'FileReader, FileWriter, and IO Streams.' },
+    { id: 21, title: 'Multithreading', diff: 'Medium', time: '45 min', emoji: '💾', type: 'lesson', desc: 'Thread lifecycle and sync methods.' },
+    { id: 22, title: 'Streams', diff: 'Hard', time: '45 min', emoji: '🌳', type: 'lesson', desc: 'Java 8 Streams API filter/map pipelines.' },
+    { id: 23, title: 'Lambda Expressions', diff: 'Hard', time: '35 min', emoji: '➕', type: 'lesson', desc: 'Functional interfaces and custom lambdas.' },
+    { id: 24, title: 'JDBC', diff: 'Hard', time: '40 min', emoji: '🔌', type: 'lesson', desc: 'Database connections and statement query sets.' },
+    { id: 25, title: 'Mini Projects', diff: 'Hard', time: '15-20 hrs', emoji: '🚀', type: 'projects', desc: 'Build student directory and bank projects.' },
+    { id: 26, title: 'Interview Preparation', diff: 'Hard', time: '10 hrs', emoji: '🏆', type: 'interview', desc: 'Prepare core Java concepts for assessments.' }
+  ];
 
-  const filteredProgs = selectedCat === 'All'
-    ? JAVA_PROGRAMS
-    : JAVA_PROGRAMS.filter(p => p.cat === selectedCat);
+  const totalSteps = JAVA_MILESTONES.length;
+  const height = 3400;
+  const stepY = height / (totalSteps + 1);
 
-  const copyCode = () => {
-    navigator.clipboard.writeText(activeProg.code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  // Generate smooth winding points from top (y=0) to bottom (y=height)
+  const points = [];
+  for (let i = 0; i <= totalSteps + 1; i++) {
+    const y = i * stepY;
+    const x = i === 0 || i === totalSteps + 1 ? 400 : 400 + Math.sin((i * Math.PI) / 2) * 160;
+    points.push({ x, y });
+  }
 
-  return (
-    <div className="j-programs-container">
-      <div className="j-cat-filters">
-        {categories.map(cat => (
-          <button
-            key={cat}
-            className={`j-cat-btn ${selectedCat === cat ? 'active' : ''}`}
-            onClick={() => setSelectedCat(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+  // Draw the SVG path
+  let pathD = `M ${points[0].x} ${points[0].y}`;
+  for (let i = 1; i < points.length; i++) {
+    const prev = points[i - 1];
+    const curr = points[i];
+    const cpY1 = prev.y + stepY / 2;
+    const cpY2 = curr.y - stepY / 2;
+    pathD += ` C ${prev.x} ${cpY1}, ${curr.x} ${cpY2}, ${curr.x} ${curr.y}`;
+  }
 
-      <div className="j-programs-layout">
-        <div className="j-prog-list">
-          {filteredProgs.map(p => (
-            <div
-              key={p.id}
-              className={`j-prog-card ${p.id === activeProg.id ? 'active' : ''}`}
-              onClick={() => setActiveProg(p)}
-            >
-              <div className="j-prog-card-header">
-                <h4>{p.title}</h4>
-                <span className="j-prog-badge">{p.diff}</span>
-              </div>
-              <span className="j-prog-cat">{p.cat}</span>
-            </div>
-          ))}
-        </div>
+  // Scroll to bottom on mount so the user starts at Lesson 1 (bottom of screen)
+  useEffect(() => {
+    if (roadWrapperRef.current) {
+      const element = roadWrapperRef.current;
+      const targetY = element.getBoundingClientRect().top + window.scrollY + element.scrollHeight - window.innerHeight + 100;
+      window.scrollTo({
+        top: Math.max(0, targetY),
+        behavior: 'smooth'
+      });
+    }
+  }, []);
 
-        <div className="j-prog-viewer">
-          <div className="j-prog-viewer-header">
-            <h3>{activeProg.title}</h3>
-            <button onClick={copyCode} className="j-copy-btn">
-              {copied ? <><Check size={13} /> Copied</> : <><Copy size={13} /> Copy Code</>}
-            </button>
-          </div>
-          <pre className="j-code-box"><code>{activeProg.code}</code></pre>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// 5. CODING PRACTICE TAB
-const CodingPracticeTab = () => {
-  const [activeProb, setActiveProb] = useState(JAVA_PRACTICE_PROBLEMS[0]);
-
-  return (
-    <div className="j-practice-container">
-      <div className="j-practice-layout">
-        <div className="j-prob-list">
-          {JAVA_PRACTICE_PROBLEMS.map(p => (
-            <div
-              key={p.id}
-              className={`j-prob-card ${p.id === activeProb.id ? 'active' : ''}`}
-              onClick={() => setActiveProb(p)}
-            >
-              <h4>{p.title}</h4>
-              <div className="j-prob-tags">
-                <span className="j-diff-tag">{p.difficulty}</span>
-                {p.tags.map(t => <span key={t} className="j-tag">{t}</span>)}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="j-prob-details">
-          <h2>{activeProb.title}</h2>
-          <p className="j-prob-desc">{activeProb.desc}</p>
-          <div className="j-prob-section">
-            <strong>Constraints:</strong> <code>{activeProb.constraints}</code>
-          </div>
-          <div className="j-prob-io">
-            <div>
-              <strong>Sample Input:</strong>
-              <pre>{activeProb.sampleInput}</pre>
-            </div>
-            <div>
-              <strong>Sample Output:</strong>
-              <pre>{activeProb.sampleOutput}</pre>
-            </div>
-          </div>
-          <div className="j-prob-section">
-            <strong>Explanation:</strong> {activeProb.explanation}
-          </div>
-          <div className="j-prob-section">
-            <strong>Solution Code (Java):</strong>
-            <pre className="j-code-box"><code>{activeProb.solution}</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// 6. QUIZ TAB
-const QuizTab = () => {
-  const [level, setLevel] = useState('easy');
-  const [currentQ, setCurrentQ] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [score, setScore] = useState(0);
-  const [showResult, setShowResult] = useState(false);
-
-  const questions = JAVA_QUIZ_DATA[level] || JAVA_QUIZ_DATA.easy;
-  const q = questions[currentQ];
-
-  const handleOptionClick = (idx) => {
-    if (selectedOption !== null) return;
-    setSelectedOption(idx);
-    if (idx === q.ans) setScore(prev => prev + 1);
-  };
-
-  const handleNext = () => {
-    if (currentQ + 1 < questions.length) {
-      setCurrentQ(prev => prev + 1);
-      setSelectedOption(null);
-    } else {
-      setShowResult(true);
+  const handleMilestoneClick = (milestone) => {
+    if (milestone.type === 'lesson') {
+      const isUnlocked = milestone.id === 1 || completed.has(milestone.id - 1);
+      if (!isUnlocked) return;
+      setActiveLessonId(milestone.id);
+      setActiveTab('lessons');
+    } else if (milestone.type === 'projects') {
+      setActiveTab('projects');
+    } else if (milestone.type === 'interview') {
+      setActiveTab('interview');
     }
   };
 
-  const resetQuiz = (lvl) => {
-    setLevel(lvl);
-    setCurrentQ(0);
-    setSelectedOption(null);
-    setScore(0);
-    setShowResult(false);
+  return (
+    <div className="j-tab-content j-roadmap-container" ref={roadWrapperRef}>
+      <div className="j-roadmap-intro">
+        <span className="j-badge">ROADMAP</span>
+        <h2>📚 Java Learning Journey</h2>
+        <p>Follow the winding neon-lit path from foundations to enterprise application layers.</p>
+      </div>
+
+      <div className="j-road-journey-wrapper" style={{ height: `${height}px` }}>
+        {/* The Winding Road SVG */}
+        <svg className="j-road-svg" viewBox={`0 0 800 ${height}`} preserveAspectRatio="none">
+          <path d={pathD} className="j-road-neon-outer" />
+          <path d={pathD} className="j-road-neon-edge" />
+          <path d={pathD} className="j-road-asphalt" />
+          <path d={pathD} className="j-road-dashes" />
+        </svg>
+
+        {/* Milestone platforms and cards along the road */}
+        {JAVA_MILESTONES.map((milestone) => {
+          const pt = points[totalSteps - milestone.id + 1];
+          const isLeft = pt.x < 400;
+
+          // Lock state logic
+          const isCompleted = milestone.type === 'lesson' && completed.has(milestone.id);
+          const isUnlocked = milestone.id === 1 || 
+                             (milestone.type === 'lesson' && completed.has(milestone.id - 1)) ||
+                             (milestone.type !== 'lesson' && completed.has(24));
+
+          return (
+            <div
+              key={milestone.id}
+              className={`j-roadmap-milestone-node ${isLeft ? 'node-left' : 'node-right'} ${!isUnlocked ? 'j-node-locked' : ''}`}
+              style={{
+                position: 'absolute',
+                top: `${pt.y}px`,
+                left: `${pt.x}px`,
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              {/* Winding road milestone platform */}
+              <div className="j-milestone-platform-wrapper" onClick={() => handleMilestoneClick(milestone)}>
+                <div className="j-milestone-platform">
+                  <div className="j-platform-ring-glow" />
+                  <div className="j-3d-emoji-icon">{milestone.emoji}</div>
+                  
+                  {/* Hexagon Logo Overlay */}
+                  <div className="j-platform-hexagon-overlay">
+                    <svg viewBox="0 0 38 42" style={{ width: '100%', height: '100%' }}>
+                      <path fill="#ED8B00" d="m 17.903,0.286 c 0.679,-0.381 1.515,-0.381 2.193,0 l 16.807,9.434 c 0.679,0.38 1.097,1.084 1.097,1.846 v 18.867 c 0,0.762 -0.418,1.466 -1.097,1.847 l -16.807,9.434 c -0.679,0.381 -1.515,0.381 -2.193,0 l -16.807,-9.434 c -0.678,-0.381 -1.096,-1.084 -1.096,-1.846 v -18.867 c 0,-0.762 0.418,-1.466 1.096,-1.847 z" />
+                      <text x="19" y="27" textAnchor="middle" fill="#ffffff" fontSize="16" fontWeight="bold" fontFamily="sans-serif">J</text>
+                    </svg>
+                  </div>
+                </div>
+                <div className="j-milestone-index">{String(milestone.id).padStart(2, '0')}</div>
+              </div>
+
+              {/* Minimal Glass Card */}
+              <div 
+                className={`j-roadmap-card-floating ${isLeft ? 'card-left' : 'card-right'} ${isCompleted ? 'j-card-completed' : ''}`}
+                onClick={() => handleMilestoneClick(milestone)}
+                style={{ cursor: isUnlocked ? 'pointer' : 'not-allowed' }}
+              >
+                <div className="j-roadmap-card-header">
+                  <div style={{ flex: 1 }}>
+                    <div className="j-roadmap-card-meta">
+                      <span className="j-lesson-num">Step {String(milestone.id).padStart(2, '0')}</span>
+                      <span className={`j-diff-tag diff-${milestone.diff.toLowerCase()}`}>{milestone.diff}</span>
+                    </div>
+                    <div className="j-roadmap-title">{milestone.title}</div>
+                  </div>
+                </div>
+                
+                <p className="j-roadmap-desc">{milestone.desc}</p>
+                
+                <div className="j-roadmap-footer">
+                  <div className="j-time-badge"><Clock size={12} />{milestone.time}</div>
+                  <div className={`j-status-badge ${isCompleted ? 'status-completed' : !isUnlocked ? 'status-locked' : 'status-not-started'}`}>
+                    {isCompleted ? (
+                      <span className="j-checkmark-glow">✓ Completed</span>
+                    ) : !isUnlocked ? (
+                      <span>🔒 Locked</span>
+                    ) : (
+                      <span>● Ready</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+/* ============================================================
+   TAB: LESSONS
+   ============================================================ */
+const LessonsTab = ({ activeLessonId, setActiveLessonId, completed, toggleComplete }) => {
+  const activeLesson = JAVA_LESSONS.find(l => l.id === activeLessonId) || JAVA_LESSONS[0];
+  const [bookmarked, setBookmarked] = useState(new Set());
+  const contentRef = useRef(null);
+
+  const toggleBookmark = (id) => setBookmarked(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
+  const goTo = (lesson) => { setActiveLessonId(lesson.id); if (contentRef.current) contentRef.current.scrollTo({ top: 0, behavior: 'smooth' }); };
+
+  const idx = JAVA_LESSONS.findIndex(l => l.id === activeLesson.id);
+  const prev = idx > 0 ? JAVA_LESSONS[idx - 1] : null;
+  const next = idx < JAVA_LESSONS.length - 1 ? JAVA_LESSONS[idx + 1] : null;
+
+  return (
+    <div className="j-tab-content j-lessons-layout">
+      <aside className="j-lessons-sidebar">
+        <div className="j-subsection-title" style={{ marginBottom: '14px' }}>Lessons</div>
+        <div className="j-lessons-list">
+          {JAVA_LESSONS.map(l => {
+            const isDone = completed.has(l.id);
+            const isCurrent = l.id === activeLesson.id;
+            const isUnlocked = l.id === 1 || completed.has(l.id - 1);
+            return (
+              <button
+                key={l.id}
+                className={`j-sidebar-lesson-btn ${isCurrent ? 'active' : ''} ${isDone ? 'completed' : ''}`}
+                onClick={() => isUnlocked && goTo(l)}
+                disabled={!isUnlocked}
+                style={{ cursor: isUnlocked ? 'pointer' : 'not-allowed', opacity: isUnlocked ? 1 : 0.4 }}
+              >
+                {isDone ? <CheckCircle size={14} className="done-icon" /> : <div className="dot-icon" />}
+                <span className="lesson-num">{String(l.id).padStart(2, '0')}</span>
+                <span className="lesson-title">{l.title}</span>
+                {!isUnlocked && <Lock size={11} style={{ marginLeft: 'auto', opacity: 0.5 }} />}
+              </button>
+            );
+          })}
+        </div>
+      </aside>
+
+      <main className="j-lesson-viewer" ref={contentRef}>
+        <div className="j-lesson-header">
+          <div style={{ flex: 1 }}>
+            <div className="j-lesson-meta">
+              <span className={`j-diff-tag diff-${activeLesson.diff.toLowerCase()}`}>{activeLesson.diff}</span>
+              <span className="meta-time"><Clock size={12} /> {activeLesson.time}</span>
+              {activeLesson.prereq !== 'None' && <span className="meta-prereq">Prereq: {activeLesson.prereq}</span>}
+            </div>
+            <h2>{activeLesson.id}. {activeLesson.title}</h2>
+          </div>
+          <div className="j-lesson-actions">
+            <button className={`j-action-btn ${bookmarked.has(activeLesson.id) ? 'active' : ''}`} onClick={() => toggleBookmark(activeLesson.id)}>
+              <Bookmark size={15} fill={bookmarked.has(activeLesson.id) ? 'var(--accent-glow)' : 'none'} />
+            </button>
+            <button className={`j-action-btn ${completed.has(activeLesson.id) ? 'completed' : ''}`} onClick={() => toggleComplete(activeLesson.id)}>
+              <Check size={15} /> {completed.has(activeLesson.id) ? 'Completed' : 'Mark Done'}
+            </button>
+          </div>
+        </div>
+
+        <div className="j-lesson-body">
+          <section className="j-lesson-section">
+            <h3><Info size={16} /> Concepts & Theory</h3>
+            <div className="j-theory-text" dangerouslySetInnerHTML={{ __html: activeLesson.theory.replace(/\n/g, '<br />') }} />
+          </section>
+
+          <section className="j-lesson-section">
+            <h3><Code2 size={16} /> Code Example</h3>
+            <JCodeBlock code={activeLesson.code} />
+          </section>
+
+          <section className="j-lesson-section">
+            <h3><Terminal size={16} /> Expected Output</h3>
+            <JOutputBlock output={activeLesson.output} />
+          </section>
+
+          <div className="j-tip-warning-row">
+            <div className="j-box-tip">
+              <h5>💡 Pro Tip</h5>
+              <p>{activeLesson.tip}</p>
+            </div>
+            <div className="j-box-warning">
+              <h5>⚠️ Common Mistake</h5>
+              <p>{activeLesson.warning}</p>
+            </div>
+          </div>
+
+          <div className="j-tip-warning-row" style={{ marginTop: '16px' }}>
+            <div className="j-box-interview" style={{ flex: 1 }}>
+              <h5>🏆 Interview Insights</h5>
+              <p>{activeLesson.interviewTip}</p>
+            </div>
+          </div>
+
+          <div className="j-mistakes-box" style={{ marginTop: '16px' }}>
+            <h5>❌ Pitfalls to Avoid</h5>
+            <ul>{activeLesson.mistakes.map((m, i) => <li key={i}>{m}</li>)}</ul>
+          </div>
+        </div>
+
+        <div className="j-lesson-navigation">
+          {prev ? (
+            <button className="j-nav-btn prev" onClick={() => goTo(prev)}>
+              <ChevronLeft size={16} />
+              <div><span>Previous</span><strong>{prev.title}</strong></div>
+            </button>
+          ) : <div />}
+          {next ? (
+            <button className="j-nav-btn next" onClick={() => completed.has(activeLesson.id) ? goTo(next) : alert('Please complete current lesson first!')} style={{ opacity: completed.has(activeLesson.id) ? 1 : 0.5 }}>
+              <div><span>Next</span><strong>{next.title}</strong></div>
+              <ChevronRight size={16} />
+            </button>
+          ) : <div />}
+        </div>
+      </main>
+    </div>
+  );
+};
+
+/* ============================================================
+   TAB: PROGRAMS
+   ============================================================ */
+const ProgramsTab = () => {
+  const categories = ['All', 'Basic', 'OOP', 'Collections', 'Multithreading', 'JDBC'];
+  const [activeCat, setActiveCat] = useState('All');
+  const [expandedId, setExpandedId] = useState(null);
+  const [copied, setCopied] = useState(null);
+
+  const filtered = activeCat === 'All' ? JAVA_PROGRAMS : JAVA_PROGRAMS.filter(p => p.cat === activeCat);
+
+  const handleCopy = (id, code) => {
+    navigator.clipboard.writeText(code);
+    setCopied(id);
+    setTimeout(() => setCopied(null), 2000);
   };
 
   return (
-    <div className="j-quiz-container">
-      <div className="j-level-selector">
-        {['easy', 'medium', 'hard'].map(l => (
-          <button
-            key={l}
-            className={`j-level-btn ${level === l ? 'active' : ''}`}
-            onClick={() => resetQuiz(l)}
-          >
-            {l.toUpperCase()} QUIZ
+    <div className="j-tab-content j-programs-layout">
+      <aside className="j-programs-sidebar">
+        <div className="j-subsection-title" style={{ marginBottom: '14px' }}>Categories</div>
+        {categories.map(cat => (
+          <button key={cat} className={`j-prog-cat-btn ${activeCat === cat ? 'active' : ''}`} onClick={() => { setActiveCat(cat); setExpandedId(null); }}>
+            {cat}
+            <span className="j-prog-cat-count">{cat === 'All' ? JAVA_PROGRAMS.length : JAVA_PROGRAMS.filter(p => p.cat === cat).length}</span>
+          </button>
+        ))}
+      </aside>
+
+      <div>
+        <AnimatePresence mode="wait">
+          <motion.div key={activeCat} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="j-programs-list">
+            {filtered.map(prog => (
+              <div key={prog.id} className="j-program-card">
+                <div className="j-program-card-header" onClick={() => setExpandedId(expandedId === prog.id ? null : prog.id)}>
+                  <div style={{ flex: 1 }}>
+                    <div className="j-program-meta">
+                      <span className="j-program-id">Prog {String(prog.id).padStart(2, '0')}</span>
+                      <span className={`j-diff-tag diff-${prog.diff.toLowerCase()}`}>{prog.diff}</span>
+                    </div>
+                    <div className="j-program-title">{prog.title}</div>
+                  </div>
+                  <button className="j-program-expand-btn">
+                    {expandedId === prog.id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  </button>
+                </div>
+                <div style={{ padding: '0 16px 14px', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{prog.desc}</div>
+                <AnimatePresence>
+                  {expandedId === prog.id && (
+                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
+                      <div className="j-program-body">
+                        <div className="j-program-label">Code</div>
+                        <JCodeBlock code={prog.code} />
+                        <div className="j-program-label">Output</div>
+                        <JOutputBlock output={prog.output} />
+                        <div className="j-program-label">Explanation</div>
+                        <p className="j-program-explanation">{prog.explanation}</p>
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '10px', fontSize: '0.8rem' }}>
+                          <span style={{ color: 'var(--text-secondary)' }}>Time: <span style={{ color: '#facc15' }}>{prog.complexity}</span></span>
+                          <span style={{ color: 'var(--text-secondary)' }}>Space: <span style={{ color: '#4ade80' }}>{prog.space}</span></span>
+                        </div>
+                      </div>
+                      <div className="j-program-footer">
+                        <button className="j-prog-action-btn primary" onClick={() => handleCopy(prog.id, prog.code)}>
+                          {copied === prog.id ? <><Check size={13} /> Copied!</> : <><Copy size={13} /> Copy Code</>}
+                        </button>
+                        <button className="j-prog-action-btn"><Download size={13} /> Download</button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
+/* ============================================================
+   TAB: CODING PRACTICE
+   ============================================================ */
+const CodingPracticeTab = () => {
+  const [activeProblem, setActiveProblem] = useState(JAVA_PRACTICE_PROBLEMS[0]);
+  const [code, setCode] = useState(JAVA_STARTER_CODE[1]);
+  const [consoleTab, setConsoleTab] = useState('output');
+  const [showHint, setShowHint] = useState(false);
+  const [fontSize, setFontSize] = useState('14');
+  const [lineNumbers, setLineNumbers] = useState(true);
+
+  const handleProblemChange = (prob) => {
+    setActiveProblem(prob);
+    setCode(JAVA_STARTER_CODE[prob.id]);
+    setShowHint(false);
+  };
+
+  return (
+    <div className="j-tab-content">
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
+        {JAVA_PRACTICE_PROBLEMS.map(p => (
+          <button key={p.id} onClick={() => handleProblemChange(p)} style={{ padding: '8px 16px', borderRadius: '9px', border: `1px solid ${activeProblem.id === p.id ? 'var(--primary-purple)' : 'var(--border-primary)'}`, background: activeProblem.id === p.id ? 'rgba(139,92,246,0.15)' : 'var(--card-bg)', color: activeProblem.id === p.id ? 'var(--accent-glow)' : 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: '600', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s' }}>
+            {p.id}. {p.title}
+            <span style={{ marginLeft: '8px', padding: '1px 7px', borderRadius: '100px', fontSize: '0.68rem', background: p.difficulty === 'Easy' ? 'rgba(34,197,94,0.15)' : 'rgba(234,179,8,0.15)', color: p.difficulty === 'Easy' ? '#4ade80' : '#facc15' }}>{p.difficulty}</span>
           </button>
         ))}
       </div>
 
-      {!showResult ? (
-        <div className="j-quiz-card">
-          <div className="j-quiz-progress">Question {currentQ + 1} of {questions.length}</div>
-          <h3 className="j-quiz-q">{q.q}</h3>
-          <div className="j-options-list">
+      <div className="j-practice-layout">
+        <div className="j-practice-panel">
+          <div className="j-panel-header">
+            <span className="j-panel-title"><FileText size={14} /> Problem</span>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              {activeProblem.tags.map(t => <span key={t} style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '100px', background: 'rgba(139,92,246,0.12)', color: 'var(--accent-glow)', border: '1px solid rgba(139,92,246,0.2)' }}>{t}</span>)}
+            </div>
+          </div>
+          <div className="j-panel-body">
+            <div className="j-problem-title">{activeProblem.id}. {activeProblem.title}</div>
+            <p className="j-problem-desc">{activeProblem.desc}</p>
+            {activeProblem.examples.map((ex, i) => (
+              <div key={i} className="j-problem-example">
+                <div className="j-problem-example-label">Example {i + 1}</div>
+                <pre>{`Input: ${ex.input}\nOutput: ${ex.output}${ex.explanation ? `\nExplanation: ${ex.explanation}` : ''}`}</pre>
+              </div>
+            ))}
+            <div className="j-subsection-title" style={{ marginTop: '14px' }}><Info size={13} /> Constraints</div>
+            <ul className="j-constraints-list">
+              {activeProblem.constraints.map((c, i) => <li key={i}>{c}</li>)}
+            </ul>
+            <div className="j-hint-accordion">
+              <button className="j-hint-btn" onClick={() => setShowHint(!showHint)}>
+                <Lightbulb size={14} /> {showHint ? 'Hide Hint' : 'Show Hint'}
+              </button>
+              {showHint && <div className="j-hint-text">{activeProblem.hint}</div>}
+            </div>
+          </div>
+        </div>
+
+        <div className="j-practice-panel" style={{ background: '#080814' }}>
+          <div className="j-panel-header" style={{ background: '#0d0d1a', borderColor: 'rgba(139,92,246,0.15)' }}>
+            <span className="j-panel-title" style={{ color: '#e8e8f0' }}><Code2 size={14} /> Editor</span>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <select className="j-editor-select"><option>Java (JDK 17)</option></select>
+              <select className="j-editor-select"><option>Dark Theme</option></select>
+              <select className="j-editor-select" value={fontSize} onChange={e => setFontSize(e.target.value)}>
+                {['12','13','14','16','18'].map(s => <option key={s} value={s}>{s}px</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="j-editor-toolbar">
+            <label className="j-editor-toggle">
+              <input type="checkbox" checked={lineNumbers} onChange={() => setLineNumbers(!lineNumbers)} style={{ marginRight: '4px' }} />Line Numbers
+            </label>
+            <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.2)', marginLeft: 'auto' }}>Auto Save: ON</span>
+          </div>
+          <textarea className="j-editor-area" value={code} onChange={e => setCode(e.target.value)} spellCheck={false} style={{ fontSize: `${fontSize}px`, flex: 1, minHeight: '320px' }} />
+          <div className="j-editor-footer">
+            <button className="j-btn-secondary" style={{ fontSize: '0.8rem', padding: '8px 14px' }} onClick={() => setCode(JAVA_STARTER_CODE[activeProblem.id])}>
+              <RotateCcw size={13} /> Reset
+            </button>
+            <button className="j-btn-primary" style={{ fontSize: '0.8rem', padding: '8px 20px' }}>
+              <Play size={13} /> Run Code
+            </button>
+          </div>
+        </div>
+
+        <div className="j-practice-panel">
+          <div className="j-console-tabs">
+            {['output', 'testcases', 'runtime'].map(t => (
+              <button key={t} className={`j-console-tab ${consoleTab === t ? 'active' : ''}`} onClick={() => setConsoleTab(t)}>
+                {t === 'output' ? 'Output' : t === 'testcases' ? 'Test Cases' : 'Runtime'}
+              </button>
+            ))}
+          </div>
+          <div className="j-console-body">
+            {consoleTab === 'output' && (
+              <div className="j-console-placeholder"><Terminal size={28} /><p style={{ textAlign: 'center' }}>Run your code to see output here.</p></div>
+            )}
+            {consoleTab === 'testcases' && (
+              <div className="j-test-case-grid">
+                {activeProblem.examples.map((ex, i) => (
+                  <div key={i} className="j-test-case">
+                    <div className="j-test-case-label">Test Case {i + 1}</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Input: {ex.input}</div>
+                    <div style={{ fontSize: '0.8rem', color: '#4ade80', marginTop: '4px' }}>Expected: {ex.output}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {consoleTab === 'runtime' && (
+              <div className="j-runtime-grid">
+                {[{ label: 'Runtime', val: '-- ms' }, { label: 'Memory', val: '-- MB' }, { label: 'Status', val: 'Pending' }, { label: 'Tests', val: '0/0' }].map((s, i) => (
+                  <div key={i} className="j-runtime-stat"><strong>{s.val}</strong><span>{s.label}</span></div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ============================================================
+   TAB: QUIZ
+   ============================================================ */
+const QuizTab = () => {
+  const [level, setLevel] = useState('beginner');
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [revealed, setRevealed] = useState(false);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const [answers, setAnswers] = useState([]);
+  const [timeLeft, setTimeLeft] = useState(30);
+  const timerRef = useRef(null);
+
+  const questions = JAVA_QUIZ_DATA[level];
+
+  useEffect(() => {
+    if (quizStarted && !revealed && !finished) {
+      timerRef.current = setInterval(() => {
+        setTimeLeft(t => {
+          if (t <= 1) { clearInterval(timerRef.current); handleReveal(); return 0; }
+          return t - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timerRef.current);
+  }, [quizStarted, current, revealed, finished]);
+
+  const handleSelect = (idx) => { if (!revealed) setSelected(idx); };
+  const handleReveal = () => {
+    clearInterval(timerRef.current);
+    setRevealed(true);
+    const correct = selected === questions[current].answer;
+    if (correct) setScore(s => s + 1);
+    setAnswers(prev => [...prev, { q: questions[current].q, selected, correct, answer: questions[current].answer }]);
+  };
+  const handleNext = () => {
+    if (current + 1 >= questions.length) { setFinished(true); return; }
+    setCurrent(c => c + 1); setSelected(null); setRevealed(false); setTimeLeft(30);
+  };
+  const resetQuiz = () => {
+    setQuizStarted(false); setCurrent(0); setSelected(null); setRevealed(false);
+    setScore(0); setFinished(false); setAnswers([]); setTimeLeft(30);
+    clearInterval(timerRef.current);
+  };
+
+  const pct = Math.round((score / questions.length) * 100);
+
+  if (!quizStarted) {
+    return (
+      <div className="j-tab-content">
+        <div className="j-quiz-level-selector">
+          {[{ key: 'beginner', label: 'Beginner', icon: '🟢', count: JAVA_QUIZ_DATA.beginner.length }, { key: 'intermediate', label: 'Intermediate', icon: '🟡', count: JAVA_QUIZ_DATA.intermediate.length }, { key: 'advanced', label: 'Advanced', icon: '🔴', count: JAVA_QUIZ_DATA.advanced.length }].map(l => (
+            <div key={l.key} className={`j-quiz-level-btn ${level === l.key ? 'active' : ''}`} onClick={() => setLevel(l.key)}>
+              <div className="j-quiz-level-icon">{l.icon}</div>
+              <div className="j-quiz-level-name">{l.label}</div>
+              <div className="j-quiz-level-count">{l.count} Questions</div>
+            </div>
+          ))}
+        </div>
+        <div className="j-quiz-container">
+          <div style={{ padding: '40px', textAlign: 'center' }}>
+            <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🧠</div>
+            <h3 style={{ color: 'var(--text-primary)', fontSize: '1.4rem', marginBottom: '8px' }}>Java Programming {level.charAt(0).toUpperCase() + level.slice(1)} Quiz</h3>
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>{questions.length} questions · 30 seconds per question · Instant explanations</p>
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '28px', flexWrap: 'wrap' }}>
+              {[['Questions', questions.length], ['Time/Q', '30s'], ['Explanation', 'Yes'], ['Scoring', '+1 correct']].map(([k, v]) => (
+                <div key={k} style={{ textAlign: 'center', padding: '12px 20px', background: 'rgba(255,255,255,0.04)', borderRadius: '12px', border: '1px solid var(--border-primary)' }}>
+                  <div style={{ fontSize: '1.2rem', fontWeight: '700', color: 'var(--accent-glow)' }}>{v}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{k}</div>
+                </div>
+              ))}
+            </div>
+            <button className="j-btn-primary" onClick={() => setQuizStarted(true)} style={{ padding: '13px 36px', fontSize: '1rem' }}>
+              <Play size={18} /> Start Quiz
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (finished) {
+    return (
+      <div className="j-tab-content">
+        <div className="j-quiz-container">
+          <div className="j-quiz-score-screen">
+            <div className="j-score-circle" style={{ '--score-pct': `${pct * 3.6}deg` }}>
+              <div className="j-score-inner"><span className="j-score-pct">{pct}%</span><span className="j-score-label">Score</span></div>
+            </div>
+            <h2 className="j-score-title">{pct >= 80 ? '🎉 Excellent!' : pct >= 60 ? '👍 Good Job!' : '📚 Keep Practicing!'}</h2>
+            <p className="j-score-subtitle">{pct >= 80 ? 'Great understanding of Java programming!' : pct >= 60 ? 'Good work! Review the explanations for missed questions.' : 'Review the lessons and try again!'}</p>
+            <div className="j-score-breakdown">
+              <div className="j-score-stat"><strong style={{ color: '#4ade80' }}>{score}</strong><span>Correct</span></div>
+              <div className="j-score-stat"><strong style={{ color: '#f87171' }}>{questions.length - score}</strong><span>Wrong</span></div>
+              <div className="j-score-stat"><strong>{questions.length}</strong><span>Total</span></div>
+            </div>
+            <div style={{ textAlign: 'left', marginBottom: '24px' }}>
+              {answers.map((a, i) => (
+                <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', padding: '10px 14px', borderRadius: '10px', background: a.correct ? 'rgba(34,197,94,0.07)' : 'rgba(239,68,68,0.07)', border: `1px solid ${a.correct ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)'}`, marginBottom: '8px' }}>
+                  <span style={{ flexShrink: 0, marginTop: '1px' }}>{a.correct ? '✅' : '❌'}</span>
+                  <span style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>Q{i + 1}: {a.q}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button className="j-btn-primary" onClick={resetQuiz}><RotateCcw size={15} /> Retry Quiz</button>
+              <button className="j-btn-secondary" onClick={() => { setLevel(level === 'beginner' ? 'intermediate' : level === 'intermediate' ? 'advanced' : 'beginner'); resetQuiz(); }}>
+                <ArrowRight size={15} /> Next Level
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const q = questions[current];
+  const optionLetters = ['A', 'B', 'C', 'D'];
+  return (
+    <div className="j-tab-content">
+      <div className="j-quiz-container">
+        <div className="j-quiz-top-bar">
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', whiteSpace: 'nowrap' }}>{current + 1} / {questions.length}</span>
+          <div className="j-quiz-progress-track"><div className="j-quiz-progress-fill" style={{ width: `${((current + 1) / questions.length) * 100}%` }} /></div>
+          <div className={`j-quiz-timer ${timeLeft <= 10 ? 'warning' : ''}`}><Clock size={13} />{timeLeft}s</div>
+        </div>
+        <div className="j-quiz-body">
+          <div className="j-quiz-q-num">Question {current + 1}</div>
+          <div className="j-quiz-question">{q.q}</div>
+          <div className="j-quiz-options">
             {q.options.map((opt, idx) => {
-              let btnClass = 'j-opt-btn';
-              if (selectedOption !== null) {
-                if (idx === q.ans) btnClass += ' correct';
-                else if (idx === selectedOption) btnClass += ' wrong';
-              }
+              let cls = '';
+              if (revealed) { if (idx === q.answer) cls = 'correct'; else if (idx === selected) cls = 'incorrect'; }
+              else if (idx === selected) cls = 'selected';
               return (
-                <button
-                  key={idx}
-                  className={btnClass}
-                  onClick={() => handleOptionClick(idx)}
-                >
-                  {opt}
+                <button key={idx} className={`j-quiz-option ${cls}`} onClick={() => handleSelect(idx)}>
+                  <span className="j-quiz-option-letter">{optionLetters[idx]}</span>{opt}
                 </button>
               );
             })}
           </div>
-
-          {selectedOption !== null && (
-            <div className="j-explanation-box">
-              <strong>Explanation:</strong> {q.exp}
+          {revealed && (
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="j-quiz-explanation">
+              <strong>Explanation: </strong>{q.explanation}
+            </motion.div>
+          )}
+          <div className="j-quiz-footer">
+            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Score: <strong style={{ color: 'var(--accent-glow)' }}>{score}</strong></div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {!revealed && <button className="j-btn-secondary" style={{ fontSize: '0.85rem', padding: '9px 18px' }} onClick={handleReveal} disabled={selected === null}>Submit</button>}
+              {revealed && <button className="j-btn-primary" style={{ fontSize: '0.85rem', padding: '9px 18px' }} onClick={handleNext}>{current + 1 >= questions.length ? 'See Results' : 'Next'} <ChevronRight size={14} /></button>}
             </div>
-          )}
-
-          {selectedOption !== null && (
-            <button className="j-btn-primary j-next-q-btn" onClick={handleNext}>
-              {currentQ + 1 === questions.length ? 'See Results' : 'Next Question'}
-            </button>
-          )}
+          </div>
         </div>
-      ) : (
-        <div className="j-quiz-result">
-          <Trophy size={48} color="#A855F7" />
-          <h2>Quiz Completed!</h2>
-          <p className="j-score-text">You Scored <strong>{score}</strong> / <strong>{questions.length}</strong></p>
-          <button className="j-btn-primary" onClick={() => resetQuiz(level)}>Try Again</button>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
 
-// 7. PROJECTS TAB
-const ProjectsTab = () => (
-  <div className="j-projects-container">
-    <div className="j-projects-grid">
-      {JAVA_PROJECTS.map((proj, idx) => (
-        <div key={idx} className="j-proj-card">
-          <div className="j-proj-icon">{proj.emoji}</div>
-          <div className="j-proj-header">
-            <h3>{proj.title}</h3>
-            <span className="j-proj-diff">{proj.diff} • {proj.time}</span>
-          </div>
-          <p className="j-proj-desc">{proj.desc}</p>
-          <div className="j-proj-features">
-            <strong>Key Features:</strong>
-            <ul>
-              {proj.features.map((f, i) => <li key={i}><CheckCircle size={12} /> {f}</li>)}
-            </ul>
-          </div>
-        </div>
-      ))}
+/* ============================================================
+   TAB: PROJECTS
+   ============================================================ */
+const ProjectsTab = () => {
+  const [filter, setFilter] = useState('All');
+  const filters = ['All', 'Beginner', 'Intermediate', 'Advanced'];
+  const filtered = filter === 'All' ? JAVA_PROJECTS : JAVA_PROJECTS.filter(p => p.diff === filter);
+  return (
+    <div className="j-tab-content">
+      <div className="j-projects-filter">
+        {filters.map(f => <button key={f} className={`j-filter-btn ${filter === f ? 'active' : ''}`} onClick={() => setFilter(f)}>{f}</button>)}
+      </div>
+      <div className="j-projects-grid">
+        {filtered.map((proj, i) => (
+          <motion.div key={i} className="j-project-card" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
+            <div className="j-project-thumb" style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.15), rgba(168,85,247,0.08))' }}>
+              <span style={{ fontSize: '3.5rem' }}>{proj.emoji}</span>
+            </div>
+            <div className="j-project-body">
+              <div className="j-project-tags">{proj.tags.map(t => <span key={t} className="j-project-tag">{t}</span>)}</div>
+              <div className="j-project-title">{proj.title}</div>
+              <p className="j-project-desc">{proj.desc}</p>
+              <div className="j-project-meta">
+                <span className={`j-diff-tag diff-${proj.diff.toLowerCase()}`}>{proj.diff}</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Clock size={12} />{proj.time}</span>
+              </div>
+            </div>
+            <div className="j-project-features">
+              <h5>Key Features</h5>
+              <ul>{proj.features.map((f, j) => <li key={j}>{f}</li>)}</ul>
+            </div>
+            <div style={{ padding: '0 18px 18px', display: 'flex', gap: '8px' }}>
+              <button className="j-btn-primary" style={{ flex: 1, fontSize: '0.82rem', padding: '9px', justifyContent: 'center' }}><Play size={13} /> Start Project</button>
+              <button className="j-btn-secondary" style={{ fontSize: '0.82rem', padding: '9px 14px' }}><Download size={13} /></button>
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
-// 8. INTERVIEW QUESTIONS TAB
+/* ============================================================
+   TAB: INTERVIEW QUESTIONS
+   ============================================================ */
 const InterviewTab = () => {
-  const [level, setLevel] = useState('beginner');
-  const questions = JAVA_INTERVIEW_QUESTIONS[level] || JAVA_INTERVIEW_QUESTIONS.beginner;
+  const categories = Object.keys(JAVA_INTERVIEW_QUESTIONS);
+  const [activeCategory, setActiveCategory] = useState('Basic');
+  const [expandedIdx, setExpandedIdx] = useState(null);
+  const [bookmarked, setBookmarked] = useState(new Set());
+  const toggleBookmark = (key) => setBookmarked(prev => { const s = new Set(prev); s.has(key) ? s.delete(key) : s.add(key); return s; });
 
   return (
-    <div className="j-interview-container">
-      <div className="j-level-selector">
-        {['beginner', 'intermediate', 'advanced'].map(l => (
-          <button
-            key={l}
-            className={`j-level-btn ${level === l ? 'active' : ''}`}
-            onClick={() => setLevel(l)}
-          >
-            {l.toUpperCase()}
+    <div className="j-tab-content j-iq-layout">
+      <aside className="j-iq-sidebar">
+        <div className="j-subsection-title" style={{ marginBottom: '14px' }}>Sections</div>
+        {categories.map(cat => (
+          <button key={cat} className={`j-iq-cat-btn ${activeCategory === cat ? 'active' : ''}`} onClick={() => { setActiveCategory(cat); setExpandedIdx(null); }}>
+            {cat}<span className="j-prog-cat-count">{JAVA_INTERVIEW_QUESTIONS[cat].length}</span>
           </button>
         ))}
-      </div>
-
-      <div className="j-interview-list">
-        {questions.map((item, i) => (
-          <div key={i} className="j-interview-card">
-            <h4>Q{i + 1}: {item.q}</h4>
-            <p><strong>Answer:</strong> {item.a}</p>
-          </div>
-        ))}
+      </aside>
+      <div>
+        <AnimatePresence mode="wait">
+          <motion.div key={activeCategory} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="j-iq-list">
+            {JAVA_INTERVIEW_QUESTIONS[activeCategory].map((item, idx) => {
+              const key = `${activeCategory}-${idx}`;
+              return (
+                <div key={idx} className="j-iq-card">
+                  <div className="j-iq-card-header" onClick={() => setExpandedIdx(expandedIdx === idx ? null : idx)}>
+                    <div className="j-iq-question">{item.q}</div>
+                    <div className="j-iq-header-meta">
+                      {item.freq && <span className="j-iq-freq-badge">🔥 Frequently Asked</span>}
+                      <button className={`j-iq-bookmark-btn ${bookmarked.has(key) ? 'active' : ''}`} onClick={e => { e.stopPropagation(); toggleBookmark(key); }}>
+                        <Bookmark size={15} fill={bookmarked.has(key) ? 'var(--accent-glow)' : 'none'} />
+                      </button>
+                      <button className="j-iq-expand-btn">
+                        {expandedIdx === idx ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                      </button>
+                    </div>
+                  </div>
+                  <AnimatePresence>
+                    {expandedIdx === idx && (
+                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="j-iq-answer">
+                        <p className="j-iq-answer-text">{item.a}</p>
+                        <div className="j-iq-tip"><strong>💡 Tip: </strong>{item.tip}</div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );
 };
 
-// 9. DOWNLOADS TAB
+/* ============================================================
+   TAB: DOWNLOADS
+   ============================================================ */
 const DownloadsTab = () => (
-  <div className="j-downloads-container">
+  <div className="j-tab-content">
     <div className="j-downloads-grid">
-      {JAVA_DOWNLOADS.map((d, i) => (
-        <div key={i} className="j-download-card" style={{ borderTop: `4px solid ${d.color}` }}>
-          <div className="j-download-icon">{d.icon}</div>
-          <h3>{d.title}</h3>
-          <p>{d.type} • {d.size}</p>
-          <span className="j-download-updated">Updated: {d.updated}</span>
-          <button className="j-btn-secondary j-download-btn"><Download size={14} /> Download</button>
-        </div>
+      {JAVA_DOWNLOADS.map((item, i) => (
+        <motion.div key={i} className="j-download-card" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
+          <div className="j-download-icon-row">
+            <div className="j-download-icon" style={{ background: `${item.color}18`, border: `1px solid ${item.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>{item.icon}</div>
+            <div>
+              <div className="j-download-title">{item.title}</div>
+              <div className="j-download-meta">
+                <div className="j-download-meta-item"><FileText size={11} />{item.type}</div>
+                <div className="j-download-meta-item"><Database size={11} />{item.size}</div>
+                <div className="j-download-meta-item"><Clock size={11} />Updated {item.updated}</div>
+              </div>
+            </div>
+          </div>
+          <p className="j-download-desc">Download complete handbook containing solved programs, code listings, and core Java diagrams.</p>
+          <button className="j-download-btn"><Download size={15} /> Download {item.type}</button>
+        </motion.div>
       ))}
     </div>
   </div>
 );
 
 /* ============================================================
-   TABS DEFINITION
+   JAVA LOGO SVG
+   ============================================================ */
+const JavaLogo = () => (
+  <TechnologyLogo svg={TECH_LOGOS.java} name="Java" />
+);
+
+/* ============================================================
+   TABS CONFIG
    ============================================================ */
 const TABS = [
   { id: 'overview', label: 'Overview', icon: <Home size={16} /> },
@@ -1229,7 +1426,8 @@ const JavaLearningHub = () => {
 
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeLessonId, setActiveLessonId] = useState(1);
-  const { completedLessons: completed, toggleLessonComplete: toggleComplete } = useProgress();
+  const [completed, setCompleted] = useState(new Set());
+  const toggleComplete = (id) => setCompleted(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1288,7 +1486,7 @@ const JavaLearningHub = () => {
             <p className="j-hero-subtitle">Beginner to Advanced</p>
             <p className="j-hero-desc">Master Java from fundamentals to enterprise-level application development. Learn OOP, Collections, Multithreading, JDBC, Exception Handling, File Handling, Java 8+, Spring Boot fundamentals, and interview preparation through structured lessons and projects.</p>
             <div className="j-hero-stats">
-              {[{ val: '40+', label: 'Lessons' }, { val: '20+', label: 'Programs' }, { val: '6+', label: 'Projects' }, { val: '15+', label: 'Quizzes' }, { val: '40+', label: 'Interview Qs' }].map((s, i) => (
+              {[{ val: '45+', label: 'Lessons' }, { val: '120+', label: 'Programs' }, { val: '10+', label: 'Projects' }, { val: '30+', label: 'Quizzes' }, { val: '80+', label: 'Interview Qs' }].map((s, i) => (
                 <div key={i} className="j-stat-pill"><strong>{s.val}</strong> {s.label}</div>
               ))}
             </div>
@@ -1303,7 +1501,7 @@ const JavaLearningHub = () => {
             <div className="j-overall-progress">
               <div className="j-circle-progress">0%<br /><span style={{ fontSize: '0.55rem' }}>Done</span></div>
               <div className="j-progress-rows" style={{ flex: 1 }}>
-                {[['Lessons Completed', '0 / 40'], ['Quizzes Completed', '0 / 15'], ['Programs Solved', '0 / 20'], ['Projects Completed', '0 / 6']].map(([l, v]) => (
+                {[['Lessons Completed', '0 / 45'], ['Quizzes Completed', '0 / 10'], ['Programs Solved', '0 / 120'], ['Projects Completed', '0 / 10']].map(([l, v]) => (
                   <div key={l} className="j-progress-row"><span>{l}</span><span>{v}</span></div>
                 ))}
               </div>
