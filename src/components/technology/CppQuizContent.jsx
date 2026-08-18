@@ -1,7 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Clock, Play, RotateCcw, ChevronRight, ArrowRight } from 'lucide-react';
+import { Clock, Play, RotateCcw, ChevronRight, ArrowRight, Code2 } from 'lucide-react';
 import { CPP_QUIZ_DATA } from '../../data/cppQuizData';
+
+// Syntax highlighting helper for C++ code blocks
+const highlightCode = (codeText) => {
+  if (!codeText) return '';
+  const escaped = codeText
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const tokenRegex = /(\/\/.*)|(\/\*[\s\S]*?\*\/)|(".*?")|('.*?')|(#\w+\s*&lt;.*&gt;|#\w+)|(\b(?:int|double|float|char|bool|void|class|struct|if|else|cout|cin|return|for|while|do|using|namespace|std)\b)|(\b\d+\b)/g;
+
+  return escaped.replace(tokenRegex, (match, p1, p2, p3, p4, p5, p6, p7) => {
+    if (p1 || p2) return `<span style="color: #6b7280; font-style: italic;">${match}</span>`;
+    if (p3 || p4) return `<span style="color: #a78bfa;">${match}</span>`;
+    if (p5) return `<span style="color: #f472b6; font-weight: 600;">${match}</span>`;
+    if (p6) return `<span style="color: #38bdf8; font-weight: 600;">${match}</span>`;
+    if (p7) return `<span style="color: #fbbf24;">${match}</span>`;
+    return match;
+  });
+};
 
 const CppQuizContent = ({ onComplete }) => {
   const [level, setLevel] = useState('beginner');
@@ -50,6 +70,7 @@ const CppQuizContent = ({ onComplete }) => {
       ...prev,
       {
         q: questions[current].q,
+        code: questions[current].code,
         selected,
         correct,
         answer: questions[current].answer,
@@ -232,6 +253,26 @@ const CppQuizContent = ({ onComplete }) => {
                       Q{i + 1}: {a.q}
                     </span>
                   </div>
+
+                  {a.code && (
+                    <div
+                      style={{
+                        background: '#09070f',
+                        border: '1px solid rgba(139, 92, 246, 0.15)',
+                        borderRadius: '8px',
+                        padding: '10px 14px',
+                        margin: '4px 0 6px 26px',
+                        overflowX: 'auto',
+                        fontSize: '0.8rem',
+                        fontFamily: '"JetBrains Mono", Consolas, monospace'
+                      }}
+                    >
+                      <pre style={{ margin: 0 }}>
+                        <code dangerouslySetInnerHTML={{ __html: highlightCode(a.code) }} />
+                      </pre>
+                    </div>
+                  )}
+
                   {a.explanation && (
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginLeft: '26px' }}>
                       <strong style={{ color: 'var(--accent-glow)' }}>Explanation:</strong> {a.explanation}
@@ -287,6 +328,43 @@ const CppQuizContent = ({ onComplete }) => {
             Question {current + 1} of {questions.length} • {level.toUpperCase()}
           </div>
           <div className="c-quiz-question">{q.q}</div>
+
+          {/* Code Snippet for Guess the Output questions */}
+          {q.code && (
+            <div
+              style={{
+                background: '#09070f',
+                border: '1px solid rgba(139, 92, 246, 0.22)',
+                borderRadius: '10px',
+                padding: '14px 18px',
+                margin: '0 0 24px',
+                overflowX: 'auto',
+                fontSize: '0.88rem',
+                fontFamily: '"JetBrains Mono", Consolas, "Fira Code", monospace',
+                lineHeight: '1.5',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.4)'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '0.72rem',
+                  color: 'var(--accent-glow)',
+                  fontWeight: '600',
+                  marginBottom: '10px',
+                  borderBottom: '1px solid rgba(255,255,255,0.06)',
+                  paddingBottom: '6px'
+                }}
+              >
+                <Code2 size={13} /> C++ Code Snippet
+              </div>
+              <pre style={{ margin: 0 }}>
+                <code dangerouslySetInnerHTML={{ __html: highlightCode(q.code) }} />
+              </pre>
+            </div>
+          )}
 
           <div className="c-quiz-options">
             {q.options.map((opt, idx) => {

@@ -1,64 +1,139 @@
 export const CPP_QUIZ_DATA = {
   beginner: [
     {
-      q: 'Who developed the C++ programming language?',
-      options: ['Dennis Ritchie', 'Bjarne Stroustrup', 'James Gosling', 'Guido van Rossum'],
+      id: 1,
+      type: 'output',
+      q: 'What will be the output of the following C++ program?',
+      code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 10;
+    int b = 20;
+
+    cout << a + b;
+
+    return 0;
+}`,
+      options: ['1020', '30', '10', '20'],
       answer: 1,
-      explanation: 'Bjarne Stroustrup created C++ at Bell Labs in 1979 as an enhancement to the C language, initially named "C with Classes".'
+      explanation: 'The addition operator (+) computes the sum of integer variables a (10) and b (20), resulting in 30.'
     },
     {
-      q: 'Which header file is required to perform standard input and output operations using cin and cout in C++?',
-      options: ['<stdio.h>', '<iostream>', '<stdlib.h>', '<stream.h>'],
-      answer: 1,
-      explanation: '<iostream> defines the standard stream objects such as std::cin, std::cout, std::cerr, and std::clog.'
+      id: 2,
+      type: 'output',
+      q: 'What will be the output of the following C++ program?',
+      code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int x = 5;
+
+    cout << x * 2 + 3;
+
+    return 0;
+}`,
+      options: ['13', '16', '10', '8'],
+      answer: 0,
+      explanation: 'Multiplication (*) has higher precedence than addition (+). Thus, x * 2 evaluates to 10, and 10 + 3 yields 13.'
     },
     {
-      q: 'Which C++11 keyword enables automatic type deduction of a variable from its initializer?',
-      options: ['var', 'let', 'auto', 'dynamic'],
+      id: 3,
+      type: 'output',
+      q: 'What will be the output of the following C++ program?',
+      code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 10;
+
+    if (a > 5)
+        cout << "Hello";
+    else
+        cout << "Bye";
+
+    return 0;
+}`,
+      options: ['Bye', 'Hello', 'HelloBye', 'No output'],
+      answer: 1,
+      explanation: 'The condition (a > 5) is true because 10 > 5, so the if block executes and prints "Hello".'
+    },
+    {
+      id: 4,
+      type: 'output',
+      q: 'What will be the output of the following C++ program?',
+      code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int x = 7;
+
+    cout << x++;
+
+    return 0;
+}`,
+      options: ['7', '8', '6', 'Error'],
+      answer: 0,
+      explanation: 'Post-increment (x++) returns the current value of x (7) for output first, and increments x to 8 afterwards.'
+    },
+    {
+      id: 5,
+      type: 'output',
+      q: 'What will be the output of the following C++ program?',
+      code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 5;
+    int b = 2;
+
+    cout << a / b;
+
+    return 0;
+}`,
+      options: ['2.5', '3', '2', '0'],
       answer: 2,
-      explanation: 'The auto keyword instructs the compiler to deduce the variable\'s type at compile time based on its initialization expression.'
+      explanation: 'Integer division in C++ truncates any fractional part. 5 / 2 performs integer arithmetic resulting in 2.'
     },
     {
-      q: 'What does the scope resolution operator (::) do in C++?',
-      options: ['Accesses pointer memory', 'Resolves global or namespace/class scope', 'Performs bitwise XOR', 'Multiplies references'],
+      id: 6,
+      type: 'mcq',
+      q: 'Which header file is commonly used for cout and cin in C++?',
+      options: ['stdio.h', 'iostream', 'string.h', 'conio.h'],
       answer: 1,
-      explanation: 'The scope resolution operator (::) qualifies identifiers to specify their namespace, class, or global scope.'
+      explanation: '<iostream> provides the standard input/output stream objects std::cin and std::cout in C++.'
     },
     {
-      q: 'What will be the output of the expression: (10 > 5) ? 100 : 200?',
-      options: ['100', '200', 'true', 'false'],
-      answer: 0,
-      explanation: 'The ternary conditional operator evaluates (10 > 5) as true, so it returns the first operand: 100.'
+      id: 7,
+      type: 'mcq',
+      q: 'Which symbol is used to end a statement in C++?',
+      options: [':', '.', ';', ','],
+      answer: 2,
+      explanation: 'Every executable statement in C++ must be terminated with a semicolon (;).'
     },
     {
-      q: 'Which loop construct introduced in C++11 provides clean syntax to iterate over all elements in a container or array?',
-      options: ['for_each loop', 'Range-based for loop', 'Enhanced while loop', 'Iterator loop'],
+      id: 8,
+      type: 'mcq',
+      q: 'Which of the following is a valid C++ variable declaration?',
+      options: ['int 1number;', 'number int;', 'int number;', 'integer number;'],
+      answer: 2,
+      explanation: '"int number;" correctly specifies the valid data type "int" followed by a legal identifier name.'
+    },
+    {
+      id: 9,
+      type: 'mcq',
+      q: 'Which keyword is used to create a class in C++?',
+      options: ['object', 'class', 'structs', 'define'],
       answer: 1,
-      explanation: 'Range-based for loops (for (const auto &item : collection)) iterate sequentially over elements in any iterable collection.'
+      explanation: 'The "class" keyword is used to declare and define user-defined class types in C++.'
     },
     {
-      q: 'How is pass-by-reference declared in a C++ function parameter list?',
-      options: ['void func(int *x)', 'void func(int &x)', 'void func(ref int x)', 'void func(int @x)'],
+      id: 10,
+      type: 'mcq',
+      q: 'Which operator is used for output with cout?',
+      options: ['>>', '<<', '==', '&&'],
       answer: 1,
-      explanation: 'The & symbol in a parameter type denotes a reference, allowing the function to modify the caller\'s original argument directly.'
-    },
-    {
-      q: 'In C++, what is the index of the last element in an array declared as int arr[10];?',
-      options: ['10', '9', '11', '0'],
-      answer: 1,
-      explanation: 'C++ arrays are 0-indexed, so an array of size 10 has valid indices ranging from 0 to 9.'
-    },
-    {
-      q: 'Which member function of std::string returns the number of characters in the string?',
-      options: ['length() and size()', 'count()', 'capacity()', 'strlen()'],
-      answer: 0,
-      explanation: 'In std::string, both .length() and .size() are synonyms that return the count of characters currently stored in the string.'
-    },
-    {
-      q: 'What is the default access specifier for members of a class in C++?',
-      options: ['public', 'private', 'protected', 'internal'],
-      answer: 1,
-      explanation: 'Members of a C++ class are private by default, whereas members of a struct are public by default.'
+      explanation: 'The stream insertion operator (<<) is used in conjunction with cout to send output to the console.'
     }
   ],
   intermediate: [
