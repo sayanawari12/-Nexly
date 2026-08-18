@@ -17,6 +17,7 @@ import TechnologyLogo from '../components/ui/TechnologyLogo';
 import { useProgress } from '../context/ProgressContext';
 import useAuth from '../hooks/useAuth';
 import { saveUserNote, getUserNote, addUserBookmark } from '../services/userDatabase';
+import CppQuizContent from '../components/technology/CppQuizContent';
 import '../styles/CLearningHub.css';
 
 /* ============================================================
@@ -660,15 +661,7 @@ const CodingPracticeTab = () => (
 
 /* Quiz Tab */
 const QuizTab = () => (
-  <div className="c-quiz-wrapper">
-    <div className="c-card glass-card">
-      <h3><HelpCircle size={18} /> C++ Knowledge Verification Quiz</h3>
-      <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>Test your understanding of C++ pointers, classes, and STL containers.</p>
-      <button className="c-btn-primary" onClick={() => window.location.href = '/technologies/cpp/quiz'}>
-        Start C++ Quiz →
-      </button>
-    </div>
-  </div>
+  <CppQuizContent />
 );
 
 /* Projects Tab */
