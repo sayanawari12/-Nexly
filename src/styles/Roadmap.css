@@ -127,7 +127,7 @@
 /* Subjects Grid */
 .subjects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -473,7 +473,7 @@
 
 .roadmap-skeleton-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 20px;
 }
 
@@ -490,9 +490,41 @@
   100% { opacity: 0.6; }
 }
 
-@media (max-width: 768px) {
+/* Tablet (768px–1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .roadmap-container {
+    padding: 0 20px;
+  }
+
+  .subjects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+    gap: 16px;
+  }
+
+  .sticky-progress-panel {
+    top: 65px;
+  }
+
+  .roadmap-title {
+    font-size: 24px;
+  }
+}
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+  .roadmap-wrapper {
+    padding: 16px 0;
+  }
+
+  .roadmap-container {
+    padding: 0 16px;
+  }
+
   .sticky-progress-panel {
     top: 60px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    margin-bottom: 24px;
   }
   
   .progress-panel-details {
@@ -504,6 +536,19 @@
   .panel-percentage {
     align-self: flex-end;
     margin-top: -30px;
+  }
+
+  .subjects-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .roadmap-skeleton-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .subject-progress-card {
+    padding: 16px;
   }
 
   .unit-accordion-trigger {
@@ -520,5 +565,37 @@
 
   .lesson-checklist-item-row {
     padding-left: 20px;
+  }
+
+  .roadmap-title {
+    font-size: 22px;
+  }
+}
+
+/* Extra Small Mobile (max-width: 390px) */
+@media (max-width: 390px) {
+  .roadmap-container {
+    padding: 0 12px;
+  }
+
+  .sticky-progress-panel {
+    padding: 12px 14px;
+  }
+
+  .subject-progress-card {
+    padding: 14px 12px;
+  }
+
+  .roadmap-title {
+    font-size: 20px;
+  }
+
+  .trigger-right {
+    padding-left: 20px;
+  }
+
+  .lesson-checklist-item-row {
+    padding-left: 14px;
+    padding-right: 8px;
   }
 }

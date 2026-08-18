@@ -3488,3 +3488,24 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Extra Small Mobile (max-width: 390px) */
+@media (max-width: 390px) {
+  .c-hero-banner { padding: 28px 4% 24px; }
+  .c-hero-title { font-size: 1.3rem; letter-spacing: -0.3px; }
+  .c-hero-logo { width: 55px; height: 55px; }
+  .c-hero-stats { flex-direction: column; gap: 8px; }
+
+  .c-content-area { padding: 16px 3%; }
+  .c-tab-nav { padding: 0 3%; }
+  .c-tab-btn { padding: 8px 10px; font-size: 0.7rem; }
+
+  .c-quiz-body { padding: 14px 12px; }
+  .c-question-text { font-size: 1rem; }
+  .c-option-card { min-height: 48px; }
+
+  .c-overview-right { grid-template-columns: 1fr; }
+  .c-proj-card { padding: 16px; }
+  .c-downloads-grid { gap: 10px; }
+}
+

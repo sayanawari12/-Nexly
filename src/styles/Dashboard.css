@@ -49,8 +49,8 @@
   position: absolute;
   top: -50%;
   right: -20%;
-  width: 350px;
-  height: 350px;
+  width: min(350px, 80%);
+  height: min(350px, 80%);
   background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
   pointer-events: none;
 }
@@ -624,7 +624,7 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 5px;
-  min-width: 480px;
+  min-width: min(480px, 100%);
 }
 
 .calendar-week-col {

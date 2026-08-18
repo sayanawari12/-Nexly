@@ -1,4 +1,4 @@
-﻿/* ======================================================
+/* ======================================================
    CLearningHub.css â€” Scoped styles for the C Language page
    Inherits global.css variables. No global overrides.
    Theme Accents: Primary (#A855F7), Secondary (#8B5CF6)
@@ -2272,5 +2272,25 @@
   .j-tab-btn { padding: 10px 12px; font-size: 0.75rem; }
   .j-hero-title { font-size: 1.5rem; }
   .j-quiz-level-selector { flex-direction: column; }
+}
+
+/* Extra Small Mobile (max-width: 390px) */
+@media (max-width: 390px) {
+  .j-hero-banner { padding: 28px 4% 24px; }
+  .j-hero-title { font-size: 1.3rem; letter-spacing: -0.3px; }
+  .j-hero-logo { width: 55px; height: 55px; }
+  .j-hero-stats { flex-direction: column; gap: 8px; }
+
+  .j-content-area { padding: 16px 3%; }
+  .j-tab-nav { padding: 0 3%; }
+  .j-tab-btn { padding: 8px 10px; font-size: 0.7rem; }
+
+  .j-quiz-body { padding: 14px 12px; }
+  .j-question-text { font-size: 1rem; }
+  .j-option-card { min-height: 48px; }
+
+  .j-overview-right { grid-template-columns: 1fr; }
+  .j-proj-card { padding: 16px; }
+  .j-downloads-grid { gap: 10px; }
 }
 

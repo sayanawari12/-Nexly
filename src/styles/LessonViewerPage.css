@@ -939,6 +939,7 @@
     left: -320px;
     width: 280px;
     height: calc(100vh - 70px);
+    height: calc(100dvh - 70px);
     max-height: none;
     z-index: 100;
     transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -959,6 +960,7 @@
     left: 0;
     width: 100vw;
     height: calc(100vh - 70px);
+    height: calc(100dvh - 70px);
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
     z-index: 95;
@@ -974,6 +976,57 @@
   }
 
   .lesson-viewer-title {
-    font-size: 1.7rem;
+    font-size: clamp(1.3rem, 5vw, 1.7rem);
   }
 }
+
+/* Extra Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .premium-lesson-viewer-container {
+    padding: 12px;
+  }
+
+  .lesson-viewer-title {
+    font-size: 1.3rem;
+    line-height: 1.3;
+  }
+
+  .viewer-center-content {
+    padding: 16px 12px;
+  }
+
+  .lesson-navigation-container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .mobile-viewer-navbar {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .mobile-active-lesson-title {
+    font-size: 0.88rem;
+  }
+
+  .mobile-menu-toggle-btn {
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+}
+
+/* Extra Small (max-width: 390px) */
+@media (max-width: 390px) {
+  .premium-lesson-viewer-container {
+    padding: 8px;
+  }
+
+  .lesson-viewer-title {
+    font-size: 1.2rem;
+  }
+
+  .viewer-center-content {
+    padding: 14px 10px;
+  }
+}
+

@@ -822,3 +822,28 @@
   .ds-q-dot { width: 32px; height: 32px; font-size: 0.68rem; }
   .ds-breadcrumb { gap: 4px; }
 }
+
+/* Extra Small Mobile (max-width: 390px) */
+@media (max-width: 390px) {
+  .ds-quiz-wrapper { padding-top: 76px; }
+  .ds-quiz-container { padding: 0 3% 80px; }
+
+  .ds-hero-card { padding: 20px 18px; }
+  .ds-hero-title { font-size: 1.5rem; letter-spacing: -0.5px; }
+  .ds-hero-subtitle { font-size: 0.9rem; }
+
+  .ds-results-grid { grid-template-columns: 1fr; gap: 10px; }
+  .ds-metric-value { font-size: 1.6rem; }
+  .ds-result-metric-card { padding: 20px 16px; }
+
+  .ds-question-card { padding: 20px 16px; }
+  .ds-question-text { font-size: 1.05rem; margin-bottom: 16px; }
+  .ds-results-hero { padding: 28px 16px; }
+  .ds-result-title { font-size: 1.6rem; }
+  .ds-review-card { padding: 18px 16px; }
+
+  .ds-q-dot { width: 28px; height: 28px; font-size: 0.62rem; }
+  .ds-results-actions button { padding: 12px 20px; font-size: 0.88rem; }
+  .ds-back-btn { padding: 8px 14px; font-size: 0.82rem; }
+}
+

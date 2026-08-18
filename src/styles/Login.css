@@ -623,8 +623,8 @@
   }
 }
 
-/* Extra Small Mobile (320px – 360px) */
-@media (max-width: 360px) {
+/* Extra Small Mobile (320px – 390px) */
+@media (max-width: 390px) {
   .auth-right-panel {
     padding: 24px 12px 24px;
   }

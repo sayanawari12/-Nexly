@@ -486,8 +486,11 @@
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border-bottom: 1px solid var(--border-primary);
-    margin: -40px -4% 30px;
+    /* Use padding-based approach instead of negative margins to avoid iOS overflow */
+    width: 100%;
+    box-sizing: border-box;
     padding: 12px 4%;
+    margin: -40px 0 30px;
     overflow-x: auto;
     z-index: 100;
     white-space: nowrap;
@@ -610,3 +613,45 @@
     text-align: left;
   }
 }
+
+/* Extra Small Mobile (max-width: 390px) */
+@media (max-width: 390px) {
+  .cpp-hub-wrapper {
+    padding-top: 76px;
+  }
+
+  .cpp-page-header {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .cpp-page-title {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+  }
+
+  .cpp-page-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .cpp-topic-section {
+    padding: 18px 16px;
+  }
+
+  .cpp-section-heading {
+    font-size: 1.5rem;
+  }
+
+  .cpp-section-placeholder {
+    font-size: 0.95rem;
+  }
+
+  .cpp-mobile-tabs-container {
+    padding: 10px 3%;
+  }
+
+  .cpp-mobile-tab-btn {
+    padding: 7px 14px;
+    font-size: 0.8rem;
+  }
+}
+

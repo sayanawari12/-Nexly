@@ -385,8 +385,17 @@
     width: 100%;
   }
 
+  /* Collapse tab-grid sidebar to single column on tablet */
   .tech-tab-grid {
     grid-template-columns: 1fr;
+  }
+
+  .tech-hero-title {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+  }
+
+  .tech-hero-card {
+    padding: 28px 32px !important;
   }
 }
 

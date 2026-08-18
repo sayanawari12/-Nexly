@@ -43,6 +43,41 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Global Responsive Guards ── */
+
+/* Prevent images from overflowing their containers */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent code blocks from causing page-level horizontal scroll */
+pre,
+code {
+  overflow-x: auto;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+pre {
+  white-space: pre;
+  word-break: normal;
+}
+
+/* Remove tap highlight on mobile for cleaner interactions */
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure all interactive elements have at minimum a 44px touch target */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;

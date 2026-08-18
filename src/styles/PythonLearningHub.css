@@ -2208,3 +2208,24 @@
   .py-hero-title { font-size: 1.5rem; }
   .py-quiz-level-selector { flex-direction: column; }
 }
+
+/* Extra Small Mobile (max-width: 390px) */
+@media (max-width: 390px) {
+  .py-hero-banner { padding: 28px 4% 24px; }
+  .py-hero-title { font-size: 1.3rem; letter-spacing: -0.3px; }
+  .py-hero-logo { width: 55px; height: 55px; }
+  .py-hero-stats { flex-direction: column; gap: 8px; }
+
+  .py-content-area { padding: 16px 3%; }
+  .py-tab-nav { padding: 0 3%; }
+  .py-tab-btn { padding: 8px 10px; font-size: 0.7rem; }
+
+  .py-quiz-body { padding: 14px 12px; }
+  .py-question-text { font-size: 1rem; }
+  .py-option-card { min-height: 48px; }
+
+  .py-overview-right { grid-template-columns: 1fr; }
+  .py-proj-card { padding: 16px; }
+  .py-downloads-grid { gap: 10px; }
+}
+
