@@ -3,12 +3,12 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import { config } from './index';
 
-const DEFAULT_NEON_URL = 'postgresql://neondb_owner:REDACTED_PASSWORD@localhost/neondb?sslmode=require';
 
 let activeDbUrl = config.dbUrl;
-if (!activeDbUrl || activeDbUrl.includes('@host:') || activeDbUrl.includes('@host/') || activeDbUrl.includes('user:password') || (activeDbUrl.includes('localhost') && process.env.NODE_ENV === 'production')) {
-  activeDbUrl = process.env.FALLBACK_DATABASE_URL || DEFAULT_NEON_URL;
+if (!activeDbUrl) {
+  throw new Error('DATABASE_URL environment variable is not set. Please configure backend/.env before starting the server.');
 }
+
 
 // Extract database hostname for TLS Server Name Indication (SNI) routing required by Neon
 let dbHost = '';

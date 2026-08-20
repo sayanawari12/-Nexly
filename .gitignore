@@ -1,9 +1,7 @@
-# environment
+# environment - never commit any .env files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
 
 # dependencies
 node_modules/

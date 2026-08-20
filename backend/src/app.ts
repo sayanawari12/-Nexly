@@ -32,7 +32,19 @@ const morganMiddleware = morgan(
 app.use(helmet());
 app.use(cors({
   origin: (origin, callback) => {
-    callback(null, true);
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      // Add your production Vercel/custom domain below:
+      // 'https://your-app.vercel.app',
+      // 'https://your-custom-domain.com',
+    ];
+    // Allow requests with no origin (e.g. mobile apps, curl, Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS: Origin '${origin}' is not allowed.`));
+    }
   },
   credentials: true,
 }));
