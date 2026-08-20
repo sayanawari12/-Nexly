@@ -16,7 +16,7 @@
 
 [![CI](https://github.com/sayanawari12/bca-department-website/actions/workflows/ci.yml/badge.svg)](https://github.com/sayanawari12/bca-department-website/actions)
 [![Version](https://img.shields.io/badge/version-1.0.0-9333EA?style=for-the-badge&logo=git&logoColor=white)](package.json)
-[![License](https://img.shields.io/badge/license-MIT-06B6D4?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/license-All_Rights_Reserved-06B6D4?style=for-the-badge)](LICENSE)
 [![Security Policy](https://img.shields.io/badge/security-audited-10B981?style=for-the-badge&logo=shield&logoColor=white)](SECURITY.md)
 [![Contributions](https://img.shields.io/badge/contributions-welcome-9333EA?style=for-the-badge&logo=github)](CONTRIBUTING.md)
 
@@ -293,7 +293,7 @@ I focus on building production-grade web systems featuring real-time bi-directio
 * 🛡️ **Security Policy:** [SECURITY.md](SECURITY.md)
 * 🤝 **Contributing Guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)
 * ⚖️ **Code of Conduct:** [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-* 📄 **License:** [MIT License](LICENSE)
+* 📄 **License:** [Custom / All Rights Reserved](LICENSE)
 
 ---
 
