@@ -14,9 +14,14 @@
 
 <br/>
 
+[![CI](https://github.com/sayanawari12/bca-department-website/actions/workflows/ci.yml/badge.svg)](https://github.com/sayanawari12/bca-department-website/actions)
 [![Version](https://img.shields.io/badge/version-1.0.0-9333EA?style=for-the-badge&logo=git&logoColor=white)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-06B6D4?style=for-the-badge)](LICENSE)
-[![Status](https://img.shields.io/badge/status-active_development-10B981?style=for-the-badge)]()
+[![Security Policy](https://img.shields.io/badge/security-audited-10B981?style=for-the-badge&logo=shield&logoColor=white)](SECURITY.md)
+[![Contributions](https://img.shields.io/badge/contributions-welcome-9333EA?style=for-the-badge&logo=github)](CONTRIBUTING.md)
+
+<br/>
+
 [![React](https://img.shields.io/badge/React-18-06B6D4?style=for-the-badge&logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-9333EA?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
 [![Express](https://img.shields.io/badge/Express-5-06B6D4?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com)
@@ -263,16 +268,32 @@ ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
 
 ---
 
-## 👨‍💻 About Me
+## 👨‍💻 Author & Connect
 
-Hi, I'm Sayan.
+**Sayan Awari** — Full-Stack Developer & Software Engineering Enthusiast.
 
-I enjoy learning by building real projects instead of only following tutorials. This project is helping me master full-stack software development, real-time WebSockets, job queues, and relational database architecture.
-
-- **GitHub**: [github.com/sayanawari12](https://github.com/sayanawari12)
-- **Email**: sayanawari9@gmail.com
+I focus on building production-grade web systems featuring real-time bi-directional streaming, asynchronous job queues, and robust relational architectures.
 
 <br/>
+
+<div align="center">
+
+[![GitHub Profile](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sayanawari12)
+[![Email Sayan](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:sayanawari9@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com)
+
+</div>
+
+<br/>
+
+---
+
+## 📜 Community & Governance
+
+* 🛡️ **Security Policy:** [SECURITY.md](SECURITY.md)
+* 🤝 **Contributing Guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)
+* ⚖️ **Code of Conduct:** [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+* 📄 **License:** [MIT License](LICENSE)
 
 ---
 
@@ -280,6 +301,7 @@ I enjoy learning by building real projects instead of only following tutorials. 
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=9333EA,06B6D4&height=100&section=footer" width="100%" alt="Footer Banner"/>
 
-*Designed with care · Built with React, TypeScript, Express, PostgreSQL & Redis*
+**BCA Department Website & Learning Platform**  
+*Engineered with React 18 · TypeScript 5 · Express 5 · PostgreSQL 16 · Prisma 7 · Redis 7*
 
 </div>
