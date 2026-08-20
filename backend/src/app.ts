@@ -32,15 +32,28 @@ const morganMiddleware = morgan(
 app.use(helmet());
 app.use(cors({
   origin: (origin, callback) => {
-    const allowedOrigins = [
+    // Collect allowed origins from environment and hardcoded safe project defaults
+    const envOrigins = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_URL || '')
+      .split(',')
+      .map((url) => url.trim().replace(/\/$/, ''))
+      .filter(Boolean);
+
+    const safeOrigins = [
+      // Local development origins
       'http://localhost:3000',
       'http://localhost:5173',
-      // Add your production Vercel/custom domain below:
-      // 'https://your-app.vercel.app',
-      // 'https://your-custom-domain.com',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:5173',
+      // Legitimate production frontend domains
+      'https://bca-department-website.vercel.app',
+      'https://bca-web.vercel.app',
+      'https://bca-department-website.firebaseapp.com',
+      'https://bca-department-website.web.app',
+      ...envOrigins,
     ];
-    // Allow requests with no origin (e.g. mobile apps, curl, Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
+
+    // Allow requests with no origin (e.g. mobile apps, curl, Postman, internal health checks)
+    if (!origin || safeOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error(`CORS: Origin '${origin}' is not allowed.`));

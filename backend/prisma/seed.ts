@@ -66,10 +66,16 @@ async function main() {
   // 2. Seed Optional Default Admin Account
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@apex.domain';
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
-  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!adminPassword && process.env.NODE_ENV === 'production') {
+    throw new Error('❌ Cannot seed admin account in production without explicit ADMIN_PASSWORD set in environment variables!');
+  }
+
+  const effectivePassword = adminPassword || 'admin123';
   
   // Hash password using 10 salt rounds
-  const passwordHash = await bcrypt.hash(adminPassword, 10);
+  const passwordHash = await bcrypt.hash(effectivePassword, 10);
 
   await prisma.user.upsert({
     where: { email: adminEmail },

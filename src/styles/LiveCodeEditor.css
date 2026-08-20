@@ -9,9 +9,13 @@
 .lce-outer {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* ambient purple blob */
@@ -41,10 +45,12 @@
   z-index: 2;
   width: 100%;
   max-width: 700px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   border-radius: 16px;
   overflow: hidden;
+  box-sizing: border-box;
   font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
 
   /* glass */
@@ -215,13 +221,16 @@
 .lce-body {
   flex: 1;
   overflow-y: auto;
+  overflow-x: auto;
   min-height: 220px;
   max-height: 268px;
+  max-width: 100%;
+  box-sizing: border-box;
   background: rgba(10, 10, 18, 0.95);
   scrollbar-width: thin;
   scrollbar-color: rgba(139,92,246,0.3) transparent;
 }
-.lce-body::-webkit-scrollbar { width: 4px; }
+.lce-body::-webkit-scrollbar { width: 4px; height: 4px; }
 .lce-body::-webkit-scrollbar-track { background: transparent; }
 .lce-body::-webkit-scrollbar-thumb {
   background: rgba(139,92,246,0.35);
@@ -425,20 +434,150 @@
 /* mobile */
 @media (max-width: 767px) {
   .lce-editor {
+    width: 100%;
     max-width: 100%;
+    min-width: 0;
     border-radius: 12px;
     animation: none;
+    box-sizing: border-box;
   }
-  .lce-tabs .lce-tab:last-child { display: none; }
-  .lce-tools .lce-icon           { display: none; }
-  .lce-body  { min-height: 170px; max-height: 205px; }
-  .lce-lc    { font-size: 0.75rem; }
-  .lce-con-body { min-height: 68px; max-height: 68px; }
-  .lce-blob  { opacity: 0.55; filter: blur(45px); }
+  
+  .lce-titlebar {
+    padding: 8px 10px 0;
+    gap: 6px;
+  }
+  .lce-dots {
+    gap: 5px;
+    padding-bottom: 8px;
+  }
+  .lce-dot {
+    width: 9px;
+    height: 9px;
+  }
+  .lce-tabs {
+    gap: 0;
+    min-width: 0;
+  }
+  .lce-tab {
+    padding: 5px 8px 7px;
+    font-size: 0.68rem;
+    gap: 4px;
+    min-width: 0;
+  }
+  .lce-tab-dot {
+    display: none;
+  }
+  .lce-tabs .lce-tab:last-child {
+    display: none;
+  }
+  .lce-tools {
+    gap: 6px;
+    padding-bottom: 7px;
+  }
+  .lce-tools .lce-badge {
+    display: none;
+  }
+  .lce-tools .lce-icon {
+    display: none;
+  }
+  .lce-run {
+    padding: 3px 8px;
+    font-size: 0.65rem;
+    border-radius: 5px;
+  }
+
+  .lce-body {
+    min-height: 140px;
+    max-height: 185px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .lce-line {
+    min-height: 20px;
+    line-height: 20px;
+    padding-right: 12px;
+  }
+  .lce-ln {
+    width: 28px;
+    padding-right: 8px;
+    font-size: 0.66rem;
+    line-height: 20px;
+  }
+  .lce-lc {
+    font-size: 0.70rem;
+    line-height: 20px;
+    letter-spacing: 0;
+  }
+
+  .lce-con-bar {
+    padding: 0 10px;
+  }
+  .lce-con-tab {
+    padding: 5px 8px;
+    font-size: 0.58rem;
+    letter-spacing: 1px;
+  }
+  .lce-con-tab:not(.lce-con-tab-on) {
+    display: none;
+  }
+  .lce-con-body {
+    padding: 6px 10px 8px;
+    min-height: 52px;
+    max-height: 52px;
+    overflow-x: auto;
+  }
+  .lce-con-prompt {
+    font-size: 0.65rem;
+  }
+  .lce-con-line {
+    font-size: 0.66rem;
+    line-height: 1.5;
+  }
+
+  .lce-status {
+    padding: 4px 10px;
+  }
+  .lce-st-l {
+    gap: 8px;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .lce-st-r {
+    display: none;
+  }
+  .lce-branch,
+  .lce-build {
+    font-size: 0.62rem;
+  }
+
+  .lce-blob {
+    opacity: 0.55;
+    filter: blur(45px);
+  }
 }
 
 /* xs mobile */
 @media (max-width: 390px) {
-  .lce-lc { font-size: 0.70rem; }
-  .lce-body { max-height: 180px; }
+  .lce-titlebar {
+    padding: 6px 8px 0;
+  }
+  .lce-tab {
+    padding: 4px 6px 6px;
+    font-size: 0.64rem;
+  }
+  .lce-ln {
+    width: 24px;
+    padding-right: 6px;
+    font-size: 0.62rem;
+  }
+  .lce-lc {
+    font-size: 0.66rem;
+  }
+  .lce-body {
+    max-height: 165px;
+  }
+  .lce-con-body {
+    min-height: 48px;
+    max-height: 48px;
+  }
 }
