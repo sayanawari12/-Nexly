@@ -28,7 +28,7 @@
 
 ### 📷 Application Preview
 
-![bca-web Overview](./public/screenshot.png)
+<img src="./public/laptop_hero_3d.jpg" width="85%" alt="bca-web Platform Preview" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.5);" />
 
 </div>
 
@@ -45,19 +45,19 @@
 
 ---
 
-## 📷 Screenshots Gallery
+## 💻 Modules & Capabilities Overview
 
-<details>
-<summary><b>View bca-web Modules & Dashboards</b></summary>
+<details open>
+<summary><b>Explore bca-web Key Modules</b></summary>
 
 <br/>
 
-| Module | Description | Preview |
+| Module | Description | Core Tech Stack |
 | :--- | :--- | :--- |
-| **Student Hub** | Course syllabus, notes, and topic roadmaps. | ![Student Hub](./public/student-hub.png) |
-| **Live Contests** | Real-time WebSocket contests powered by Socket.io. | ![Live Contests](./public/contests.png) |
-| **Code Executor** | In-browser code submission connected to Judge0 execution API. | ![Code Editor](./public/editor.png) |
-| **Faculty Portal** | Course content & contest management interface. | ![Faculty Portal](./public/faculty.png) |
+| **Student Hub** | Comprehensive course syllabus, curated notes, subject roadmaps, and digital library. | `React 18`, `Framer Motion`, `react-pdf` |
+| **Live Contests** | Real-time WebSocket coding contests with synchronized countdowns and instant leaderboards. | `Socket.io 4`, `@socket.io/redis-adapter`, `Redis` |
+| **Code Arena & Executor** | In-browser multi-language code editor with live execution feedback and test evaluation. | `Judge0 API`, `Piston Sandbox`, `Axios` |
+| **Admin & Operations** | Platform metrics, user moderation, role-based access control (RBAC), and audit logging. | `Express 5`, `Prisma ORM 7`, `PostgreSQL` |
 
 </details>
 
@@ -192,7 +192,7 @@ bca-web/
 │   │   ├── routes/                # REST API routers
 │   │   ├── services/              # Business logic & queues
 │   │   ├── socket/                # Socket.io handlers
-│   │   └── server.js              # Express entry point
+│   │   └── server.ts              # Express TypeScript entry point
 │   ├── prisma/
 │   │   ├── schema.prisma          # PostgreSQL relational schema
 │   │   └── seed.ts                # Database seeder script
@@ -225,10 +225,14 @@ REACT_APP_JUDGE0_API_KEY=your_rapidapi_key_here
 ### Server `backend/.env`
 ```env
 PORT=5000
-DATABASE_URL=postgresql://user:password@localhost:5432/bca_db
-REDIS_URL=redis://localhost:6379
-JWT_SECRET=your_jwt_secret_key
-CORS_ORIGIN=http://localhost:3000
+NODE_ENV=development
+DATABASE_URL=postgresql://apex_user:apex_password@localhost:5433/apex_db?schema=public
+REDIS_URL=redis://localhost:6380
+JWT_ACCESS_SECRET=your_32_characters_long_jwt_access_secret_key
+JWT_REFRESH_SECRET=your_32_characters_long_jwt_refresh_secret_key
+JWT_ACCESS_EXPIRY=15m
+JWT_REFRESH_EXPIRY=7d
+ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
 ```
 
 </details>
