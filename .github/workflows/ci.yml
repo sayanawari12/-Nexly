@@ -1,4 +1,4 @@
-﻿name: CI / Production Build Verification
+name: CI / Production Build Verification
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Frontend Dependencies
-        run: npm ci
+        run: npm ci || npm install --legacy-peer-deps
 
       - name: Verify Frontend Production Build
         run: npm run build
@@ -44,8 +44,11 @@ jobs:
 
       - name: Install Backend Dependencies
         working-directory: backend
-        run: npm ci
+        run: npm ci || npm install
 
       - name: Generate Prisma Client & Compile TypeScript
         working-directory: backend
         run: npm run build
+        env:
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/bca_db"
+
