@@ -80,6 +80,10 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 app.get('/api/v1/health', (req: Request, res: Response) => {
   const requestId = RequestContext.getRequestId() || 'unknown';
   res.status(200).json({
