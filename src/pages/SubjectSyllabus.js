@@ -318,17 +318,9 @@ const SubjectSyllabus = () => {
   const completedTopicsCount = totalTopicsList.filter(t => completedTopics[t]).length;
   const progressPercent = totalTopicsCount > 0 ? Math.round((completedTopicsCount / totalTopicsCount) * 100) : 0;
 
-  const handleBreadcrumbClick = (e, targetId) => {
+  const handleBreadcrumbClick = (e) => {
     e.preventDefault();
-    navigate('/');
-    setTimeout(() => {
-      const element = document.getElementById(targetId);
-      if (element) {
-        const yOffset = -80;
-        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    }, 150);
+    navigate('/roadmap');
   };
 
   return (
@@ -341,18 +333,18 @@ const SubjectSyllabus = () => {
           <Link to="/" className="breadcrumb-link">Home</Link>
           <ChevronRight size={12} className="breadcrumb-separator" />
           <Link 
-            to="/#roadmap" 
+            to="/roadmap" 
             className="breadcrumb-link" 
-            onClick={(e) => handleBreadcrumbClick(e, 'roadmap')}
+            onClick={handleBreadcrumbClick}
             style={{ cursor: 'pointer' }}
           >
             Curriculum
           </Link>
           <ChevronRight size={12} className="breadcrumb-separator" />
           <Link 
-            to="/#roadmap" 
+            to="/roadmap" 
             className="breadcrumb-link" 
-            onClick={(e) => handleBreadcrumbClick(e, 'roadmap')}
+            onClick={handleBreadcrumbClick}
             style={{ cursor: 'pointer' }}
           >
             Semester {getSemesterForSubject(normalizedSubjectId)}

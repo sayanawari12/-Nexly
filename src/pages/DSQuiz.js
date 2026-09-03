@@ -210,9 +210,9 @@ const DSQuiz = () => {
             <nav className="ds-breadcrumb">
               <Link to="/" className="ds-bread-link"><Home size={13} /> Home</Link>
               <BreadArrow size={11} className="ds-bread-sep" />
-              <Link to="/#roadmap" className="ds-bread-link">Curriculum</Link>
+              <Link to="/roadmap" className="ds-bread-link">Curriculum</Link>
               <BreadArrow size={11} className="ds-bread-sep" />
-              <Link to="/#roadmap" className="ds-bread-link">Semester 2</Link>
+              <Link to="/curriculum/semester-2/data-structures" className="ds-bread-link">Semester 2</Link>
               <BreadArrow size={11} className="ds-bread-sep" />
               <Link to="/curriculum/semester-2/data-structures" className="ds-bread-link">Data Structures</Link>
               <BreadArrow size={11} className="ds-bread-sep" />

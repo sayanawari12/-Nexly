@@ -6,7 +6,6 @@ import HeroWow from '../components/HeroWow';
 // HeroBackup is kept as a synchronous import only when needed (flag is false here).
 const About       = lazy(() => import('../components/sections/About'));
 const WhyChoose   = lazy(() => import('../components/sections/WhyChoose'));
-const Roadmap     = lazy(() => import('../components/sections/Roadmap'));
 const Technologies = lazy(() => import('../components/sections/Technologies'));
 const Placement   = lazy(() => import('../components/sections/Placement'));
 const Resources   = lazy(() => import('../components/sections/Resources'));
@@ -49,22 +48,17 @@ const Home = () => {
       {/* All sections below are lazy-loaded; each has its own Suspense boundary
           so they degrade gracefully and don't block each other */}
       <Suspense fallback={<SectionFallback />}>
-        {/* 2. About Department */}
+        {/* 2. About */}
         <About />
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
-        {/* 3. Why Choose BCA */}
+        {/* 3. Why Choose */}
         <WhyChoose />
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
-        {/* 4. Semester Roadmap */}
-        <Roadmap />
-      </Suspense>
-
-      <Suspense fallback={<SectionFallback />}>
-        {/* 5. Technologies Stack */}
+        {/* 4. Technologies Stack */}
         <Technologies />
       </Suspense>
 

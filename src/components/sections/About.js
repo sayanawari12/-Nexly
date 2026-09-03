@@ -117,12 +117,7 @@ const About = () => {
   ];
 
   const handleScrollToRoadmap = () => {
-    const roadmapSection = document.getElementById('roadmap');
-    if (roadmapSection) {
-      const yOffset = -80;
-      const y = roadmapSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
+    navigate('/roadmap');
   };
 
   return (
