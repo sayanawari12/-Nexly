@@ -44,9 +44,12 @@ app.use(cors({
       'http://localhost:5173',
       'http://127.0.0.1:3000',
       'http://127.0.0.1:5173',
-      // Legitimate production frontend domains
+      // Production frontend domain (Nexly — primary)
+      'https://nexly-labs.vercel.app',
+      // Legacy production frontend domains (kept for transition period)
       'https://bca-department-website.vercel.app',
       'https://bca-web.vercel.app',
+      // Firebase Hosting domains (project-specific — do not change)
       'https://bca-department-website.firebaseapp.com',
       'https://bca-department-website.web.app',
       ...envOrigins,
