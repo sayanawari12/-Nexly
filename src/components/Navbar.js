@@ -181,8 +181,8 @@ const Navbar = () => {
 
           {/* Brand Logo */}
           <div className="nav-logo" onClick={handleLogoClick}>
-            <Code2 className="logo-icon" size={24} />
-            <span>BCA <span className="logo-dept">DEPT</span></span>
+            <span className="brand-mark">✦</span>
+            <span className="brand-name">NEXLY</span>
           </div>
         </div>
 
@@ -271,8 +271,8 @@ const Navbar = () => {
           >
             <div className="drawer-header">
               <div className="nav-logo" onClick={() => { handleLogoClick(); setMobileMenuOpen(false); }}>
-                <Code2 className="logo-icon" size={22} />
-                <span>BCA <span className="logo-dept">DEPT</span></span>
+                <span className="brand-mark">✦</span>
+                <span className="brand-name">NEXLY</span>
               </div>
               <button 
                 className="drawer-close-btn"
