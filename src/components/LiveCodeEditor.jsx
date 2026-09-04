@@ -1,6 +1,6 @@
 /**
  * LiveCodeEditor.jsx  — Premium animated IDE hero element
- * CI-safe hooks, direct emoji chars (no \u escapes in JSX text)
+ * NEXLY-branded code editor with dynamic typing & terminal simulation
  */
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -18,27 +18,33 @@ const TECH_NAMES = [
 ];
 
 const PREFIX_LINES = [
-  'package com.bca.department;',
+  'package com.nexly;',
   '',
   'public class Main {',
   '',
   '    public static void main(String[] args) {',
-  '        BCAPlatform platform = new BCAPlatform();',
+  '',
+  '        Nexly platform = new Nexly();',
   '',
 ];
 
 const DYNAMIC_PREFIX = '        platform.learn("';
 
-const CONSOLE_STEPS = [
-  { text: '> Running BCA Platform...', accent: false },
-  { text: '  Loading Courses...', accent: false },
-  { text: '  Loading Notes...', accent: false },
-  { text: '  Loading Quiz...', accent: false },
-  { text: '  ✓ Ready.', accent: true },
+const SUFFIX_LINES = [
+  '        platform.practice();',
+  '        platform.build();',
+  '    }',
+  '}',
 ];
 
-const STEP_DELAYS = [0, 900, 1700, 2500, 3200];
-const CYCLE_MS = 5800;
+const CONSOLE_STEPS = [
+  { text: '> Starting NEXLY...', accent: false },
+  { text: '> Loading learning environment...', accent: false },
+  { text: '✓ Ready to code', accent: true },
+];
+
+const STEP_DELAYS = [0, 900, 1800];
+const CYCLE_MS = 5000;
 
 /* ─── syntax highlighter ─── */
 const KW = new Set([
@@ -48,7 +54,7 @@ const KW = new Set([
 ]);
 const TYPES = new Set([
   'String','int','double','float','boolean','char','long',
-  'BCAPlatform','Main',
+  'Nexly','Main',
 ]);
 const PATS = [
   { re: /^(\/\/.*)/, t: 'comment' },
@@ -205,7 +211,7 @@ export default function LiveCodeEditor() {
     return () => { clearTimeout(t0); clearInterval(iv); timers.forEach(clearTimeout); };
   }, []);
 
-  const lineCount = typedLines.length + (prefixDone ? 1 : 0);
+  const lineCount = typedLines.length + (prefixDone ? 1 + SUFFIX_LINES.length : 0);
 
   return (
     <div className="lce-outer">
@@ -227,7 +233,7 @@ export default function LiveCodeEditor() {
             </div>
             <div className="lce-tab">
               <span className="lce-ticon lce-ticon-dim">📄</span>
-              <span className="lce-tab-label">BCAPlatform.java</span>
+              <span className="lce-tab-label">Nexly.java</span>
             </div>
           </div>
 
@@ -247,19 +253,24 @@ export default function LiveCodeEditor() {
             ))}
 
             {prefixDone && (
-              <div className="lce-line lce-line-active">
-                <span className="lce-ln">{typedLines.length + 1}</span>
-                <span className="lce-lc">
-                  {tokenise(DYNAMIC_PREFIX).map((tk, i) => (
-                    <span key={i} className={`lce-t lce-t-${tk.t}`}>{tk.v}</span>
-                  ))}
-                  <span className="lce-t lce-t-string">{dynText}</span>
-                  <span className="lce-cursor" />
-                  {dynText.length > 0 && (
-                    <span className="lce-t lce-t-string">");</span>
-                  )}
-                </span>
-              </div>
+              <>
+                <div className="lce-line lce-line-active">
+                  <span className="lce-ln">{typedLines.length + 1}</span>
+                  <span className="lce-lc">
+                    {tokenise(DYNAMIC_PREFIX).map((tk, i) => (
+                      <span key={i} className={`lce-t lce-t-${tk.t}`}>{tk.v}</span>
+                    ))}
+                    <span className="lce-t lce-t-string">{dynText}</span>
+                    <span className="lce-cursor" />
+                    {dynText.length > 0 && (
+                      <span className="lce-t lce-t-string">");</span>
+                    )}
+                  </span>
+                </div>
+                {SUFFIX_LINES.map((sln, idx) => (
+                  <HLine key={idx} text={sln} ln={typedLines.length + 2 + idx} />
+                ))}
+              </>
             )}
           </div>
         </div>
@@ -275,7 +286,7 @@ export default function LiveCodeEditor() {
             <span className="lce-con-x">✕</span>
           </div>
           <div className="lce-con-body" key={conKey}>
-            <span className="lce-con-prompt">~/bca-platform $&nbsp;</span>
+            <span className="lce-con-prompt">~/nexly $&nbsp;</span>
             {conLines.map((cl, i) => (
               <div
                 key={i}

@@ -12,7 +12,6 @@ const HeroWow = () => {
   const { profileData, resumeLearning } = useProgress();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
-  const userName = profileData?.displayName || user?.displayName || (user?.email ? user.email.split('@')[0] : '');
   const streakCount = profileData?.learningStats?.currentStreak || profileData?.streak || 0;
 
   const handleMouseMove = (e) => {
@@ -42,10 +41,7 @@ const HeroWow = () => {
   return (
     <section className="hero-simple-section" id="hero" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
 
-      {/* Cinematic Video Background
-          preload="none"  → browser won't download video bytes until playback starts.
-          This prevents the 12 MB video from blocking first load.
-          A CSS-animated gradient poster is shown while the video waits. */}
+      {/* Cinematic Video Background */}
       <video
         className="hero-video-bg"
         src="/videos/hero-background.mp4"
@@ -66,26 +62,26 @@ const HeroWow = () => {
         
         {/* Left side text overlays */}
         <div className="hero-text-side">
-          {user ? (
-            <>
-              <div className="hero-tagline user-welcome-tag">
-                <span>✨ WELCOME BACK, {userName.toUpperCase()}</span>
-                {streakCount > 0 && (
-                  <span className="hero-streak-pill">
-                    <Flame size={12} fill="#ef4444" color="#ef4444" /> {streakCount}d Streak
-                  </span>
-                )}
-              </div>
-              <h1 className="hero-title">
-                <span className="title-welcome">READY TO MASTER</span>
-                <span className="title-dept">Next-Gen Tech</span>
-                <span className="title-bca">Skills</span>
-              </h1>
-              <p className="hero-subtitle">
-                Welcome back to your BCA learning ecosystem. Continue your study track or access your workspace metrics directly from here.
-              </p>
-              
-              <div className="hero-actions">
+          <div className="hero-tagline user-welcome-tag">
+            <span>✦ READY TO BUILD</span>
+            {user && streakCount > 0 && (
+              <span className="hero-streak-pill">
+                <Flame size={12} fill="#ef4444" color="#ef4444" /> {streakCount}d Streak
+              </span>
+            )}
+          </div>
+          <h1 className="hero-title">
+            <span className="title-welcome">READY TO MASTER</span>
+            <span className="title-dept">Learn. Code.</span>
+            <span className="title-bca">Build.</span>
+          </h1>
+          <p className="hero-subtitle">
+            Master programming, explore modern technologies, practice real problems, and build skills that move you forward.
+          </p>
+          
+          <div className="hero-actions">
+            {user ? (
+              <>
                 <button 
                   onClick={() => resumeLearning ? resumeLearning(navigate) : navigate('/dashboard')}
                   className="btn-premium-purple"
@@ -98,21 +94,9 @@ const HeroWow = () => {
                 >
                   <LayoutDashboard size={16} /> Open Dashboard
                 </Link>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="hero-tagline">✨ INNOVATION & EDUCATION</div>
-              <h1 className="hero-title">
-                <span className="title-welcome">WELCOME TO</span>
-                <span className="title-dept">Department of</span>
-                <span className="title-bca">BCA</span>
-              </h1>
-              <p className="hero-subtitle">
-                Empowering future software developers, system architects, and tech innovators through advanced, industry-aligned training.
-              </p>
-              
-              <div className="hero-actions">
+              </>
+            ) : (
+              <>
                 <Link 
                   to="/roadmap" 
                   className="btn-premium-purple"
@@ -124,14 +108,14 @@ const HeroWow = () => {
                   onClick={(e) => handleScrollDown(e, '#about')}
                   className="btn-premium"
                 >
-                  Explore Department
+                  Explore Platform
                 </a>
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
 
-        {/* Right side — Premium Live Code Editor (replaces laptop image) */}
+        {/* Right side — Premium Live Code Editor */}
         <div className="hero-image-side">
           <div
             className="hero-image-wrapper"
