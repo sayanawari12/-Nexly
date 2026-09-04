@@ -72,8 +72,8 @@ const HeroWow = () => {
           </div>
           <h1 className="hero-title">
             <span className="title-welcome">READY TO MASTER</span>
-            <span className="title-dept">Learn. Code.</span>
-            <span className="title-bca">Build.</span>
+            <span className="title-dept">Next-Gen Tech</span>
+            <span className="title-bca">Skills</span>
           </h1>
           <p className="hero-subtitle">
             Master programming, explore modern technologies, practice real problems, and build skills that move you forward.
