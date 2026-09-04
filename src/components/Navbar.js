@@ -90,7 +90,6 @@ const Navbar = () => {
     { label: 'Home', href: '/', isRoute: true },
     { label: 'Dashboard', href: '/dashboard', isRoute: true },
     { label: 'Roadmap', href: '/roadmap', isRoute: true },
-    { label: 'Resources', href: '#resources', isRoute: false },
     { label: 'About', href: '#about', isRoute: false }
   ], []);
 
@@ -210,17 +209,7 @@ const Navbar = () => {
             >
               Roadmap
             </a>
-            <a
-              href="#resources"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveMegaMenu(null);
-                handleNavClick(e, { label: 'Resources', href: '#resources', isRoute: false });
-              }}
-              className={`nav-link ${location.hash === '#resources' ? 'active' : ''}`}
-            >
-              Resources
-            </a>
+
             <a
               href="#about"
               onClick={(e) => {
@@ -325,17 +314,7 @@ const Navbar = () => {
                   <Map size={18} className="drawer-item-icon" />
                   <span>Roadmap</span>
                 </a>
-                <a
-                  href="#resources"
-                  onClick={(e) => {
-                    handleNavClick(e, { label: 'Resources', href: '#resources', isRoute: false });
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`drawer-nav-item ${location.hash === '#resources' ? 'active' : ''}`}
-                >
-                  <BookOpen size={18} className="drawer-item-icon" />
-                  <span>Resources</span>
-                </a>
+
                 <a
                   href="#about"
                   onClick={(e) => {

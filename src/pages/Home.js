@@ -8,7 +8,6 @@ const About       = lazy(() => import('../components/sections/About'));
 const WhyChoose   = lazy(() => import('../components/sections/WhyChoose'));
 const Technologies = lazy(() => import('../components/sections/Technologies'));
 const Placement   = lazy(() => import('../components/sections/Placement'));
-const Resources   = lazy(() => import('../components/sections/Resources'));
 const FAQ         = lazy(() => import('../components/sections/FAQ'));
 const Contact     = lazy(() => import('../components/sections/Contact'));
 const Footer      = lazy(() => import('../components/sections/Footer'));
@@ -65,11 +64,6 @@ const Home = () => {
       <Suspense fallback={<SectionFallback />}>
         {/* 6. Placements Launchpad */}
         <Placement />
-      </Suspense>
-
-      <Suspense fallback={<SectionFallback />}>
-        {/* 7. Resources Portal */}
-        <Resources />
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>

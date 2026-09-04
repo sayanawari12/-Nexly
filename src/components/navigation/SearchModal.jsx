@@ -11,7 +11,7 @@ const quickNavigationShortcuts = [
   { id: 'qn-1', title: 'Continue Learning: C Pointers', desc: 'Step 14: Pointers & Address Arithmetic', category: 'Continue Learning', type: 'technology', path: '/technologies/c' },
   { id: 'qn-2', title: 'Open Student Dashboard', desc: 'View overall study metrics and progress analytics.', category: 'Quick Navigation', type: 'navigation', path: '/dashboard' },
   { id: 'qn-3', title: 'Explore Interactive Roadmaps', desc: 'Visual step-by-step curriculum node trees.', category: 'Quick Navigation', type: 'navigation', path: '/roadmap' },
-  { id: 'qn-4', title: 'Browse Study Resources', desc: 'Lab manuals, syllabus, and PYQ PDFs.', category: 'Quick Navigation', type: 'navigation', path: '/resources' }
+  { id: 'qn-4', title: 'Browse Study Resources', desc: 'Lab manuals, syllabus, and PYQ PDFs.', category: 'Quick Navigation', type: 'navigation', path: '/curriculum/semester-2/data-structures/notes' }
 ];
 
 const popularTopics = [
