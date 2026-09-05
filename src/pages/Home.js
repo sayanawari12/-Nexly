@@ -5,7 +5,6 @@ import HeroWow from '../components/HeroWow';
 // Below-the-fold sections loaded lazily as the user scrolls / after hero renders.
 // HeroBackup is kept as a synchronous import only when needed (flag is false here).
 const About       = lazy(() => import('../components/sections/About'));
-const WhyChoose   = lazy(() => import('../components/sections/WhyChoose'));
 const Technologies = lazy(() => import('../components/sections/Technologies'));
 const Placement   = lazy(() => import('../components/sections/Placement'));
 const Contact     = lazy(() => import('../components/sections/Contact'));
@@ -51,12 +50,7 @@ const Home = () => {
       </Suspense>
 
       <Suspense fallback={<SectionFallback />}>
-        {/* 3. Why Choose */}
-        <WhyChoose />
-      </Suspense>
-
-      <Suspense fallback={<SectionFallback />}>
-        {/* 4. Technologies Stack */}
+        {/* 3. Technologies Stack */}
         <Technologies />
       </Suspense>
 

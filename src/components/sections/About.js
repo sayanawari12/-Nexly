@@ -123,10 +123,10 @@ const About = () => {
   return (
     <section id="about" className="premium-about-section">
       <div className="section-header">
-        <span className="premium-badge">ABOUT THE DEPARTMENT</span>
+        <span className="premium-badge">ABOUT NEXLY</span>
         <h2 className="section-title text-gradient">Building Tomorrow's Software Engineers</h2>
         <p className="section-subtitle">
-          The Department of Bachelor of Computer Applications equips students with strong programming fundamentals, real-world development experience, open-source collaboration, and industry-ready technical skills.
+          NEXLY equips developers and learners with strong programming fundamentals, real-world development experience, open-source collaboration, and industry-ready technical skills.
         </p>
       </div>
 
@@ -225,8 +225,8 @@ const About = () => {
       <div className="why-choose-us-wrapper">
         <div className="section-header">
           <span className="premium-badge">FEATURES</span>
-          <h2 className="section-title text-gradient">Engineered for Excellence</h2>
-          <p className="section-subtitle">Discover the specialized advantages that set our Bachelor of Computer Applications program apart.</p>
+          <h2 className="section-title text-gradient">Platform Capabilities</h2>
+          <p className="section-subtitle">Discover the specialized tools and features designed to accelerate your technical growth.</p>
         </div>
 
         <div className="why-choose-grid-premium">
