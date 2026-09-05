@@ -1586,50 +1586,23 @@
 .footer-logo-brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 16px;
 }
 
-.footer-logo-icon-box {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: rgba(168, 85, 247, 0.1);
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.footer-brand-mark {
   color: #c084fc;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
-}
-
-.footer-code-icon {
-  color: #c084fc;
+  font-size: 1.7rem;
+  line-height: 1;
+  text-shadow: 0 0 16px rgba(168, 85, 247, 0.6);
 }
 
 .footer-brand-name {
   font-family: 'Space Grotesk', -apple-system, sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.5px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.footer-brand-badge {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #c084fc;
-  background: rgba(168, 85, 247, 0.12);
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  padding: 3px 10px;
-  border-radius: 100px;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
 }
 
 /* 2. Tagline */

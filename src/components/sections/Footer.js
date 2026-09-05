@@ -1,5 +1,4 @@
 import React from 'react';
-import { Code2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import '../../styles/sections.css';
 
@@ -93,23 +92,18 @@ const Footer = () => {
 
         {/* ── 1. Logo + Brand Name ── */}
         <div className="footer-logo-brand">
-          <div className="footer-logo-icon-box">
-            <Code2 size={22} className="footer-code-icon" aria-hidden="true" />
-          </div>
-          <span className="footer-brand-name">
-            <span className="footer-brand-bca">BCA</span>
-            <span className="footer-brand-badge">DEPARTMENT WEBSITE</span>
-          </span>
+          <span className="footer-brand-mark">✦</span>
+          <span className="footer-brand-name">NEXLY</span>
         </div>
 
         {/* ── 2. Tagline ── */}
         <p className="footer-tagline">
-          Learning. Building. Growing.
+          Turn Curiosity Into Skills.
         </p>
 
         {/* ── 3. Developer Credit ── */}
         <div className="footer-developer-credit">
-          <span className="credit-label">Designed &amp; Developed by</span>
+          <span className="credit-label">DESIGNED &amp; DEVELOPED BY</span>
           <span className="developer-name">Sayan Awari</span>
         </div>
 
@@ -135,9 +129,9 @@ const Footer = () => {
           ))}
         </nav>
 
-        {/* ── 5. Community Message ── */}
+        {/* ── 5. Connecting Message ── */}
         <p className="footer-community-message">
-          Let's Connect and Grow Together.
+          Build your skills. Create your future.
         </p>
 
         {/* ── 6. Gradient Divider ── */}
@@ -145,7 +139,7 @@ const Footer = () => {
 
         {/* ── 7. Copyright ── */}
         <p className="footer-copyright-text">
-          &copy; {new Date().getFullYear()} BCA Department Website. All Rights Reserved.
+          &copy; 2026 NEXLY. All Rights Reserved.
         </p>
 
       </div>
