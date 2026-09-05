@@ -9,11 +9,7 @@ import {
   Users, 
   GraduationCap, 
   BookOpen, 
-  Terminal, 
-  FileText, 
   Trophy, 
-  Briefcase, 
-  GitBranch, 
   ArrowRight, 
   Code, 
   Database, 
@@ -71,41 +67,6 @@ const About = () => {
       desc: 'Graduate as a skilled Software Engineer, Full Stack Developer, Cloud Architect, or Data Analyst.',
       icon: <Trophy size={20} />,
       color: '#ec4899'
-    }
-  ];
-
-
-
-  const features = [
-    {
-      icon: <BookOpen size={24} />,
-      title: 'Industry Ready Curriculum',
-      desc: 'Custom course modules constantly updated to discard obsolete stacks and integrate React, AWS, and REST standards.'
-    },
-    {
-      icon: <Terminal size={24} />,
-      title: 'Hands-on Coding Labs',
-      desc: 'Write and test code on sandbox setups, learn Git workflows in teams, and deploy functional endpoints.'
-    },
-    {
-      icon: <FileText size={24} />,
-      title: 'Semester-wise Study Material',
-      desc: 'Instant access to structured syllabus notes, interactive guides, cheatsheets, and unit-wise slides.'
-    },
-    {
-      icon: <Trophy size={24} />,
-      title: 'Coding Practice & Quizzes',
-      desc: 'LeetCode-style playground tasks, mock evaluations, and custom-level interactive programming quizzes.'
-    },
-    {
-      icon: <Briefcase size={24} />,
-      title: 'Placement Preparation',
-      desc: 'Comprehensive training bootcamps, resume engineering reviews, mock interviews, and tier-1 recruiter pipelines.'
-    },
-    {
-      icon: <GitBranch size={24} />,
-      title: 'Open Source Projects',
-      desc: 'Collaborative development models, Git-linked repositories, and hosting support for student SaaS products.'
     }
   ];
 
@@ -220,34 +181,6 @@ const About = () => {
       </div>
 
 
-
-      {/* Why Choose Us features */}
-      <div className="why-choose-us-wrapper">
-        <div className="section-header">
-          <span className="premium-badge">FEATURES</span>
-          <h2 className="section-title text-gradient">Platform Capabilities</h2>
-          <p className="section-subtitle">Discover the specialized tools and features designed to accelerate your technical growth.</p>
-        </div>
-
-        <div className="why-choose-grid-premium">
-          {features.map((feat, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: idx * 0.08 }}
-              whileHover={{ y: -6 }}
-              className="premium-feature-card glass-card"
-            >
-              <div className="feature-icon-wrapper">{feat.icon}</div>
-              <h4>{feat.title}</h4>
-              <p>{feat.desc}</p>
-              <div className="glow-border-line" />
-            </motion.div>
-          ))}
-        </div>
-      </div>
 
       {/* Learning Journey Section */}
       <div className="learning-journey-wrapper">

@@ -2291,68 +2291,6 @@
   font-weight: 500;
 }
 
-/* Why Choose Premium Features */
-.why-choose-us-wrapper {
-  max-width: 1200px;
-  margin: 100px auto 0;
-}
-
-.why-choose-grid-premium {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  margin-top: 50px;
-}
-
-.premium-feature-card {
-  padding: 40px 30px;
-  position: relative;
-  overflow: hidden;
-  height: 100%;
-}
-
-.feature-icon-wrapper {
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(139, 92, 246, 0.15);
-  color: var(--accent-glow);
-  padding: 12px;
-  border-radius: 12px;
-  width: fit-content;
-  margin-bottom: 24px;
-}
-
-.premium-feature-card h4 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.35rem;
-  margin-bottom: 12px;
-}
-
-.premium-feature-card p {
-  color: var(--text-secondary);
-  font-size: 0.92rem;
-  line-height: 1.6;
-}
-
-.glow-border-line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--primary-purple) 50%, transparent 100%);
-  opacity: 0;
-  transition: var(--transition-smooth);
-}
-
-.premium-feature-card:hover .glow-border-line {
-  opacity: 1;
-}
-
-.premium-feature-card:hover {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(139, 92, 246, 0.15);
-  border-color: rgba(139, 92, 246, 0.25);
-}
-
 /* Learning Journey Pathway */
 .learning-journey-wrapper {
   max-width: 1200px;
@@ -2496,9 +2434,6 @@
   .stats-strip-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  .why-choose-grid-premium {
-    grid-template-columns: 1fr 1fr;
-  }
   .journey-steps-grid {
     grid-template-columns: 1fr 1fr;
     gap: 40px;
@@ -2518,9 +2453,6 @@
   }
   .stats-strip-grid {
     grid-template-columns: 1fr 1fr;
-  }
-  .why-choose-grid-premium {
-    grid-template-columns: 1fr;
   }
   .journey-steps-grid {
     grid-template-columns: 1fr;
