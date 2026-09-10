@@ -11,6 +11,7 @@ import { useLearning } from '../context/LearningContext';
 import StudentLayout from '../layouts/StudentLayout';
 import QuickActions from '../components/dashboard/QuickActions';
 import { C_LESSONS } from './CLearningHub';
+import { calculateQualitativeSkillBand, getWeakTopicsForUser } from '../services/recommendationEngine';
 import '../styles/Dashboard.css';
 
 const Dashboard = () => {
@@ -200,15 +201,15 @@ const Dashboard = () => {
           {/* 1.5. BONUS SECTION: Quick Actions 1-Tap Access Grid */}
           <QuickActions />
 
-          {/* 2. SECTION: Overall Learning Progress Summary */}
-          <section className="progress-summary-banner">
+          {/* 2. SECTION: Qualitative Skill Snapshot & Overall Summary */}
+          <section className="progress-summary-banner" style={{ background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(11, 11, 11, 0.8) 100%)', border: '1px solid rgba(168, 85, 247, 0.25)' }}>
             <div className="progress-banner-col">
-              <div className="banner-icon-bg" style={{ background: 'rgba(168, 85, 247, 0.1)', color: '#c084fc' }}>
-                <TrendingUp size={22} />
+              <div className="banner-icon-bg" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc' }}>
+                <Sparkles size={22} />
               </div>
               <div className="banner-info">
-                <span className="banner-val">{overallProgressPercent}%</span>
-                <span className="banner-lbl">Overall Syllabus Progress</span>
+                <span className="banner-val" style={{ color: '#c084fc' }}>{calculateQualitativeSkillBand({ completedLessonsCount: lessonsCompletedCount, solvedProblemsCount: programsSolvedCount, quizAccuracyPercentage: overallProgressPercent })}</span>
+                <span className="banner-lbl">Qualitative Skill Level</span>
               </div>
             </div>
 
@@ -219,7 +220,7 @@ const Dashboard = () => {
                 <CheckCircle2 size={22} />
               </div>
               <div className="banner-info">
-                <span className="banner-val">{lessonsCompletedCount} Topics</span>
+                <span className="banner-val">{lessonsCompletedCount} Lessons</span>
                 <span className="banner-lbl">Completed Lessons</span>
               </div>
             </div>
@@ -228,23 +229,23 @@ const Dashboard = () => {
 
             <div className="progress-banner-col">
               <div className="banner-icon-bg" style={{ background: 'rgba(59, 130, 246, 0.1)', color: '#60a5fa' }}>
-                <Layers size={22} />
+                <Code2 size={22} />
               </div>
               <div className="banner-info">
-                <span className="banner-val">{remainingLessons} Topics</span>
-                <span className="banner-lbl">Remaining Lessons</span>
+                <span className="banner-val">{programsSolvedCount} Solved</span>
+                <span className="banner-lbl">Practice Problems</span>
               </div>
             </div>
 
             <div className="banner-divider" />
 
             <div className="progress-banner-col">
-              <div className="banner-icon-bg" style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#fbbf24' }}>
-                <Award size={22} />
+              <div className="banner-icon-bg" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#f87171' }}>
+                <Flame size={22} />
               </div>
               <div className="banner-info">
-                <span className="banner-val">{certificatesCount} Earned</span>
-                <span className="banner-lbl">Skill Badges & Certs</span>
+                <span className="banner-val">{streakCount} Days</span>
+                <span className="banner-lbl">Daily Practice Streak</span>
               </div>
             </div>
           </section>
