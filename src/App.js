@@ -28,6 +28,8 @@ const ProgrammingHub           = lazy(() => import('./pages/ProgrammingHub'));
 const ProgramViewerPage        = lazy(() => import('./pages/ProgramViewerPage'));
 const LessonViewerPage         = lazy(() => import('./pages/LessonViewerPage'));
 const SubjectSyllabus          = lazy(() => import('./pages/SubjectSyllabus'));
+const CodeLabPage              = lazy(() => import('./pages/CodeLabPage'));
+const ProjectsPage             = lazy(() => import('./pages/ProjectsPage'));
 
 // Heavy learning hubs — largest individual chunks
 const MasterLanguagePage       = lazy(() => import('./pages/MasterLanguagePage'));
@@ -76,6 +78,7 @@ function App() {
                         {/* ── Public routes (eagerly loaded) ── */}
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/code-lab" element={<CodeLabPage />} />
 
                         {/* ── Protected routes (lazy-loaded) ── */}
                         <Route path="/profile" element={
@@ -89,6 +92,9 @@ function App() {
                         } />
                         <Route path="/analytics" element={
                           <ProtectedRoute><Analytics /></ProtectedRoute>
+                        } />
+                        <Route path="/projects" element={
+                          <ProtectedRoute><ProjectsPage /></ProtectedRoute>
                         } />
                         <Route path="/settings" element={
                           <ProtectedRoute><Profile /></ProtectedRoute>

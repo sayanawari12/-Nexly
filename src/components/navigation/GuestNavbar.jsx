@@ -45,13 +45,13 @@ const GuestNavbar = ({
         Sign In
       </a>
 
-      {/* Contact CTA */}
+      {/* Start Learning CTA */}
       <a 
-        href="#contact" 
-        onClick={(e) => handleNavClick(e, '#contact')}
+        href="/technologies/cpp" 
+        onClick={(e) => { e.preventDefault(); navigate('/technologies/cpp'); }}
         className="btn-premium-purple btn-nav-cta"
       >
-        Explore Dept
+        Start Learning
       </a>
     </div>
   );

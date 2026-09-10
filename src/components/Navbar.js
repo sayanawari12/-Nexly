@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from '
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   Menu, X, Code2, ArrowLeft, Search, BookOpen, 
-  LayoutDashboard, Map, Info, User, LogOut, LogIn, ChevronDown, Settings, BarChart3
+  LayoutDashboard, Map, Info, User, LogOut, LogIn, ChevronDown, Settings, BarChart3, Terminal, FolderGit2
 } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 import GuestNavbar from './navigation/GuestNavbar';
@@ -88,9 +88,11 @@ const Navbar = () => {
   // Memoized static nav items array — never recreated
   const navItems = useMemo(() => [
     { label: 'Home', href: '/', isRoute: true },
-    { label: 'Dashboard', href: '/dashboard', isRoute: true },
-    { label: 'Roadmap', href: '/roadmap', isRoute: true },
-    { label: 'About', href: '#about', isRoute: false }
+    { label: 'Learn', href: '/technologies/cpp', isRoute: true },
+    { label: 'Practice', href: '/practice', isRoute: true },
+    { label: 'Code Lab', href: '/code-lab', isRoute: true },
+    { label: 'Projects', href: '/projects', isRoute: true },
+    { label: 'Dashboard', href: '/dashboard', isRoute: true }
   ], []);
 
   const handleNavClick = useCallback((e, item) => {
@@ -196,31 +198,42 @@ const Navbar = () => {
               Home
             </a>
             <a
-              href="/dashboard"
-              onClick={(e) => { e.preventDefault(); navigate('/dashboard'); setActiveMegaMenu(null); }}
-              className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
+              href="/technologies/cpp"
+              onClick={(e) => { e.preventDefault(); navigate('/technologies/cpp'); setActiveMegaMenu(null); }}
+              className={`nav-link ${location.pathname.startsWith('/technologies') || location.pathname.startsWith('/curriculum') ? 'active' : ''}`}
             >
-              Dashboard
+              Learn
             </a>
             <a
-              href="/roadmap"
-              onClick={(e) => { e.preventDefault(); navigate('/roadmap'); setActiveMegaMenu(null); }}
-              className={`nav-link ${location.pathname === '/roadmap' ? 'active' : ''}`}
+              href="/practice"
+              onClick={(e) => { e.preventDefault(); navigate('/practice'); setActiveMegaMenu(null); }}
+              className={`nav-link ${location.pathname.startsWith('/practice') ? 'active' : ''}`}
             >
-              Roadmap
+              Practice
             </a>
-
             <a
-              href="#about"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveMegaMenu(null);
-                handleNavClick(e, { label: 'About', href: '#about', isRoute: false });
-              }}
-              className={`nav-link ${location.hash === '#about' ? 'active' : ''}`}
+              href="/code-lab"
+              onClick={(e) => { e.preventDefault(); navigate('/code-lab'); setActiveMegaMenu(null); }}
+              className={`nav-link ${location.pathname === '/code-lab' ? 'active' : ''}`}
             >
-              About
+              Code Lab
             </a>
+            <a
+              href="/projects"
+              onClick={(e) => { e.preventDefault(); navigate('/projects'); setActiveMegaMenu(null); }}
+              className={`nav-link ${location.pathname === '/projects' ? 'active' : ''}`}
+            >
+              Projects
+            </a>
+            {user && (
+              <a
+                href="/dashboard"
+                onClick={(e) => { e.preventDefault(); navigate('/dashboard'); setActiveMegaMenu(null); }}
+                className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
+              >
+                Dashboard
+              </a>
+            )}
           </div>
         )}
 
@@ -299,33 +312,47 @@ const Navbar = () => {
                   <span>Home</span>
                 </a>
                 <a
-                  href="/dashboard"
-                  onClick={(e) => { e.preventDefault(); navigate('/dashboard'); setMobileMenuOpen(false); }}
-                  className={`drawer-nav-item ${location.pathname === '/dashboard' ? 'active' : ''}`}
+                  href="/technologies/cpp"
+                  onClick={(e) => { e.preventDefault(); navigate('/technologies/cpp'); setMobileMenuOpen(false); }}
+                  className={`drawer-nav-item ${location.pathname.startsWith('/technologies') || location.pathname.startsWith('/curriculum') ? 'active' : ''}`}
                 >
-                  <LayoutDashboard size={18} className="drawer-item-icon" />
-                  <span>Dashboard</span>
+                  <BookOpen size={18} className="drawer-item-icon" />
+                  <span>Learn</span>
                 </a>
                 <a
-                  href="/roadmap"
-                  onClick={(e) => { e.preventDefault(); navigate('/roadmap'); setMobileMenuOpen(false); }}
-                  className={`drawer-nav-item ${location.pathname === '/roadmap' ? 'active' : ''}`}
+                  href="/practice"
+                  onClick={(e) => { e.preventDefault(); navigate('/practice'); setMobileMenuOpen(false); }}
+                  className={`drawer-nav-item ${location.pathname.startsWith('/practice') ? 'active' : ''}`}
                 >
-                  <Map size={18} className="drawer-item-icon" />
-                  <span>Roadmap</span>
+                  <Terminal size={18} className="drawer-item-icon" />
+                  <span>Practice</span>
                 </a>
-
                 <a
-                  href="#about"
-                  onClick={(e) => {
-                    handleNavClick(e, { label: 'About', href: '#about', isRoute: false });
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`drawer-nav-item ${location.hash === '#about' ? 'active' : ''}`}
+                  href="/code-lab"
+                  onClick={(e) => { e.preventDefault(); navigate('/code-lab'); setMobileMenuOpen(false); }}
+                  className={`drawer-nav-item ${location.pathname === '/code-lab' ? 'active' : ''}`}
                 >
-                  <Info size={18} className="drawer-item-icon" />
-                  <span>About</span>
+                  <Code2 size={18} className="drawer-item-icon" />
+                  <span>Code Lab</span>
                 </a>
+                <a
+                  href="/projects"
+                  onClick={(e) => { e.preventDefault(); navigate('/projects'); setMobileMenuOpen(false); }}
+                  className={`drawer-nav-item ${location.pathname === '/projects' ? 'active' : ''}`}
+                >
+                  <FolderGit2 size={18} className="drawer-item-icon" />
+                  <span>Projects</span>
+                </a>
+                {user && (
+                  <a
+                    href="/dashboard"
+                    onClick={(e) => { e.preventDefault(); navigate('/dashboard'); setMobileMenuOpen(false); }}
+                    className={`drawer-nav-item ${location.pathname === '/dashboard' ? 'active' : ''}`}
+                  >
+                    <LayoutDashboard size={18} className="drawer-item-icon" />
+                    <span>Dashboard</span>
+                  </a>
+                )}
               </div>
 
               <div className="drawer-footer">
