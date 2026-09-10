@@ -3,12 +3,11 @@ import { useLocation } from 'react-router-dom';
 import HeroWow from '../components/HeroWow';
 
 // Below-the-fold sections loaded lazily as the user scrolls / after hero renders.
-// HeroBackup is kept as a synchronous import only when needed (flag is false here).
-const About       = lazy(() => import('../components/sections/About'));
-const Technologies = lazy(() => import('../components/sections/Technologies'));
-const Placement   = lazy(() => import('../components/sections/Placement'));
-const Contact     = lazy(() => import('../components/sections/Contact'));
-const Footer      = lazy(() => import('../components/sections/Footer'));
+const LiveCodeSnippet = lazy(() => import('../components/sections/LiveCodeSnippet'));
+const Technologies    = lazy(() => import('../components/sections/Technologies'));
+const HowItWorksLoop  = lazy(() => import('../components/sections/HowItWorksLoop'));
+const FounderNoteCTA  = lazy(() => import('../components/sections/FounderNoteCTA'));
+const Footer          = lazy(() => import('../components/sections/Footer'));
 
 // Minimal inline fallback — avoids importing PageLoader into the home chunk
 const SectionFallback = () => (
@@ -42,30 +41,28 @@ const Home = () => {
       {/* 1. Hero — eagerly rendered (LCP element) */}
       <HeroWow />
 
-      {/* All sections below are lazy-loaded; each has its own Suspense boundary
-          so they degrade gracefully and don't block each other */}
+      {/* 2. Live Runnable Code Snippet (5-second trial) */}
       <Suspense fallback={<SectionFallback />}>
-        {/* 2. About */}
-        <About />
+        <LiveCodeSnippet />
       </Suspense>
 
+      {/* 3. Core Technology Cards */}
       <Suspense fallback={<SectionFallback />}>
-        {/* 3. Technologies Stack */}
         <Technologies />
       </Suspense>
 
+      {/* 4. How NEXLY Works Loop (Learn -> Practice -> Build) */}
       <Suspense fallback={<SectionFallback />}>
-        {/* 6. Placements Launchpad */}
-        <Placement />
+        <HowItWorksLoop />
       </Suspense>
 
+      {/* 5. Founder Note & Closing CTA */}
       <Suspense fallback={<SectionFallback />}>
-        {/* 9. Contact Gateway */}
-        <Contact />
+        <FounderNoteCTA />
       </Suspense>
 
+      {/* Footer */}
       <Suspense fallback={<SectionFallback />}>
-        {/* 10. Luxury Footer */}
         <Footer />
       </Suspense>
     </div>
