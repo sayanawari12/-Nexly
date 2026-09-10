@@ -111,6 +111,95 @@ export const executeCode = async (language, sourceCode, stdin = '') => {
 };
 
 /**
+ * Comprehensive Multi-Language Syntax & Grammar Validator
+ * Catches invalid semicolons, unclosed string literals, unbalanced brackets/parentheses, and missing colons
+ */
+const validateSyntax = (language, code) => {
+  const lines = code.split('\n');
+
+  // 1. Bracket & Quote Matching Check for all languages
+  let paren = 0, brace = 0, bracket = 0, inDoubleQuote = false, inSingleQuote = false;
+  for (let i = 0; i < code.length; i++) {
+    const char = code[i];
+    const prevChar = i > 0 ? code[i - 1] : '';
+    if (char === '"' && prevChar !== '\\' && !inSingleQuote) inDoubleQuote = !inDoubleQuote;
+    else if (char === "'" && prevChar !== '\\' && !inDoubleQuote) inSingleQuote = !inSingleQuote;
+    else if (!inDoubleQuote && !inSingleQuote) {
+      if (char === '(') paren++;
+      else if (char === ')') paren--;
+      else if (char === '{') brace++;
+      else if (char === '}') brace--;
+      else if (char === '[') bracket++;
+      else if (char === ']') bracket--;
+    }
+  }
+
+  if (inDoubleQuote || inSingleQuote) {
+    return { valid: false, error: 'SyntaxError: EOL while scanning string literal (unclosed string).' };
+  }
+  if (paren > 0) return { valid: false, error: 'SyntaxError: Unclosed parenthesis `(`.' };
+  if (paren < 0) return { valid: false, error: 'SyntaxError: Unmatched closing parenthesis `)`.' };
+  if (brace > 0) return { valid: false, error: 'SyntaxError: Unclosed curly brace `{`.' };
+  if (brace < 0) return { valid: false, error: 'SyntaxError: Unmatched closing curly brace `}`.' };
+  if (bracket > 0) return { valid: false, error: 'SyntaxError: Unclosed square bracket `[`.' };
+  if (bracket < 0) return { valid: false, error: 'SyntaxError: Unmatched closing square bracket `]`.' };
+
+  // 2. Python-Specific Strict Validation
+  if (language === 'python') {
+    for (let lineNum = 0; lineNum < lines.length; lineNum++) {
+      const line = lines[lineNum].trim();
+      if (!line || line.startsWith('#')) continue;
+
+      // Reject multiple semicolons (e.g. ;;; as in user screenshot) or invalid trailing semicolons
+      if (line.includes(';;') || line.endsWith(';')) {
+        return { 
+          valid: false, 
+          error: `SyntaxError: invalid syntax at line ${lineNum + 1}: unexpected trailing semicolon '${line}'` 
+        };
+      }
+
+      // Check block headers (if, def, class, for, while) end with ':'
+      const blockHeaderMatch = line.match(/^(def\s+\w+|class\s+\w+|if\s+.+|elif\s+.+|else|for\s+.+|while\s+.+|try|except.*|finally)\s*([^:]*)$/);
+      if (blockHeaderMatch && !line.endsWith(':')) {
+        return { 
+          valid: false, 
+          error: `SyntaxError: expected ':' at line ${lineNum + 1}: '${line}'` 
+        };
+      }
+    }
+  }
+
+  // 3. C / C++ Specific Strict Validation
+  if (language === 'c' || language === 'cpp') {
+    if (!code.includes('main')) {
+      return { valid: false, error: 'CompilationError: undefined reference to `main`' };
+    }
+    for (let lineNum = 0; lineNum < lines.length; lineNum++) {
+      const line = lines[lineNum].trim();
+      if (!line || line.startsWith('#') || line.startsWith('//') || line.endsWith('{') || line.endsWith('}') || line.endsWith(':')) continue;
+      if (line.includes('main') || line.startsWith('int ') || line.startsWith('void ')) continue;
+      
+      // Statements inside body must end with semicolon
+      if (!line.endsWith(';') && !line.endsWith('{') && !line.endsWith('}')) {
+        return {
+          valid: false,
+          error: `CompilationError: expected ';' at end of statement at line ${lineNum + 1}: '${line}'`
+        };
+      }
+    }
+  }
+
+  // 4. Java Specific Validation
+  if (language === 'java') {
+    if (!code.includes('class') || !code.includes('main')) {
+      return { valid: false, error: 'CompilationError: class or main method not found.' };
+    }
+  }
+
+  return { valid: true };
+};
+
+/**
  * Safe local trial simulator for development environments
  * Dynamically parses user code for C, C++, Python, Java, JavaScript & SQL
  */
@@ -120,6 +209,16 @@ const simulateClientExecution = (language, code) => {
 
   if (!rawCode) {
     return { success: false, output: '', error: 'Execution Error: Source code is empty.' };
+  }
+
+  // Enforce strict syntax & grammar validation before execution
+  const syntaxCheck = validateSyntax(language, rawCode);
+  if (!syntaxCheck.valid) {
+    return {
+      success: false,
+      output: '',
+      error: syntaxCheck.error
+    };
   }
 
   // 1. JAVASCRIPT EXECUTOR
