@@ -1,41 +1,51 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=9333EA,06B6D4&height=200&section=header&text=bca-web&fontSize=52&fontAlignY=36&fontColor=ffffff" width="100%" alt="bca-web Header Banner"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=9333EA,06B6D4&height=200&section=header&text=NEXLY&fontSize=52&fontAlignY=36&fontColor=ffffff" width="100%" alt="NEXLY Header Banner"/>
 
 <br/>
 
 <a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Inter&size=18&duration=3000&pause=1000&color=06B6D4&center=true&vCenter=true&width=700&height=40&lines=Full-Stack+BCA+Department+Learning+Platform;React+18+%2B+Framer+Motion+%2B+React+Router+v7;TypeScript+%2B+Express+5+%2B+Prisma+ORM+%2B+PostgreSQL;Real-Time+Socket.io+%2B+Redis+Adapter+%2B+BullMQ+Queues" alt="Typing SVG Animation" />
+  <img src="https://readme-typing-svg.demolab.com?font=Inter&size=18&duration=3000&pause=1000&color=06B6D4&center=true&vCenter=true&width=700&height=40&lines=NEXLY+%E2%80%94+Turn+Curiosity+Into+Skills;The+Unified+Technology+Learning+Platform;Learn+Concept+%E2%86%92+Practice+Problems+%E2%86%92+Build+Projects" alt="Typing SVG Animation" />
 </a>
 
 <br/>
 
-**A full-stack learning and contest platform built for the BCA department featuring real-time web sockets, automated background queues, and code execution capabilities.**
+**NEXLY removes the gap between learning a concept and proving you can use it. The unified platform integrating interactive lessons, auto-recommended practice problems, multi-language code sandboxing, and portfolio project builds.**
 
 <br/>
 
-[![CI](https://github.com/sayanawari12/bca-department-website/actions/workflows/ci.yml/badge.svg)](https://github.com/sayanawari12/bca-department-website/actions)
-[![Version](https://img.shields.io/badge/version-1.0.0-9333EA?style=for-the-badge&logo=git&logoColor=white)](package.json)
-[![License](https://img.shields.io/badge/license-All_Rights_Reserved-06B6D4?style=for-the-badge)](LICENSE)
+[![Version](https://img.shields.io/badge/version-2.0.0--nexly-9333EA?style=for-the-badge&logo=git&logoColor=white)](package.json)
 [![Security Policy](https://img.shields.io/badge/security-audited-10B981?style=for-the-badge&logo=shield&logoColor=white)](SECURITY.md)
-[![Contributions](https://img.shields.io/badge/contributions-welcome-9333EA?style=for-the-badge&logo=github)](CONTRIBUTING.md)
-
-<br/>
-
 [![React](https://img.shields.io/badge/React-18-06B6D4?style=for-the-badge&logo=react)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-9333EA?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
-[![Express](https://img.shields.io/badge/Express-5-06B6D4?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com)
-[![Prisma](https://img.shields.io/badge/Prisma-7-9333EA?style=for-the-badge&logo=prisma)](https://www.prisma.io)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-06B6D4?style=for-the-badge&logo=postgresql)](https://www.postgresql.org)
-[![Redis](https://img.shields.io/badge/Redis-ioredis-10B981?style=for-the-badge&logo=redis)](https://redis.io)
-
-<br/>
-
-### 📷 Application Preview
-
-<img src="./public/laptop_hero_3d.jpg" width="85%" alt="bca-web Platform Preview" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.5);" />
 
 </div>
+
+---
+
+## 🚀 Core Platform Navigation & Routes
+
+| Route | Destination | Purpose |
+| :--- | :--- | :--- |
+| `/` | **Blueprint §15 Homepage** | 5-second live runnable trial, tech grid, Learn $\rightarrow$ Practice $\rightarrow$ Build visual loop, founder note |
+| `/learn` (`/technologies/cpp`) | **Structured Learning Paths** | Content schema hierarchy (`Technology → Module → Topic → Lesson`) with runnable code examples |
+| `/practice` | **Practice Catalog** | Auto-recommended problem challenges linked directly to lesson topics |
+| `/code-lab` | **Multi-Language Code Sandbox** | Rate-limited multi-language execution engine (5000ms CPU cap, 128MB memory cap) & read-only SQL sandbox |
+| `/projects` | **Guided Portfolio Projects** | Step-by-step milestone checklists with self-reported completion tracking |
+| `/dashboard` | **Qualitative Dashboard** | Qualitative skill snapshot (*Novice / Developing / Solid / Strong*), weak topics focus, continue learning widget & activity graph |
+
+---
+
+## 🛠️ Engine Architecture
+
+1. **Recommendation Engine (`recommendationEngine.js`)**:
+   - Matches lesson topic IDs directly to targeted practice problems.
+   - Calculates qualitative skill bands without fake percentage precision.
+   - Auto-detects user weak topics for targeted practice.
+
+2. **Code Execution & Security (`codeExecutionService.js` & `sqlSandboxService.js`)**:
+   - Enforces 10 executions/min rate limit per user bucket.
+   - 5000ms CPU wall-time limit & 128MB memory ceiling.
+   - Strict SQL sandbox with SELECT-only whitelist, comment & multi-statement blocking, 2000ms query timeout cap, and row-set matrix evaluation.
 
 ---
 

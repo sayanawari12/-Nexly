@@ -73,17 +73,50 @@ export const executeSqlQuery = async (query, dbName = 'students') => {
     }, 2000);
 
     try {
-      const cleanQuery = (query || '').trim().toLowerCase();
-
-      // Security check: Reject write/drop/alter statements on read-only session
-      if (cleanQuery.includes('drop ') || cleanQuery.includes('delete ') || cleanQuery.includes('update ') || cleanQuery.includes('alter ') || cleanQuery.includes('truncate ')) {
+      // Strict Security Enforcer:
+      // 1. Block comments (-- or /* */) and multi-statements (;)
+      if (cleanQuery.includes(';') || cleanQuery.includes('--') || cleanQuery.includes('/*')) {
         clearTimeout(timeout);
         return resolve({
           success: false,
           columns: [],
           rows: [],
           executionTimeMs: 0,
-          error: 'Security Error: Write/Modify statements are blocked in read-only sandbox sessions.'
+          error: 'Security Error: Multi-statement queries (;), SQL comments (--), and block comments (/* */) are disabled in sandbox sessions.'
+        });
+      }
+
+      // 2. Strict Whitelist Enforcement: Query must begin with SELECT or WITH
+      if (!cleanQuery.startsWith('select') && !cleanQuery.startsWith('with')) {
+        clearTimeout(timeout);
+        return resolve({
+          success: false,
+          columns: [],
+          rows: [],
+          executionTimeMs: 0,
+          error: 'Security Error: Only read-only SELECT queries are permitted in the NEXLY sandbox.'
+        });
+      }
+
+      // 3. Comprehensive DDL/DML/DCL mutation keyword blocker
+      const FORBIDDEN_KEYWORDS = [
+        'insert', 'update', 'delete', 'drop', 'alter', 'truncate', 
+        'create', 'grant', 'revoke', 'copy', 'exec', 'execute', 'replace'
+      ];
+
+      const containsForbidden = FORBIDDEN_KEYWORDS.some(kw => {
+        const regex = new RegExp(`\\b${kw}\\b`, 'i');
+        return regex.test(cleanQuery);
+      });
+
+      if (containsForbidden) {
+        clearTimeout(timeout);
+        return resolve({
+          success: false,
+          columns: [],
+          rows: [],
+          executionTimeMs: 0,
+          error: 'Security Error: Mutating statements (DDL/DML/DCL) are strictly blocked in sandbox sessions.'
         });
       }
 

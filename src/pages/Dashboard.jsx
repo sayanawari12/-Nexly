@@ -513,6 +513,45 @@ const Dashboard = () => {
                 </div>
               </article>
 
+              {/* 8.5. SECTION: Weak Topics Focus Widget */}
+              <article className="section-card" style={{ background: 'rgba(239, 68, 68, 0.04)', border: '1px solid rgba(239, 68, 68, 0.2)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                  <h2 className="section-title" style={{ fontSize: '1rem', color: '#f87171', margin: 0 }}>
+                    <TrendingUp size={16} style={{ color: '#ef4444' }} /> Weak Topics Focus
+                  </h2>
+                  <span style={{ fontSize: '0.75rem', background: 'rgba(239, 68, 68, 0.15)', color: '#f87171', padding: '2px 8px', borderRadius: '4px', fontWeight: 600 }}>
+                    Auto-Detected
+                  </span>
+                </div>
+                <p style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '14px', lineHeight: '1.4' }}>
+                  Based on recent quiz checks & problem attempts, focus on these topics to strengthen your foundation:
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {getWeakTopicsForUser({ user, completedLessons }).map((wTopic, wIdx) => (
+                    <div
+                      key={wIdx}
+                      onClick={() => navigate(`/practice?topic=${wTopic.id}`)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        padding: '10px 14px',
+                        borderRadius: '8px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <div>
+                        <div style={{ color: '#ffffff', fontSize: '0.85rem', fontWeight: 600 }}>{wTopic.title}</div>
+                        <div style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.75rem' }}>{wTopic.recommendedCount} practice problems recommended</div>
+                      </div>
+                      <ChevronRight size={16} style={{ color: '#f87171' }} />
+                    </div>
+                  ))}
+                </div>
+              </article>
+
               {/* 9. SECTION: Recent Activity Feed */}
               <article className="section-card">
                 <h2 className="section-title">
