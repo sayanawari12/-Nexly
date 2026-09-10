@@ -345,7 +345,7 @@ const simulateClientExecution = (language, code) => {
     }
 
     let outputs = [];
-    const coutRegex = /std::cout\s*<<\s*([^;]+);/g;
+    const coutRegex = /(?:std::)?cout\s*<<\s*([^;]+);/g;
     let match;
 
     while ((match = coutRegex.exec(rawCode)) !== null) {
@@ -354,20 +354,35 @@ const simulateClientExecution = (language, code) => {
       for (let part of parts) {
         if (part === 'std::endl' || part === 'endl') {
           lineOutput += '\n';
-        } else if (part.startsWith('"') && part.endsWith('"')) {
-          lineOutput += part.slice(1, -1).replace(/\\n/g, '\n');
+        } else if ((part.startsWith('"') && part.endsWith('"')) || (part.startsWith("'") && part.endsWith("'"))) {
+          lineOutput += part.slice(1, -1).replace(/\\n/g, '\n').replace(/\\t/g, '\t');
         } else {
-          try { lineOutput += eval(part); } catch (e) { lineOutput += part; }
+          try {
+            const val = eval(part);
+            lineOutput += (val !== undefined ? val : part);
+          } catch (e) {
+            lineOutput += part;
+          }
         }
       }
       outputs.push(lineOutput);
     }
 
-    // Also fallback to printf in C++
+    // Fallback to printf and puts in C++
     if (outputs.length === 0) {
       const printfRegex = /printf\s*\(\s*("(?:[^"\\]|\\.)*")\s*(?:,\s*(.*?))?\)\s*;/g;
       while ((match = printfRegex.exec(rawCode)) !== null) {
-        outputs.push(match[1].slice(1, -1).replace(/\\n/g, '\n'));
+        let fmt = match[1].slice(1, -1).replace(/\\n/g, '\n').replace(/\\t/g, '\t');
+        if (match[2]) {
+          const args = match[2].split(',').map(a => a.trim());
+          let idx = 0;
+          fmt = fmt.replace(/%[difs]/g, (spec) => (idx < args.length ? args[idx++] : spec));
+        }
+        outputs.push(fmt);
+      }
+      const putsRegex = /puts\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)\s*;/g;
+      while ((match = putsRegex.exec(rawCode)) !== null) {
+        outputs.push(match[1].slice(1, -1).replace(/\\n/g, '\n') + '\n');
       }
     }
 
