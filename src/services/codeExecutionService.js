@@ -112,19 +112,40 @@ export const executeCode = async (language, sourceCode, stdin = '') => {
 
 /**
  * Comprehensive Multi-Language Syntax & Grammar Validator
- * Catches invalid semicolons, unclosed string literals, unbalanced brackets/parentheses, and missing colons
+ * Catches invalid consecutive semicolons (;;), unclosed string literals, unbalanced brackets/parentheses, missing colons, missing main functions, and missing statement semicolons across C, C++, Python, Java, JS, and SQL.
  */
 const validateSyntax = (language, code) => {
   const lines = code.split('\n');
 
-  // 1. Bracket & Quote Matching Check for all languages
-  let paren = 0, brace = 0, bracket = 0, inDoubleQuote = false, inSingleQuote = false;
+  // 1. Universal Check: Consecutive Semicolons Check (;;, ;;;, ;;;;) for ALL languages
+  for (let lineNum = 0; lineNum < lines.length; lineNum++) {
+    const line = lines[lineNum].trim();
+    if (!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('#')) continue;
+
+    // Detect multiple consecutive semicolons (;; or ;;;)
+    if (line.includes(';;')) {
+      const errType = (language === 'c' || language === 'cpp' || language === 'java') ? 'CompilationError' : 'SyntaxError';
+      return {
+        valid: false,
+        error: `${errType}: invalid syntax at line ${lineNum + 1}: unexpected consecutive semicolons ';;' in '${line}'`
+      };
+    }
+  }
+
+  // 2. Bracket, Brace, Angle Bracket & Quote Matching Check
+  let paren = 0, brace = 0, bracket = 0;
+  let inDoubleQuote = false, inSingleQuote = false;
+
   for (let i = 0; i < code.length; i++) {
     const char = code[i];
     const prevChar = i > 0 ? code[i - 1] : '';
-    if (char === '"' && prevChar !== '\\' && !inSingleQuote) inDoubleQuote = !inDoubleQuote;
-    else if (char === "'" && prevChar !== '\\' && !inDoubleQuote) inSingleQuote = !inSingleQuote;
-    else if (!inDoubleQuote && !inSingleQuote) {
+
+    // Ignore escaped quotes
+    if (char === '"' && prevChar !== '\\' && !inSingleQuote) {
+      inDoubleQuote = !inDoubleQuote;
+    } else if (char === "'" && prevChar !== '\\' && !inDoubleQuote) {
+      inSingleQuote = !inSingleQuote;
+    } else if (!inDoubleQuote && !inSingleQuote) {
       if (char === '(') paren++;
       else if (char === ')') paren--;
       else if (char === '{') brace++;
@@ -144,43 +165,62 @@ const validateSyntax = (language, code) => {
   if (bracket > 0) return { valid: false, error: 'SyntaxError: Unclosed square bracket `[`.' };
   if (bracket < 0) return { valid: false, error: 'SyntaxError: Unmatched closing square bracket `]`.' };
 
-  // 2. Python-Specific Strict Validation
+  // 3. Python-Specific Strict Validation
   if (language === 'python') {
     for (let lineNum = 0; lineNum < lines.length; lineNum++) {
       const line = lines[lineNum].trim();
       if (!line || line.startsWith('#')) continue;
 
-      // Reject multiple semicolons (e.g. ;;; as in user screenshot) or invalid trailing semicolons
-      if (line.includes(';;') || line.endsWith(';')) {
-        return { 
-          valid: false, 
-          error: `SyntaxError: invalid syntax at line ${lineNum + 1}: unexpected trailing semicolon '${line}'` 
+      // Python style rule: trailing semicolon is disallowed
+      if (line.endsWith(';')) {
+        return {
+          valid: false,
+          error: `SyntaxError: invalid syntax at line ${lineNum + 1}: unexpected trailing semicolon in '${line}'`
         };
       }
 
-      // Check block headers (if, def, class, for, while) end with ':'
-      const blockHeaderMatch = line.match(/^(def\s+\w+|class\s+\w+|if\s+.+|elif\s+.+|else|for\s+.+|while\s+.+|try|except.*|finally)\s*([^:]*)$/);
-      if (blockHeaderMatch && !line.endsWith(':')) {
-        return { 
-          valid: false, 
-          error: `SyntaxError: expected ':' at line ${lineNum + 1}: '${line}'` 
-        };
+      // Check block headers (if, def, class, for, while, try, except, else, elif) end with ':'
+      const blockKeywords = ['if', 'elif', 'else', 'def', 'class', 'for', 'while', 'try', 'except', 'finally', 'with'];
+      const firstWord = line.split(/\s|\(/)[0];
+      if (blockKeywords.includes(firstWord)) {
+        if (!line.endsWith(':') && !line.endsWith('\\')) {
+          return {
+            valid: false,
+            error: `SyntaxError: expected ':' at line ${lineNum + 1}: '${line}'`
+          };
+        }
       }
     }
   }
 
-  // 3. C / C++ Specific Strict Validation
+  // 4. C & C++ Specific Strict Validation
   if (language === 'c' || language === 'cpp') {
     if (!code.includes('main')) {
       return { valid: false, error: 'CompilationError: undefined reference to `main`' };
     }
+
+    // Check include directive angle brackets
     for (let lineNum = 0; lineNum < lines.length; lineNum++) {
       const line = lines[lineNum].trim();
-      if (!line || line.startsWith('#') || line.startsWith('//') || line.endsWith('{') || line.endsWith('}') || line.endsWith(':')) continue;
-      if (line.includes('main') || line.startsWith('int ') || line.startsWith('void ')) continue;
-      
-      // Statements inside body must end with semicolon
-      if (!line.endsWith(';') && !line.endsWith('{') && !line.endsWith('}')) {
+      if (line.startsWith('#include')) {
+        if (line.includes('<') && !line.includes('>')) {
+          return { valid: false, error: `CompilationError: expected '>' after filename in #include at line ${lineNum + 1}` };
+        }
+      }
+      if (!line || line.startsWith('#') || line.startsWith('//') || line.startsWith('/*')) continue;
+
+      // Inside block body, statements must end with a single semicolon
+      if (
+        !line.endsWith(';') &&
+        !line.endsWith('{') &&
+        !line.endsWith('}') &&
+        !line.endsWith(':') &&
+        !line.includes('main') &&
+        !line.startsWith('int ') &&
+        !line.startsWith('void ') &&
+        !line.startsWith('struct ') &&
+        !line.startsWith('class ')
+      ) {
         return {
           valid: false,
           error: `CompilationError: expected ';' at end of statement at line ${lineNum + 1}: '${line}'`
@@ -189,10 +229,25 @@ const validateSyntax = (language, code) => {
     }
   }
 
-  // 4. Java Specific Validation
+  // 5. Java Specific Strict Validation
   if (language === 'java') {
-    if (!code.includes('class') || !code.includes('main')) {
-      return { valid: false, error: 'CompilationError: class or main method not found.' };
+    if (!code.includes('class')) {
+      return { valid: false, error: 'CompilationError: class definition required.' };
+    }
+    if (!code.includes('main')) {
+      return { valid: false, error: 'CompilationError: main method required.' };
+    }
+    for (let lineNum = 0; lineNum < lines.length; lineNum++) {
+      const line = lines[lineNum].trim();
+      if (!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('package') || line.startsWith('import')) continue;
+      if (line.endsWith('{') || line.endsWith('}') || line.includes('class') || line.includes('main') || line.startsWith('public') || line.startsWith('private') || line.startsWith('protected')) continue;
+
+      if (!line.endsWith(';')) {
+        return {
+          valid: false,
+          error: `CompilationError: expected ';' at line ${lineNum + 1}: '${line}'`
+        };
+      }
     }
   }
 
