@@ -10,17 +10,14 @@ COPY package*.json ./
 COPY prisma ./prisma/
 COPY prisma.config.ts ./
 
-# Install dependencies (runs postinstall -> prisma generate)
-RUN npm ci || npm install
+# Install dependencies without triggering package build scripts before source exists
+RUN npm ci --ignore-scripts
 
 # Copy TypeScript configuration and source files
 COPY tsconfig.json ./
 COPY src ./src
 
-# Force explicit generation of fresh Prisma Client types for Alpine Linux target
-RUN npx prisma generate
-
-# Compile TypeScript code to JS in dist
+# Build backend (runs clean, prisma generate, and tsc)
 RUN npm run build
 
 # Prune devDependencies to keep production node_modules lean
