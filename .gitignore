@@ -9,7 +9,6 @@ backend/node_modules/
 
 # build output
 build/
-backend/dist/
 
 # local backups
 project-apex-codebase.zip

@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const compiler_controller_1 = require("../controllers/compiler.controller");
+const async_handler_1 = require("../../../utils/async-handler");
+const router = (0, express_1.Router)();
+const controller = new compiler_controller_1.CompilerController();
+router.post('/execute', (0, async_handler_1.asyncHandler)(controller.execute));
+router.post('/', (0, async_handler_1.asyncHandler)(controller.execute));
+exports.default = router;
