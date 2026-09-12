@@ -59,10 +59,11 @@ export const ProgressProvider = ({ children }) => {
       return;
     }
 
+    const userId = user.uid || user.id;
     setLoadingProgress(true);
 
     // 1. Subscribe to Profile updates in real-time
-    const userDocRef = doc(db, 'users', user.uid);
+    const userDocRef = doc(db, 'users', userId);
     const unsubscribeProfile = onSnapshot(userDocRef, (docSnap) => {
       if (docSnap.exists()) {
         setProfileData(docSnap.data());
@@ -71,7 +72,7 @@ export const ProgressProvider = ({ children }) => {
 
     // 2. Subscribe to Progress collection in real-time
     const progressColl = collection(db, 'progress');
-    const progressQuery = query(progressColl, where('uid', '==', user.uid));
+    const progressQuery = query(progressColl, where('uid', '==', userId));
     
     const unsubscribeProgress = onSnapshot(progressQuery, (querySnap) => {
       const list = [];
@@ -106,17 +107,17 @@ export const ProgressProvider = ({ children }) => {
     });
 
     // 3. Subscribe to secure user subcollection bookmarks in real time
-    const unsubscribeBookmarks = listenToUserBookmarks(user.uid, (data) => {
+    const unsubscribeBookmarks = listenToUserBookmarks(userId, (data) => {
       setBookmarks(data);
     });
 
     // 4. Subscribe to secure user subcollection notes in real time
-    const unsubscribeNotes = listenToUserNotes(user.uid, (data) => {
+    const unsubscribeNotes = listenToUserNotes(userId, (data) => {
       setNotes(data);
     });
 
     // 5. Subscribe to continue learning state in real time
-    const unsubscribeLearningState = listenToLearningState(user.uid, (data) => {
+    const unsubscribeLearningState = listenToLearningState(userId, (data) => {
       setLearningState(data);
     });
 
@@ -242,8 +243,9 @@ export const ProgressProvider = ({ children }) => {
   // Automatically track opening of a lesson
   const markLessonInProgress = async (lessonId, subjectId = 'c-programming', unitId = 'c-unit-1', semesterId = 'semester-2') => {
     if (!user || !lessonId) return;
+    const userId = user.uid || user.id;
     try {
-      await startLesson(user.uid, String(lessonId), subjectId, unitId, semesterId);
+      await startLesson(userId, String(lessonId), subjectId, unitId, semesterId);
     } catch (err) {
       console.error("Error setting lesson in-progress in context:", err);
     }
@@ -252,13 +254,14 @@ export const ProgressProvider = ({ children }) => {
   // Toggle completion state (Mark Done)
   const toggleLessonComplete = async (lessonId, subjectId = 'c-programming', unitId = 'c-unit-1', semesterId = 'semester-2') => {
     if (!user || !lessonId) return;
+    const userId = user.uid || user.id;
     const lessonStr = String(lessonId);
     const wasCompleted = completedLessons.has(lessonStr) || ( !isNaN(lessonId) && completedLessons.has(Number(lessonId)) );
     const nextState = !wasCompleted;
 
     try {
       // 1. Save completion to progress collection
-      await completeLesson(user.uid, lessonStr, subjectId, unitId, semesterId, nextState);
+      await completeLesson(userId, lessonStr, subjectId, unitId, semesterId, nextState);
 
       // 2. Update user stats atomically inside user profile document for gamification
       if (profileData) {
@@ -275,7 +278,7 @@ export const ProgressProvider = ({ children }) => {
         const newXP = Math.max(0, (stats.xp || 0) + xpChange);
         const newLevel = Math.max(1, Math.floor(newXP / 1000) + 1);
 
-        await updateUserProfile(user.uid, {
+        await updateUserProfile(userId, {
           'learningStats.lessonsCompleted': nextCount,
           'learningStats.xp': newXP,
           'learningStats.level': newLevel,

@@ -4,7 +4,7 @@ import { createUnit } from '../repositories/unitRepository';
 import { createLesson } from '../repositories/lessonRepository';
 
 // Import C Lessons
-import { C_LESSONS } from '../pages/CLearningHub';
+import { C_LESSONS } from '../data/cData';
 // Import Syllabus Data
 import { SYLLABUS_DATA } from '../pages/SyllabusData';
 

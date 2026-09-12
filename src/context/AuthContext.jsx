@@ -85,21 +85,39 @@ export const AuthProvider = ({ children }) => {
           console.warn('⚠️ Backend token exchange error:', error.message);
         }
 
+        /* ============================================================
+           SECURITY ARCHITECTURE & SINGLE IDENTITY SOURCE OF TRUTH
+           - Application Auth: PostgreSQL User.id & apex_token JWT are canonical.
+           - Identity Provider: Firebase Auth is used ONLY for Google Social Login.
+           - Token Exchange: Firebase ID token is immediately exchanged via POST /api/v1/auth/firebase
+             to retrieve the backend Postgres JWT (apex_token) and canonical Postgres user record.
+           - JWT Storage: access token stored in localStorage ('apex_token') for API requests;
+             refresh token handled via Secure HTTPOnly cookie / fallback ('apex_refresh_token').
+           ============================================================ */
         const fallbackName =
           currentUser.displayName ||
           currentUser.email?.split('@')[0] ||
           'Student';
+
+        const canonicalUserId = apexUserId || currentUser.uid;
 
         const initialProfile = {
           uid: currentUser.uid,
           email: currentUser.email || '',
           displayName: currentUser.displayName || fallbackName,
           photoURL: currentUser.photoURL || '',
-          apexUserId: apexUserId || currentUser.uid,
+          apexUserId: canonicalUserId,
+          id: canonicalUserId,
           role: userRole,
         };
 
-        setUser(currentUser);
+        // Attach canonical PostgreSQL user.id to user object
+        const canonicalUser = Object.assign(currentUser, {
+          id: canonicalUserId,
+          apexUserId: canonicalUserId,
+        });
+
+        setUser(canonicalUser);
         setProfile(initialProfile);
         setLoading(false);
 

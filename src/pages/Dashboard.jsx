@@ -10,7 +10,7 @@ import { useProgress } from '../context/ProgressContext';
 import { useLearning } from '../context/LearningContext';
 import StudentLayout from '../layouts/StudentLayout';
 import QuickActions from '../components/dashboard/QuickActions';
-import { C_LESSONS } from './CLearningHub';
+import { C_LESSONS } from '../data/cData';
 import { calculateQualitativeSkillBand, getWeakTopicsForUser } from '../services/recommendationEngine';
 import '../styles/Dashboard.css';
 
@@ -105,10 +105,26 @@ const Dashboard = () => {
   const certificatesCount = profileData?.certificates?.length || profileData?.learningStats?.certificates || 0;
 
   // Recommended next lesson
-  const recommendedLesson = C_LESSONS.find(l => !completedLessons.has(l.id)) || C_LESSONS[C_LESSONS.length - 1];
+  const recommendedLesson = React.useMemo(() => {
+    return C_LESSONS.find(l => !completedLessons.has(l.id)) || C_LESSONS[C_LESSONS.length - 1];
+  }, [completedLessons]);
 
-  // Contribution Calendar
-  const generateContributionCalendar = () => {
+  // Memoize qualitative skill band
+  const qualitativeSkillBand = React.useMemo(() => {
+    return calculateQualitativeSkillBand({
+      completedLessonsCount: lessonsCompletedCount,
+      solvedProblemsCount: programsSolvedCount,
+      quizAccuracyPercentage: overallProgressPercent
+    });
+  }, [lessonsCompletedCount, programsSolvedCount, overallProgressPercent]);
+
+  // Memoize weak topics for user
+  const weakTopics = React.useMemo(() => {
+    return getWeakTopicsForUser({ user, completedLessons });
+  }, [user, completedLessons]);
+
+  // Contribution Calendar (memoized)
+  const weeks = React.useMemo(() => {
     const days = [];
     const today = new Date();
     const startDate = new Date(today);
@@ -136,14 +152,12 @@ const Dashboard = () => {
       });
     }
 
-    const weeks = [];
+    const weeksArr = [];
     for (let i = 0; i < 12; i++) {
-      weeks.push(days.slice(i * 7, (i + 1) * 7));
+      weeksArr.push(days.slice(i * 7, (i + 1) * 7));
     }
-    return weeks;
-  };
-
-  const weeks = generateContributionCalendar();
+    return weeksArr;
+  }, [user?.uid]);
 
   // Smart continue learning payload resolution
   const cardData = React.useMemo(() => {
@@ -208,7 +222,7 @@ const Dashboard = () => {
                 <Sparkles size={22} />
               </div>
               <div className="banner-info">
-                <span className="banner-val" style={{ color: '#c084fc' }}>{calculateQualitativeSkillBand({ completedLessonsCount: lessonsCompletedCount, solvedProblemsCount: programsSolvedCount, quizAccuracyPercentage: overallProgressPercent })}</span>
+                <span className="banner-val" style={{ color: '#c084fc' }}>{qualitativeSkillBand}</span>
                 <span className="banner-lbl">Qualitative Skill Level</span>
               </div>
             </div>
@@ -527,7 +541,7 @@ const Dashboard = () => {
                   Based on recent quiz checks & problem attempts, focus on these topics to strengthen your foundation:
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {getWeakTopicsForUser({ user, completedLessons }).map((wTopic, wIdx) => (
+                  {weakTopics.map((wTopic, wIdx) => (
                     <div
                       key={wIdx}
                       onClick={() => navigate(`/practice?topic=${wTopic.id}`)}
