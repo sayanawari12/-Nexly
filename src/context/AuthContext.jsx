@@ -4,6 +4,7 @@ import { auth, db } from '../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import axios from 'axios';
 import { connectSocket, disconnectSocket } from '../services/socketService';
+import { stopInteractiveSession } from '../services/interactiveExecutionService';
 import { API_BASE_URL } from '../config/api.config';
 import {
   loginWithEmail,
@@ -165,6 +166,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem('apex_refresh_token');
 
       disconnectSocket();
+      stopInteractiveSession();
 
       setProfile(null);
       setUser(null);
@@ -238,6 +240,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('apex_refresh_token');
 
     disconnectSocket();
+    stopInteractiveSession();
 
     return logoutUser();
   }, []);

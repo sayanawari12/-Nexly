@@ -4,6 +4,8 @@ import { socketAuthMiddleware } from '../../realtime/middleware/socket-auth.midd
 import { interactiveExecutionService } from '../services/interactive-execution.service';
 import { logger } from '../../../utils/logger';
 
+let compilerNamespaceInstance: Namespace | null = null;
+
 export class CompilerGateway {
   private readonly io: Server;
   private readonly compilerNamespace: Namespace;
@@ -11,17 +13,18 @@ export class CompilerGateway {
   constructor() {
     this.io = getSocketServer();
     
-    // Dedicated Socket.IO namespace for real-time code execution
-    this.compilerNamespace = this.io.of('/compiler');
+    // Dedicated Socket.IO namespace for real-time code execution (guaranteed registered once)
+    if (!compilerNamespaceInstance) {
+      compilerNamespaceInstance = this.io.of('/compiler');
+      compilerNamespaceInstance.use(socketAuthMiddleware);
+      this.initializeHandlers(compilerNamespaceInstance);
+    }
 
-    // Protect all connections with JWT Authentication Middleware
-    this.compilerNamespace.use(socketAuthMiddleware);
-
-    this.initializeHandlers();
+    this.compilerNamespace = compilerNamespaceInstance;
   }
 
-  private initializeHandlers(): void {
-    this.compilerNamespace.on('connection', (socket: Socket) => {
+  private initializeHandlers(ns: Namespace): void {
+    ns.on('connection', (socket: Socket) => {
       const user = socket.data.user;
       const sessionId = socket.id;
 
@@ -62,20 +65,20 @@ export class CompilerGateway {
         });
       });
 
-      // Handle real-time stdin input from frontend terminal
+      // Handle real-time stdin input from frontend terminal (bound to authenticated user)
       socket.on('interactive:stdin', (data: { input: string }) => {
         const inputStr = data?.input || '';
-        interactiveExecutionService.writeStdin(sessionId, inputStr);
+        interactiveExecutionService.writeStdin(sessionId, inputStr, user.id);
       });
 
-      // Handle explicit Stop Execution action
+      // Handle explicit Stop Execution action (bound to authenticated user)
       socket.on('interactive:stop', async () => {
         logger.info({
           eventName: 'COMPILER_INTERACTIVE_STOP_REQUEST',
           socketId: socket.id,
           userId: user.id,
         });
-        await interactiveExecutionService.stopSession(sessionId, 'USER_STOPPED');
+        await interactiveExecutionService.stopSession(sessionId, 'USER_STOPPED', user.id);
       });
 
       // Handle client disconnect (browser closed, tab closed, connection dropped)

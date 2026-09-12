@@ -69,8 +69,12 @@ export class InteractiveExecutionService {
       return;
     }
 
-    // Terminate any existing session for this socket/session ID
-    await this.stopSession(sessionId);
+    // Enforce 1 active session per user & terminate any existing session for this socket/session ID
+    for (const [existingSessionId, existingSession] of this.activeSessions.entries()) {
+      if (existingSession.userId === userId || existingSessionId === sessionId) {
+        await this.stopSession(existingSessionId, 'CONCURRENT_SESSION_TERMINATED');
+      }
+    }
 
     const baseTmpDir = path.join(os.tmpdir(), 'nexly_exec');
     if (!existsSync(baseTmpDir)) {
@@ -296,9 +300,15 @@ export class InteractiveExecutionService {
   /**
    * Writes stdin data to the active running child process
    */
-  public writeStdin(sessionId: string, input: string): void {
+  public writeStdin(sessionId: string, input: string, userId?: string): void {
     const session = this.activeSessions.get(sessionId);
     if (!session || !session.childProcess || session.isTerminated) {
+      return;
+    }
+
+    // Enforce session ownership
+    if (userId && session.userId !== userId) {
+      logger.warn({ eventName: 'INTERACTIVE_UNAUTHORIZED_STDIN', sessionId, userId, sessionUserId: session.userId });
       return;
     }
 
@@ -322,9 +332,15 @@ export class InteractiveExecutionService {
   /**
    * Immediately stops a running session and kills the process tree
    */
-  public async stopSession(sessionId: string, statusOverride?: string): Promise<void> {
+  public async stopSession(sessionId: string, statusOverride?: string, userId?: string): Promise<void> {
     const session = this.activeSessions.get(sessionId);
     if (!session) return;
+
+    // Enforce session ownership
+    if (userId && session.userId !== userId) {
+      logger.warn({ eventName: 'INTERACTIVE_UNAUTHORIZED_STOP', sessionId, userId, sessionUserId: session.userId });
+      return;
+    }
 
     session.isTerminated = true;
 

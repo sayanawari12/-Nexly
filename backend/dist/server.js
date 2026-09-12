@@ -31,11 +31,13 @@ const server = app_1.default.listen(config_1.config.app.port, () => {
         pid: process.pid,
     });
 });
+const compiler_gateway_1 = require("./modules/compiler/gateways/compiler.gateway");
 // Initialize Socket.io Server with Redis Adapter bindings
 const io = (0, socket_config_1.initSocketServer)(server);
 // Register Socket Gateways and namespaces eagerly
 new socket_gateway_1.SocketGateway();
 new contest_gateway_1.ContestGateway();
+new compiler_gateway_1.CompilerGateway();
 profile_gateway_1.ProfileGateway.initialize(io);
 // Graceful Shutdown Handler
 const gracefulShutdown = (signal) => {

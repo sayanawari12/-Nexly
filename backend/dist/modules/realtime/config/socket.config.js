@@ -16,7 +16,35 @@ let subClient = null;
 function initSocketServer(httpServer) {
     ioServer = new socket_io_1.Server(httpServer, {
         cors: {
-            origin: '*', // Customize this per deployment requirements
+            origin: (origin, callback) => {
+                const envOrigins = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_URL || '')
+                    .split(',')
+                    .map((url) => url.trim().replace(/\/$/, ''))
+                    .filter(Boolean);
+                const safeOrigins = [
+                    // Local development origins
+                    'http://localhost:3000',
+                    'http://localhost:5173',
+                    'http://127.0.0.1:3000',
+                    'http://127.0.0.1:5173',
+                    // Production frontend domain (Nexly — primary)
+                    'https://nexly-labs.vercel.app',
+                    // Legacy production frontend domains
+                    'https://bca-department-website.vercel.app',
+                    'https://bca-web.vercel.app',
+                    // Firebase Hosting domains
+                    'https://bca-department-website.firebaseapp.com',
+                    'https://bca-department-website.web.app',
+                    ...envOrigins,
+                ];
+                const normalizedOrigin = origin ? origin.replace(/\/$/, '') : '';
+                if (!origin || safeOrigins.includes(origin) || safeOrigins.includes(normalizedOrigin)) {
+                    callback(null, origin || true);
+                }
+                else {
+                    callback(new Error(`CORS: Origin '${origin}' is not allowed.`));
+                }
+            },
             credentials: true,
         },
         pingTimeout: 20000, // 20s idle timeout before disconnect
