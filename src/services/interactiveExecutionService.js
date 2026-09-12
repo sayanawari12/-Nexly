@@ -14,20 +14,34 @@ function getSocketBaseUrl() {
 }
 
 /**
+ * Safely decodes base64url JWT payload across browser environments.
+ */
+function decodeJwtPayload(token) {
+  if (!token || typeof token !== 'string') return null;
+  try {
+    const parts = token.split('.');
+    if (parts.length < 2) return null;
+    let base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    while (base64.length % 4) {
+      base64 += '=';
+    }
+    const jsonStr = atob(base64);
+    return JSON.parse(jsonStr);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Helper to inspect if a JWT access token is expired or expiring within 30 seconds.
  */
 function isJwtExpired(token) {
-  if (!token || typeof token !== 'string') return true;
-  try {
-    const parts = token.split('.');
-    if (parts.length !== 3) return true;
-    const payload = JSON.parse(atob(parts[1]));
-    if (!payload.exp) return false;
-    const nowSec = Math.floor(Date.now() / 1000);
-    return nowSec >= (payload.exp - 30);
-  } catch {
-    return true;
+  const payload = decodeJwtPayload(token);
+  if (!payload || !payload.exp) {
+    return false; // Do not reject unparseable tokens prematurely; let backend verify
   }
+  const nowSec = Math.floor(Date.now() / 1000);
+  return nowSec >= (payload.exp - 30);
 }
 
 /**
@@ -48,9 +62,7 @@ export async function getValidAccessToken() {
     return { token, errorType: null };
   }
 
-  const hadExpiredToken = !!token;
-
-  // 2. Attempt existing refresh token rotation (/auth/refresh)
+  // 2. If token is missing or expired, attempt existing refresh mechanisms
   try {
     const devRefreshToken = typeof localStorage !== 'undefined'
       ? localStorage.getItem('apex_refresh_token')
@@ -59,7 +71,7 @@ export async function getValidAccessToken() {
 
     const refreshResponse = await axios.post(`${API_BASE_URL}/auth/refresh`, payload, {
       withCredentials: true,
-      timeout: 10000,
+      timeout: 8000,
     });
 
     const refreshedToken = refreshResponse.data?.data?.accessToken;
@@ -77,7 +89,7 @@ export async function getValidAccessToken() {
   try {
     const currentUser = auth?.currentUser;
     if (currentUser) {
-      const idToken = await currentUser.getIdToken(true);
+      const idToken = await currentUser.getIdToken(false);
       const exchangeResponse = await axios.post(
         `${API_BASE_URL}/auth/firebase`,
         {},
@@ -86,7 +98,7 @@ export async function getValidAccessToken() {
             Authorization: `Bearer ${idToken}`,
           },
           withCredentials: true,
-          timeout: 15000,
+          timeout: 10000,
         }
       );
 
@@ -105,11 +117,14 @@ export async function getValidAccessToken() {
     // Firebase exchange failed
   }
 
-  // 4. Token cannot be obtained or refreshed
+  // 4. Fallback: If we have an existing token, try using it with the backend
+  if (token) {
+    return { token, errorType: null };
+  }
+
+  // 5. Token cannot be obtained or refreshed
   if (auth?.currentUser) {
     return { token: null, errorType: 'REFRESH_FAILED' };
-  } else if (hadExpiredToken) {
-    return { token: null, errorType: 'EXPIRED_TOKEN' };
   } else {
     return { token: null, errorType: 'NO_TOKEN' };
   }
