@@ -236,9 +236,9 @@ const CodeLabPage = () => {
           {/* Security & Rate Limit Info */}
           <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.45)' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <ShieldCheck size={14} style={{ color: '#22c55e' }} /> Protected Sandbox (Max 10 runs/min)
+              <ShieldCheck size={14} style={{ color: '#22c55e' }} /> Sandboxed Execution Engine
             </span>
-            <span>CPU Cap: 5000ms</span>
+            <span>Rate Limit: 10 runs/min</span>
           </div>
         </div>
       </div>

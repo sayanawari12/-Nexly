@@ -14,6 +14,7 @@ import submissionRoutes from './modules/submission/routes/submission.routes';
 import contestRoutes from './modules/contest/contest.routes';
 import profileRoutes from './modules/profile/profile.routes';
 import operationsRoutes from './modules/operations/routes/operations.routes';
+import compilerRoutes from './modules/compiler/routes/compiler.routes';
 import { maintenanceModeGuard } from './middleware/maintenance.middleware';
 
 const app: Express = express();
@@ -113,6 +114,9 @@ app.use('/api/v1/submissions', submissionRoutes);
 app.use('/api/v1/contests', contestRoutes);
 app.use('/api/v1/profiles', profileRoutes);
 app.use('/api/v1/operations', operationsRoutes);
+app.use('/api/v1/compiler', compilerRoutes);
+app.use('/compiler', compilerRoutes);
+app.use('/api/compiler', compilerRoutes);
 
 // 5. Catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
