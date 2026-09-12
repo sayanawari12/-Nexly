@@ -6,8 +6,12 @@ const auth_middleware_1 = require("../../auth/middleware/auth.middleware");
 const validator_middleware_1 = require("../../auth/middleware/validator.middleware");
 const submission_validator_1 = require("../validators/submission.validator");
 const async_handler_1 = require("../../../utils/async-handler");
+const compiler_controller_1 = require("../../compiler/controllers/compiler.controller");
 const router = (0, express_1.Router)();
 const controller = new submission_controller_1.SubmissionController();
+const compilerController = new compiler_controller_1.CompilerController();
+router.post('/execute', (0, async_handler_1.asyncHandler)(compilerController.execute));
+router.post('/compiler/execute', (0, async_handler_1.asyncHandler)(compilerController.execute));
 // All routes require user authentication context
 router.post('/', auth_middleware_1.requireAuth, (0, validator_middleware_1.validateBody)(submission_validator_1.createSubmissionSchema), (0, async_handler_1.asyncHandler)(controller.create));
 router.get('/languages', auth_middleware_1.requireAuth, (0, async_handler_1.asyncHandler)(controller.listLanguages));
