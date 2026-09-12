@@ -1,6 +1,7 @@
 {
   "name": "bca-web",
   "version": "1.0.0",
+  "main": "backend/dist/server.js",
   "private": true,
   "dependencies": {
     "axios": "^1.18.1",
