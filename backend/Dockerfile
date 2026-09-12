@@ -30,12 +30,22 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Install execution runtimes (Python, GCC, G++, OpenJDK) for isolated process execution
+RUN apk add --no-cache python3 gcc g++ openjdk17-jdk
+
+# Create unprivileged non-root execution user and workspace directories
+RUN addgroup -S nexlyrunner && adduser -S nexlyrunner -G nexlyrunner \
+    && mkdir -p /tmp/nexly_exec \
+    && chown -R nexlyrunner:nexlyrunner /app /tmp/nexly_exec
+
 # Copy package info, node_modules (with generated Prisma Client), compiled dist, and schema
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/prisma.config.ts ./
+COPY --from=builder --chown=nexlyrunner:nexlyrunner /app/package*.json ./
+COPY --from=builder --chown=nexlyrunner:nexlyrunner /app/node_modules ./node_modules
+COPY --from=builder --chown=nexlyrunner:nexlyrunner /app/dist ./dist
+COPY --from=builder --chown=nexlyrunner:nexlyrunner /app/prisma ./prisma
+COPY --from=builder --chown=nexlyrunner:nexlyrunner /app/prisma.config.ts ./
+
+USER nexlyrunner
 
 EXPOSE 5000
 

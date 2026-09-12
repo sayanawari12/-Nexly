@@ -32,12 +32,15 @@ const server = app.listen(config.app.port, () => {
   });
 });
 
+import { CompilerGateway } from './modules/compiler/gateways/compiler.gateway';
+
 // Initialize Socket.io Server with Redis Adapter bindings
 const io = initSocketServer(server);
 
 // Register Socket Gateways and namespaces eagerly
 new SocketGateway();
 new ContestGateway();
+new CompilerGateway();
 ProfileGateway.initialize(io);
 
 // Graceful Shutdown Handler
