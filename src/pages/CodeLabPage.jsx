@@ -4,6 +4,19 @@ import { SUPPORTED_LANGUAGES, executeCode } from '../services/codeExecutionServi
 import { executeSqlQuery, SEEDED_DATABASES } from '../services/sqlSandboxService';
 import '../styles/global.css';
 
+const formatErrorText = (err) => {
+  if (!err) return 'Code execution failed.';
+  if (typeof err === 'string') return err;
+  if (typeof err.message === 'string') return err.message;
+  if (typeof err.error === 'string') return err.error;
+  if (typeof err.error?.message === 'string') return err.error.message;
+  try {
+    return JSON.stringify(err);
+  } catch {
+    return 'Code execution failed.';
+  }
+};
+
 const CodeLabPage = () => {
   const [selectedLang, setSelectedLang] = useState('python');
   const [code, setCode] = useState(SUPPORTED_LANGUAGES.python.defaultCode);
@@ -36,31 +49,39 @@ const CodeLabPage = () => {
       if (selectedLang === 'sql') {
         const sqlRes = await executeSqlQuery(code, 'students');
         if (!sqlRes.success) {
-          setErrorMessage(sqlRes.error || 'SQL Query Execution Failed.');
+          setErrorMessage(formatErrorText(sqlRes.error || 'SQL Query Execution Failed.'));
           setOutput('');
         } else {
-          setSqlColumns(sqlRes.columns);
-          setSqlRows(sqlRes.rows);
-          setOutput(`Query executed successfully (${sqlRes.rows.length} rows returned).`);
-          setExecMeta({ timeMs: sqlRes.executionTimeMs, memoryKb: 512 });
+          setSqlColumns(sqlRes.columns || []);
+          setSqlRows(sqlRes.rows || []);
+          setOutput(`Query executed successfully (${(sqlRes.rows || []).length} rows returned).`);
+          setExecMeta({ timeMs: sqlRes.executionTimeMs || 0, memoryKb: 512 });
         }
       } else {
         const res = await executeCode(selectedLang, code, stdin);
         if (res.error) {
-          setErrorMessage(res.error);
+          setErrorMessage(formatErrorText(res.error));
           setOutput('');
         } else {
-          setOutput(res.output);
-          setExecMeta({ timeMs: res.executionTimeMs, memoryKb: res.memoryKb });
+          setOutput(typeof res.output === 'string' ? res.output : JSON.stringify(res.output || ''));
+          setExecMeta({ timeMs: res.executionTimeMs || 0, memoryKb: res.memoryKb || 0 });
         }
       }
     } catch (err) {
-      setErrorMessage(`Execution Error: ${err.message}`);
+      setErrorMessage(`Execution Error: ${formatErrorText(err)}`);
       setOutput('');
     } finally {
       setIsExecuting(false);
     }
   };
+
+  const displayErrorMessage = typeof errorMessage === 'string'
+    ? errorMessage
+    : formatErrorText(errorMessage);
+
+  const displayOutput = typeof output === 'string'
+    ? output
+    : (output ? JSON.stringify(output) : '');
 
   return (
     <div style={{ paddingTop: '90px', minHeight: '90vh', paddingLeft: '20px', paddingRight: '20px', maxWidth: '1300px', margin: '0 auto' }}>
@@ -186,10 +207,10 @@ const CodeLabPage = () => {
             )}
           </div>
 
-          {/* Error Banner */}
-          {errorMessage && (
+          {/* Error Banner - Guaranteed string rendering to prevent React Error #31 */}
+          {displayErrorMessage && (
             <div style={{ padding: '12px 16px', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.4)', borderRadius: '8px', color: '#f87171', fontSize: '0.85rem', marginBottom: '16px' }}>
-              {errorMessage}
+              {displayErrorMessage}
             </div>
           )}
 
@@ -213,7 +234,7 @@ const CodeLabPage = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+                </table>
             </div>
           ) : (
             <pre style={{
@@ -222,14 +243,14 @@ const CodeLabPage = () => {
               border: '1px solid rgba(255, 255, 255, 0.05)',
               borderRadius: '8px',
               padding: '16px',
-              color: output ? '#a7f3d0' : 'rgba(255, 255, 255, 0.4)',
+              color: displayOutput ? '#a7f3d0' : 'rgba(255, 255, 255, 0.4)',
               fontFamily: "'Fira Code', monospace",
               fontSize: '0.88rem',
               whiteSpace: 'pre-wrap',
               margin: 0,
               overflowY: 'auto'
             }}>
-              {output || 'Click "Run Code" to execute code in the sandbox.'}
+              {displayOutput || 'Click "Run Code" to execute code in the sandbox.'}
             </pre>
           )}
 

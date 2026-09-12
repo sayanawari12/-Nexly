@@ -44,6 +44,36 @@ export const recordExecutionAttempt = () => {
 };
 
 /**
+ * Safely extracts human-readable string error messages from any error object.
+ * Guarantees that an object is NEVER returned as the error field.
+ * @param {any} err 
+ * @returns {string}
+ */
+export const safeExtractErrorMessage = (err) => {
+  if (!err) return 'Code execution service is temporarily unavailable.';
+  if (typeof err === 'string') return err;
+
+  // Axios error response object parsing
+  if (err?.response?.data) {
+    const data = err.response.data;
+    if (typeof data === 'string') return data;
+    if (typeof data.error === 'string') return data.error;
+    if (typeof data.error?.message === 'string') return data.error.message;
+    if (typeof data.message === 'string') return data.message;
+  }
+
+  if (typeof err.message === 'string') return err.message;
+  if (typeof err.error === 'string') return err.error;
+  if (typeof err.error?.message === 'string') return err.error.message;
+
+  try {
+    return JSON.stringify(err);
+  } catch {
+    return 'Code execution service is temporarily unavailable.';
+  }
+};
+
+/**
  * Language configuration map for execution engine
  */
 export const SUPPORTED_LANGUAGES = {
@@ -120,16 +150,15 @@ export const executeCode = async (language, sourceCode, stdin = '') => {
       };
     }
 
-    // PHASE 4: NO SILENT FALLBACK. Return explicit infrastructure error when response payload missing.
+    // Return explicit infrastructure error when response payload missing
     return {
       success: false,
       output: '',
       error: 'Code execution service is temporarily unavailable.'
     };
   } catch (err) {
-    // PHASE 4: NO SILENT FALLBACK. Return explicit infrastructure error when backend unavailable.
     console.error('Backend code execution error:', err?.response?.data || err.message);
-    const backendError = err?.response?.data?.error;
+    const backendError = safeExtractErrorMessage(err);
     return {
       success: false,
       output: '',

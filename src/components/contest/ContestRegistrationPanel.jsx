@@ -47,7 +47,7 @@ const ContestRegistrationPanel = ({ contest, onRegister }) => {
         </div>
       </div>
 
-      {error && <div className="registration-error-msg">{error}</div>}
+      {error && <div className="registration-error-msg">{typeof error === 'string' ? error : (error?.message || JSON.stringify(error))}</div>}
 
       <button className="btn-register-action" onClick={handleRegister} disabled={loading}>
         {loading ? 'Registering...' : 'Register For Contest'}
