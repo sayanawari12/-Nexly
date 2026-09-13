@@ -31,22 +31,22 @@ const QuickActions = ({ actionsCustom, onActionClick }) => {
     {
       id: 'quiz_tests',
       title: 'Quiz',
-      subtitle: 'Practice tests & Qs',
+      subtitle: 'Knowledge checks',
       icon: <HelpCircle size={20} className="qa-icon" />,
       badge: 'Test',
       color: '#f59e0b',
       bgGlow: 'rgba(245, 158, 11, 0.15)',
-      onClick: () => navigate('/practice')
+      onClick: () => navigate('/technologies/cpp')
     },
     {
-      id: 'coding_practice',
-      title: 'Practice',
+      id: 'code_lab',
+      title: 'Code Lab',
       subtitle: 'Compiler arena',
       icon: <Code2 size={20} className="qa-icon" />,
       badge: 'IDE',
       color: '#10b981',
       bgGlow: 'rgba(16, 185, 129, 0.15)',
-      onClick: () => navigate('/practice')
+      onClick: () => navigate('/code-lab')
     }
   ];
 

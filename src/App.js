@@ -24,8 +24,6 @@ const Profile                  = lazy(() => import('./pages/Profile'));
 const Dashboard                = lazy(() => import('./pages/Dashboard'));
 const Roadmap                  = lazy(() => import('./pages/Roadmap'));
 const Analytics                = lazy(() => import('./pages/Analytics'));
-const ProgrammingHub           = lazy(() => import('./pages/ProgrammingHub'));
-const ProgramViewerPage        = lazy(() => import('./pages/ProgramViewerPage'));
 const LessonViewerPage         = lazy(() => import('./pages/LessonViewerPage'));
 const SubjectSyllabus          = lazy(() => import('./pages/SubjectSyllabus'));
 const CodeLabPage              = lazy(() => import('./pages/CodeLabPage'));
@@ -100,13 +98,7 @@ function App() {
                           <ProtectedRoute><Profile /></ProtectedRoute>
                         } />
 
-                        {/* ── Practice / Programming hub ── */}
-                        <Route path="/practice" element={
-                          <ProtectedRoute><ProgrammingHub /></ProtectedRoute>
-                        } />
-                        <Route path="/practice/programs/:programId" element={
-                          <ProtectedRoute><ProgramViewerPage /></ProtectedRoute>
-                        } />
+
 
                         {/* ── Lessons ── */}
                         <Route path="/lessons/:lessonId" element={

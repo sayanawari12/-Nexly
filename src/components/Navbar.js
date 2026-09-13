@@ -89,7 +89,6 @@ const Navbar = () => {
   const navItems = useMemo(() => [
     { label: 'Home', href: '/', isRoute: true },
     { label: 'Learn', href: '/technologies/cpp', isRoute: true },
-    { label: 'Practice', href: '/practice', isRoute: true },
     { label: 'Code Lab', href: '/code-lab', isRoute: true },
     { label: 'Projects', href: '/projects', isRoute: true },
     { label: 'Dashboard', href: '/dashboard', isRoute: true }
@@ -204,13 +203,7 @@ const Navbar = () => {
             >
               Learn
             </a>
-            <a
-              href="/practice"
-              onClick={(e) => { e.preventDefault(); navigate('/practice'); setActiveMegaMenu(null); }}
-              className={`nav-link ${location.pathname.startsWith('/practice') ? 'active' : ''}`}
-            >
-              Practice
-            </a>
+
             <a
               href="/code-lab"
               onClick={(e) => { e.preventDefault(); navigate('/code-lab'); setActiveMegaMenu(null); }}
@@ -319,14 +312,7 @@ const Navbar = () => {
                   <BookOpen size={18} className="drawer-item-icon" />
                   <span>Learn</span>
                 </a>
-                <a
-                  href="/practice"
-                  onClick={(e) => { e.preventDefault(); navigate('/practice'); setMobileMenuOpen(false); }}
-                  className={`drawer-nav-item ${location.pathname.startsWith('/practice') ? 'active' : ''}`}
-                >
-                  <Terminal size={18} className="drawer-item-icon" />
-                  <span>Practice</span>
-                </a>
+
                 <a
                   href="/code-lab"
                   onClick={(e) => { e.preventDefault(); navigate('/code-lab'); setMobileMenuOpen(false); }}

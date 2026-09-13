@@ -652,7 +652,7 @@ const CodingPracticeTab = () => (
     <div className="c-card glass-card">
       <h3><Terminal size={18} /> C++ Interactive Practice Arena</h3>
       <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>Solve hands-on C++ challenges directly in the browser editor.</p>
-      <button className="c-btn-primary" onClick={() => window.location.href = '/practice'}>
+      <button className="c-btn-primary" onClick={() => window.location.href = '/code-lab'}>
         Launch Coding Practice Workspace →
       </button>
     </div>

@@ -13,11 +13,11 @@ const STEPS = [
   },
   {
     step: '02',
-    title: 'Auto-Matched Practice',
-    description: 'What you just learned tells you exactly what problems to solve next.',
+    title: 'Interactive Code Lab',
+    description: 'Write, compile, and execute code in real-time with full interactive input support.',
     icon: <Target size={24} style={{ color: '#22c55e' }} />,
-    actionText: 'Practice Arena',
-    path: '/practice'
+    actionText: 'Open Code Lab',
+    path: '/code-lab'
   },
   {
     step: '03',

@@ -544,7 +544,7 @@ const Dashboard = () => {
                   {weakTopics.map((wTopic, wIdx) => (
                     <div
                       key={wIdx}
-                      onClick={() => navigate(`/practice?topic=${wTopic.id}`)}
+                      onClick={() => navigate('/code-lab')}
                       style={{
                         display: 'flex',
                         alignItems: 'center',

@@ -216,11 +216,11 @@ const LessonContent = ({ lesson }) => {
             </h3>
           </div>
           <button 
-            onClick={() => navigate('/practice')} 
+            onClick={() => navigate('/code-lab')} 
             className="btn-premium flex-center"
             style={{ fontSize: '0.82rem', padding: '8px 16px', borderRadius: '8px' }}
           >
-            All Practice Arena <ArrowRight size={14} style={{ marginLeft: '6px' }} />
+            Open Code Lab <ArrowRight size={14} style={{ marginLeft: '6px' }} />
           </button>
         </div>
 
@@ -255,7 +255,7 @@ const LessonContent = ({ lesson }) => {
                   </p>
                 </div>
                 <button 
-                  onClick={() => navigate('/practice')} 
+                  onClick={() => navigate('/code-lab')} 
                   style={{
                     background: 'rgba(168, 85, 247, 0.1)',
                     border: '1px solid rgba(168, 85, 247, 0.3)',
