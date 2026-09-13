@@ -1,4 +1,6 @@
 node_modules
+dist
+dist/
 # Keep all environment variable files out of version control
 .env
 .env.*

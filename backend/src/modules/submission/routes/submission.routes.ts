@@ -5,21 +5,8 @@ import { validateBody } from '../../auth/middleware/validator.middleware';
 import { createSubmissionSchema } from '../validators/submission.validator';
 import { asyncHandler } from '../../../utils/async-handler';
 
-import { CompilerController } from '../../compiler/controllers/compiler.controller';
-
 const router = Router();
 const controller = new SubmissionController();
-const compilerController = new CompilerController();
-
-router.post(
-  '/execute',
-  asyncHandler(compilerController.execute)
-);
-
-router.post(
-  '/compiler/execute',
-  asyncHandler(compilerController.execute)
-);
 
 // All routes require user authentication context
 router.post(

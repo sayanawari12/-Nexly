@@ -60,7 +60,7 @@
 - **Frontend**: Built with React 18, React Router v7, and **Framer Motion** for fluid UI transitions, styled with component utility icons from **Lucide React**.
 - **Backend API**: Powered by a robust **TypeScript + Express 5** server utilizing **Prisma ORM 7** over a **PostgreSQL** relational database.
 - **Real-Time & Queue Infrastructure**: Real-time updates via **Socket.io 4** (configured with `@socket.io/redis-adapter` & `ioredis`) alongside asynchronous task queues using **BullMQ**.
-- **Execution Engine**: Sandboxed Judge0 API & Piston integration for safe code execution.
+- **Execution Engine**: Sandboxed Judge0 CE API & Interactive Socket.IO execution runner.
 
 ---
 
@@ -73,9 +73,9 @@
 
 | Module | Description | Core Tech Stack |
 | :--- | :--- | :--- |
-| **Learn Hub** | Structured technology paths (C, Python, C++), interactive lesson navigator, embedded micro-quizzes, and quick reference cards. | `React 18`, `Framer Motion`, `Monaco Editor` |
+| **Learn Hub** | Structured technology paths (C, Python, C++), interactive lesson navigator, embedded micro-quizzes, and quick reference cards. | `React 18`, `Framer Motion` |
 | **Practice Catalog** | Topic-matched practice problems with difficulty filters (Easy/Medium/Hard) and automated code evaluation. | `React 18`, `recommendationEngine`, `Axios` |
-| **Code Lab** | In-browser multi-language playground & interactive SQL sandbox with execution rate-limiting. | `Judge0 API`, `Piston Sandbox`, `Monaco Editor` |
+| **Code Lab** | In-browser multi-language playground with real-time interactive terminal & interactive SQL sandbox with execution rate-limiting. | `Judge0 CE API`, `Socket.IO Terminal`, `React 18` |
 | **Projects Showcase** | Step-by-step guided portfolio projects with milestone tracking and architectural blueprints. | `React 18`, `Framer Motion` |
 | **User Dashboard** | Qualitative skill band visualization, weak topic remediation, and real-time study analytics. | `React 18`, `Lucide React`, `Prisma 7` |
 
@@ -89,7 +89,7 @@
 | :--- | :--- | :--- | :--- |
 | **Relational Data Management** | Type-safe PostgreSQL schema management via Prisma ORM 7. | `Prisma 7` & `PostgreSQL` | ✅ Implemented |
 | **Topic Recommendation Engine** | Auto-matches practice problems to current lesson tags with zero-score filtering. | `recommendationEngine.js` | ✅ Implemented |
-| **Sandboxed Code Execution** | Multi-language code evaluation with strict timeout and memory limits. | `Judge0 API` & `Piston` | ✅ Implemented |
+| **Sandboxed Code Execution** | Multi-language code evaluation with strict timeout, memory limits, and real-time interactive terminal. | `Judge0 CE API` & `Socket.IO` | ✅ Implemented |
 | **Single Source JWT Auth** | Consolidated identity state backed by PostgreSQL `User.id` and JWT tokens. | `jsonwebtoken`, `bcrypt`, `Firebase IDP` | ✅ Implemented |
 | **Modular Technology Hubs** | Reusable `TechnologyLearningHub` shell powering C, Python, and upcoming hubs. | `React 18`, `Framer Motion` | ✅ Implemented |
 | **Containerized Setup** | Pre-configured `docker-compose.yml` for database, Redis, and API services. | `Docker Compose` | ✅ Implemented |
@@ -118,7 +118,7 @@ graph TD
         SocketServer <--> RedisAdapter[@socket.io/redis-adapter]
         Express --> BullMQ[BullMQ Job Queues]
         RedisAdapter & BullMQ <--> Redis[(Redis Cache)]
-        Express --> Judge0[Judge0 API Sandbox]
+        Express --> Judge0[Judge0 CE API Sandbox]
     end
 
     subgraph DB ["Primary Relational Database"]
@@ -159,7 +159,7 @@ graph TD
 ```bash
 # 1. Clone the repository
 git clone https://github.com/sayanawari12/-Nexly.git
-cd bca-web
+cd -Nexly
 
 # 2. Install frontend and backend dependencies
 npm install

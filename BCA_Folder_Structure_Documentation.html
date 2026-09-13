@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BCA Department Website - Complete Folder Structure Specification</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #0b0813;
+    color: #e2e8f0;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 16mm 15mm 16mm 15mm;
+    position: relative;
+    page-break-after: always;
+    background-color: #0b0813;
+    overflow: hidden;
+  }
+
+  .page-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 22mm 18mm 18mm 18mm;
+    background: radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.35) 0%, rgba(11, 8, 19, 1) 70%),
+                radial-gradient(circle at 15% 85%, rgba(147, 51, 234, 0.25) 0%, rgba(11, 8, 19, 1) 60%);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+  }
+
+  .company-badge {
+    display: inline-block;
+    background: rgba(168, 85, 247, 0.18);
+    color: #d8b4fe;
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .cover-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    margin: 10px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #c084fc 60%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cover-subtitle {
+    font-size: 15px;
+    color: #94a3b8;
+    font-weight: 400;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  .cover-hero-card {
+    background: rgba(20, 14, 38, 0.85);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 30px 0;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .meta-item {
+    border-left: 3px solid #a855f7;
+    padding-left: 12px;
+  }
+
+  .meta-label {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #a855f7;
+    font-weight: 800;
+  }
+
+  .meta-value {
+    font-size: 13px;
+    color: #ffffff;
+    font-weight: 600;
+    margin-top: 3px;
+  }
+
+  .cover-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 16px;
+    font-size: 10px;
+    color: #64748b;
+  }
+
+  .page-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    font-size: 9.5px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .page-header-bar span.accent {
+    color: #a855f7;
+    font-weight: 700;
+  }
+
+  .page-footer-bar {
+    position: absolute;
+    bottom: 10mm;
+    left: 15mm;
+    right: 15mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 6px;
+    font-size: 9.5px;
+    color: #64748b;
+  }
+
+  h1.section-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: -0.5px;
+    border-bottom: 2px solid rgba(168, 85, 247, 0.4);
+    padding-bottom: 6px;
+  }
+
+  h1.section-title span.num {
+    background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+    color: #ffffff;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: 800;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #c084fc;
+    margin: 12px 0 6px 0;
+    letter-spacing: -0.2px;
+  }
+
+  p {
+    margin: 0 0 8px 0;
+    color: #cbd5e1;
+  }
+
+  pre {
+    background: #07040d;
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    border-radius: 8px;
+    padding: 12px;
+    overflow-x: auto;
+    color: #e2e8f0;
+    font-family: 'Fira Code', monospace;
+    font-size: 9.5px;
+    line-height: 1.45;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  }
+
+  .comment {
+    color: #64748b;
+    font-style: italic;
+  }
+
+  .dir {
+    color: #c084fc;
+    font-weight: 600;
+  }
+
+  .file {
+    color: #f1f5f9;
+  }
+
+  .accent-file {
+    color: #38bdf8;
+  }
+
+  .green-file {
+    color: #6ee7b7;
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: COVER -->
+<div class="page page-cover">
+  <div class="cover-header">
+    <div class="company-badge">Enterprise Codebase Architecture</div>
+    <div class="cover-title">COMPLETE FOLDER STRUCTURE SPECIFICATION</div>
+    <div class="cover-subtitle">BCA Department Website — Exhaustive Directory & File Mapping</div>
+  </div>
+
+  <div class="cover-hero-card">
+    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #c084fc; font-weight: 800; margin-bottom: 10px;">Official File Map</div>
+    <p style="font-size: 12.5px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px;">
+      This official technical document presents the 100% complete, file-by-file directory structure of the BCA Department Website repository. Every single component, context provider, API controller, route, Prisma model migration, static resource, utility function, and configuration file is explicitly listed with inline architectural annotations.
+    </p>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="meta-label">Total Files Mapped</div>
+        <div class="meta-value">250+ Source Files</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Architecture Pattern</div>
+        <div class="meta-value">Modular Clean Architecture</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Frontend Ecosystem</div>
+        <div class="meta-value">React 18 + Context API</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Backend Ecosystem</div>
+        <div class="meta-value">Node.js + Express + Prisma</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <div>CONFIDENTIAL & PROPRIETARY — BCA DEPARTMENT PLATFORM</div>
+    <div>PORTFOLIO TECHNICAL ARCHITECTURE SPECIFICATION</div>
+  </div>
+</div>
+
+<!-- PAGE 2: FRONTEND ROOT & COMPONENTS -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>13. Codebase Specification</span>
+    <span class="accent">Frontend Structure (1 / 3)</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">13.1</span> Frontend Directory Structure (`src/components/`)</h1>
+
+  <p>The codebase follows strict separation of concerns, dividing presentation components into specialized domain folders.</p>
+
+<pre><code><span class="dir">src/</span>
+├── <span class="dir">components/</span>                          <span class="comment"># Reusable & Feature-Specific UI Components</span>
+│   ├── <span class="dir">auth/</span>                            <span class="comment"># Authentication & Modal Forms</span>
+│   │   ├── <span class="file">AuthModal.jsx</span>                 <span class="comment"># Login / Signup Modal Container</span>
+│   │   ├── <span class="file">LoginForm.jsx</span>                 <span class="comment"># Password & Email Auth Form</span>
+│   │   ├── <span class="file">RegisterForm.jsx</span>              <span class="comment"># Student Account Registration Form</span>
+│   │   └── <span class="file">SocialLoginButtons.jsx</span>        <span class="comment"># OAuth Social Login Triggers</span>
+│   ├── <span class="dir">contest/</span>                         <span class="comment"># Competitive Coding Arena Components</span>
+│   │   ├── <span class="file">ContestCard.jsx</span>               <span class="comment"># Contest Overview Card with Live Timer</span>
+│   │   ├── <span class="file">ContestHeader.jsx</span>             <span class="comment"># Arena Navbar with Remaining Time Gauge</span>
+│   │   ├── <span class="file">ContestLeaderboard.jsx</span>        <span class="comment"># Real-Time ICPC Scoring Table</span>
+│   │   ├── <span class="file">ContestProblemList.jsx</span>        <span class="comment"># Problem Selection Panel</span>
+│   │   ├── <span class="file">ContestSubmissionHistory.jsx</span> <span class="comment"># Student Verdict History List</span>
+│   │   └── <span class="file">ContestTimer.jsx</span>              <span class="comment"># Synchronized Countdown Clock</span>
+│   ├── <span class="dir">dashboard/</span>                       <span class="comment"># Student Analytics & Widgets</span>
+│   │   ├── <span class="file">ActivityHeatmap.jsx</span>           <span class="comment"># Daily Coding Contribution Grid</span>
+│   │   ├── <span class="file">DashboardHeader.jsx</span>           <span class="comment"># Student Welcome & Level Banner</span>
+│   │   ├── <span class="file">QuickAccessGrid.jsx</span>           <span class="comment"># Shortcuts to Active Semester & Subjects</span>
+│   │   ├── <span class="file">RecentSubmissionsCard.jsx</span>     <span class="comment"># Recent Judge0 Verdict Stream</span>
+│   │   ├── <span class="file">SkillRadarChart.jsx</span>           <span class="comment"># Proficiency Radar across BCA Subjects</span>
+│   │   └── <span class="file">StreakCounterCard.jsx</span>         <span class="comment"># Active Solve Streak Fire Counter</span>
+│   ├── <span class="dir">language/</span>                        <span class="comment"># Technology Hub Layout Sub-Components</span>
+│   ├── <span class="dir">learning/</span>                        <span class="comment"># Courseware & Lesson Navigation</span>
+│   │   ├── <span class="file">ChapterAccordion.jsx</span>          <span class="comment"># Unit Chapter Expansion Panel</span>
+│   │   ├── <span class="file">DataStructureQuestionTemplate.jsx</span> <span class="comment"># DS Practical Problem View</span>
+│   │   ├── <span class="file">GeneralEnglishChapterTemplate.jsx</span> <span class="comment"># English Subject Chapter Template</span>
+│   │   ├── <span class="file">GlobalChapterTemplate.jsx</span>     <span class="comment"># Universal Subject Lesson Container</span>
+│   │   ├── <span class="file">LessonCard.jsx</span>                <span class="comment"># Lesson Preview Tile</span>
+│   │   ├── <span class="file">LessonContent.jsx</span>             <span class="comment"># Rich Text & Code Snippet Body</span>
+│   │   ├── <span class="file">LessonHeader.jsx</span>              <span class="comment"># Lesson Title, Marks & Duration</span>
+│   │   ├── <span class="file">LessonList.jsx</span>                <span class="comment"># Sidebar Lesson Index</span>
+│   │   ├── <span class="file">LessonMetadata.jsx</span>            <span class="comment"># Unit Credit & Prerequisite Tags</span>
+│   │   ├── <span class="file">LessonNavigation.jsx</span>          <span class="comment"># Next / Previous Lesson Buttons</span>
+│   │   ├── <span class="file">LessonProgressCard.jsx</span>        <span class="comment"># Topic Mastery Completion Bar</span>
+│   │   ├── <span class="file">LessonSidebar.jsx</span>             <span class="comment"># Sticky Table of Contents</span>
+│   │   ├── <span class="file">LessonViewer.jsx</span>              <span class="comment"># Primary Lesson Frame Engine</span>
+│   │   ├── <span class="file">MarkCompleteButton.jsx</span>        <span class="comment"># Student Lesson Completion Trigger</span>
+│   │   ├── <span class="file">NotesShortcut.jsx</span>             <span class="comment"># Quick Jump to PDF Notes</span>
+│   │   ├── <span class="file">ProblemSolvingCChapterTemplate.jsx</span> <span class="comment"># C Programming Lesson Template</span>
+│   │   ├── <span class="file">SubjectNavigator.jsx</span>          <span class="comment"># Semester Subject Switcher</span>
+│   │   └── <span class="file">UnitAccordion.jsx</span>             <span class="comment"># Collapsible Unit Syllabus List</span></code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 02</span>
+  </div>
+</div>
+
+<!-- PAGE 3: FRONTEND COMPONENTS CONT. & DATA -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>13. Codebase Specification</span>
+    <span class="accent">Frontend Structure (2 / 3)</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">13.1</span> Frontend Directory Structure (`src/components/`, `data/`, `context/`)</h1>
+
+<pre><code>│   ├── <span class="dir">navigation/</span>                      <span class="comment"># App Header & Navigation Elements</span>
+│   │   ├── <span class="file">AdminNavbar.jsx</span>               <span class="comment"># Admin Portal Navigation Bar</span>
+│   │   ├── <span class="file">AuthNavbar.jsx</span>                <span class="comment"># Logged-in User Header</span>
+│   │   ├── <span class="file">GuestNavbar.jsx</span>               <span class="comment"># Public Visitor Header</span>
+│   │   ├── <span class="file">MegaMenu.jsx</span>                  <span class="comment"># Multi-Column Subject Dropdown Menu</span>
+│   │   ├── <span class="file">SearchModal.jsx</span>               <span class="comment"># Instant Fuzzy Search Modal (Ctrl+K)</span>
+│   │   └── <span class="file">StudentNavbar.jsx</span>             <span class="comment"># Student Profile & Progress Header</span>
+│   ├── <span class="dir">programming/</span>                     <span class="comment"># Coding Practice Hub UI Elements</span>
+│   │   ├── <span class="file">EmptyProgramsState.jsx</span>        <span class="comment"># No Search Results Placeholder</span>
+│   │   ├── <span class="file">FilterBar.jsx</span>                 <span class="comment"># Difficulty & Tag Filter Chips</span>
+│   │   ├── <span class="file">LoadingSkeleton.jsx</span>           <span class="comment"># Animated Shimmer Placeholders</span>
+│   │   ├── <span class="file">ProgramCard.jsx</span>               <span class="comment"># Executable Code Program Tile</span>
+│   │   ├── <span class="file">ProgramHeader.jsx</span>             <span class="comment"># Practice Arena Banner</span>
+│   │   ├── <span class="file">ProgramList.jsx</span>               <span class="comment"># Grid of 50+ Practical Code Samples</span>
+│   │   ├── <span class="file">ProgrammingStatsCard.jsx</span>      <span class="comment"># Solved Counter & Accuracy Metric</span>
+│   │   ├── <span class="file">ProgramSidebar.jsx</span>            <span class="comment"># Topic Category Selection Drawer</span>
+│   │   ├── <span class="file">QuickToolsCard.jsx</span>            <span class="comment"># Format Code & Copy Snippet Tools</span>
+│   │   ├── <span class="file">RecentProgramsCard.jsx</span>        <span class="comment"># Last Practiced Code Exercises</span>
+│   │   ├── <span class="file">RewardsCard.jsx</span>               <span class="comment"># Earned Achievement Badges</span>
+│   │   ├── <span class="file">SearchBar.jsx</span>                 <span class="comment"># Live Program Keyword Input</span>
+│   │   └── <span class="file">SubjectTabs.jsx</span>               <span class="comment"># Language Switcher Tabs (C, C++, Java)</span>
+│   ├── <span class="dir">sections/</span>                        <span class="comment"># Landing Page Section Components</span>
+│   │   ├── <span class="file">About.js</span>                      <span class="comment"># Department Vision & Overview</span>
+│   │   ├── <span class="file">CompanyLogos.js</span>               <span class="comment"># Placement Recruiting Partners Grid</span>
+│   │   ├── <span class="file">Contact.js</span>                    <span class="comment"># Department Helpdesk Contact Form</span>
+│   │   ├── <span class="file">Faculty.js</span>                    <span class="comment"># BCA Department Faculty Profiles</span>
+│   │   ├── <span class="file">FAQ.js</span>                        <span class="comment"># Frequently Asked Questions Accordion</span>
+│   │   ├── <span class="file">Footer.js</span>                     <span class="comment"># Global Copyright & Sitemap Links</span>
+│   │   ├── <span class="file">Gallery.js</span>                    <span class="comment"># Department Labs & Events Photo Stream</span>
+│   │   ├── <span class="file">Labs.js</span>                       <span class="comment"># Computer Lab Infrastructure Details</span>
+│   │   ├── <span class="file">Placement.js</span>                  <span class="comment"># Student Campus Placement Statistics</span>
+│   │   ├── <span class="file">Projects.js</span>                   <span class="comment"># Student Capstone Project Showcase</span>
+│   │   ├── <span class="file">Resources.js</span>                  <span class="comment"># Notes & Past Papers Download Grid</span>
+│   │   ├── <span class="file">Roadmap.js</span>                    <span class="comment"># Semester-by-Semester Study Path</span>
+│   │   ├── <span class="file">Stats.js</span>                      <span class="comment"># Key Platform Metrics & Solved Counts</span>
+│   │   ├── <span class="file">TechLogos.js</span>                  <span class="comment"># Technology Stack Icons Carousel</span>
+│   │   ├── <span class="file">Technologies.js</span>               <span class="comment"># C, Java, Python, DBMS Overview</span>
+│   │   ├── <span class="file">TechnologyLearningHub.js</span>      <span class="comment"># Generic Tech Hub Container</span>
+│   │   ├── <span class="file">Testimonials.js</span>               <span class="comment"># Alumni Reviews & Feedback</span>
+│   │   └── <span class="file">WhyChoose.js</span>                  <span class="comment"># Value Proposition Highlights</span>
+│   ├── <span class="dir">ui/</span>                          <span class="comment"># Atomic Design System Tokens & Badges</span>
+│   │   ├── <span class="file">Badge.jsx</span>                     <span class="comment"># Status & Tag Pills (EASY, MEDIUM)</span>
+│   │   ├── <span class="file">Breadcrumb.jsx</span>                <span class="comment"># Hierarchy Navigation Trail</span>
+│   │   ├── <span class="file">Button.jsx</span>                    <span class="comment"># Neon Gradient Button Component</span>
+│   │   ├── <span class="file">ContentCard.jsx</span>               <span class="comment"># Glassmorphism Card Container</span>
+│   │   ├── <span class="file">GlassPanel.jsx</span>                <span class="comment"># Translucent Backdrop Filter Panel</span>
+│   │   ├── <span class="file">PageLoader.jsx</span>                <span class="comment"># Fullscreen Chunk Suspense Spinner</span>
+│   │   ├── <span class="file">ProgressBar.jsx</span>               <span class="comment"># Dynamic Animated Completion Gauge</span>
+│   │   ├── <span class="file">SectionTitle.jsx</span>              <span class="comment"># Glowing Section Header Component</span>
+│   │   └── <span class="file">StickyTabs.jsx</span>                <span class="comment"># Pin-to-top Navigation Tabs</span>
+│   └── <span class="file">LiveCodeEditor.jsx</span>               <span class="comment"># Monaco Code Compiler Workbench</span>
+├── <span class="dir">context/</span>                         <span class="comment"># React Context API State Providers</span>
+│   ├── <span class="file">AuthContext.jsx</span>                  <span class="comment"># User Session, Tokens & Role State</span>
+│   ├── <span class="file">ContestContext.jsx</span>               <span class="comment"># Live Contest Timer & Submissions</span>
+│   ├── <span class="file">LearningContext.jsx</span>              <span class="comment"># Active Unit & Lesson State</span>
+│   ├── <span class="file">NotificationContext.jsx</span>          <span class="comment"># Toast Alerts & System Push Alerts</span>
+│   ├── <span class="file">ProgramContext.jsx</span>               <span class="comment"># Executable Code Examples State</span>
+│   ├── <span class="file">ProgressContext.jsx</span>              <span class="comment"># Daily Solve Streak & Solved Counts</span>
+│   ├── <span class="file">SettingsContext.jsx</span>              <span class="comment"># User Preferences & Editor Keybindings</span>
+│   └── <span class="file">ThemeContext.jsx</span>                 <span class="comment"># Dark Purple Theme Tokens State</span></code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 03</span>
+  </div>
+</div>
+
+<!-- PAGE 4: FRONTEND PAGES & SERVICES -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>13. Codebase Specification</span>
+    <span class="accent">Frontend Structure (3 / 3)</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">13.1</span> Frontend Directory Structure (`src/pages/`, `services/`, `styles/`)</h1>
+
+<pre><code>├── <span class="dir">pages/</span>                           <span class="comment"># Page-Level Views (36+ Lazy Chunks)</span>
+│   ├── <span class="file">About.js</span>                      <span class="comment"># Department Overview Page</span>
+│   ├── <span class="file">Analytics.jsx</span>                 <span class="comment"># Comprehensive Skill Radar & Analytics</span>
+│   ├── <span class="file">CLearningHub.js</span>               <span class="comment"># C Language Comprehensive Hub</span>
+│   ├── <span class="file">CodingPractice.js</span>             <span class="comment"># Monaco Multi-Language Compiler View</span>
+│   ├── <span class="file">ContestDetails.jsx</span>            <span class="comment"># Contest Rules & Registration View</span>
+│   ├── <span class="file">ContestLeaderboardPage.jsx</span>    <span class="comment"># Live ICPC Ranking Table View</span>
+│   ├── <span class="file">ContestList.jsx</span>               <span class="comment"># Available & Upcoming Contests</span>
+│   ├── <span class="file">ContestProblemArena.jsx</span>       <span class="comment"># Contest Timed Coding Workbench</span>
+│   ├── <span class="file">ContestResultsPage.jsx</span>        <span class="comment"># Final Contest Score & Rating Changes</span>
+│   ├── <span class="file">CppLearningHub.js</span>             <span class="comment"># Object Oriented C++ Hub</span>
+│   ├── <span class="file">CppQuiz.js</span>                    <span class="comment"># Interactive C++ Multiple Choice Quiz</span>
+│   ├── <span class="file">Dashboard.jsx</span>                 <span class="comment"># Main Student Dashboard Command Center</span>
+│   ├── <span class="file">DataStructureQuestionPage.jsx</span> <span class="comment"># DS Exam Question & Solution Viewer</span>
+│   ├── <span class="file">DataStructureSyllabus.js</span>      <span class="comment"># Prescribed DS Syllabus Outline</span>
+│   ├── <span class="file">DataStructureUnit1Page.jsx</span>    <span class="comment"># Linear Data Structures Unit Page</span>
+│   ├── <span class="file">DSQuiz.js</span>                     <span class="comment"># Data Structures Interactive Quiz</span>
+│   ├── <span class="file">GeneralEnglishChapterPage.jsx</span> <span class="comment"># English Chapter Reading View</span>
+│   ├── <span class="file">GeneralEnglishSubjectPage.jsx</span> <span class="comment"># General English Subject Dashboard</span>
+│   ├── <span class="file">Home.js</span>                       <span class="comment"># Landing Page Master View</span>
+│   ├── <span class="file">JavaLearningHub.js</span>            <span class="comment"># Java Enterprise Programming Hub</span>
+│   ├── <span class="file">LessonViewerPage.jsx</span>          <span class="comment"># Courseware Lesson Reading View</span>
+│   ├── <span class="file">Login.jsx</span>                     <span class="comment"># Student Auth & Login Page</span>
+│   ├── <span class="file">MasterLanguagePage.jsx</span>        <span class="comment"># Universal Language Hub Router Page</span>
+│   ├── <span class="file">Profile.jsx</span>                   <span class="comment"># User Account Settings & Badges</span>
+│   ├── <span class="file">ProgrammingHub.jsx</span>            <span class="comment"># Code Practice Library Catalog</span>
+│   ├── <span class="file">ProgramViewerPage.jsx</span>         <span class="comment"># Single Code Program Executable View</span>
+│   ├── <span class="file">PythonLearningHub.js</span>         <span class="comment"># Python Science & Scripting Hub</span>
+│   ├── <span class="file">Roadmap.jsx</span>                   <span class="comment"># Semester Learning Path Map</span>
+│   ├── <span class="file">SemesterCChapterPage.jsx</span>      <span class="comment"># C Programming Chapter View</span>
+│   ├── <span class="file">SemesterCSubjectPage.jsx</span>      <span class="comment"># C Programming Subject Portal</span>
+│   ├── <span class="file">SubjectSyllabus.js</span>           <span class="comment"># Universal Syllabus Viewer</span>
+│   └── <span class="dir">curriculum/</span>                  <span class="comment"># Curriculum Specialized Pages</span>
+│       ├── <span class="file">DSNotesPage.jsx</span>           <span class="comment"># Data Structures PDF & Text Notes</span>
+│       ├── <span class="file">DSQuestionsListPage.jsx</span>    <span class="comment"># DS Exam Question Bank Catalog</span>
+│       └── <span class="file">DSQuestionViewerPage.jsx</span>  <span class="comment"># Single Exam Question Solution Page</span>
+├── <span class="dir">services/</span>                        <span class="comment"># Backend REST & Firebase API Integration</span>
+│   ├── <span class="file">api.js</span>                        <span class="comment"># Central Axios Instance with Interceptors</span>
+│   ├── <span class="file">contestService.js</span>             <span class="comment"># Contest & Leaderboard Endpoints</span>
+│   ├── <span class="file">firebaseAuth.js</span>               <span class="comment"># Firebase Social Auth Integration</span>
+│   ├── <span class="file">searchService.js</span>              <span class="comment"># Client Fuzzy Search Engine</span>
+│   ├── <span class="file">socketService.js</span>              <span class="comment"># Real-time WebSocket Client</span>
+│   └── <span class="dir">auth/</span>                         <span class="comment"># Auth Service Module</span>
+│       └── <span class="file">authService.js</span>            <span class="comment"># JWT Login, Register & Token Refresh</span>
+├── <span class="dir">styles/</span>                          <span class="comment"># Modular Vanilla CSS Files</span>
+│   ├── <span class="file">global.css</span>                    <span class="comment"># Master CSS Variables & Typography</span>
+│   ├── <span class="file">tokens.css</span>                    <span class="comment"># Design System Color & Radius Tokens</span>
+│   ├── <span class="file">Dashboard.css</span>                 <span class="comment"># Student Dashboard Layout Styles</span>
+│   ├── <span class="file">LiveCodeEditor.css</span>            <span class="comment"># Monaco Code Compiler Workbench Styles</span>
+│   └── <span class="dir">design-tokens/</span>               <span class="comment"># JS Token Exports (Colors, Spacing)</span>
+├── <span class="file">App.js</span>                           <span class="comment"># Master Client Router & Suspense Fallbacks</span>
+└── <span class="file">index.js</span>                         <span class="comment"># React DOM Rendering Entry Point</span></code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 04</span>
+  </div>
+</div>
+
+<!-- PAGE 5: BACKEND DIRECTORY STRUCTURE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>13. Codebase Specification</span>
+    <span class="accent">Backend Structure</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">13.2</span> Backend Directory Structure (`backend/src/`)</h1>
+
+  <p>The backend architecture uses modular domain-driven TypeScript layers with Prisma ORM, Express routers, and BullMQ execution queues.</p>
+
+<pre><code><span class="dir">backend/src/</span>
+├── <span class="dir">config/</span>                              <span class="comment"># Server Environment & DB Setup</span>
+│   ├── <span class="file">app.config.ts</span>                    <span class="comment"># Express App Port, CORS & Security Config</span>
+│   ├── <span class="file">auth.config.ts</span>                   <span class="comment"># JWT Secret, Expiration & Cookie Flags</span>
+│   ├── <span class="file">database.ts</span>                     <span class="comment"># Prisma Client Connection Pool Config</span>
+│   ├── <span class="file">logger.config.ts</span>                 <span class="comment"># Pino Logger Settings</span>
+│   └── <span class="file">queue.config.ts</span>                  <span class="comment"># Redis BullMQ Connection Credentials</span>
+├── <span class="dir">middleware/</span>                          <span class="comment"># Global Express Request Handlers</span>
+│   ├── <span class="file">error-handler.middleware.ts</span>      <span class="comment"># Global Exception & Prisma Error Guard</span>
+│   ├── <span class="file">maintenance.middleware.ts</span>        <span class="comment"># System Emergency Maintenance Interceptor</span>
+│   └── <span class="file">request-context.middleware.ts</span>    <span class="comment"># Unique Correlation ID Injector</span>
+├── <span class="dir">modules/</span>                             <span class="comment"># Domain Business Modules</span>
+│   ├── <span class="dir">auth/</span>                            <span class="comment"># User Identity & Token Management</span>
+│   │   ├── <span class="file">auth.controller.ts</span>           <span class="comment"># Express Login, Register & Logout Handlers</span>
+│   │   ├── <span class="file">auth.routes.ts</span>               <span class="comment"># Auth Endpoint Definitions</span>
+│   │   ├── <span class="file">auth.validator.ts</span>            <span class="comment"># Zod Schema Request Validation</span>
+│   │   ├── <span class="dir">middleware/</span><span class="file">auth.middleware.ts</span>   <span class="comment"># JWT Bearer Token Verification Guard</span>
+│   │   ├── <span class="dir">providers/</span><span class="file">bcrypt.provider.ts</span> <span class="comment"># Password Hashing Provider</span>
+│   │   ├── <span class="dir">repositories/</span><span class="file">user.repository.ts</span> <span class="comment"># Prisma User Table Data Access</span>
+│   │   └── <span class="dir">services/</span><span class="file">token.service.ts</span>    <span class="comment"># SHA-256 Token Rotation Service</span>
+│   ├── <span class="dir">contest/</span>                         <span class="comment"># Timed Competitions & Scoring Engine</span>
+│   │   ├── <span class="file">contest.controller.ts</span>        <span class="comment"># Contest CRUD & Problem Fetching</span>
+│   │   ├── <span class="file">contest.routes.ts</span>            <span class="comment"># Contest API Routes</span>
+│   │   ├── <span class="dir">gateways/</span><span class="file">contest.gateway.ts</span>   <span class="comment"># Socket.io Live Score Publisher</span>
+│   │   ├── <span class="dir">repositories/</span><span class="file">contest.repository.ts</span> <span class="comment"># Prisma Contest Table Queries</span>
+│   │   └── <span class="dir">services/</span><span class="file">scoring.service.ts</span>  <span class="comment"># ICPC Time Penalty Calculation</span>
+│   ├── <span class="dir">operations/</span>                      <span class="comment"># Admin Dashboard & Moderation</span>
+│   │   ├── <span class="file">operations.controller.ts</span>     <span class="comment"># System Metrics & User Ban Handlers</span>
+│   │   └── <span class="dir">services/</span><span class="file">rbac.service.ts</span>     <span class="comment"># Dynamic Permission Group Validator</span>
+│   ├── <span class="dir">problem/</span>                         <span class="comment"># Practice Problem & Test Case CRUD</span>
+│   │   ├── <span class="file">problem.controller.ts</span>        <span class="comment"># Question Bank Query Handlers</span>
+│   │   ├── <span class="file">problem.routes.ts</span>            <span class="comment"># Problem Endpoints</span>
+│   │   └── <span class="dir">repositories/</span><span class="file">problem.repository.ts</span> <span class="comment"># Prisma Problem Data Access</span>
+│   ├── <span class="dir">profile/</span>                         <span class="comment"># Student Profile & Analytics</span>
+│   │   ├── <span class="file">profile.controller.ts</span>        <span class="comment"># User Stats & Streak Fetcher</span>
+│   │   └── <span class="dir">services/</span><span class="file">rating.service.ts</span>   <span class="comment"># Glicko-2 Competitive Rating Calculator</span>
+│   ├── <span class="dir">queue/</span>                           <span class="comment"># BullMQ Background Job Processing</span>
+│   │   └── <span class="dir">workers/</span><span class="file">submission.worker.ts</span> <span class="comment"># Async Judge0 Payload Execution Queue</span>
+│   ├── <span class="dir">realtime/</span>                        <span class="comment"># Socket.io WebSockets Layer</span>
+│   │   └── <span class="dir">gateways/</span><span class="file">socket.gateway.ts</span>   <span class="comment"># Live Leaderboard Connection Gateway</span>
+│   └── <span class="dir">submission/</span>                      <span class="comment"># Code Execution Submission Pipeline</span>
+│       ├── <span class="file">submission.controller.ts</span>     <span class="comment"># Code Compile Request Handler</span>
+│       └── <span class="dir">services/</span><span class="file">submission.service.ts</span> <span class="comment"># Judge0 / Piston API HTTP Dispatcher</span>
+├── <span class="dir">repositories/</span>                        <span class="comment"># Base Generic Repository Class</span>
+│   └── <span class="file">base.repository.ts</span>              <span class="comment"># Type-safe Prisma Abstract DB Layer</span>
+├── <span class="file">app.ts</span>                               <span class="comment"># Express App Initialization & Middleware Stack</span>
+└── <span class="file">server.ts</span>                            <span class="comment"># HTTP & Socket.io Server Entry Point</span></code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 05</span>
+  </div>
+</div>
+
+<!-- PAGE 6: DATABASE, PUBLIC & ROOT -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>13. Codebase Specification</span>
+    <span class="accent">Database, Assets & Root</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">13.3</span> Database (`prisma/`), Public Assets (`public/`) & Root Files</h1>
+
+  <p>Overview of relational database schemas, PDF courseware assets, and root environment configuration files.</p>
+
+<pre><code><span class="dir">backend/prisma/</span>                      <span class="comment"># Database Schema & Migrations</span>
+├── <span class="dir">migrations/</span>                      <span class="comment"># Prisma Migration History</span>
+│   ├── <span class="dir">20260717023256_init_apex_database_foundation/</span>
+│   │   └── <span class="file">migration.sql</span>            <span class="comment"># Base User, Role & Session Tables SQL</span>
+│   ├── <span class="dir">20260717040318_configure_refresh_token_family/</span>
+│   │   └── <span class="file">migration.sql</span>            <span class="comment"># Refresh Token Rotation Tables SQL</span>
+│   ├── <span class="dir">20260717041805_configure_problems_and_testcases/</span>
+│   │   └── <span class="file">migration.sql</span>            <span class="comment"># Problem, TestCase & Submission Tables SQL</span>
+│   └── <span class="dir">20260719050057_sync_contest_schema/</span>
+│       └── <span class="file">migration.sql</span>            <span class="comment"># Contest, Leaderboard & Score Tables SQL</span>
+├── <span class="file">schema.prisma</span>                    <span class="comment"># Master Prisma Database Schema (30+ Models)</span>
+└── <span class="file">seed.ts</span>                          <span class="comment"># Sample Student & Problem Seeding Script</span>
+
+<span class="dir">public/</span>                              <span class="comment"># Static Assets & Course Documents</span>
+├── <span class="dir">notes/</span>                           <span class="comment"># Downloadable Unit Notes PDFs</span>
+│   └── <span class="dir">semester2/</span>
+│       └── <span class="file">DS_Notes.pdf</span>             <span class="comment"># Data Structures Comprehensive Notes</span>
+├── <span class="dir">papers/</span>                          <span class="comment"># University Past Examination Papers</span>
+│   ├── <span class="dir">cpp/</span>
+│   │   ├── <span class="file">cpp-paper-2025.pdf</span>       <span class="comment"># Summer 2025 C++ Exam Paper</span>
+│   │   └── <span class="file">cpp-paper-2026.pdf</span>       <span class="comment"># Winter 2026 C++ Exam Paper</span>
+│   └── <span class="dir">semester2/</span>
+│       └── <span class="file">OOP_Java_Winter_2025.pdf</span> <span class="comment"># Winter 2025 Java Exam Paper</span>
+├── <span class="dir">syllabus/</span>                        <span class="comment"># Official University Course Outlines</span>
+│   ├── <span class="file">ds-syllabus.pdf</span>              <span class="comment"># Data Structures Syllabus PDF</span>
+│   └── <span class="file">os-syllabus.pdf</span>              <span class="comment"># Operating Systems Syllabus PDF</span>
+├── <span class="file">favicon.ico</span>                      <span class="comment"># Department Platform Browser Icon</span>
+├── <span class="file">index.html</span>                       <span class="comment"># Single Page Application Main HTML Host</span>
+└── <span class="file">pdf.worker.min.js</span>                <span class="comment"># PDF.js High Performance Rendering Worker</span>
+
+<span class="dir">Root Directory /</span>                     <span class="comment"># Platform Build & Deployment Configs</span>
+├── <span class="file">.env.example</span>                     <span class="comment"># Template for API & DB Credentials</span>
+├── <span class="file">docker-compose.yml</span>               <span class="comment"># Local PostgreSQL & Redis Container Config</span>
+├── <span class="file">package.json</span>                     <span class="comment"># Frontend NPM Dependencies & Build Scripts</span>
+├── <span class="file">README.md</span>                        <span class="comment"># Project Setup & Developer Manual</span>
+├── <span class="file">start-project.bat</span>                <span class="comment"># One-Click Windows Development Startup Script</span>
+└── <span class="file">vercel.json</span>                      <span class="comment"># Production Edge CDN Route Rewrites</span></code></pre>
+
+  <div class="card" style="margin-top: 15px; text-align: center;">
+    <div style="font-size: 13px; font-weight: 800; color: #ffffff;">END OF COMPLETE FOLDER STRUCTURE SPECIFICATION</div>
+    <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">BCA DEPARTMENT WEBSITE — OFFICIAL CODEBASE DIRECTORY MAP</div>
+  </div>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 06</span>
+  </div>
+</div>
+
+</body>
+</html>

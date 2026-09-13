@@ -1,0 +1,2331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BCA Department Website - Enterprise Master Documentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #0b0813;
+    color: #e2e8f0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 18mm 16mm 18mm 16mm;
+    position: relative;
+    page-break-after: always;
+    background-color: #0b0813;
+    overflow: hidden;
+  }
+
+  .page-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25mm 20mm 20mm 20mm;
+    background: radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.3) 0%, rgba(11, 8, 19, 1) 70%),
+                radial-gradient(circle at 15% 85%, rgba(147, 51, 234, 0.25) 0%, rgba(11, 8, 19, 1) 60%);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+  }
+
+  .company-badge {
+    display: inline-block;
+    background: rgba(168, 85, 247, 0.18);
+    color: #d8b4fe;
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .cover-title {
+    font-size: 40px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    margin: 10px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #c084fc 60%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cover-subtitle {
+    font-size: 16px;
+    color: #94a3b8;
+    font-weight: 400;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  .cover-hero-card {
+    background: rgba(20, 14, 38, 0.85);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 35px 0;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .meta-item {
+    border-left: 3px solid #a855f7;
+    padding-left: 14px;
+  }
+
+  .meta-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #a855f7;
+    font-weight: 800;
+  }
+
+  .meta-value {
+    font-size: 13.5px;
+    color: #ffffff;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .cover-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 20px;
+    font-size: 11px;
+    color: #64748b;
+  }
+
+  .page-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+    font-size: 10px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .page-header-bar span.accent {
+    color: #a855f7;
+    font-weight: 700;
+  }
+
+  .page-footer-bar {
+    position: absolute;
+    bottom: 12mm;
+    left: 16mm;
+    right: 16mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 8px;
+    font-size: 10px;
+    color: #64748b;
+  }
+
+  h1.section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 14px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.5px;
+    border-bottom: 2px solid rgba(168, 85, 247, 0.4);
+    padding-bottom: 8px;
+  }
+
+  h1.section-title span.num {
+    background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+    color: #ffffff;
+    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-weight: 800;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #c084fc;
+    margin: 16px 0 8px 0;
+    letter-spacing: -0.2px;
+  }
+
+  h3 {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin: 12px 0 6px 0;
+  }
+
+  p {
+    margin: 0 0 10px 0;
+    color: #cbd5e1;
+    text-align: justify;
+  }
+
+  .card {
+    background: #140e26;
+    border: 1px solid rgba(168, 85, 247, 0.22);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .card-header {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 13px;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 11px;
+  }
+
+  th {
+    background: #1e1338;
+    color: #c084fc;
+    text-align: left;
+    padding: 7px 9px;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(168, 85, 247, 0.4);
+    text-transform: uppercase;
+    font-size: 9.5px;
+    letter-spacing: 0.5px;
+  }
+
+  td {
+    padding: 7px 9px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+  }
+
+  tr:nth-child(even) td {
+    background: rgba(20, 14, 38, 0.5);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 9.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .badge-purple { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.4); }
+  .badge-green { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
+  .badge-blue { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4); }
+  .badge-amber { background: rgba(245, 158, 11, 0.2); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.4); }
+
+  pre, code {
+    font-family: 'Fira Code', monospace;
+    font-size: 10.5px;
+  }
+
+  pre {
+    background: #07040d;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 8px;
+    padding: 10px;
+    overflow-x: auto;
+    color: #e2e8f0;
+    margin: 10px 0;
+  }
+
+  code.inline {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 10.5px;
+  }
+
+  .diagram-box {
+    background: #0d0818;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 10px;
+    padding: 14px;
+    margin: 12px 0;
+    text-align: center;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 18px;
+    margin-top: 12px;
+  }
+
+  .toc-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 12px;
+    background: rgba(20, 14, 38, 0.7);
+    border-radius: 6px;
+    border-left: 3px solid #a855f7;
+    font-size: 11px;
+  }
+
+  .toc-num {
+    font-weight: 800;
+    color: #c084fc;
+    width: 26px;
+  }
+
+  .toc-title {
+    flex-grow: 1;
+    color: #f1f5f9;
+    font-weight: 600;
+  }
+
+  .toc-page {
+    color: #94a3b8;
+    font-weight: 700;
+  }
+
+  ul, ol {
+    margin: 0 0 10px 0;
+    padding-left: 20px;
+    color: #cbd5e1;
+  }
+
+  li {
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: COVER PAGE -->
+<div class="page page-cover">
+  <div class="cover-header">
+    <div class="company-badge">Enterprise System Architecture</div>
+    <div class="cover-title">BCA DEPARTMENT WEBSITE</div>
+    <div class="cover-subtitle">Complete Master Documentation & Engineering Specification</div>
+  </div>
+
+  <div class="cover-hero-card">
+    <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #c084fc; font-weight: 800; margin-bottom: 12px;">Official Project Reference</div>
+    <p style="font-size: 13.5px; color: #cbd5e1; line-height: 1.6; margin-bottom: 20px;">
+      This comprehensive master specification provides an exhaustive overview of the BCA Department Learning Platform. It encompasses technical system design, client-side React component architecture, Node.js REST APIs, PostgreSQL relational schema via Prisma ORM, multi-language compiler sandboxing, JWT authentication mechanisms, production CI/CD deployment strategies, design tokens, and future product roadmap.
+    </p>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="meta-label">System Version</div>
+        <div class="meta-value">v1.0.0-PRODUCTION</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Target Audience</div>
+        <div class="meta-value">Students, Faculty & Recruiters</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Lead Architect</div>
+        <div class="meta-value">Engineering Architecture Board</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Date of Issue</div>
+        <div class="meta-value">August 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <div>CONFIDENTIAL & PROPRIETARY — BCA DEPARTMENT PLATFORM</div>
+    <div>DESIGNED FOR PORTFOLIO & AUDIT</div>
+  </div>
+</div>
+
+<!-- PAGE 2: TABLE OF CONTENTS -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>BCA Department Platform</span>
+    <span class="accent">Table of Contents</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">00</span> Table of Contents</h1>
+
+  <div class="toc-grid">
+    <div class="toc-card"><span class="toc-num">01</span><span class="toc-title">Cover Page & System Metadata</span><span class="toc-page">01</span></div>
+    <div class="toc-card"><span class="toc-num">02</span><span class="toc-title">Table of Contents</span><span class="toc-page">02</span></div>
+    <div class="toc-card"><span class="toc-num">03</span><span class="toc-title">Project Overview & Objectives</span><span class="toc-page">03</span></div>
+    <div class="toc-card"><span class="toc-num">04</span><span class="toc-title">Website Sitemap Architecture</span><span class="toc-page">04</span></div>
+    <div class="toc-card"><span class="toc-num">05</span><span class="toc-title">Complete User Navigation Flow</span><span class="toc-page">05</span></div>
+    <div class="toc-card"><span class="toc-num">06</span><span class="toc-title">Home Page Component Breakdown</span><span class="toc-page">06</span></div>
+    <div class="toc-card"><span class="toc-num">07</span><span class="toc-title">Student Dashboard System</span><span class="toc-page">07</span></div>
+    <div class="toc-card"><span class="toc-num">08</span><span class="toc-title">Resources Module Architecture</span><span class="toc-page">08</span></div>
+    <div class="toc-card"><span class="toc-num">09</span><span class="toc-title">Past Papers Data Flow Pipeline</span><span class="toc-page">09</span></div>
+    <div class="toc-card"><span class="toc-num">10</span><span class="toc-title">Question Bank & Search Engine</span><span class="toc-page">10</span></div>
+    <div class="toc-card"><span class="toc-num">11</span><span class="toc-title">Technology Stack Learning Hubs</span><span class="toc-page">11</span></div>
+    <div class="toc-card"><span class="toc-num">12</span><span class="toc-title">Compiler Engine & Judge Sandbox</span><span class="toc-page">12</span></div>
+    <div class="toc-card"><span class="toc-num">13</span><span class="toc-title">Authentication & Security Layer</span><span class="toc-page">13</span></div>
+    <div class="toc-card"><span class="toc-num">14</span><span class="toc-title">Database Design & Prisma Models</span><span class="toc-page">14</span></div>
+    <div class="toc-card"><span class="toc-num">15</span><span class="toc-title">Folder Structure Specification</span><span class="toc-page">15</span></div>
+    <div class="toc-card"><span class="toc-num">16</span><span class="toc-title">Routing Structure & API Reference</span><span class="toc-page">16</span></div>
+    <div class="toc-card"><span class="toc-num">17</span><span class="toc-title">Component Architecture & State</span><span class="toc-page">17</span></div>
+    <div class="toc-card"><span class="toc-num">18</span><span class="toc-title">Design System & Visual Tokens</span><span class="toc-page">18</span></div>
+    <div class="toc-card"><span class="toc-num">19</span><span class="toc-title">Responsive Layout Engine</span><span class="toc-page">19</span></div>
+    <div class="toc-card"><span class="toc-num">20</span><span class="toc-title">Animation & Motion System</span><span class="toc-page">20</span></div>
+    <div class="toc-card"><span class="toc-num">21</span><span class="toc-title">Performance Optimization</span><span class="toc-page">21</span></div>
+    <div class="toc-card"><span class="toc-num">22</span><span class="toc-title">Git Workflow & CI/CD Validation</span><span class="toc-page">22</span></div>
+    <div class="toc-card"><span class="toc-num">23</span><span class="toc-title">Production Deployment Architecture</span><span class="toc-page">23</span></div>
+    <div class="toc-card"><span class="toc-num">24</span><span class="toc-title">Future Product Roadmap</span><span class="toc-page">24</span></div>
+    <div class="toc-card"><span class="toc-num">25</span><span class="toc-title">Future Infrastructure Stack</span><span class="toc-page">25</span></div>
+    <div class="toc-card"><span class="toc-num">26</span><span class="toc-title">Appendix: Glossary & References</span><span class="toc-page">26</span></div>
+  </div>
+
+  <div class="card" style="margin-top: 20px;">
+    <div class="card-header">Document Scope & Standards</div>
+    <p>
+      This master specification document adheres to top-tier enterprise standards established by leading software organizations including Vercel, Stripe, Apple, and Microsoft. All system architecture diagrams, database schemas, code execution pipelines, and security protocols documented herein reflect the complete implementation of the BCA Department Website platform.
+    </p>
+  </div>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 02</span>
+  </div>
+</div>
+
+<!-- PAGE 3: PROJECT OVERVIEW -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>01. Core Architecture</span>
+    <span class="accent">Project Overview</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">01</span> Project Overview</h1>
+
+  <h2>1.1 Platform Vision & Core Mission</h2>
+  <p>
+    The <strong>BCA Department Website</strong> is a next-generation, unified digital learning platform engineered specifically for Computer Applications undergraduate students. It bridges the gap between theoretical university curriculum and real-world software engineering practice by providing an integrated ecosystem containing course notes, semester past papers, interactive code execution sandboxes, structured technology learning hubs, contest arenas, and real-time skill analytics.
+  </p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">Primary Goals</div>
+      <ul>
+        <li>Deliver a centralized digital hub for all 6 BCA semesters.</li>
+        <li>Eliminate fragmented learning materials via structured syllabus nodes.</li>
+        <li>Embed interactive code execution directly inside lesson modules.</li>
+        <li>Provide real-time progress tracking, streaks, and skill radars.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">Core Objectives</div>
+      <ul>
+        <li>Sub-second UI navigation powered by React lazy route splitting.</li>
+        <li>Enterprise security using JWT token rotation and RBAC controls.</li>
+        <li>Zero-setup online code compiler supporting 10+ languages.</li>
+        <li>High-resolution PDF viewer for past papers & question banks.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>1.2 Technology Stack Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>Technology</th>
+        <th>Version</th>
+        <th>Architectural Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Frontend</strong></td>
+        <td>React SPA</td>
+        <td>v18.2.0</td>
+        <td>Client-side component hierarchy with Context API state.</td>
+      </tr>
+      <tr>
+        <td><strong>Styling</strong></td>
+        <td>Vanilla CSS & Custom Tokens</td>
+        <td>CSS3</td>
+        <td>Dark Purple design system, glassmorphism, responsive grid.</td>
+      </tr>
+      <tr>
+        <td><strong>Backend API</strong></td>
+        <td>Node.js / Express</td>
+        <td>v24 / Express v5</td>
+        <td>Modular REST micro-routing, middleware guards, JWT auth.</td>
+      </tr>
+      <tr>
+        <td><strong>Database</strong></td>
+        <td>PostgreSQL</td>
+        <td>v16.0</td>
+        <td>ACID-compliant relational store with JSONB support.</td>
+      </tr>
+      <tr>
+        <td><strong>ORM</strong></td>
+        <td>Prisma ORM</td>
+        <td>v7.8.0</td>
+        <td>Type-safe query builder, migration engine, auto-generated client.</td>
+      </tr>
+      <tr>
+        <td><strong>Execution Engine</strong></td>
+        <td>Judge0 API / Piston</td>
+        <td>v1.13</td>
+        <td>Containerized multi-language code compilation & test cases.</td>
+      </tr>
+      <tr>
+        <td><strong>Deployment</strong></td>
+        <td>GitHub + Vercel</td>
+        <td>Edge CDN</td>
+        <td>Automated continuous integration and edge deployment.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>1.3 System Value Proposition</h2>
+  <div class="diagram-box">
+    <svg viewBox="0 0 700 120" width="100%" height="120">
+      <rect x="10" y="20" width="150" height="80" rx="10" fill="#140e26" stroke="#a855f7" stroke-width="2"/>
+      <text x="85" y="55" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">Curriculum Hub</text>
+      <text x="85" y="75" fill="#94a3b8" font-size="10" text-anchor="middle">Notes & Past Papers</text>
+
+      <path d="M160 60 L210 60" stroke="#a855f7" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <rect x="210" y="20" width="150" height="80" rx="10" fill="#140e26" stroke="#c084fc" stroke-width="2"/>
+      <text x="285" y="55" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">Tech Stack Hubs</text>
+      <text x="285" y="75" fill="#94a3b8" font-size="10" text-anchor="middle">C, Java, Python, DBMS</text>
+
+      <path d="M360 60 L410 60" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="410" y="20" width="150" height="80" rx="10" fill="#140e26" stroke="#38bdf8" stroke-width="2"/>
+      <text x="485" y="55" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">Compiler Sandbox</text>
+      <text x="485" y="75" fill="#94a3b8" font-size="10" text-anchor="middle">Live Execution Arena</text>
+
+      <path d="M560 60 L610 60" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="610" y="20" width="80" height="80" rx="10" fill="#1e1338" stroke="#34d399" stroke-width="2"/>
+      <text x="650" y="55" fill="#6ee7b7" font-size="11" font-weight="bold" text-anchor="middle">Analytics</text>
+      <text x="650" y="75" fill="#94a3b8" font-size="9" text-anchor="middle">Growth</text>
+    </svg>
+  </div>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 03</span>
+  </div>
+</div>
+
+<!-- PAGE 4: WEBSITE SITEMAP -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>02. System Architecture</span>
+    <span class="accent">Website Sitemap</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">02</span> Website Sitemap Architecture</h1>
+
+  <p>
+    The BCA Department Platform adopts a logical, hierarchical page structure. Below is the complete sitemap diagram detailing all public and protected routes across the application.
+  </p>
+
+  <div class="diagram-box" style="padding: 10px;">
+    <svg viewBox="0 0 740 380" width="100%" height="380">
+      <!-- Root Node -->
+      <rect x="300" y="10" width="140" height="35" rx="6" fill="#a855f7" stroke="#ffffff" stroke-width="1.5"/>
+      <text x="370" y="32" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">HOME ( / )</text>
+
+      <!-- Level 1 Connections -->
+      <path d="M370 45 L370 70 M90 70 L650 70 M90 70 L90 90 M230 70 L230 90 M370 70 L370 90 M510 70 L510 90 M650 70 L650 90" stroke="#a855f7" stroke-width="1.5" fill="none"/>
+
+      <!-- Level 1 Nodes -->
+      <rect x="30" y="90" width="120" height="30" rx="5" fill="#140e26" stroke="#c084fc" stroke-width="1"/>
+      <text x="90" y="110" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">Dashboard</text>
+
+      <rect x="170" y="90" width="120" height="30" rx="5" fill="#140e26" stroke="#c084fc" stroke-width="1"/>
+      <text x="230" y="110" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">Roadmap</text>
+
+      <rect x="310" y="90" width="120" height="30" rx="5" fill="#140e26" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="370" y="110" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">Resources</text>
+
+      <rect x="450" y="90" width="120" height="30" rx="5" fill="#140e26" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="510" y="110" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">Tech Stack</text>
+
+      <rect x="590" y="90" width="120" height="30" rx="5" fill="#140e26" stroke="#c084fc" stroke-width="1"/>
+      <text x="650" y="110" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">Compiler & Practice</text>
+
+      <!-- Level 2 Sub-branches for Resources -->
+      <path d="M370 120 L370 145 M310 145 L430 145 M310 145 L310 160 M370 145 L370 160 M430 145 L430 160" stroke="#38bdf8" stroke-width="1" fill="none"/>
+
+      <rect x="270" y="160" width="80" height="24" rx="4" fill="#1e1338" stroke="#38bdf8" stroke-width="1"/>
+      <text x="310" y="176" fill="#cbd5e1" font-size="9" text-anchor="middle">Notes</text>
+
+      <rect x="330" y="190" width="80" height="24" rx="4" fill="#1e1338" stroke="#38bdf8" stroke-width="1"/>
+      <text x="370" y="206" fill="#cbd5e1" font-size="9" text-anchor="middle">Past Papers</text>
+
+      <rect x="390" y="220" width="80" height="24" rx="4" fill="#1e1338" stroke="#38bdf8" stroke-width="1"/>
+      <text x="430" y="236" fill="#cbd5e1" font-size="9" text-anchor="middle">Syllabus</text>
+
+      <!-- Level 2 Sub-branches for Tech Stack -->
+      <path d="M510 120 L510 145 M470 145 L620 145 M470 145 L470 160 M500 145 L500 160 M530 145 L530 160 M560 145 L560 160 M590 145 L590 160 M620 145 L620 160" stroke="#38bdf8" stroke-width="1" fill="none"/>
+
+      <rect x="450" y="160" width="40" height="20" rx="3" fill="#1e1338"/><text x="470" y="174" fill="#d8b4fe" font-size="8" text-anchor="middle">C</text>
+      <rect x="480" y="185" width="40" height="20" rx="3" fill="#1e1338"/><text x="500" y="199" fill="#d8b4fe" font-size="8" text-anchor="middle">Java</text>
+      <rect x="510" y="210" width="40" height="20" rx="3" fill="#1e1338"/><text x="530" y="224" fill="#d8b4fe" font-size="8" text-anchor="middle">Python</text>
+      <rect x="540" y="235" width="40" height="20" rx="3" fill="#1e1338"/><text x="560" y="249" fill="#d8b4fe" font-size="8" text-anchor="middle">DBMS</text>
+      <rect x="570" y="260" width="40" height="20" rx="3" fill="#1e1338"/><text x="590" y="274" fill="#d8b4fe" font-size="8" text-anchor="middle">React</text>
+      <rect x="600" y="285" width="40" height="20" rx="3" fill="#1e1338"/><text x="620" y="299" fill="#d8b4fe" font-size="8" text-anchor="middle">Node</text>
+
+      <!-- Utility Pages Bottom -->
+      <rect x="30" y="320" width="100" height="26" rx="4" fill="#140e26" stroke="#a855f7"/><text x="80" y="337" fill="#ffffff" font-size="9" text-anchor="middle">Login / Auth</text>
+      <rect x="150" y="320" width="100" height="26" rx="4" fill="#140e26" stroke="#a855f7"/><text x="200" y="337" fill="#ffffff" font-size="9" text-anchor="middle">Profile / Settings</text>
+      <rect x="270" y="320" width="100" height="26" rx="4" fill="#140e26" stroke="#a855f7"/><text x="320" y="337" fill="#ffffff" font-size="9" text-anchor="middle">Question Bank</text>
+      <rect x="390" y="320" width="100" height="26" rx="4" fill="#140e26" stroke="#34d399"/><text x="440" y="337" fill="#6ee7b7" font-size="9" text-anchor="middle">Contest Arena</text>
+      <rect x="510" y="320" width="100" height="26" rx="4" fill="#140e26" stroke="#f43f5e"/><text x="560" y="337" fill="#fda4af" font-size="9" text-anchor="middle">Admin Portal</text>
+    </svg>
+  </div>
+
+  <h2>2.1 Sitemap Navigation Index</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Primary Node</th>
+        <th>Sub-Routes / Components</th>
+        <th>Access Level</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Home</strong></td>
+        <td><code>/</code> (Home.js, Hero.js)</td>
+        <td>Public</td>
+        <td>Landing page featuring hero showcase, features, and quick links.</td>
+      </tr>
+      <tr>
+        <td><strong>Dashboard</strong></td>
+        <td><code>/dashboard</code> (Dashboard.jsx)</td>
+        <td>Protected</td>
+        <td>Personalized student dashboard with progress widgets & stats.</td>
+      </tr>
+      <tr>
+        <td><strong>Curriculum</strong></td>
+        <td><code>/curriculum/semester-:sem/:subject</code></td>
+        <td>Protected</td>
+        <td>Subject notes, unit guides, and semester question banks.</td>
+      </tr>
+      <tr>
+        <td><strong>Tech Stack</strong></td>
+        <td><code>/technologies/:langId</code></td>
+        <td>Protected</td>
+        <td>Dedicated learning hubs for C, C++, Java, Python, DBMS, JS.</td>
+      </tr>
+      <tr>
+        <td><strong>Compiler</strong></td>
+        <td><code>/practice</code> (CodingPractice.js)</td>
+        <td>Protected</td>
+        <td>Monaco-powered live code execution editor with input/output tabs.</td>
+      </tr>
+      <tr>
+        <td><strong>Contest Arena</strong></td>
+        <td><code>/contests</code> (ContestList.jsx)</td>
+        <td>Protected</td>
+        <td>Timed competitive coding contests, leaderboards, and results.</td>
+      </tr>
+      <tr>
+        <td><strong>Admin Portal</strong></td>
+        <td><code>/admin</code> (Admin dashboard)</td>
+        <td>Admin Guard</td>
+        <td>Problem creation, user management, and platform analytics.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 04</span>
+  </div>
+</div>
+
+<!-- PAGE 5: NAVIGATION FLOW -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>03. User Experience</span>
+    <span class="accent">Navigation Flow</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">03</span> Complete Navigation Flow</h1>
+
+  <p>
+    The BCA Department Platform enforces a structured user journey designed to maximize student engagement, minimize friction during learning sessions, and seamlessly transition from theoretical study to interactive coding practice.
+  </p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 700 240" width="100%" height="240">
+      <!-- Flow Step 1 -->
+      <rect x="20" y="20" width="110" height="45" rx="8" fill="#1e1338" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="75" y="47" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">GUEST USER</text>
+
+      <path d="M130 42 L170 42" stroke="#a855f7" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Step 2 -->
+      <rect x="170" y="20" width="110" height="45" rx="8" fill="#140e26" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="225" y="47" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">LOGIN / AUTH</text>
+
+      <path d="M280 42 L320 42" stroke="#a855f7" stroke-width="2"/>
+
+      <!-- Step 3 -->
+      <rect x="320" y="20" width="110" height="45" rx="8" fill="#140e26" stroke="#38bdf8" stroke-width="2"/>
+      <text x="375" y="47" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">DASHBOARD</text>
+
+      <path d="M430 42 L470 42" stroke="#a855f7" stroke-width="2"/>
+
+      <!-- Step 4 -->
+      <rect x="470" y="20" width="110" height="45" rx="8" fill="#140e26" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="525" y="47" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">SEMESTER HUB</text>
+
+      <path d="M580 42 L620 42" stroke="#a855f7" stroke-width="2"/>
+
+      <!-- Step 5 -->
+      <rect x="620" y="20" width="70" height="45" rx="8" fill="#140e26" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="655" y="47" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">SUBJECT</text>
+
+      <!-- Row 2 Flow -->
+      <path d="M655 65 L655 120 L580 120" stroke="#a855f7" stroke-width="2" fill="none"/>
+
+      <rect x="470" y="100" width="110" height="45" rx="8" fill="#140e26" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="525" y="127" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">CHAPTER</text>
+
+      <path d="M470 122 L430 122" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="320" y="100" width="110" height="45" rx="8" fill="#140e26" stroke="#34d399" stroke-width="1.5"/>
+      <text x="375" y="127" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">NOTES / PDF</text>
+
+      <path d="M320 122 L280 122" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="170" y="100" width="110" height="45" rx="8" fill="#140e26" stroke="#f43f5e" stroke-width="2"/>
+      <text x="225" y="127" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">COMPILER</text>
+
+      <path d="M170 122 L130 122" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="20" y="100" width="110" height="45" rx="8" fill="#140e26" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="75" y="127" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">QUIZ</text>
+
+      <!-- Row 3 Flow -->
+      <path d="M75 145 L75 195 L170 195" stroke="#a855f7" stroke-width="2" fill="none"/>
+
+      <rect x="170" y="175" width="130" height="45" rx="8" fill="#140e26" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="235" y="202" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">PROJECTS</text>
+
+      <path d="M300 197 L370 197" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="370" y="175" width="140" height="45" rx="8" fill="#1e1338" stroke="#34d399" stroke-width="2"/>
+      <text x="440" y="202" fill="#6ee7b7" font-size="11" font-weight="bold" text-anchor="middle">PROGRESS UPDATED</text>
+    </svg>
+  </div>
+
+  <h2>3.1 Detailed User Journey Matrix</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">Phase 1: Entry & Authentication</div>
+      <p>
+        Unauthenticated guests land on the high-impact Home page (`/`). Upon attempting to access protected resources, the `ProtectedRoute` guard intercepts the navigation and redirects to `/login`. Upon successful OAuth or JWT credential validation, the session token is stored in memory and HTTP-only cookies.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Phase 2: Curriculum Exploration</div>
+      <p>
+        From the Central Dashboard (`/dashboard`), students select their active semester (Semester 1 through 6). The application loads specific subject portals (`/curriculum/semester-2/data-structures`), rendering unit cards, downloadable PDF syllabus files, and structured chapter nodes.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Phase 3: Interactive Practice</div>
+      <p>
+        Within chapter lessons, students click "Try in Compiler" which loads the live Monaco editor (`/practice`). Code snippets are executed against test cases via the backend Judge0 compiler API. Output results, runtime errors, and execution metrics render instantly.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Phase 4: Quiz & Progress Recording</div>
+      <p>
+        Upon completing practice problems, students take end-of-unit quizzes (`/technologies/cpp/quiz`). Quiz results are committed to PostgreSQL via `ProgressContext`, updating daily streaks, solved problem counts, and subject skill vectors in real time.
+      </p>
+    </div>
+  </div>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 05</span>
+  </div>
+</div>
+
+<!-- PAGE 6: HOME PAGE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>04. Frontend Architecture</span>
+    <span class="accent">Home Page Module</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">04</span> Home Page Architecture</h1>
+
+  <p>
+    The Home Page (`src/pages/Home.js`) is the primary public entry point of the application. It is engineered with visually stunning dark purple glassmorphic aesthetic cards, animated floating elements (`FloatingUI.js`), and a cinematic hero banner (`CinematicHero.js`).
+  </p>
+
+  <h2>4.1 Section Decomposition</h2>
+  <div class="card">
+    <div class="card-header">1. Hero Section (CinematicHero.js & HeroWow.jsx)</div>
+    <p>
+      The top hero area renders an immersive radial gradient backdrop with glowing neon purple particle animations. It features an eye-catching headline ("Empower Your BCA Journey"), an interactive live code preview widget (`LiveCodeEditor.jsx`), and quick action CTA buttons ("Explore Dashboard", "Start Coding Now").
+    </p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">2. Features Showcase Matrix</div>
+      <p>
+        Highlighting six core platform capabilities: Structured Notes, Past Question Papers Vault, Multi-Language Compiler, Interactive Roadmap Engine, Contest Arena, and Real-Time Skill Analytics. Styled using flex layout in `sections.css`.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">3. Technology Ecosystem Grid</div>
+      <p>
+        Interactive tech stack selector displaying C, C++, Java, Python, DBMS, and JavaScript cards with direct navigation links to specialized technology hubs. Includes animated hover states and gradient borders.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">4. Department Resources Grid</div>
+      <p>
+        Quick access links categorized by BCA Semester (1st to 6th Semester), providing one-click access to university prescribed syllabus, core unit notes, and past examination papers.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">5. Footer & Navigation Bar</div>
+      <p>
+        Global navigation header (`Navbar.js`) with responsive mega-menu dropdowns, theme toggle switch (`ThemeContext`), search modal trigger (`SearchModal.css`), and persistent footer with department links and copyright metadata.
+      </p>
+    </div>
+  </div>
+
+  <h2>4.2 Home Page Component Map</h2>
+  <pre><code>src/pages/Home.js
+ ├── Navbar.js (Sticky header with mega menu & profile badge)
+ ├── Hero.js / HeroWow.jsx / CinematicHero.js (Glow banner & CTA)
+ ├── FloatingUI.js (Subtle floating badge animations)
+ ├── sections.css (Global grid system & gradient cards)
+ └── Footer.js (Department links, privacy policy & terms)</code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 06</span>
+  </div>
+</div>
+
+<!-- PAGE 7: DASHBOARD -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>05. Student Dashboard</span>
+    <span class="accent">Dashboard System</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">05</span> Student Dashboard Architecture</h1>
+
+  <p>
+    The Student Dashboard (`src/pages/Dashboard.jsx`) serves as the central command center for authenticated BCA students. It aggregates user statistics, current active semester progress, learning streak velocity, and quick action shortcuts.
+  </p>
+
+  <h2>5.1 Dashboard Widget Matrix</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">Learning Velocity Gauge</div>
+      <p>
+        Visual donut progress meter displaying overall curriculum completion percentage across current enrolled subjects. Built using dynamic SVG stroke-dashoffset calculations.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Active Streak Tracker</div>
+      <p>
+        Daily coding activity indicator linked to `UserProgress` model (`currentStreak`, `longestStreak`). Displays glowing fire badges upon consecutive daily logins and solves.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Subject Mastery Radar</div>
+      <p>
+        Breakdown of student proficiency across key BCA subjects (Data Structures, DBMS, Java, Python, C Programming). Data consumed directly from `UserSkill` API repository.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Recent Activity Timeline</div>
+      <p>
+        Chronological list of recently completed lessons, submitted compiler problems, and quiz attempts with instant jump-to links.
+      </p>
+    </div>
+  </div>
+
+  <h2>5.2 Data Flow Architecture</h2>
+  <div class="diagram-box">
+    <svg viewBox="0 0 700 130" width="100%" height="130">
+      <rect x="20" y="25" width="140" height="70" rx="8" fill="#140e26" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="90" y="55" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Prisma DB</text>
+      <text x="90" y="75" fill="#94a3b8" font-size="9" text-anchor="middle">UserProgress Table</text>
+
+      <path d="M160 60 L220 60" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="220" y="25" width="140" height="70" rx="8" fill="#140e26" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="290" y="55" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Express Controller</text>
+      <text x="290" y="75" fill="#94a3b8" font-size="9" text-anchor="middle">/api/v1/profile/stats</text>
+
+      <path d="M360 60 L420 60" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="420" y="25" width="140" height="70" rx="8" fill="#140e26" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="490" y="55" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">Progress Context</text>
+      <text x="490" y="75" fill="#94a3b8" font-size="9" text-anchor="middle">React State Provider</text>
+
+      <path d="M560 60 L620 60" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="620" y="25" width="60" height="70" rx="8" fill="#1e1338" stroke="#34d399" stroke-width="1.5"/>
+      <text x="650" y="60" fill="#6ee7b7" font-size="10" font-weight="bold" text-anchor="middle">UI</text>
+    </svg>
+  </div>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 07</span>
+  </div>
+</div>
+
+<!-- PAGE 8: RESOURCES MODULE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>06. Academic Content</span>
+    <span class="accent">Resources Module</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">06</span> Resources Module Architecture</h1>
+
+  <p>
+    The Resources Module provides structured academic materials covering all 6 semesters of the BCA curriculum. Content is organized into four core pillars: Chapter Notes, Past Papers, Question Banks, and Prescribed Syllabus.
+  </p>
+
+  <h2>6.1 Resource Pillars Breakdown</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">1. Chapter Notes Engine</div>
+      <p>
+        Structured Markdown and HTML rendering system (`DSNotesPage.jsx`, `SemesterCChapterPage.js`) providing detailed explanation of theoretical concepts, code snippets, syntax charts, and memory diagrams.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">2. Past Papers Vault</div>
+      <p>
+        Categorized archive of university semester examination papers (Summer & Winter sessions from 2018–2026). Fully indexed with metadata tags for quick filtering.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">3. Question Bank Engine</div>
+      <p>
+        Curated repository of short answer questions, long theoretical problems, and code debugging questions organized by topic difficulty (`DSQuestionsListPage.jsx`).
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">4. Syllabus Viewer</div>
+      <p>
+        Official university course outline viewer (`SubjectSyllabus.js`, `SyllabusData.js`) breaking down mark distributions, credit hours, lab prerequisites, and reference textbooks.
+      </p>
+    </div>
+  </div>
+
+  <h2>6.2 Integrated PDF Viewer Architecture</h2>
+  <p>
+    For rendering PDF past papers and question solution documents directly in browser without forcing file downloads, the platform integrates <code class="inline">react-pdf</code> (v7.7.3) backed by <code class="inline">pdfjs-dist</code> (v3.11.174) worker threads.
+  </p>
+  <pre><code>import { Document, Page, pdfjs } from 'react-pdf';
+
+// Configure PDF.js worker URL for CORS and bundler compatibility
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+function ResourcePdfViewer({ fileUrl }) {
+  return (
+    &lt;div className="pdf-viewer-container"&gt;
+      &lt;Document file={fileUrl} loading={&lt;PageLoader /&gt;}&gt;
+        &lt;Page pageNumber={1} renderTextLayer={true} renderAnnotationLayer={false} /&gt;
+      &lt;/Document&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 08</span>
+  </div>
+</div>
+
+<!-- PAGE 9: PAST PAPERS ARCHITECTURE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>07. Examination System</span>
+    <span class="accent">Past Papers Flow</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">07</span> Past Papers Data Pipeline</h1>
+
+  <p>
+    The Past Papers module uses a hierarchical relational query flow to allow students to retrieve relevant previous year question papers in under three clicks.
+  </p>
+
+  <h2>7.1 Past Paper Query Pipeline</h2>
+  <div class="diagram-box">
+    <svg viewBox="0 0 700 180" width="100%" height="180">
+      <rect x="20" y="20" width="120" height="50" rx="6" fill="#140e26" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="80" y="50" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">1. SELECT SEMESTER</text>
+
+      <path d="M140 45 L180 45" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="180" y="20" width="120" height="50" rx="6" fill="#140e26" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="240" y="50" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">2. SELECT SUBJECT</text>
+
+      <path d="M300 45 L340 45" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="340" y="20" width="130" height="50" rx="6" fill="#140e26" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="405" y="50" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">3. EXAM SESSION</text>
+
+      <path d="M470 45 L510 45" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="510" y="20" width="160" height="50" rx="6" fill="#1e1338" stroke="#34d399" stroke-width="2"/>
+      <text x="590" y="50" fill="#6ee7b7" font-size="11" font-weight="bold" text-anchor="middle">4. RENDER / DOWNLOAD</text>
+
+      <!-- Sub Session Branching -->
+      <path d="M405 70 L405 110 M330 110 L480 110 M330 110 L330 130 M480 110 L480 130" stroke="#38bdf8" stroke-width="1.5" fill="none"/>
+
+      <rect x="270" y="130" width="120" height="35" rx="5" fill="#140e26" stroke="#fbbf24"/>
+      <text x="330" y="152" fill="#fde047" font-size="10" font-weight="bold" text-anchor="middle">SUMMER (2018–2026)</text>
+
+      <rect x="420" y="130" width="120" height="35" rx="5" fill="#140e26" stroke="#60a5fa"/>
+      <text x="480" y="152" fill="#93c5fd" font-size="10" font-weight="bold" text-anchor="middle">WINTER (2018–2026)</text>
+    </svg>
+  </div>
+
+  <h2>7.2 Past Papers Technical Metadata Model</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Attribute</th>
+        <th>Field Type</th>
+        <th>Sample Data</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="inline">paperId</code></td>
+        <td>UUID v4</td>
+        <td><code class="inline">8f9d2a1b-3c4d...</code></td>
+        <td>Unique paper identifier.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">semester</code></td>
+        <td>Integer (1-6)</td>
+        <td><code class="inline">2</code></td>
+        <td>BCA Academic semester filter.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">subjectCode</code></td>
+        <td>VarChar(20)</td>
+        <td><code class="inline">BCA-201-DS</code></td>
+        <td>Official university course code.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">examSession</code></td>
+        <td>Enum</td>
+        <td><code class="inline">SUMMER_2025</code></td>
+        <td>Examination period.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">fileStorageUrl</code></td>
+        <td>Text (URL)</td>
+        <td><code class="inline">/pdf/papers/ds_2025.pdf</code></td>
+        <td>CDN target path for high-speed download.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 09</span>
+  </div>
+</div>
+
+<!-- PAGE 10: QUESTION BANK -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>08. Practice System</span>
+    <span class="accent">Question Bank</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">08</span> Question Bank Architecture</h1>
+
+  <p>
+    The Question Bank engine (`src/pages/DataStructureQuestionPage.jsx`, `DSQuestionsListPage.jsx`) organizes hundreds of verified examination questions categorized by unit, difficulty level, and topic tags.
+  </p>
+
+  <h2>8.1 Core Capabilities</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">Instant Tag Search Engine</div>
+      <p>
+        Client-side fuzzy searching allowing students to filter questions by keywords ("Linked List", "Binary Tree", "Stack Overflow", "Time Complexity") in real time.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Interactive Solution Viewer</div>
+      <p>
+        Click-to-reveal solution drawer providing step-by-step mathematical proofs, C/C++/Java implementation code, and complexity analysis (Big-O notation).
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Bookmarking & Revision List</div>
+      <p>
+        Students can flag difficult questions for exam revision. Bookmarks persist locally and synchronize across devices upon login.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Topic Mastery Tracking</div>
+      <p>
+        Automatic tracking of completed questions feeds directly into `UserProgress` state to render completion percentages per unit.
+      </p>
+    </div>
+  </div>
+
+  <h2>8.2 Question Data Schema Structure</h2>
+  <pre><code>// Example Question Bank Data Model (programs_data.json)
+{
+  "questionId": "DS-U1-Q04",
+  "unit": "Unit 1: Linear Data Structures",
+  "title": "Evaluate Reverse Polish Notation using Stack",
+  "difficulty": "MEDIUM",
+  "marksWeightage": 8,
+  "frequentlyAsked": true,
+  "topics": ["Stack", "Expression Evaluation", "Algorithms"],
+  "problemStatement": "Write an algorithm and C program to evaluate a postfix expression...",
+  "solutionSnippet": "#include <stdio.h>
+#include <stdlib.h>
+...",
+  "timeComplexity": "O(N)",
+  "spaceComplexity": "O(N)"
+}</code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 10</span>
+  </div>
+</div>
+
+<!-- PAGE 11: TECH STACK MODULE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>09. Learning Hubs</span>
+    <span class="accent">Technology Stack</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">09</span> Technology Stack Module</h1>
+
+  <p>
+    The platform provides specialized, deep-dive Technology Learning Hubs for six core computer science disciplines essential to the BCA curriculum. Each hub contains an Overview, Structured Lessons, Program Viewer, Practice Arena, Quizzes, Projects, Interview Qs, and Downloadable Resources.
+  </p>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header">1. C Programming</div>
+      <span class="badge badge-purple">CLearningHub.js</span>
+      <p style="margin-top: 8px; font-size: 11px;">Pointers, dynamic memory allocation (`malloc`, `free`), structures, file I/O, header creation.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">2. Java Enterprise</div>
+      <span class="badge badge-purple">JavaLearningHub.js</span>
+      <p style="margin-top: 8px; font-size: 11px;">OOP inheritance, polymorphism, multithreading, exception handling, JVM architecture, JDBC.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">3. Python Science</div>
+      <span class="badge badge-purple">PythonLearningHub.js</span>
+      <p style="margin-top: 8px; font-size: 11px;">Data structures, OOP, file processing, NumPy, Pandas, automation scripts, lambda expressions.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">4. DBMS & SQL</div>
+      <span class="badge badge-blue">Database Hub</span>
+      <p style="margin-top: 8px; font-size: 11px;">Relational algebra, SQL joins, indexing, normalization (1NF-5NF), ACID transactions, ER modeling.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">5. React.js Frontend</div>
+      <span class="badge badge-green">MasterLanguagePage</span>
+      <p style="margin-top: 8px; font-size: 11px;">JSX, hooks (`useState`, `useEffect`), Context API, Virtual DOM, React Router, component lifecycle.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">6. Node.js Backend</div>
+      <span class="badge badge-amber">Backend Architecture</span>
+      <p style="margin-top: 8px; font-size: 11px;">Event loop, non-blocking I/O, Express routing, RESTful APIs, JWT middleware, Prisma database integrations.</p>
+    </div>
+  </div>
+
+  <h2>9.1 Standard Technology Hub Layout</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Sub-Component</th>
+        <th>Component File</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Roadmap & Syllabus</strong></td>
+        <td><code>Roadmap.jsx</code></td>
+        <td>Step-by-step visual learning path from beginner to advanced concepts.</td>
+      </tr>
+      <tr>
+        <td><strong>Lesson Viewer</strong></td>
+        <td><code>LessonViewerPage.jsx</code></td>
+        <td>Interactive rich text lessons with embedded live code editor.</td>
+      </tr>
+      <tr>
+        <td><strong>Program Viewer</strong></td>
+        <td><code>ProgramViewerPage.jsx</code></td>
+        <td>Curated collection of 50+ executable programs with explanation.</td>
+      </tr>
+      <tr>
+        <td><strong>Quiz Arena</strong></td>
+        <td><code>CppQuiz.js</code> / <code>DSQuiz.js</code></td>
+        <td>Timed multiple-choice assessments with instant score calculations.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 11</span>
+  </div>
+</div>
+
+<!-- PAGE 12: COMPILER MODULE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>10. Execution Engine</span>
+    <span class="accent">Compiler Sandbox</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">10</span> Compiler Engine Architecture</h1>
+
+  <p>
+    The Online Code Compiler (`src/components/LiveCodeEditor.jsx`, `src/pages/CodingPractice.js`) enables students to write, compile, run, and debug source code directly inside the browser across multiple programming languages (C, C++, Java, Python, JavaScript, TypeScript).
+  </p>
+
+  <h2>10.1 Multi-Stage Execution Pipeline</h2>
+  <div class="diagram-box">
+    <svg viewBox="0 0 700 160" width="100%" height="160">
+      <rect x="20" y="20" width="120" height="50" rx="6" fill="#140e26" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="80" y="42" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">REACT EDITOR</text>
+      <text x="80" y="58" fill="#94a3b8" font-size="8" text-anchor="middle">Monaco Code Input</text>
+
+      <path d="M140 45 L180 45" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="180" y="20" width="130" height="50" rx="6" fill="#140e26" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="245" y="42" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">EXPRESS API</text>
+      <text x="245" y="58" fill="#94a3b8" font-size="8" text-anchor="middle">POST /api/v1/submission</text>
+
+      <path d="M310 45 L350 45" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="350" y="20" width="130" height="50" rx="6" fill="#140e26" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="415" y="42" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">BULLMQ QUEUE</text>
+      <text x="415" y="58" fill="#94a3b8" font-size="8" text-anchor="middle">Async Redis Worker</text>
+
+      <path d="M480 45 L520 45" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="520" y="20" width="160" height="50" rx="6" fill="#1e1338" stroke="#38bdf8" stroke-width="2"/>
+      <text x="600" y="42" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">JUDGE0 / PISTON</text>
+      <text x="600" y="58" fill="#94a3b8" font-size="8" text-anchor="middle">Isolated Docker Sandbox</text>
+
+      <!-- Return Flow -->
+      <path d="M600 70 L600 120 L80 120 L80 70" stroke="#34d399" stroke-width="2" stroke-dasharray="4,4" fill="none"/>
+      <text x="340" y="115" fill="#6ee7b7" font-size="10" font-weight="bold" text-anchor="middle">STDOUT / STDERR Payload Returned to React Console</text>
+    </svg>
+  </div>
+
+  <h2>10.2 Supported Execution Environments</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Language</th>
+        <th>Compiler / Runtime</th>
+        <th>Version</th>
+        <th>Default Flags</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>C</strong></td>
+        <td>GCC Compiler</td>
+        <td>v13.2.0</td>
+        <td><code class="inline">gcc -O2 -Wall main.c -lm</code></td>
+      </tr>
+      <tr>
+        <td><strong>C++</strong></td>
+        <td>G++ Compiler</td>
+        <td>v13.2.0</td>
+        <td><code class="inline">g++ -std=c++20 -O2 main.cpp</code></td>
+      </tr>
+      <tr>
+        <td><strong>Java</strong></td>
+        <td>OpenJDK HotSpot</td>
+        <td>v21.0.2</td>
+        <td><code class="inline">javac Main.java && java Main</code></td>
+      </tr>
+      <tr>
+        <td><strong>Python</strong></td>
+        <td>CPython Engine</td>
+        <td>v3.12.1</td>
+        <td><code class="inline">python3 -u main.py</code></td>
+      </tr>
+      <tr>
+        <td><strong>JavaScript</strong></td>
+        <td>Node.js Runtime</td>
+        <td>v20.11.0</td>
+        <td><code class="inline">node main.js</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 12</span>
+  </div>
+</div>
+
+<!-- PAGE 13: AUTHENTICATION -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>11. Platform Security</span>
+    <span class="accent">Authentication & RBAC</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">11</span> Authentication & Security Layer</h1>
+
+  <p>
+    The platform employs a defense-in-depth security model featuring dual authentication mechanisms (JWT Token Family with SHA-256 rotation & Firebase Auth), bcrypt password hashing, and granular Role-Based Access Control (RBAC).
+  </p>
+
+  <h2>11.1 Refresh Token Rotation Flow</h2>
+  <p>
+    To protect against token theft, refresh tokens are bound to session families (`familyId` in `RefreshToken` table). Whenever a refresh token is reused after rotation, the entire session family is automatically revoked as an anti-replay security measure.
+  </p>
+
+  <h2>11.2 Role-Based Access Hierarchy (RBAC)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Role Enum</th>
+        <th>Level</th>
+        <th>Permissions Scope</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="inline">USER</code></td>
+        <td>Level 1</td>
+        <td>Access public & protected student curriculum, compiler, submit solutions.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">MODERATOR</code></td>
+        <td>Level 2</td>
+        <td>Review community questions, moderate student discussions and reports.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">CONTEST_MANAGER</code></td>
+        <td>Level 3</td>
+        <td>Create, schedule, freeze, and publish competitive coding contests.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">CONTENT_REVIEWER</code></td>
+        <td>Level 3</td>
+        <td>Edit problem statements, test cases, and publish curriculum notes.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">ADMIN</code></td>
+        <td>Level 4</td>
+        <td>Full access to administrative dashboard, user management, and system metrics.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">SUPER_ADMIN</code></td>
+        <td>Level 5</td>
+        <td>Platform configuration, feature flags, role assignments, audit log review.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>11.3 Protected Route Implementation</h2>
+  <pre><code>// src/routes/ProtectedRoute.jsx
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+const ProtectedRoute = ({ children, requiredRole }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) return &lt;PageLoader /&gt;;
+  if (!user) return &lt;Navigate to="/login" replace /&gt;;
+  if (requiredRole && user.role !== requiredRole) return &lt;Navigate to="/unauthorized" replace /&gt;;
+
+  return children;
+};</code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 13</span>
+  </div>
+</div>
+
+<!-- PAGE 14: DATABASE DESIGN -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>12. Data Persistence</span>
+    <span class="accent">Database & Prisma</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">12</span> Database Design & Prisma Models</h1>
+
+  <p>
+    The database layer is built on PostgreSQL, managed via Prisma ORM (`backend/prisma/schema.prisma`). It comprises over 30 production-grade models providing strict relational constraints and indexing.
+  </p>
+
+  <h2>12.1 Entity Relationship Overview (SVG)</h2>
+  <div class="diagram-box" style="padding: 10px;">
+    <svg viewBox="0 0 700 220" width="100%" height="220">
+      <!-- User Model -->
+      <rect x="20" y="20" width="160" height="90" rx="6" fill="#1e1338" stroke="#a855f7" stroke-width="2"/>
+      <text x="100" y="40" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">USER</text>
+      <line x1="20" y1="48" x2="180" y2="48" stroke="#a855f7" stroke-width="1"/>
+      <text x="30" y="65" fill="#cbd5e1" font-size="9">id: UUID (PK)</text>
+      <text x="30" y="80" fill="#cbd5e1" font-size="9">email: VarChar (UQ)</text>
+      <text x="30" y="95" fill="#cbd5e1" font-size="9">role: Role Enum</text>
+
+      <!-- Connection User -> Submission -->
+      <path d="M180 65 L260 65" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <!-- Submission Model -->
+      <rect x="260" y="20" width="170" height="100" rx="6" fill="#140e26" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="345" y="40" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">SUBMISSION</text>
+      <line x1="260" y1="48" x2="430" y2="48" stroke="#c084fc" stroke-width="1"/>
+      <text x="270" y="65" fill="#cbd5e1" font-size="9">id: UUID (PK)</text>
+      <text x="270" y="80" fill="#cbd5e1" font-size="9">userId: UUID (FK)</text>
+      <text x="270" y="95" fill="#cbd5e1" font-size="9">problemId: UUID (FK)</text>
+      <text x="270" y="110" fill="#cbd5e1" font-size="9">status: Enum</text>
+
+      <!-- Connection Submission -> Problem -->
+      <path d="M430 65 L510 65" stroke="#a855f7" stroke-width="1.5"/>
+
+      <!-- Problem Model -->
+      <rect x="510" y="20" width="170" height="100" rx="6" fill="#140e26" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="595" y="40" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">PROBLEM</text>
+      <line x1="510" y1="48" x2="680" y2="48" stroke="#38bdf8" stroke-width="1"/>
+      <text x="520" y="65" fill="#cbd5e1" font-size="9">id: UUID (PK)</text>
+      <text x="520" y="80" fill="#cbd5e1" font-size="9">slug: VarChar (UQ)</text>
+      <text x="520" y="95" fill="#cbd5e1" font-size="9">difficulty: Enum</text>
+      <text x="520" y="110" fill="#cbd5e1" font-size="9">timeLimit: Float</text>
+
+      <!-- User Progress Model bottom -->
+      <rect x="20" y="140" width="160" height="70" rx="6" fill="#140e26" stroke="#34d399" stroke-width="1.5"/>
+      <text x="100" y="160" fill="#6ee7b7" font-size="11" font-weight="bold" text-anchor="middle">USER_PROGRESS</text>
+      <line x1="20" y1="168" x2="180" y2="168" stroke="#34d399" stroke-width="1"/>
+      <text x="30" y="185" fill="#cbd5e1" font-size="9">totalSolves: Int</text>
+      <text x="30" y="200" fill="#cbd5e1" font-size="9">currentStreak: Int</text>
+
+      <path d="M100 110 L100 140" stroke="#34d399" stroke-width="1.5"/>
+
+      <!-- Contest Model bottom -->
+      <rect x="260" y="140" width="170" height="70" rx="6" fill="#140e26" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="345" y="160" fill="#fde047" font-size="11" font-weight="bold" text-anchor="middle">CONTEST</text>
+      <line x1="260" y1="168" x2="430" y2="168" stroke="#fbbf24" stroke-width="1"/>
+      <text x="270" y="185" fill="#cbd5e1" font-size="9">startTime: DateTime</text>
+      <text x="270" y="200" fill="#cbd5e1" font-size="9">scoringType: Enum</text>
+    </svg>
+  </div>
+
+  <h2>12.2 Selected Prisma Model Specifications</h2>
+  <pre><code>model User {
+  id           String            @id @default(uuid()) @db.Uuid
+  email        String            @unique @db.VarChar(255)
+  username     String            @unique @db.VarChar(50)
+  passwordHash String            @db.VarChar(255)
+  role         Role              @default(USER)
+  createdAt    DateTime          @default(now()) @db.Timestamptz
+  submissions  Submission[]
+  progress     UserProgress?
+  rating       UserRating?
+  skills       UserSkill[]
+}</code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 14</span>
+  </div>
+</div>
+
+<!-- PAGE 15: FOLDER STRUCTURE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>13. Codebase Organization</span>
+    <span class="accent">Folder Structure</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">13</span> Folder Structure Specification</h1>
+
+  <p>
+    The codebase follows clean architecture principles, separating presentation components, business logic, global state providers, backend routes, and database repositories.
+  </p>
+
+  <h2>13.1 Frontend Directory Structure (`src/`)</h2>
+  <pre><code>src/
+ ├── components/       # Modular UI components
+ │   ├── auth/         # Login, signup & modal forms
+ │   ├── contest/      # Contest arena, timer & leaderboard
+ │   ├── dashboard/    # Analytics widgets & progress gauges
+ │   ├── learning/     # Lesson viewers & chapter templates
+ │   ├── navigation/   # Navbar, footer & mega-menu
+ │   ├── ui/           # Buttons, loaders, modal dialogs
+ │   └── LiveCodeEditor.jsx # Monaco code compiler UI
+ ├── context/          # React Context API State Providers
+ │   ├── AuthContext.jsx       # Auth user state & tokens
+ │   ├── ContestContext.jsx    # Live contest timer & submissions
+ │   ├── LearningContext.jsx   # Active lesson state
+ │   └── ProgressContext.jsx   # Solved counts & streaks
+ ├── pages/            # Page-level route views (36+ components)
+ ├── routes/           # ProtectedRoute guards & route config
+ └── styles/           # Vanilla CSS modular stylesheets</code></pre>
+
+  <h2>13.2 Backend Directory Structure (`backend/src/`)</h2>
+  <pre><code>backend/src/
+ ├── config/           # Express CORS, Redis & Database configs
+ ├── middleware/       # JWT auth verification, error handling
+ ├── modules/          # Core Domain Modules
+ │   ├── auth/         # Login, register, token rotation
+ │   ├── contest/      # Contest engines & ICPC scoring
+ │   ├── problem/      # Problem CRUD & test case runner
+ │   └── submission/   # BullMQ queue & Judge0 API hooks
+ ├── repositories/     # Prisma database access abstraction layer
+ └── server.ts         # Express server listener & Socket.io setup</code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 15</span>
+  </div>
+</div>
+
+<!-- PAGE 16: ROUTING STRUCTURE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>14. API & Navigation</span>
+    <span class="accent">Routing Structure</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">14</span> Routing Structure & API Reference</h1>
+
+  <p>
+    The platform maps client-side routes via React Router v7 and backend endpoints via Express modular routers.
+  </p>
+
+  <h2>14.1 Key Client-Side Routes</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Path</th>
+        <th>Component</th>
+        <th>Access</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="inline">/</code></td>
+        <td>Home.js</td>
+        <td>Public</td>
+        <td>Platform landing page & overview.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">/dashboard</code></td>
+        <td>Dashboard.jsx</td>
+        <td>Protected</td>
+        <td>Student progress analytics dashboard.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">/practice</code></td>
+        <td>ProgrammingHub.jsx</td>
+        <td>Protected</td>
+        <td>Multi-language coding practice arena.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">/technologies/:langId</code></td>
+        <td>MasterLanguagePage.jsx</td>
+        <td>Protected</td>
+        <td>Technology hub (C, Java, Python, DBMS).</td>
+      </tr>
+      <tr>
+        <td><code class="inline">/contests</code></td>
+        <td>ContestList.jsx</td>
+        <td>Protected</td>
+        <td>Live and upcoming coding contests.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>14.2 Core REST API Endpoints</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th>Endpoint Path</th>
+        <th>Auth Guard</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="inline">POST</code></td>
+        <td>/api/v1/auth/login</td>
+        <td>Public</td>
+        <td>Authenticates student, returns JWT access token.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">POST</code></td>
+        <td>/api/v1/auth/refresh</td>
+        <td>Bearer Token</td>
+        <td>Rotates refresh token family.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">GET</code></td>
+        <td>/api/v1/problems</td>
+        <td>User Guard</td>
+        <td>Fetches paginated question bank problems.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">POST</code></td>
+        <td>/api/v1/submissions</code></td>
+        <td>User Guard</td>
+        <td>Submits code snippet for Judge0 sandbox compilation.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">GET</code></td>
+        <td>/api/v1/contests/:id/leaderboard</td>
+        <td>User Guard</td>
+        <td>Retrieves real-time contest ICPC leaderboard.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 16</span>
+  </div>
+</div>
+
+<!-- PAGE 17: COMPONENT ARCHITECTURE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>15. Component Design</span>
+    <span class="accent">Component System</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">15</span> Component Architecture</h1>
+
+  <p>
+    The component architecture strictly adheres to modular composition, isolating UI presentational concerns from state management providers.
+  </p>
+
+  <h2>15.1 Context Provider Hierarchy</h2>
+  <p>
+    The application root (`App.js`) wraps the component tree in eight nested context providers, establishing single source of truth for global states:
+  </p>
+
+  <pre><code>ThemeProvider
+ └── AuthProvider
+      └── ContestProvider
+           └── LearningProvider
+                └── ProgressProvider
+                     └── ProgramProvider
+                          └── NotificationProvider
+                               └── SettingsProvider
+                                    └── Router & Routes</code></pre>
+
+  <h2>15.2 Reusable UI Component Matrix</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">PageLoader Component</div>
+      <p>
+        Full-screen loading overlay (`src/components/ui/PageLoader.js`) rendered during React.lazy chunk fetches and suspense fallbacks.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Navbar Component</div>
+      <p>
+        Responsive navigation header (`src/components/Navbar.js`) with integrated mega-menu, search modal keybindings (`Ctrl+K`), and user avatar menu.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">LiveCodeEditor Component</div>
+      <p>
+        Interactive code compiler widget (`src/components/LiveCodeEditor.jsx`) supporting syntax highlighting, theme switching, and test case execution.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">FloatingUI Component</div>
+      <p>
+        Decorative floating badges (`src/components/FloatingUI.js`) used on landing views to display animated stats and technology icons.
+      </p>
+    </div>
+  </div>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 17</span>
+  </div>
+</div>
+
+<!-- PAGE 18: DESIGN SYSTEM -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>16. UI/UX Standards</span>
+    <span class="accent">Design System</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">16</span> Design System & Tokens</h1>
+
+  <p>
+    The BCA Department Platform features a custom <strong>Black + Purple</strong> enterprise design system engineered in vanilla CSS (`src/styles/global.css`, `tokens.css`).
+  </p>
+
+  <h2>18.1 Master Color Palette</h2>
+  <div class="grid-3">
+    <div class="card" style="background: #0b0813; border-color: #a855f7;">
+      <div style="font-weight: 700; color: #ffffff;">Deep Background</div>
+      <code class="inline">#0B0813</code>
+      <p style="font-size: 10px; margin-top: 5px;">Canvas primary background.</p>
+    </div>
+    <div class="card" style="background: #140e26; border-color: #a855f7;">
+      <div style="font-weight: 700; color: #ffffff;">Surface Card</div>
+      <code class="inline">#140E26</code>
+      <p style="font-size: 10px; margin-top: 5px;">Elevated card container background.</p>
+    </div>
+    <div class="card" style="background: #1e1338; border-color: #a855f7;">
+      <div style="font-weight: 700; color: #ffffff;">Header Surface</div>
+      <code class="inline">#1E1338</code>
+      <p style="font-size: 10px; margin-top: 5px;">Table th & header background.</p>
+    </div>
+    <div class="card" style="background: #a855f7; color: #000;">
+      <div style="font-weight: 800; color: #ffffff;">Primary Glow</div>
+      <code class="inline" style="color:#ffffff;">#A855F7</code>
+      <p style="font-size: 10px; margin-top: 5px; color:#ffffff;">Neon purple accent highlights.</p>
+    </div>
+    <div class="card" style="background: #c084fc;">
+      <div style="font-weight: 800; color: #000;">Secondary Accent</div>
+      <code class="inline" style="color:#000;">#C084FC</code>
+      <p style="font-size: 10px; margin-top: 5px; color:#000;">Sub-heading text & borders.</p>
+    </div>
+    <div class="card" style="background: #34d399; color: #000;">
+      <div style="font-weight: 800; color: #000;">Success Emerald</div>
+      <code class="inline" style="color:#000;">#34D399</code>
+      <p style="font-size: 10px; margin-top: 5px; color:#000;">Accepted verdict & streak status.</p>
+    </div>
+  </div>
+
+  <h2>18.2 Typography Scale</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Font Family</th>
+        <th>Size</th>
+        <th>Weight</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Display Headings</strong></td>
+        <td>Plus Jakarta Sans</td>
+        <td>32px - 42px</td>
+        <td>800 Bold</td>
+      </tr>
+      <tr>
+        <td><strong>Section Titles</strong></td>
+        <td>Plus Jakarta Sans</td>
+        <td>20px - 24px</td>
+        <td>700 Bold</td>
+      </tr>
+      <tr>
+        <td><strong>Body Text</strong></td>
+        <td>Plus Jakarta Sans</td>
+        <td>13px - 14px</td>
+        <td>400 Regular</td>
+      </tr>
+      <tr>
+        <td><strong>Code Blocks</strong></td>
+        <td>Fira Code / JetBrains Mono</td>
+        <td>11px - 12px</td>
+        <td>500 Medium</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 18</span>
+  </div>
+</div>
+
+<!-- PAGE 19: RESPONSIVE DESIGN -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>17. Accessibility</span>
+    <span class="accent">Responsive Layout</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">17</span> Responsive Design Engine</h1>
+
+  <p>
+    The platform guarantees flawless rendering across Mobile, Tablet, and Desktop viewport sizes using fluid grid CSS and mobile drawer navigation (`Navbar.css`, `MegaMenu.css`).
+  </p>
+
+  <h2>17.1 Viewport Breakpoints Specification</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Breakpoint</th>
+        <th>Width Range</th>
+        <th>Layout Adaptations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="inline">Mobile (xs)</code></td>
+        <td>320px - 639px</td>
+        <td>Single column stacked layout, mobile burger drawer menu, full-width code editor.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">Tablet (md)</code></td>
+        <td>640px - 1023px</td>
+        <td>2-column widget grid, collapsible sidebar navigation, touch-optimized cards.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">Desktop (lg)</code></td>
+        <td>1024px - 1279px</td>
+        <td>3-column dashboard grid, persistent side navigation, split-screen live compiler.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">Ultra-Wide (xl)</code></td>
+        <td>1280px+</td>
+        <td>Max 1400px centered canvas, floating sidebars, multi-pane contest view.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>17.2 Mobile Touch Optimization</h2>
+  <ul>
+    <li>Minimum tap target size of 44x44px for all interactive buttons and navigation links.</li>
+    <li>Horizontal swipe gestures for technology card carousels and table viewports.</li>
+    <li>Optimized virtual keyboard behavior in Monaco code editor inputs.</li>
+  </ul>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 19</span>
+  </div>
+</div>
+
+<!-- PAGE 20: ANIMATION SYSTEM -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>18. Motion Graphics</span>
+    <span class="accent">Animation System</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">18</span> Animation System & Motion</h1>
+
+  <p>
+    The application utilizes fluid micro-interactions and route transitions powered by <strong>Framer Motion</strong> (v10.18.0) and CSS keyframe animations.
+  </p>
+
+  <h2>18.1 Keyframe Animation Matrix</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">Glow Pulse Effect</div>
+      <p>
+        Periodic box-shadow intensity animation applied to primary CTA buttons and active streak badges. Creates a modern software studio feeling.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">Shimmer Skeleton Loaders</div>
+      <p>
+        Linear gradient background animation (`@keyframes shimmer`) displayed while lazy-loading page chunks and fetching backend data.
+      </p>
+    </div>
+  </div>
+
+  <h2>18.2 Framer Motion Transition Pattern</h2>
+  <pre><code>import { motion } from 'framer-motion';
+
+const pageVariants = {
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
+  exit: { opacity: 0, y: -12, transition: { duration: 0.2 } }
+};
+
+export const AnimatedPage = ({ children }) => (
+  &lt;motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"&gt;
+    {children}
+  &lt;/motion.div&gt;
+);</code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 20</span>
+  </div>
+</div>
+
+<!-- PAGE 21: PERFORMANCE OPTIMIZATION -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>19. Engineering Excellence</span>
+    <span class="accent">Performance</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">19</span> Performance Optimization</h1>
+
+  <p>
+    To achieve sub-second page loads and maintain high Lighthouse scores, the web application incorporates route-level code splitting, asset memoization, and dynamic chunking.
+  </p>
+
+  <h2>19.1 Route Splitting Architecture (`React.lazy`)</h2>
+  <p>
+    Instead of shipping a single monolithic JavaScript bundle, heavy page views are split into isolated chunks loaded on demand when the corresponding route is visited:
+  </p>
+
+  <pre><code>// App.js Route Splitting Pattern
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const CppLearningHub = lazy(() => import('./pages/CppLearningHub'));
+const ContestProblemArena = lazy(() => import('./pages/ContestProblemArena'));
+
+function App() {
+  return (
+    &lt;Suspense fallback={&lt;PageLoader /&gt;}&gt;
+      &lt;Routes&gt;
+        &lt;Route path="/dashboard" element={&lt;ProtectedRoute&gt;&lt;Dashboard /&gt;&lt;/ProtectedRoute&gt;} /&gt;
+      &lt;/Routes&gt;
+    &lt;/Suspense&gt;
+  );
+}</code></pre>
+
+  <h2>19.2 Lighthouse Metric Targets</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Performance Indicator</th>
+        <th>Target Benchmark</th>
+        <th>Optimization Strategy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>First Contentful Paint (FCP)</strong></td>
+        <td>&lt; 0.9s</td>
+        <td>Critical inline CSS & eager loading of home route.</td>
+      </tr>
+      <tr>
+        <td><strong>Largest Contentful Paint (LCP)</strong></td>
+        <td>&lt; 1.8s</td>
+        <td>Preloading web fonts & SVG optimization.</td>
+      </tr>
+      <tr>
+        <td><strong>Cumulative Layout Shift (CLS)</strong></td>
+        <td>&lt; 0.02</td>
+        <td>Fixed width image containers & skeleton loaders.</td>
+      </tr>
+      <tr>
+        <td><strong>Total Blocking Time (TBT)</strong></td>
+        <td>&lt; 100ms</td>
+        <td>Offloading syntax highlighting to Web Workers.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 21</span>
+  </div>
+</div>
+
+<!-- PAGE 22: GIT WORKFLOW -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>20. DevOps & Integration</span>
+    <span class="accent">Git Workflow</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">22</span> Git Workflow & Deployment Loop</h1>
+
+  <p>
+    The development pipeline relies on strict version control automation, static build verification, and instant cloud previews.
+  </p>
+
+  <h2>22.1 CI/CD Execution Flowchart</h2>
+  <div class="diagram-box">
+    <svg viewBox="0 0 700 240" width="100%" height="240">
+      <!-- Step 1 -->
+      <rect x="30" y="20" width="120" height="40" rx="6" fill="#140e26" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="90" y="44" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">AI / CODE CHANGES</text>
+
+      <path d="M150 40 L190 40" stroke="#a855f7" stroke-width="2"/>
+
+      <!-- Step 2 -->
+      <rect x="190" y="20" width="120" height="40" rx="6" fill="#140e26" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="250" y="44" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">git status</text>
+
+      <path d="M310 40 L350 40" stroke="#a855f7" stroke-width="2"/>
+
+      <!-- Step 3 -->
+      <rect x="350" y="20" width="120" height="40" rx="6" fill="#140e26" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="410" y="44" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">REVIEW FILES</text>
+
+      <path d="M470 40 L510 40" stroke="#a855f7" stroke-width="2"/>
+
+      <!-- Step 4 -->
+      <rect x="510" y="20" width="140" height="40" rx="6" fill="#140e26" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="580" y="44" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">npm run build</text>
+
+      <!-- Row 2 Flow -->
+      <path d="M580 60 L580 110 L470 110" stroke="#a855f7" stroke-width="2" fill="none"/>
+
+      <rect x="330" y="90" width="140" height="40" rx="6" fill="#140e26" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="400" y="114" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">GIT COMMIT</text>
+
+      <path d="M330 110 L290 110" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="150" y="90" width="140" height="40" rx="6" fill="#140e26" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="220" y="114" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">GIT PUSH</text>
+
+      <!-- Row 3 Flow -->
+      <path d="M220 130 L220 180 L330 180" stroke="#a855f7" stroke-width="2" fill="none"/>
+
+      <rect x="330" y="160" width="150" height="45" rx="6" fill="#140e26" stroke="#38bdf8" stroke-width="2"/>
+      <text x="405" y="187" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">VERCEL DEPLOY</text>
+
+      <path d="M480 182 L520 182" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="520" y="160" width="150" height="45" rx="6" fill="#1e1338" stroke="#34d399" stroke-width="2"/>
+      <text x="595" y="187" fill="#6ee7b7" font-size="11" font-weight="bold" text-anchor="middle">WEBSITE TEST</text>
+    </svg>
+  </div>
+
+  <h2>22.2 Command Line Execution Pipeline</h2>
+  <pre><code># 1. Local Build Verification
+npm run build
+
+# 2. Stage Verified Modded Files
+git add .
+
+# 3. Commit with Semantic Version Message
+git commit -m "feat(compiler): optimize Judge0 submission execution queue"
+
+# 4. Push to Main Deployment Branch
+git push origin main</code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 22</span>
+  </div>
+</div>
+
+<!-- PAGE 23: DEPLOYMENT ARCHITECTURE -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>21. Cloud Infrastructure</span>
+    <span class="accent">Deployment Architecture</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">23</span> Production Deployment</h1>
+
+  <p>
+    The platform is deployed using a multi-cloud hybrid architecture leveraging Vercel Edge Network for frontend single page application hosting and cloud-hosted Node.js containers for backend REST microservices.
+  </p>
+
+  <h2>23.1 Hybrid Cloud Infrastructure Topology</h2>
+  <div class="diagram-box">
+    <svg viewBox="0 0 700 170" width="100%" height="170">
+      <rect x="20" y="20" width="180" height="60" rx="8" fill="#140e26" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="110" y="47" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">GITHUB REPOSITORY</text>
+      <text x="110" y="65" fill="#94a3b8" font-size="9" text-anchor="middle">Source Branch: main</text>
+
+      <path d="M200 50 L260 50" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="260" y="20" width="180" height="60" rx="8" fill="#140e26" stroke="#38bdf8" stroke-width="2"/>
+      <text x="350" y="47" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">VERCEL EDGE CDN</text>
+      <text x="350" y="65" fill="#94a3b8" font-size="9" text-anchor="middle">Static React SPA Hosting</text>
+
+      <path d="M350 80 L350 110" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="260" y="110" width="180" height="50" rx="8" fill="#1e1338" stroke="#c084fc" stroke-width="1.5"/>
+      <text x="350" y="132" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">NODE / EXPRESS API</text>
+      <text x="350" y="148" fill="#94a3b8" font-size="8" text-anchor="middle">Cloud Container Instance</text>
+
+      <path d="M440 135 L500 135" stroke="#a855f7" stroke-width="2"/>
+
+      <rect x="500" y="110" width="180" height="50" rx="8" fill="#140e26" stroke="#34d399" stroke-width="2"/>
+      <text x="590" y="132" fill="#6ee7b7" font-size="10" font-weight="bold" text-anchor="middle">POSTGRESQL DB</text>
+      <text x="590" y="148" fill="#94a3b8" font-size="8" text-anchor="middle">Supabase / Managed RDS</text>
+    </svg>
+  </div>
+
+  <h2>23.2 Deployment Settings (`vercel.json`)</h2>
+  <pre><code>{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://api.bca-department.edu/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}</code></pre>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 23</span>
+  </div>
+</div>
+
+<!-- PAGE 24: FUTURE ROADMAP -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>22. Strategic Growth</span>
+    <span class="accent">Future Roadmap</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">24</span> Future Product Roadmap</h1>
+
+  <p>
+    The future evolution of the BCA Department Platform focuses on AI-assisted learning, community collaboration, and placement readiness.
+  </p>
+
+  <h2>24.1 Planned Feature Modules</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">1. AI Tutor & Code Explainer</div>
+      <p>
+        LLM-powered assistant integrated directly into Monaco compiler to provide real-time line-by-line code explanation and bug fixes.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">2. Peer Discussion Forum</div>
+      <p>
+        Community Q&A platform allowing students to post coding queries, upvote solutions, and earn reputation badges.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">3. Automated Certificates</div>
+      <p>
+        Verifiable digital certificates issued automatically upon completing specialized technology learning hubs.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">4. Real-time ICPC Contests</div>
+      <p>
+        Live competitive coding league with WebSocket penalty calculations and instant global leaderboard updates.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">5. Interactive Resume Builder</div>
+      <p>
+        ATS-friendly resume generator tailored specifically for BCA computer application graduates.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header">6. Placement & Recruiter Portal</div>
+      <p>
+        Dedicated portal for hiring partners to review top-ranked student skill profiles, test scores, and code portfolios.
+      </p>
+    </div>
+  </div>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 24</span>
+  </div>
+</div>
+
+<!-- PAGE 25: FUTURE TECH STACK -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>23. Scalability</span>
+    <span class="accent">Future Tech Stack</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">25</span> Future Infrastructure Stack</h1>
+
+  <p>
+    To support high-concurrency contest events and scale to thousands of active students, the infrastructure will evolve toward containerized microservices.
+  </p>
+
+  <h2>25.1 Next-Generation Enterprise Technologies</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Technology</th>
+        <th>Category</th>
+        <th>Planned Utility</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Redis Cache</strong></td>
+        <td>In-Memory Store</td>
+        <td>Sub-millisecond caching of leaderboard rankings & user sessions.</td>
+      </tr>
+      <tr>
+        <td><strong>Docker Containers</strong></td>
+        <td>Containerization</td>
+        <td>Standardized microservice packaging for backend execution nodes.</td>
+      </tr>
+      <tr>
+        <td><strong>Amazon Web Services</strong></td>
+        <td>Cloud Infrastructure</td>
+        <td>AWS Lambda serverless functions & S3 bucket PDF storage.</td>
+      </tr>
+      <tr>
+        <td><strong>Kubernetes (K8s)</strong></td>
+        <td>Orchestration</td>
+        <td>Auto-scaling cluster management during peak contest traffic.</td>
+      </tr>
+      <tr>
+        <td><strong>Spring Boot</strong></td>
+        <td>Backend Framework</td>
+        <td>Enterprise Java microservices for heavy evaluation pipelines.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 25</span>
+  </div>
+</div>
+
+<!-- PAGE 26: APPENDIX -->
+<div class="page">
+  <div class="page-header-bar">
+    <span>24. Document Control</span>
+    <span class="accent">Appendix</span>
+  </div>
+
+  <h1 class="section-title"><span class="num">26</span> Appendix: Glossary & References</h1>
+
+  <h2>26.1 Technical Glossary</h2>
+  <ul>
+    <li><strong>ACID:</strong> Atomicity, Consistency, Isolation, Durability — Relational database properties guaranteed by PostgreSQL.</li>
+    <li><strong>JWT:</strong> JSON Web Token — Compact, URL-safe means of representing claims between two parties.</li>
+    <li><strong>ORM:</strong> Object-Relational Mapping — Technique for querying databases using object-oriented code (Prisma).</li>
+    <li><strong>RBAC:</strong> Role-Based Access Control — Restricting platform access based on user roles.</li>
+    <li><strong>SPA:</strong> Single Page Application — Web site that interacts dynamically by rewriting current web page rather than loading new pages.</li>
+  </ul>
+
+  <h2>26.2 Version History</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Version</th>
+        <th>Release Date</th>
+        <th>Author</th>
+        <th>Key Revisions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="inline">v0.1.0-alpha</code></td>
+        <td>January 2026</td>
+        <td>Core Engineering</td>
+        <td>Initial React frontend layout & prototype routes.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">v0.8.0-beta</code></td>
+        <td>May 2026</td>
+        <td>Backend Team</td>
+        <td>Node.js API, Prisma PostgreSQL schema & Judge0 integration.</td>
+      </tr>
+      <tr>
+        <td><code class="inline">v1.0.0-PROD</code></td>
+        <td>August 2026</td>
+        <td>Architecture Board</td>
+        <td>Full production release & master architectural documentation.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card" style="margin-top: 30px; text-align: center;">
+    <div style="font-size: 14px; font-weight: 800; color: #ffffff;">END OF MASTER DOCUMENTATION</div>
+    <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">BCA DEPARTMENT PLATFORM — OFFICIAL SOFTWARE SPECIFICATION</div>
+  </div>
+
+  <div class="page-footer-bar">
+    <span>BCA Department Master Documentation</span>
+    <span>Page 26</span>
+  </div>
+</div>
+
+</body>
+</html>
