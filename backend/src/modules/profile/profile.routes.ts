@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { ProfileController } from './controllers/profile.controller';
-import { requireAuth } from '../auth/middleware/auth.middleware';
+import { requireAuth, requireRole } from '../auth/middleware/auth.middleware';
 
 const router = Router();
 const controller = new ProfileController();
@@ -23,7 +23,7 @@ router.get('/leaderboard/seasonal', requireAuth, controller.getSeasonalLeaderboa
 router.get('/leaderboard/around-me', requireAuth, controller.getLeaderboardAroundMe);
 
 // Admin Recovery Operations
-router.post('/admin/rebuild-caches', requireAuth, controller.rebuildCaches);
-router.post('/admin/replay-ratings', requireAuth, controller.triggerRatingsReplay);
+router.post('/admin/rebuild-caches', requireAuth, requireRole('ADMIN', 'SUPER_ADMIN'), controller.rebuildCaches);
+router.post('/admin/replay-ratings', requireAuth, requireRole('ADMIN', 'SUPER_ADMIN'), controller.triggerRatingsReplay);
 
 export default router;

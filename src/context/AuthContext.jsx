@@ -247,18 +247,11 @@ export const AuthProvider = ({ children }) => {
 
   const getRole = useCallback((currentUser, currentProfile) => {
     if (currentProfile && currentProfile.role) {
-      return currentProfile.role;
+      return currentProfile.role.toLowerCase();
     }
 
     if (!currentUser) {
       return 'guest';
-    }
-
-    if (
-      currentUser.email &&
-      currentUser.email.toLowerCase().includes('admin')
-    ) {
-      return 'admin';
     }
 
     return 'student';

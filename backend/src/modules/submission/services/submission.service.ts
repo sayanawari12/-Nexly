@@ -5,7 +5,7 @@ import { TestCaseRepository } from '../../problem/repositories/testcase.reposito
 import { ProblemRepository } from '../../problem/repositories/problem.repository';
 import { QueueService } from '../../queue/services/queue.service';
 import { redisConnection } from '../../queue/config/queue.config';
-import { ConflictError, NotFoundError, UnauthorizedError } from '../../../errors';
+import { ConflictError, NotFoundError, UnauthorizedError, ForbiddenError } from '../../../errors';
 import { logger } from '../../../utils/logger';
 import { prisma } from '../../../config/database';
 
@@ -122,8 +122,9 @@ export class SubmissionService {
     }
 
     // Access containment guard
-    if (role !== 'ADMIN' && submission.userId !== userId) {
-      throw new UnauthorizedError('You do not have permission to view this submission.');
+    const isAdmin = ['ADMIN', 'SUPER_ADMIN', 'PLATFORM_ADMIN', 'MODERATOR'].includes(role.toUpperCase());
+    if (!isAdmin && submission.userId !== userId) {
+      throw new ForbiddenError('You do not have permission to view this submission.');
     }
 
     return submission;

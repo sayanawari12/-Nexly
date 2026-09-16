@@ -15,8 +15,8 @@ export class RbacService {
    * Resolves if a role has the target permission, factoring in role inheritance trees
    */
   public async roleHasPermission(role: Role, permissionName: string): Promise<boolean> {
-    // 1. Super Admin possesses absolute platform clearance
-    if (role === Role.SUPER_ADMIN) return true;
+    // 1. Super Admin and Admin possess absolute platform clearance
+    if (role === Role.SUPER_ADMIN || role === Role.ADMIN) return true;
 
     // 2. Fetch specific database-mapped permissions for role
     const permissions = await this.repo.getPermissionsForRole(role);

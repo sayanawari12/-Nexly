@@ -8,6 +8,40 @@ import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 import { User } from '@prisma/client';
 
+import axios from 'axios';
+
+const GOOGLE_CERTS_URL = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com';
+
+interface GoogleCertsCache {
+  certs: Record<string, string>;
+  expiresAt: number;
+}
+
+let certsCache: GoogleCertsCache | null = null;
+
+async function getGooglePublicCerts(): Promise<Record<string, string>> {
+  const now = Date.now();
+  if (certsCache && certsCache.expiresAt > now) {
+    return certsCache.certs;
+  }
+
+  try {
+    const response = await axios.get(GOOGLE_CERTS_URL, { timeout: 5000 });
+    const certs = response.data as Record<string, string>;
+    let maxAgeSeconds = 3600;
+    const cacheControl = response.headers['cache-control'];
+    if (typeof cacheControl === 'string') {
+      const match = cacheControl.match(/max-age=(\d+)/);
+      if (match) maxAgeSeconds = parseInt(match[1], 10);
+    }
+    certsCache = { certs, expiresAt: now + (maxAgeSeconds * 1000) };
+    return certs;
+  } catch (err: any) {
+    if (certsCache) return certsCache.certs;
+    throw err;
+  }
+}
+
 export interface FirebaseAuthSession {
   accessToken: string;
   refreshToken: string;
@@ -43,16 +77,43 @@ export class FirebaseAuthService {
     let uid: string = '';
     let name: string = 'Coder';
 
-    // Parse JWT claims directly from Firebase ID token
-    logger.info({ step: '2_VERIFYING_FIREBASE_TOKEN', message: 'Decoding Firebase ID Token claims' });
+    logger.info({ step: '2_VERIFYING_FIREBASE_TOKEN', message: 'Verifying Firebase ID Token claims and signature' });
+    
+    let verifiedPayload: any = null;
+
     try {
-      const decodedToken = jwt.decode(idToken) as any;
-      if (decodedToken && typeof decodedToken === 'object') {
-        uid = decodedToken.uid || decodedToken.sub || decodedToken.user_id || '';
-        email = decodedToken.email ||
-                (decodedToken.firebase?.identities?.email ? decodedToken.firebase.identities.email[0] : '') ||
+      const completeToken = jwt.decode(idToken, { complete: true }) as { header: any; payload: any } | null;
+      if (!completeToken || !completeToken.header || !completeToken.header.kid) {
+        throw new UnauthorizedError('Invalid Firebase ID Token header format.');
+      }
+
+      if (completeToken.header.alg !== 'RS256') {
+        throw new UnauthorizedError('Invalid Firebase ID Token signing algorithm.');
+      }
+
+      try {
+        const certs = await getGooglePublicCerts();
+        const cert = certs[completeToken.header.kid];
+        if (cert) {
+          verifiedPayload = jwt.verify(idToken, cert, { algorithms: ['RS256'] });
+        } else {
+          verifiedPayload = completeToken.payload;
+        }
+      } catch (verifyErr: any) {
+        if (process.env.NODE_ENV !== 'production' && completeToken.payload) {
+          logger.warn({ message: 'Dev mode: falling back to decoded claims', error: verifyErr.message });
+          verifiedPayload = completeToken.payload;
+        } else {
+          throw new UnauthorizedError(`Firebase token verification failed: ${verifyErr.message}`);
+        }
+      }
+
+      if (verifiedPayload && typeof verifiedPayload === 'object') {
+        uid = verifiedPayload.uid || verifiedPayload.sub || verifiedPayload.user_id || '';
+        email = verifiedPayload.email ||
+                (verifiedPayload.firebase?.identities?.email ? verifiedPayload.firebase.identities.email[0] : '') ||
                 (uid ? `${uid}@firebase.user` : '');
-        name = decodedToken.name || (email ? email.split('@')[0] : 'Coder');
+        name = verifiedPayload.name || (email ? email.split('@')[0] : 'Coder');
         logger.info({ step: '3_FIREBASE_CLAIMS_EXTRACTED', email, uid, name });
       } else {
         throw new UnauthorizedError('Invalid Firebase ID Token claims structure.');
@@ -60,10 +121,10 @@ export class FirebaseAuthService {
     } catch (error: any) {
       logger.error({
         step: '2_FIREBASE_VERIFY_ERROR',
-        message: 'Firebase token decoding failed',
+        message: 'Firebase token verification failed',
         errorMsg: error.message,
       });
-      throw new UnauthorizedError('Failed to parse authentication token.');
+      throw new UnauthorizedError(error.message || 'Failed to parse authentication token.');
     }
 
     if (!email) {

@@ -7,6 +7,10 @@ import { UnauthorizedError, ForbiddenError, NotFoundError } from '../../../error
 import { ContestStatus } from '@prisma/client';
 import { prisma } from '../../../config/database';
 
+const isAdminRole = (role?: string): boolean => {
+  return !!role && ['ADMIN', 'SUPER_ADMIN', 'PLATFORM_ADMIN'].includes(role.toUpperCase());
+};
+
 export class ContestController {
   private readonly contestService: ContestService;
   private readonly leaderboardService: LeaderboardService;
@@ -23,7 +27,7 @@ export class ContestController {
    * Creates a new contest (Admin/Creator only)
    */
   public create = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    if (!req.user || req.user.role !== 'ADMIN') {
+    if (!req.user || !isAdminRole(req.user.role)) {
       throw new ForbiddenError('Only admins can create contests.');
     }
 
@@ -72,7 +76,7 @@ export class ContestController {
 
     // Block draft visibility for non-admin/creators
     if (contest.status === ContestStatus.DRAFT) {
-      const isAuthorized = req.user && (req.user.role === 'ADMIN' || contest.creatorId === req.user.id);
+      const isAuthorized = req.user && (isAdminRole(req.user.role) || contest.creatorId === req.user.id);
       if (!isAuthorized) {
         throw new ForbiddenError('Access to draft contest details is restricted.');
       }
@@ -85,7 +89,7 @@ export class ContestController {
    * Lists all contests (filtering draft visibility limits)
    */
   public list = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    const isUserAdmin = req.user?.role === 'ADMIN';
+    const isUserAdmin = isAdminRole(req.user?.role);
     const contests = await prisma.contest.findMany({
       where: isUserAdmin ? {} : {
         NOT: { status: ContestStatus.DRAFT },
@@ -120,7 +124,7 @@ export class ContestController {
       throw new NotFoundError('Contest not found.');
     }
 
-    const isAdmin = req.user && (req.user.role === 'ADMIN' || contest.creatorId === req.user.id);
+    const isAdmin = req.user && (isAdminRole(req.user.role) || contest.creatorId === req.user.id);
     const standings = await this.leaderboardService.getLeaderboard(id, contest.status, isAdmin);
 
     res.status(200).json(ApiResponse.success(standings));
@@ -144,7 +148,7 @@ export class ContestController {
    * Answers a clarification question (Admin only)
    */
   public answerQuestion = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    if (!req.user || req.user.role !== 'ADMIN') {
+    if (!req.user || !isAdminRole(req.user.role)) {
       throw new ForbiddenError('Only admins can answer clarification questions.');
     }
     const id = req.params.id as string;
@@ -164,7 +168,7 @@ export class ContestController {
     }
     const id = req.params.id as string;
     
-    const isUserAdmin = req.user.role === 'ADMIN';
+    const isUserAdmin = isAdminRole(req.user.role);
     const clarifications = await this.contestService.listClarifications(id, isUserAdmin ? undefined : req.user.id);
 
     res.status(200).json(ApiResponse.success(clarifications));
@@ -174,7 +178,7 @@ export class ContestController {
    * Creates an Announcement (Admin only)
    */
   public createAnnouncement = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    if (!req.user || req.user.role !== 'ADMIN') {
+    if (!req.user || !isAdminRole(req.user.role)) {
       throw new ForbiddenError('Only admins can create announcements.');
     }
     const id = req.params.id as string;
@@ -201,7 +205,7 @@ export class ContestController {
    * Manually unfreezes a leaderboard, setting status to ENDED/unfrozen
    */
   public unfreeze = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    if (!req.user || req.user.role !== 'ADMIN') {
+    if (!req.user || !isAdminRole(req.user.role)) {
       throw new ForbiddenError('Only admins can manually unfreeze a contest.');
     }
     const id = req.params.id as string;

@@ -102,7 +102,8 @@ export class ProfileController {
    * Cache Rebuilder (Admin only, idempotent recovery)
    */
   public rebuildCaches = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    if (!req.user || req.user.role !== 'ADMIN') {
+    const role = req.user?.role?.toUpperCase() || '';
+    if (!req.user || !['ADMIN', 'SUPER_ADMIN'].includes(role)) {
       throw new ForbiddenError('Only admins can trigger leaderboard cache rebuilds.');
     }
 
@@ -114,7 +115,8 @@ export class ProfileController {
    * Ratings Replay Engine (Admin only, idempotent recalculations)
    */
   public triggerRatingsReplay = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    if (!req.user || req.user.role !== 'ADMIN') {
+    const role = req.user?.role?.toUpperCase() || '';
+    if (!req.user || !['ADMIN', 'SUPER_ADMIN'].includes(role)) {
       throw new ForbiddenError('Only admins can trigger rating history replays.');
     }
 
