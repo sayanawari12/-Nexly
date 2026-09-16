@@ -204,7 +204,7 @@ const Profile = () => {
                 <p className="profile-bio">{profileData.bio}</p>
               ) : (
                 <p className="profile-bio" style={{ opacity: 0.5, fontStyle: 'italic' }}>
-                  BCA Computer Science Scholar • Passionate about full-stack engineering & algorithms.
+                  Computer Science Scholar • Passionate about full-stack engineering & algorithms.
                 </p>
               )}
               
@@ -213,7 +213,7 @@ const Profile = () => {
                   <School size={13} /> {profileData?.college || 'School of Computer Sciences'}
                 </div>
                 <div className="profile-detail-chip">
-                  <BookOpen size={13} /> {profileData?.course || 'Department of BCA'}
+                  <BookOpen size={13} /> {profileData?.course || 'Computer Applications & Tech'}
                 </div>
                 <div className="profile-detail-chip">
                   <Target size={13} /> {profileData?.semester || 'Semester 4 • Batch 2024–2027'}
@@ -271,7 +271,7 @@ const Profile = () => {
             <FileText size={15} /> Resume {(profileData?.resumeURL || profileData?.socials?.resume) && <ExternalLink size={10} />}
           </a>
           <span className="profile-social-chip" style={{ opacity: 0.6 }}>
-            <Globe size={15} /> Status: {profileData?.placementStatus || 'Active BCA Student'}
+            <Globe size={15} /> Status: {profileData?.placementStatus || 'Active Learner'}
           </span>
         </div>
 
@@ -349,7 +349,7 @@ const Profile = () => {
                   <span className="profile-achievement-icon">🚀</span>
                   <div className="profile-achievement-details">
                     <span className="profile-achievement-title">First Login</span>
-                    <span className="profile-achievement-desc">Initiated learning journey on BCA Portal.</span>
+                    <span className="profile-achievement-desc">Initiated learning journey on NEXLY Platform.</span>
                   </div>
                 </div>
                 <div className="profile-achievement-item">
@@ -542,7 +542,7 @@ const Profile = () => {
                 <textarea 
                   value={editBio} 
                   onChange={(e) => setEditBio(e.target.value)} 
-                  placeholder="BCA student | Full-stack software developer..." 
+                  placeholder="Software developer | Tech enthusiast..." 
                   className="profile-form-textarea"
                   rows={3}
                 />

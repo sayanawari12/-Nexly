@@ -1,6 +1,6 @@
 # engineering guidelines
 
-This document establishes coding standards, directory guidelines, styling rules, and architectural principles for developers on the BCA Department Learning Platform.
+This document establishes coding standards, directory guidelines, styling rules, and architectural principles for developers on the NEXLY Technology Learning Platform.
 
 ---
 

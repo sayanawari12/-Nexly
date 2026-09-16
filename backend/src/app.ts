@@ -76,7 +76,7 @@ app.use(morganMiddleware);
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
-    service: 'BCA Department Backend API',
+    service: 'NEXLY API',
     version: '1.0.0',
     environment: process.env.NODE_ENV,
     status: 'Running',

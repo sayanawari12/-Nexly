@@ -5,7 +5,7 @@
 
 export const SEARCH_INDEX_DATABASE = [
   // ── 🏠 PLATFORM NAVIGATION ──
-  { id: 'nav-home', title: 'Home Overview', desc: 'Return to BCA Department platform main landing page.', category: '🏠 Navigation', type: 'navigation', path: '/', keywords: ['home', 'landing', 'main', 'bca', 'department'] },
+  { id: 'nav-home', title: 'Home Overview', desc: 'Return to NEXLY platform main landing page.', category: '🏠 Navigation', type: 'navigation', path: '/', keywords: ['home', 'landing', 'main', 'nexly', 'platform'] },
   { id: 'nav-dashboard', title: 'Student Dashboard', desc: 'View overall study metrics, progress trackers, and recent activity.', category: '🏠 Navigation', type: 'navigation', path: '/dashboard', keywords: ['dashboard', 'stats', 'progress', 'tracker', 'metrics', 'analytics'] },
   { id: 'nav-roadmap', title: 'Curriculum Roadmaps', desc: 'Interactive visual step-by-step roadmap from Semester 1 to Semester 6.', category: '🏠 Navigation', type: 'navigation', path: '/roadmap', keywords: ['roadmap', 'curriculum', 'path', 'semester', 'steps'] },
   { id: 'nav-resources', title: 'Study Resources & Downloads', desc: 'Access lab manuals, syllabus, PYQ question papers, and cheat sheets.', category: '🏠 Navigation', type: 'navigation', path: '/curriculum/semester-2/data-structures/notes', keywords: ['resources', 'downloads', 'notes', 'pdf', 'pyq', 'lab', 'manual'] },

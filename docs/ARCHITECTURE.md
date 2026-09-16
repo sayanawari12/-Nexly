@@ -1,6 +1,6 @@
 # Software Architecture Specification
 
-This document details the production-ready React / Firebase Clean Architecture implemented for the BCA Department Learning Platform.
+This document details the production-ready React / Firebase Clean Architecture implemented for the NEXLY Technology Learning Platform.
 
 ---
 

@@ -28,17 +28,12 @@ export const AuthProvider = ({ children }) => {
     let unsubscribeProfile = null;
 
     const handleAuthChange = async (currentUser) => {
-      console.log("========== AUTH STATE ==========");
-      console.log(currentUser);
-
       if (currentUser) {
         let apexUserId = null;
         let userRole = 'student';
 
         try {
-          console.log("✅ Firebase user detected:", currentUser.email);
           const idToken = await currentUser.getIdToken();
-          console.log("✅ ID TOKEN retrieved");
 
           let response = null;
           for (let attempt = 0; attempt < 3; attempt++) {
@@ -62,12 +57,9 @@ export const AuthProvider = ({ children }) => {
           }
 
           if (response?.data?.data) {
-            console.log("✅ BACKEND RESPONSE:", response.data);
             const data = response.data.data;
 
             if (data.accessToken) {
-              console.log("✅ Access token received");
-
               localStorage.setItem('apex_token', data.accessToken);
 
               if (data.refreshToken) {

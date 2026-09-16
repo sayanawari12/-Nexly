@@ -31,6 +31,6 @@ export const saveUserCertificate = async (uid, certificateId, course, pdfUrl = '
  * @returns {Promise<string>}
  */
 export const uploadFilePlaceholder = async (file, path) => {
-  console.log(`Mock upload file to ${path}:`, file.name);
-  return `https://firebasestorage.googleapis.com/v0/b/bca-department-website.appspot.com/o/${encodeURIComponent(path)}`;
+  const bucket = process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || 'nexly-app.firebasestorage.app';
+  return `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${encodeURIComponent(path)}`;
 };

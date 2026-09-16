@@ -1,6 +1,6 @@
-# Project APEX — Backend Services
+# NEXLY API — Backend Services
 
-This is the enterprise-grade backend foundation for **Project APEX**, containing modular routes, structured logging, a dedicated PostgreSQL database, and integration queues for compilers.
+This is the enterprise-grade backend foundation for **NEXLY Platform**, containing modular routes, structured logging, a dedicated PostgreSQL database, and integration queues for compilers.
 
 ---
 

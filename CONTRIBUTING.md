@@ -1,6 +1,6 @@
-﻿# Contributing to BCA Department Learning Platform
+# Contributing to NEXLY Technology Learning Platform
 
-Thank you for your interest in contributing to **bca-web**! We welcome bug fixes, UI enhancements, documentation improvements, and new learning modules.
+Thank you for your interest in contributing to **NEXLY**! We welcome bug fixes, UI enhancements, documentation improvements, and new learning modules.
 
 ---
 

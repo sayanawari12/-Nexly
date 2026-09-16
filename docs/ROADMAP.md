@@ -1,4 +1,4 @@
-# BCA Department Learning Platform Roadmap
+# NEXLY Technology Learning Platform Roadmap
 
 This document outlines the development phases, completed milestones, and upcoming modules for the platform.
 

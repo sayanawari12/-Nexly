@@ -204,7 +204,7 @@ const Login = () => {
           <div className="auth-brand-logo">
             <Check size={18} color="#ffffff" strokeWidth={3} />
           </div>
-          <span className="auth-brand-name">BCA Learning Portal</span>
+          <span className="auth-brand-name">NEXLY Learning Platform</span>
         </div>
 
         <div className="auth-left-content">
