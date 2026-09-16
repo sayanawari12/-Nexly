@@ -1,5 +1,5 @@
 {
-  "name": "bca-web",
+  "name": "nexly-web",
   "version": "1.0.0",
   "main": "backend/dist/server.js",
   "private": true,

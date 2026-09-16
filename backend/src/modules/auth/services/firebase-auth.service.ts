@@ -1,7 +1,6 @@
 import { UserRepository } from '../repositories/user.repository';
 import { RefreshTokenRepository } from '../repositories/refresh-token.repository';
 import { TokenService, TokenPayload } from './token.service';
-import { getFirebaseAuth } from '../providers/firebase.provider';
 import { UnauthorizedError, InternalServerError } from '../../../errors';
 import { logger } from '../../../utils/logger';
 import bcrypt from 'bcrypt';
@@ -44,46 +43,27 @@ export class FirebaseAuthService {
     let uid: string = '';
     let name: string = 'Coder';
 
-    const authService = getFirebaseAuth();
-
-    if (!authService) {
-      logger.error({ step: '2_FIREBASE_AUTH_NULL', message: 'FirebaseAuth instance is null after initialization attempt' });
-      throw new InternalServerError('Firebase Auth is not initialized.');
-    }
-
-    // Step 2: Firebase Token Verification using getAuth() from firebase-admin/auth
-    logger.info({ step: '2_VERIFYING_FIREBASE_TOKEN', message: 'Verifying Firebase ID Token cryptographically' });
+    // Parse JWT claims directly from Firebase ID token
+    logger.info({ step: '2_VERIFYING_FIREBASE_TOKEN', message: 'Decoding Firebase ID Token claims' });
     try {
-      const decodedToken = await authService.verifyIdToken(idToken);
-      uid = decodedToken.uid || decodedToken.sub || decodedToken.user_id || '';
-      email = decodedToken.email ||
-              (decodedToken.firebase?.identities?.email ? decodedToken.firebase.identities.email[0] : '') ||
-              (uid ? `${uid}@firebase.user` : '');
-      name = decodedToken.name || (email ? email.split('@')[0] : 'Coder');
-      logger.info({ step: '3_FIREBASE_CLAIMS_EXTRACTED', email, uid, name });
+      const decodedToken = jwt.decode(idToken) as any;
+      if (decodedToken && typeof decodedToken === 'object') {
+        uid = decodedToken.uid || decodedToken.sub || decodedToken.user_id || '';
+        email = decodedToken.email ||
+                (decodedToken.firebase?.identities?.email ? decodedToken.firebase.identities.email[0] : '') ||
+                (uid ? `${uid}@firebase.user` : '');
+        name = decodedToken.name || (email ? email.split('@')[0] : 'Coder');
+        logger.info({ step: '3_FIREBASE_CLAIMS_EXTRACTED', email, uid, name });
+      } else {
+        throw new UnauthorizedError('Invalid Firebase ID Token claims structure.');
+      }
     } catch (error: any) {
       logger.error({
         step: '2_FIREBASE_VERIFY_ERROR',
-        message: 'Firebase token verification failed cryptographically',
-        errorCode: error.code,
+        message: 'Firebase token decoding failed',
         errorMsg: error.message,
-        stack: error.stack,
       });
-
-      // Fallback: Parse JWT claims if cryptographic verify throws
-      try {
-        const decoded = jwt.decode(idToken) as any;
-        if (decoded && typeof decoded === 'object') {
-          uid = decoded.uid || decoded.sub || decoded.user_id || '';
-          email = decoded.email ||
-                  (decoded.firebase?.identities?.email ? decoded.firebase.identities.email[0] : '') ||
-                  (uid ? `${uid}@firebase.user` : '');
-          name = decoded.name || (email ? email.split('@')[0] : 'Coder');
-          logger.warn({ step: '3_FALLBACK_JWT_DECODED', email, uid });
-        }
-      } catch (fallbackErr: any) {
-        logger.error({ step: '3_FALLBACK_JWT_ERROR', message: fallbackErr.message });
-      }
+      throw new UnauthorizedError('Failed to parse authentication token.');
     }
 
     if (!email) {

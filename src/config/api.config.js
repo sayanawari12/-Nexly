@@ -1,5 +1,5 @@
 /**
- * Centralized API & WebSocket Configuration for BCA Department Web Application
+ * Centralized API & WebSocket Configuration for NEXLY Technology Learning Platform
  */
 
 const getProductionBackendUrl = () => {
