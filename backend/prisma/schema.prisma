@@ -329,6 +329,7 @@ model ContestScore {
   @@index([contestId])
 }
 
+// DEFERRED — not part of MVP scope, revisit post-launch (see product roadmap).
 model ContestLeaderboardSnapshot {
   id          String   @id @default(uuid()) @db.Uuid
   contestId   String   @db.Uuid
@@ -370,6 +371,7 @@ model ContestAnnouncement {
   @@index([contestId])
 }
 
+// DEFERRED — not part of MVP scope, revisit post-launch (see product roadmap).
 model ContestAuditLog {
   id        String   @id @default(uuid()) @db.Uuid
   contestId String   @db.Uuid
@@ -382,6 +384,7 @@ model ContestAuditLog {
   @@index([contestId])
 }
 
+// DEFERRED — not part of MVP scope, revisit post-launch (see product roadmap).
 model Season {
   id           String             @id @default(uuid()) @db.Uuid
   name         String             @db.VarChar(100) // e.g. "2026 Winter Cycle"
@@ -408,6 +411,7 @@ model UserRating {
   @@index([currentRating])
 }
 
+// DEFERRED — not part of MVP scope, revisit post-launch (see product roadmap).
 model UserSeasonRating {
   id            String   @id @default(uuid()) @db.Uuid
   userId        String   @db.Uuid
@@ -558,6 +562,7 @@ model Notification {
   @@index([userId, read])
 }
 
+// DEFERRED — not part of MVP scope, revisit post-launch (see product roadmap).
 model Organization {
   id        String   @id @default(uuid()) @db.Uuid
   name      String   @db.VarChar(100)
@@ -597,6 +602,7 @@ enum MaintenanceMode {
   EMERGENCY
 }
 
+// DEFERRED — not part of MVP scope, revisit post-launch (see product roadmap).
 model PermissionGroup {
   id          String       @id @default(uuid()) @db.Uuid
   name        String       @unique @db.VarChar(100) // e.g. "Problem Management"
