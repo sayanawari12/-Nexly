@@ -78,6 +78,7 @@ model User {
   notifications        Notification[]
   auditLogs            PlatformAuditLog[]
   reports              PlatformReport[]
+  lessonProgress       UserLessonProgress[]
 
   problemsAuthored Problem[]         @relation("AuthorUser")
   problemsEdited   Problem[]         @relation("EditorUser")
@@ -140,6 +141,7 @@ model Problem {
   testCases      TestCase[]
   submissions    Submission[]
   contestProblem ContestProblem[]
+  problemSkills  ProblemSkill[]
 
   @@index([slug])
   @@index([status])
@@ -713,3 +715,139 @@ model PlatformSetting {
   version   Int      @default(0)
   updatedAt DateTime @updatedAt @db.Timestamptz
 }
+
+// ----------------------------------------------------
+// 4. Learning Content Pillar (NEXLY Platform)
+// ----------------------------------------------------
+
+enum TrackLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum LessonProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model Technology {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(100)
+  slug        String   @unique @db.VarChar(100)
+  description String?  @db.Text
+  iconUrl     String?  @db.VarChar(255)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @db.Timestamptz
+  updatedAt   DateTime @updatedAt @db.Timestamptz
+
+  tracks      Track[]
+  skills      Skill[]
+
+  @@index([slug])
+}
+
+model Track {
+  id           String     @id @default(uuid()) @db.Uuid
+  technologyId String     @db.Uuid
+  technology   Technology @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+  level        TrackLevel @default(BEGINNER)
+  order        Int        @default(0)
+  createdAt    DateTime   @default(now()) @db.Timestamptz
+  updatedAt    DateTime   @updatedAt @db.Timestamptz
+
+  modules      Module[]
+
+  @@index([technologyId])
+}
+
+model Module {
+  id          String   @id @default(uuid()) @db.Uuid
+  trackId     String   @db.Uuid
+  track       Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @db.Timestamptz
+  updatedAt   DateTime @updatedAt @db.Timestamptz
+
+  lessons     Lesson[]
+
+  @@index([trackId])
+}
+
+model Lesson {
+  id               String               @id @default(uuid()) @db.Uuid
+  moduleId         String               @db.Uuid
+  module           Module               @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title            String               @db.VarChar(255)
+  content          String               @db.Text
+  order            Int                  @default(0)
+  estimatedMinutes Int                  @default(10)
+  createdAt        DateTime             @default(now()) @db.Timestamptz
+  updatedAt        DateTime             @updatedAt @db.Timestamptz
+
+  skills           LessonSkill[]
+  userProgress     UserLessonProgress[]
+
+  @@index([moduleId])
+}
+
+model Skill {
+  id           String       @id @default(uuid()) @db.Uuid
+  name         String       @db.VarChar(100)
+  technologyId String       @db.Uuid
+  technology   Technology   @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+  createdAt    DateTime     @default(now()) @db.Timestamptz
+  updatedAt    DateTime     @updatedAt @db.Timestamptz
+
+  lessonSkills LessonSkill[]
+  problemSkills ProblemSkill[]
+
+  @@unique([name, technologyId])
+  @@index([technologyId])
+}
+
+model LessonSkill {
+  id        String   @id @default(uuid()) @db.Uuid
+  lessonId  String   @db.Uuid
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  skillId   String   @db.Uuid
+  skill     Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @db.Timestamptz
+
+  @@unique([lessonId, skillId])
+  @@index([lessonId])
+  @@index([skillId])
+}
+
+model ProblemSkill {
+  id        String   @id @default(uuid()) @db.Uuid
+  problemId String   @db.Uuid
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  skillId   String   @db.Uuid
+  skill     Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @db.Timestamptz
+
+  @@unique([problemId, skillId])
+  @@index([problemId])
+  @@index([skillId])
+}
+
+model UserLessonProgress {
+  id          String               @id @default(uuid()) @db.Uuid
+  userId      String               @db.Uuid
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId    String               @db.Uuid
+  lesson      Lesson               @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  status      LessonProgressStatus @default(NOT_STARTED)
+  completedAt DateTime?            @db.Timestamptz
+  createdAt   DateTime             @default(now()) @db.Timestamptz
+  updatedAt   DateTime             @updatedAt @db.Timestamptz
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+}
+

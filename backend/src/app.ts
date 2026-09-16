@@ -15,6 +15,7 @@ import contestRoutes from './modules/contest/contest.routes';
 import profileRoutes from './modules/profile/profile.routes';
 import operationsRoutes from './modules/operations/routes/operations.routes';
 import compilerRoutes from './modules/compiler/routes/compiler.routes';
+import learningRoutes from './modules/learning/learning.routes';
 import { maintenanceModeGuard } from './middleware/maintenance.middleware';
 
 const app: Express = express();
@@ -115,6 +116,7 @@ app.use('/api/v1/contests', contestRoutes);
 app.use('/api/v1/profiles', profileRoutes);
 app.use('/api/v1/operations', operationsRoutes);
 app.use('/api/v1/compiler', compilerRoutes);
+app.use('/api/v1/learning', learningRoutes);
 app.use('/compiler', compilerRoutes);
 app.use('/api/compiler', compilerRoutes);
 
