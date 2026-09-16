@@ -1,3 +1,5 @@
+import { config } from './index';
+
 export interface AuthConfig {
   jwtAccessSecret: string;
   jwtRefreshSecret: string;
@@ -6,8 +8,8 @@ export interface AuthConfig {
 }
 
 export const authConfig: AuthConfig = {
-  jwtAccessSecret: process.env.JWT_ACCESS_SECRET || '',
-  jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || '',
-  jwtAccessExpiry: process.env.JWT_ACCESS_EXPIRY || '15m',
-  jwtRefreshExpiry: process.env.JWT_REFRESH_EXPIRY || '7d',
+  jwtAccessSecret: config.auth.jwtAccessSecret,
+  jwtRefreshSecret: config.auth.jwtRefreshSecret,
+  jwtAccessExpiry: config.auth.jwtAccessExpiry,
+  jwtRefreshExpiry: config.auth.jwtRefreshExpiry,
 };
