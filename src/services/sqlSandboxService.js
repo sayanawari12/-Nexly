@@ -73,6 +73,8 @@ export const executeSqlQuery = async (query, dbName = 'students') => {
     }, 2000);
 
     try {
+      const cleanQuery = (query || '').trim().toLowerCase();
+
       // Strict Security Enforcer:
       // 1. Block comments (-- or /* */) and multi-statements (;)
       if (cleanQuery.includes(';') || cleanQuery.includes('--') || cleanQuery.includes('/*')) {

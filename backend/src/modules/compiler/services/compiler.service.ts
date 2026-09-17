@@ -119,10 +119,19 @@ export class CompilerService {
 
       const data = (await response.json()) as Record<string, any>;
 
-      const stdout = decodeBase64(data.stdout);
-      const stderr = decodeBase64(data.stderr);
-      const compile_output = decodeBase64(data.compile_output);
-      const message = decodeBase64(data.message);
+      const MAX_OUTPUT_CHARS = 256 * 1024;
+      const truncate = (str: string | null): string | null => {
+        if (!str) return null;
+        if (str.length > MAX_OUTPUT_CHARS) {
+          return str.slice(0, MAX_OUTPUT_CHARS) + '\n[Output truncated: exceeded 256KB limit]';
+        }
+        return str;
+      };
+
+      const stdout = truncate(decodeBase64(data.stdout));
+      const stderr = truncate(decodeBase64(data.stderr));
+      const compile_output = truncate(decodeBase64(data.compile_output));
+      const message = truncate(decodeBase64(data.message));
 
       return {
         stdout,
