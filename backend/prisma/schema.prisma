@@ -192,6 +192,7 @@ model Submission {
   @@index([problemId])
   @@index([status])
   @@index([token])
+  @@index([userId, createdAt(sort: Desc)])
 }
 
 model Language {
