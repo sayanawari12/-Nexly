@@ -949,7 +949,14 @@ const LessonsTab = ({ activeLessonId, setActiveLessonId, completed, toggleComple
         <div className="j-lesson-body">
           <section className="j-lesson-section">
             <h3><Info size={16} /> Concepts & Theory</h3>
-            <div className="j-theory-text" dangerouslySetInnerHTML={{ __html: activeLesson.theory.replace(/\n/g, '<br />') }} />
+            <div className="j-theory-text">
+              {activeLesson.theory.split('\n').map((line, i) => (
+                <React.Fragment key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </React.Fragment>
+              ))}
+            </div>
           </section>
 
           <section className="j-lesson-section">

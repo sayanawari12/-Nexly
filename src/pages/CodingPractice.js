@@ -26,6 +26,39 @@ import {
 } from 'lucide-react';
 import '../styles/CodingPractice.css';
 
+/**
+ * Safely parses inline markdown (**bold** and `code`) into React elements
+ * without using dangerouslySetInnerHTML, preventing XSS vulnerabilities.
+ */
+const renderFormattedMarkdownText = (text) => {
+  if (!text) return null;
+  const parts = [];
+  const regex = /(\*\*.+?\*\*|`.+?`)/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    const token = match[0];
+    if (token.startsWith('**') && token.endsWith('**')) {
+      parts.push(<strong key={match.index}>{token.slice(2, -2)}</strong>);
+    } else if (token.startsWith('`') && token.endsWith('`')) {
+      parts.push(<code key={match.index} className="cp-inline-code">{token.slice(1, -1)}</code>);
+    } else {
+      parts.push(token);
+    }
+    lastIndex = match.index + token.length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+};
+
 // ─── Problem Data ────────────────────────────────────────────────────────────
 
 const PROBLEMS = [
@@ -556,15 +589,11 @@ const CodingPractice = () => {
 
             {/* Description */}
             <div className="cp-problem-desc">
-              {problem.description.split('\n').map((line, i) => {
-                // Bold **text** and inline `code`
-                const formatted = line
-                  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                  .replace(/`(.+?)`/g, '<code class="cp-inline-code">$1</code>');
-                return (
-                  <p key={i} dangerouslySetInnerHTML={{ __html: formatted }} />
-                );
-              })}
+              {problem.description.split('\n').map((line, i) => (
+                <p key={i}>
+                  {renderFormattedMarkdownText(line)}
+                </p>
+              ))}
             </div>
 
             {/* Examples */}
